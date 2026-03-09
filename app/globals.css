@@ -20,7 +20,88 @@
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #330035, #170252, #000428);
+  color: rgb(255, 19, 204);
+}
+/* gradient animation */
+
+@keyframes heroGradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero-gradient-animation {
+  background-size: 200% 200%;
+  animation: heroGradientMove 6s ease infinite;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.metal-button {
+  position: relative;
+  display: block;
+  color: white;
+  background: linear-gradient(135deg, #6b00ff, #d400ff);
+  border-radius: 10px;
+  overflow: hidden;
+
+  /* glow */
+  box-shadow:
+    0 0 10px rgba(200, 0, 255, 0.8),
+    0 0 20px rgba(140, 0, 255, 0.6),
+    inset 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+/* lớp kim loại quét */
+.metal-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.7),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+  animation: metalSweep 2.5s infinite;
+}
+
+/* hover sáng hơn */
+.metal-button:hover {
+  box-shadow:
+    0 0 20px rgba(220, 0, 255, 1),
+    0 0 40px rgba(150, 0, 255, 0.8),
+    inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes metalSweep {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 200%;
+  }
 }
