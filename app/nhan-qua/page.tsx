@@ -21,7 +21,6 @@ export default function NhanQua() {
           ratio="vertical"
           link="#"
           buttonText="Anh ơi"
-          blank={0}
         />
         <Item
           title="💓Em muốn đi biển 💓"
@@ -29,7 +28,6 @@ export default function NhanQua() {
           ratio="vertical"
           link="#"
           buttonText="Anh ưi"
-          blank={0}
         />
         <Item
           title="💖 Em muốn nhận quà 💖"
@@ -37,7 +35,6 @@ export default function NhanQua() {
           ratio="vertical"
           link="#"
           buttonText="Anh iu"
-           blank={0}
         />
     </Gallery>
 

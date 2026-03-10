@@ -7,7 +7,7 @@ interface ItemProps {
   type?: "image" | "video";
   ratio?: "vertical" | "square";
   buttonText:string;
-  blank: number;
+  blank?: number;
 }
 
 export default function Item({
