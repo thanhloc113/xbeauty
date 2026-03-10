@@ -1,5 +1,5 @@
 "use client";
-
+const isDesktop = window.innerWidth >= 1024;
 interface ItemProps {
   title: string;
   media: string;
@@ -53,7 +53,7 @@ export default function Item({
         <a
           href={link}
           className="metal-button text-center text-sm px-3 py-2 rounded-lg font-medium"
-          target="_blank"
+          target={isDesktop ? "_blank" : "_self"}
         >
           {buttonText}
         </a>
