@@ -3,6 +3,9 @@ import Hero from "@/components/Hero";
 import Section from "@/components/Section";
 import Footer from "@/components/Footer";
 import SlideShow from "@/components/SlideShow";
+import SectionNavigator from "@/components/SectionNavigator"
+
+
 const suaRuaMat = [
   {
     title: "Sữa Rửa Mặt Tạo Bọt Mềm Mịn Làm Sạch Sâu Rau Má Cho Da Mụn Da Dầu Nhạy Cảm",
@@ -31,7 +34,7 @@ const suaRuaMat = [
   },
 ];
 
-const bongTayTrang = [
+const nuocTayTrang = [
   {
     title: "Nước Tẩy Trang làm sạch sâu dịu nhẹ cho mọi loại da - Garnier Micellar Cleansing Water ",
     media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mledsmu33kzp22.webp",
@@ -592,8 +595,27 @@ export default function XinhDep() {
           subtitle={`Đợt này bộ y tế vừa công bố thu hồi 291 sản phẩm mỹ phẩm không đủ an toàn. Nên là anh đã tìm và list ra đây cho em các dòng sản phẩm chất lượng, được đánh giá review tốt, nhiều người tin dùng và không nằm trong danh sách cấm. Em bé cứ yên tâm dùng nhé! `}
           colors = {["#ffd0f9", "#ff85eb", "#ffa4d2"]}
         />
- 
-    <Section>
+ <SectionNavigator
+  items={[
+    { id: "suaRuaMat", label: "Sửa Rửa Mặt" },
+    { id: "nuocTayTrang", label: "Nước Tẩy Trang" },
+    { id: "serum", label: "Serum" },
+    { id: "kemChongNang", label: "Kem chống nắng" },
+    { id: "kemDuongAm", label: "Kem Dưỡng Ẩm" },
+    { id: "toner", label: "Toner" },
+    { id: "bodyCare", label: "Body Care" },
+    { id: "son", label: "Son" },
+    { id: "kemLot", label: "Kem Lót" },
+    { id: "xitKhoaNen", label: "Xịt Khóa Nền" },
+    { id: "cushion", label: "Cushion & Kem Nền" },
+    { id: "cheKhuyetDiem", label: "Che Khuyết Điểm" },
+    { id: "phanMat", label: "Phấn Mắt" },
+    { id: "phanTaoKhoi", label: "Phấn Tạo Khối" },
+    { id: "phanPhu", label: "Phấn Phủ" },
+    { id: "mascara", label: "Mascara & Eyeliner" },
+  ]}
+/>
+    <Section id="suaRuaMat">
       <SlideShow
         introTitle="Sữa rửa mặt"
         variant={2}
@@ -604,7 +626,7 @@ export default function XinhDep() {
       <SlideShow
         introTitle="Nước tẩy trang"
         variant={1}
-        items={bongTayTrang}
+        items={nuocTayTrang}
       />
           </Section>
         <Section>
