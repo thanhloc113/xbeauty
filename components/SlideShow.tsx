@@ -52,6 +52,7 @@ export default function SlideShow({
               {...item}
               ratio="square"
               buttonText="Em muốn"
+              blank={1}
             />
           ))}
         </div>

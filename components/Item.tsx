@@ -1,5 +1,5 @@
 "use client";
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 interface ItemProps {
   title: string;
   media: string;
@@ -7,6 +7,7 @@ interface ItemProps {
   type?: "image" | "video";
   ratio?: "vertical" | "square";
   buttonText:string;
+  blank: number;
 }
 
 export default function Item({
@@ -16,6 +17,7 @@ export default function Item({
   type = "image",
   ratio = "vertical",
   buttonText = "Em thích",
+  blank= 0
 }: ItemProps) {
   return (
     <div className="w-full max-w-[260px] rounded-xl border border-pink-400/60 bg-white/5 backdrop-blur-md overflow-hidden flex flex-col">
@@ -53,7 +55,7 @@ export default function Item({
         <a
           href={link}
           className="metal-button text-center text-sm px-3 py-2 rounded-lg font-medium"
-          target={isMobile ? "_blank" : "_self"}
+          target={blank ? "_blank" : "_self"}
         >
           {buttonText}
         </a>
