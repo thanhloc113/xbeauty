@@ -595,84 +595,84 @@ export default function XinhDep() {
  
     <Section>
       <SlideShow
-        introTitle="Sữa rửa mặt 💕"
+        introTitle="Sữa rửa mặt"
         variant={2}
         items={suaRuaMat}
       />
     </Section>
         <Section>
       <SlideShow
-        introTitle="Nước tẩy trang 💕"
+        introTitle="Nước tẩy trang"
         variant={1}
         items={bongTayTrang}
       />
           </Section>
         <Section>
      <SlideShow
-        introTitle="Serum 💕"
+        introTitle="Serum"
         variant={2}
         items={serum}
       />
           </Section>
         <Section>
       <SlideShow
-        introTitle="Kem Chống Nắng 💕"
+        introTitle="Kem Chống Nắng"
         variant={1}
         items={kemChongNang}
       />
           </Section>
         <Section>
       <SlideShow
-        introTitle="Kem Dưỡng Ẩm 💕"
+        introTitle="Kem Dưỡng Ẩm"
         variant={2}
         items={kemDuongAm}
       />
           </Section>
         <Section>
       <SlideShow
-        introTitle="Toner 💕"
+        introTitle="Toner"
         variant={1}
         items={toner}
       />
           </Section>
         <Section>
       <SlideShow
-        introTitle="Body Care 💕"
+        introTitle="Body Care"
         variant={2}
         items={bodyCare}
       />
           </Section>
         <Section>
             <SlideShow
-        introTitle="Son của em 💕"
+        introTitle="Son của em"
         variant={1}
         items={son}
       />
           </Section>
         <Section>
       <SlideShow
-        introTitle="Kem Lót 💕"
+        introTitle="Kem Lót"
         variant={2}
         items={kemLot}
       />
     </Section>
     <Section>
       <SlideShow
-        introTitle="Xịt Khóa Nền 💕"
+        introTitle="Xịt Khóa Nền"
         variant={1}
         items={xitKhoaNen}
       />
     </Section>
     <Section>
           <SlideShow
-        introTitle="Kem nền (Foundation) & Cushion 💕"
+        introTitle="Kem nền (Foundation) & Cushion"
         variant={2}
         items={cushion}
       />
     </Section>
         <Section>
           <SlideShow
-        introTitle="Kem che khuyết điểm 💕"
+        introTitle="Kem che khuyết điểm "
         variant={1}
         items={cheKhuyetDiem}
       />
@@ -680,28 +680,28 @@ export default function XinhDep() {
 
     <Section>
       <SlideShow
-        introTitle="Bảng Mắt & Phấn Má Hồng 💕"
+        introTitle="Bảng Mắt & Phấn Má Hồng "
         variant={2}
         items={phanMat}
       />
     </Section>
     <Section>
       <SlideShow
-        introTitle="Phấn Tạo Khối 💕"
+        introTitle="Phấn Tạo Khối "
         variant={1}
         items={phanTaoKhoi}
       />
     </Section>
     <Section>
       <SlideShow
-        introTitle="Phấn Phủ 💕"
+        introTitle="Phấn Phủ"
         variant={1}
         items={phanPhu}
       />
     </Section>
     <Section>
       <SlideShow
-        introTitle="Mascara & Eyeliner💕"
+        introTitle="Mascara & Eyeliner"
         variant={1}
         items={mascara}
       />

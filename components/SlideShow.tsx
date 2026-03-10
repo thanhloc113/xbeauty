@@ -26,13 +26,13 @@ export default function SlideShow({
 
   const backgroundClass =
     variant === 1
-      ? "bg-[linear-gradient(180deg,#0c001f,#130033)]]"
-      : "bg-[linear-gradient(180deg,#1b0048,#2a0060)]";
+? "bg-[linear-gradient(180deg,#0b1f5e,#1a0038)]"
+: "bg-[linear-gradient(180deg,#5b0f4e,#071a3a)]";
 
   return (
-    <section className={`w-full py-12 border-t rounded-2xl
+    <section className={`w-full py-12 rounded-2xl 
                         rounded-2xl
-                        border border-purple-400/20
+                        border-4 border-purple-400/20
                         shadow-[0_0_40px_rgba(120,0,255,0.25)] ${backgroundClass}`}>
       {/* Intro */}
       <Intro title={introTitle} text={introText} />

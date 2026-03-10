@@ -24,7 +24,7 @@ export default function Item({
       {/* MEDIA FULL BORDER */}
      <div
   className={`relative w-full overflow-hidden ${
-    ratio === "vertical" ? "aspect-[9/14.5]" : "aspect-square"
+    ratio === "vertical" ? "aspect-[9/14]" : "aspect-square"
   }`}
 >
   {type === "video" ? (

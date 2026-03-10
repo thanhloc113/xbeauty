@@ -31,7 +31,7 @@ export default function Hero({
       className="
         relative w-full
         h-[25vh] md:h-[320px] lg:h-[420px]
-        flex items-center justify-center
+        flex items-center justify-center 
       "
       style={{
         backgroundImage: `url(${background})`,

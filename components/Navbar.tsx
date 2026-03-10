@@ -1,24 +1,55 @@
-import Link from "next/link"
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+ 
+
+ 
+
+  const linkStyle =
+    "relative text-pink-200 hover:text-[#ff6adf] transition duration-300 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-[#ff6adf] after:transition-all after:duration-300 hover:after:w-full";
+
   return (
-    <header className="w-full p-4 shadow">
+    <section
+      className={`w-full transition-all duration-300  
+        left-0 z-50 backdrop-blur-md bg-black/30 border-b border-white/10 shadow-lg
+        `}
+    >
+      <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
 
-      <div className="max-w-6xl mx-auto flex justify-between">
-
-        <h1 className="font-bold text-xl">
+        <h1 className="font-bold text-xl text-[#ff6adf]">
           Chào em bé
         </h1>
 
-        <nav className="flex gap-6">
-           <Link href="/">Home</Link>
-           <Link href="/xinh-dep">Xinh Đẹp</Link>
-           <Link href="/di-bien">Đi Biển</Link>
-           <Link href="/nhan-qua">Nhận Quà</Link>
+        {/* mobile button */}
+        <button
+          className="md:hidden text-2xl text-[#ff6adf]"
+          onClick={() => setOpen(!open)}
+        >
+          ☰
+        </button>
 
+        {/* desktop menu */}
+        <nav className="hidden md:flex gap-8">
+          <Link href="/" className={linkStyle}>Home</Link>
+          <Link href="/xinh-dep" className={linkStyle}>Xinh Đẹp</Link>
+          <Link href="/di-bien" className={linkStyle}>Đi Biển</Link>
+          <Link href="/nhan-qua" className={linkStyle}>Nhận Quà</Link>
         </nav>
-
       </div>
 
-    </header>
+      {/* mobile menu */}
+      {open && (
+        <nav className="md:hidden flex flex-col gap-4 p-4">
+          <Link href="/" className={linkStyle}>Home</Link>
+          <Link href="/xinh-dep" className={linkStyle}>Xinh Đẹp</Link>
+          <Link href="/di-bien" className={linkStyle}>Đi Biển</Link>
+          <Link href="/nhan-qua" className={linkStyle}>Nhận Quà</Link>
+        </nav>
+      )}
+    </section>
   );
 }
