@@ -622,77 +622,77 @@ export default function XinhDep() {
         items={suaRuaMat}
       />
     </Section>
-        <Section>
+    <Section id="nuocTayTrang">
       <SlideShow
         introTitle="Nước tẩy trang"
         variant={1}
         items={nuocTayTrang}
       />
-          </Section>
-        <Section>
+    </Section>
+    <Section id="serum">
      <SlideShow
         introTitle="Serum"
         variant={2}
         items={serum}
       />
           </Section>
-        <Section>
+        <Section id="kemChongNang">
       <SlideShow
         introTitle="Kem Chống Nắng"
         variant={1}
         items={kemChongNang}
       />
           </Section>
-        <Section>
+        <Section id="kemDuongAm">
       <SlideShow
         introTitle="Kem Dưỡng Ẩm"
         variant={2}
         items={kemDuongAm}
       />
           </Section>
-        <Section>
+        <Section id="toner">
       <SlideShow
         introTitle="Toner"
         variant={1}
         items={toner}
       />
           </Section>
-        <Section>
+        <Section id="bodyCare">
       <SlideShow
         introTitle="Body Care"
         variant={2}
         items={bodyCare}
       />
           </Section>
-        <Section>
+        <Section id="son">
             <SlideShow
         introTitle="Son của em"
         variant={1}
         items={son}
       />
           </Section>
-        <Section>
+        <Section id="kemLot">
       <SlideShow
         introTitle="Kem Lót"
         variant={2}
         items={kemLot}
       />
     </Section>
-    <Section>
+    <Section id="xitKhoaNen">
       <SlideShow
         introTitle="Xịt Khóa Nền"
         variant={1}
         items={xitKhoaNen}
       />
     </Section>
-    <Section>
+    <Section id="cushion">
           <SlideShow
         introTitle="Kem nền (Foundation) & Cushion"
         variant={2}
         items={cushion}
       />
     </Section>
-        <Section>
+        <Section id="cheKhuyetDiem">
           <SlideShow
         introTitle="Kem che khuyết điểm "
         variant={1}
@@ -700,28 +700,28 @@ export default function XinhDep() {
       />
     </Section>
 
-    <Section>
+    <Section id="phanMat">
       <SlideShow
         introTitle="Bảng Mắt & Phấn Má Hồng "
         variant={2}
         items={phanMat}
       />
     </Section>
-    <Section>
+    <Section id="phanTaoKhoi">
       <SlideShow
         introTitle="Phấn Tạo Khối "
         variant={1}
         items={phanTaoKhoi}
       />
     </Section>
-    <Section>
+    <Section id="phanPhu">
       <SlideShow
         introTitle="Phấn Phủ"
         variant={1}
         items={phanPhu}
       />
     </Section>
-    <Section>
+    <Section id="mascara">
       <SlideShow
         introTitle="Mascara & Eyeliner"
         variant={1}
