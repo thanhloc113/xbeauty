@@ -1,6 +1,7 @@
 type HeroProps = {
   as?: "h1" | "h2" | "p" | "span"
   title: string
+  subtitle?: string
   background?: string
   colors?: string[]
 }
@@ -8,6 +9,7 @@ type HeroProps = {
 export default function Hero({
   as = "h1",
   title,
+  subtitle,
   background = "https://i.pinimg.com/736x/f8/e6/e0/f8e6e06b240c69476f6bcefbfa2cd280.jpg",
   colors = ["#f472b6", "#a855f7", "#d946ef"],
 }: HeroProps) {
@@ -39,19 +41,26 @@ export default function Hero({
     >
       <div className="absolute inset-0 bg-black/70"></div>
 
-      <Tag
-        style={textStyle}
-        className={`
-        relative
-        text-2xl md:text-4xl lg:text-5xl
-        font-bold
-        text-center
-        px-6
-        ${isGradient ? "hero-gradient-animation" : ""}
-        `}
-      >
-        {title}
-      </Tag>
+      <div className="relative text-center px-6 max-w-4xl">
+
+        <Tag
+          style={textStyle}
+          className={`
+          text-2xl md:text-4xl lg:text-5xl
+          font-bold
+          ${isGradient ? "hero-gradient-animation" : ""}
+          `}
+        >
+          {title}
+        </Tag>
+
+        {subtitle && (
+          <p className="mt-4 text-sm md:text-lg text-white/80">
+            {subtitle}
+          </p>
+        )}
+
+      </div>
     </section>
   )
 }
