@@ -24,12 +24,7 @@ const suaRuaMat = [
     media: "https://down-vn.img.susercontent.com/file/sg-11134201-82612-mlm900t3hlvm8e.webp",
     link: "https://s.shopee.vn/7VBVoQNKaH",
   },
-    {
-    title: "Sữa rửa mặt Senka Perfect Whip Facial Cleanser ",
-    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mlee88tha5mo63.webp",
-    link: "https://s.shopee.vn/9fG0PDGobJ",
-  },
-      {
+  {
     title: "Sữa Rửa Mặt Cosrx Low pH Good Morning Gel Cleanser",
     media: "https://down-vn.img.susercontent.com/file/vn-11134201-7ra0g-m872cbydelxe1e.webp",
     link: "https://s.shopee.vn/900JbQOlDs",
@@ -152,6 +147,11 @@ const kemDuongAm = [
     media: "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m9tyha81ptny20.webp",
     link: "https://s.shopee.vn/30j7HV3kDq",
   },
+   {
+    title: "Kem dưỡng Medicube Deep Vita C Capsule Cream 55g ",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mladsf16eyhb75.webp",
+    link: "https://s.shopee.vn/4qAnqEfO1A",
+  },
   {
     title: "Kem dưỡng ẩm La Roche‑Posay Cicaplast Baume B5 ",
     media: "https://down-vn.img.susercontent.com/file/sg-11134201-8260t-mlm8zzmg2oea40.webp",
@@ -159,7 +159,7 @@ const kemDuongAm = [
   },
     {
     title: "Kem Dưỡng Da Tay Và Móng Dưỡng Ẩm Mềm Mịn Hand Cream ",
-    media: "https://down-vn.img.susercontent.com/file/sg-11134201-82634-mldz1gwa5lvs70.webp",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mln7mzgfsz5t8a.webp",
     link: "https://s.shopee.vn/5q3IhRcbQB",
 
   },
@@ -343,6 +343,244 @@ const xitKhoaNen = [
     link: "https://s.shopee.vn/2qPixUYqdG",
   }
 ];
+const cushion = [
+  {
+    title: "Phấn nước Aprilskin Magic Snow Cushion phiên bản Galaxy Edition ",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mlbiwgic9q0y3c.webp",
+    link: "https://s.shopee.vn/30j9CmUMMG",
+  },
+  {
+    title: "Carslan Black Magnet Air Cushion Bảo hiểm kiểm soát dầu Mặc dài 13g ",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mjfbqaebgu8790.webp",
+    link: "https://s.shopee.vn/5VQUBiLEAn",
+  }
+  ,
+  {
+    title: "Phấn nước Lasting Carslan Cushion lâu dài Kiểm soát dầu Trang điểm mặt 13,5g ",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mix5a26gepdz23.webp",
+    link: "https://s.shopee.vn/3LLzbkrc8c",
+  }
+    ,
+  {
+    title: "Kem nền dạng kem mịn, chống thấm nước và mồ hôi, che khuyết điểm lâu trôi",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-7ras8-m8abrhmxwsgte6.webp",
+    link: "https://s.shopee.vn/2g6Iosdhfw",
+  }
+  ,
+  {
+    title: "Cushion Mistine Kem nền Cầu vồng Xiêm La Phấn mịn mềm mại",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mkpg8mranz7l51.webp",
+    link: "https://s.shopee.vn/6pvrmj1sNI",
+  }
+  ,
+  {
+    title: "Kem nền Catrice HD Liquid Coverage Foundation che phủ tự nhiên tạo độ mịn màng cho da",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mleq4qh20d1gb0.webp",
+    link: "https://s.shopee.vn/6AgAzo5XTh",
+  }
+    ,
+  {
+    title: "Kem Nền Mịn Nhẹ Kiềm Dầu 16H Fit Me Maybelline Matte + Poreless Liquid Foundation Dành Cho Da Dầu và Da Thường",
+    media: "https://down-vn.img.susercontent.com/file/sg-11134201-8260s-mllvt1azfvgh81.webp",
+    link: "https://s.shopee.vn/1BHV2xRZTR",
+  },
+  {
+    title: "Kem Nền Carslan Dạng Lỏng Kiểm Soát Dầu Lâu Trôi Chống Thấm Nước Suốt 24h 30g",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mlg4kirut4w21f.webp",
+    link: "https://s.shopee.vn/7fUynEN09E",
+  }
+  ,
+  {
+    title: "UODO Foundation kem nền Kiểm soát dầu lâu trôi không thấm nước ",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mlee071iyk2086.webp",
+    link: "https://s.shopee.vn/5L741X7eoI",
+  }
+];
+const cheKhuyetDiem = [
+  {
+    title: "Che khuyết điểm TFIT Cover Up Pro Concealer, kem che khuyết điểm TFIT hũ 3 màu tiện lợi - TFIT HCM",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mled5ym5el8j98.webp",
+    link: "https://s.shopee.vn/9AJmbjYutn",
+  },
+  {
+    title: "[THE SAEM] Che khuyết điểm chống nắng che phủ cao THE SAEM Cover Perfection Tip",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mk4uh9mevb47d1.webp",
+    link: "https://s.shopee.vn/900MPrXEoI",
+  },
+    {
+    title: "Kem che khuyết điểm Aperire Daydream Cover Tip Concealer 4.5ml - Che phủ toàn diện mỏng nhẹ lâu trôi",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mksd4253t8nb4b.webp",
+    link: "https://s.shopee.vn/2g6J9uNFpx",
+  },
+     {
+    title: "Kem che khuyết điểm lâu trôi Luna LongLasting Tip Concealer Cover-Fit hoàn hảo tự nhiên",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m9qrxw9emqum9a.webp",
+    link: "https://s.shopee.vn/BOyBWJL6p",
+  },
+    {
+    title: "Kem che khuyết điểm & triệt sắc BEAUTILAB A2P Concentrate Peach Dark Spot & Retouch Brightening Concealer",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134201-81ztc-ml90f3vzzfgg14.webp",
+    link: "https://s.shopee.vn/807pW5jHuD",
+  },
+];
+const phanMat = [
+  {
+    title: "Bảng Phấn Mắt Carslan 10 Màu Trang Điểm Đa Chức Năng Phấn Má Hồng Phấn Bắt Sáng Tạo Khối",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mkc0v1ev2goz56.webp",
+    link: "https://s.shopee.vn/9UwdJFmjAG",
+  },
+  {
+    title: "Bảng Phấn Mắt CLIO Pro Eye Palette Đủ Màu Dịu Dàng Cá Tính, Chất Phấn Mịn Chống Trôi",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m1yyvl5e5jha6a.webp",
+    link: "https://s.shopee.vn/5q3Kx0V3Ju",
+  },
+   {
+    title: "Flower knows Bảng Phấn Mắt swan ballet Sáu Màu Sắc Hiệu Ứng Mịn Màng Lâu Trôi",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-ml76kmlmaayp73.webp",
+    link: "https://s.shopee.vn/LiOQjgiiI",
+  },
+    {
+    title: "Bảng Phấn Mắt CHÉERYEP 16 Ô Natural Star Đa Năng Nhũ Lì Chuẩn Màu Đa Dạng Bảng Màu",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mlhbodbja58ka1.webp",
+    link: "https://s.shopee.vn/2g6JBrezW8",
+  },
+     {
+    title: "Bảng Phấn Mắt CHÉERYEP 16 Ô Natural Star Đa Năng Dễ Dùng Chuẩn Màu Lâu Trôi Đa Dạng",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mlhusg8utibp8d.webp",
+    link: "https://s.shopee.vn/60MlA8ovVo",
+  },
+    {
+    title: "3CE BST COLOR BAKER - SON GLAZY LIP GLOW, SON VELVET PLUSH, MÁ HỒNG FACE BLUSH, BẢNG MẮT MULTI EYE 9 COLORS PALETTE",
+    media: "https://down-vn.img.susercontent.com/file/sg-11134201-82620-mldsifqzkyrk01.webp",
+    link: "https://s.shopee.vn/2LTSnZEnM0",
+  },
+  {
+    title: "Bảng phấn mắt đa năng Lemonade Aesthetic Multi-task Palette ",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mj6sda5g426ce5.webp",
+    link: "https://s.shopee.vn/qef1tHIPL",
+  },
+    {
+    title: "Bảng phấn mắt Lemonade Aesthetic eyeshadow palette - Version 2 20.8g",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mlelv5leuhvn8e.webp",
+    link: "https://s.shopee.vn/20qcQJaEeF",
+  },
+    {
+    title: "Phấn Má Hồng Bắt Sáng 3CE Blushlighter",
+    media: "https://down-vn.img.susercontent.com/file/sg-11134201-8261w-mldsigaq6pdv60.webp",
+    link: "https://s.shopee.vn/7VBZ8GX4ue",
+  },
+   {
+    title: "Phấn má hồng CARSLAN 6 màu thời trang cao cấp tùy chọn",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mhsj0fhqt8u840.webp",
+    link: "https://s.shopee.vn/qefCDcdGc",
+  },
+  {
+    title: "Phấn má hồng mịn lì chuẩn màu Maybelline Fit Me Blush",
+    media: "https://down-vn.img.susercontent.com/file/sg-11134201-8260n-mlnq5fj4sb9h19.webp",
+    link: "https://s.shopee.vn/5L74YfvtPE",
+  },
+];
+const phanTaoKhoi = [
+  {
+    title: "Bảng Phấn Tạo Khối Bắt Sáng 4 Ô JUDYDOLL Highlight & Contour Palette Mỏng Mịn Dễ tán Chuẩn màu 3D Lâu trô",
+    media: "https://down-vn.img.susercontent.com/file/sg-11134201-8262a-mlljroko6sxx5b.webp",
+    link: "https://s.shopee.vn/2Vmt2R0BZi",
+  },
+  
+   {
+    title: "Bảng Phấn Trang Điểm 3CE Layer It All (Eye, Blush, Contour Palette",
+    media: "https://down-vn.img.susercontent.com/file/sg-11134201-8262d-mldsifk6nuhb7d.webp",
+    link: "https://s.shopee.vn/6pvsCgaYuI",
+  },
+    {
+    title: "GALIMARD 4 TRONG 1 Mềm & Cấu trúc Đường viền nhẹ Trang điểm mặt lung linh",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mlecw2fwcvt006.webp",
+    link: "https://s.shopee.vn/1gDm44ibIm",
+  },
+    {
+    title: "Bảng phấn tạo khối 3 bước Catrice 3 Steps To Contour Palette mềm mịn và bền màu",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mlc0at5w4rggcf.webp",
+    link: "https://s.shopee.vn/5VQUcVulmO",
+  },
+   
+    {
+    title: "Bút Tạo Khối 2 Đầu OUT OF OFFICE - Kem Highlighter Tạo Khối Mặt, Viền Mũi, Làm Bóng Và Sáng Da",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mk91scanpuyp1b.webp",
+    link: "https://s.shopee.vn/LiOUklJjc",
+  },
+];
+const phanPhu = [
+
+  {
+    title: "Phấn phủ Black Magnet CARSLAN kiềm dầu màu đen chống nước chống mồ hôi che phủ bóng dầu cho mặt",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mhr07vjbbldw8d.webp",
+    link: "https://s.shopee.vn/6AgBZL8Zvw",
+  },
+    {
+    title: "【MEIKING】Phấn phủ hoa hồng đồng nội giúp kiềm dầu 24H Meiking, chống nước, kiểm soát mồ hôi, làm mịn và sáng ",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mlfr15n5hn2d8a.webp",
+    link: "https://s.shopee.vn/2g6JR7AlW7",
+  },
+   {
+    title: "Phấn Nén Black Magnetic Carslan 2.0 Kiểm soát dầu lâu trôi 24H",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mkbzbjayd0y05e.webp",
+    link: "https://s.shopee.vn/3B2a0ONK3n",
+  },
+    {
+    title: "Phấn phủ bột kiềm dầu, mịn lì lâu trôi INNISFREE No Sebum Mineral Powder",
+    media: "https://down-vn.img.susercontent.com/file/sg-11134201-8260p-mllv4gsit4w565.webp",
+    link: "https://s.shopee.vn/4Av7CVFoKg",
+  },
+    {
+    title: "Phấn Phủ Dạng Bột COLORKEY Siêu Mịn Giúp Lớp Trang Điểm Tự Nhiên",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mllitfz41894d9.webp",
+    link: "https://s.shopee.vn/3fyqc54mOu",
+  },
+   {
+    title: "Phấn Nén kiềm dầu Carslan Soft Mist 24h Phấn Phủ trang điểm Mềm Mại Lâu Trôi",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mj3r1po1tr7l62@resize_w450_nl.webp",
+    link: "https://s.shopee.vn/4LEXPr39Mm",
+  },
+];
+const mascara = [
+
+  {
+    title: "Mascara COLORKEY Hỗ Trợ Giúp Mi Dài Và Tơi, Tạo Cảm Giác Tự Nhiên, Nhanh Khô, Không Lem Trôi",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mj7xjwcv5pmo24@resize_w450_nl.webp",
+    link: "https://s.shopee.vn/6AgBcRLcxR",
+  },
+    {
+    title: "Mascara ZEESEA kháng nước lâu trôi 36h chống nhòe chuốt mi cong vút và dài hơn",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-7qukw-lj3vd548cfp6cd.webp",
+    link: "https://s.shopee.vn/7Ks90jZp9E",
+  },
+   {
+    title: "Bút Kẻ Mắt Nước Siêu Sắc Mảnh Maybelline New York Hyper Sharp Liner Extreme Không Lem Trôi",
+    media: "https://down-vn.img.susercontent.com/file/sg-11134201-8262l-mlnq5fzpf11d75.webp",
+    link: "https://s.shopee.vn/2qPjf2VKeu",
+  },
+    {
+    title: "Bút kẻ mắt nước nét mảnh Carslan Không lem trôi suốt 12H",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mk0mecg3yknbce.webp",
+    link: "https://s.shopee.vn/9KdDP4Lp45",
+  },
+  {
+    title: "Chì kẻ mày 2 đầu Lemonade Dual Eyebrow 2.75g",
+    media: "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mlehlz2do2kv0c.webp",
+    link: "https://s.shopee.vn/2g6JTlqW8Z",
+  },
+  {
+    title: "Chì Kẻ Mày CARSLAN Tự Nhiên Chống Nước Lâu Trôi ",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mhsj2lnor6ys94.webp",
+    link: "https://s.shopee.vn/9KdDPgrDg9",
+  },
+    {
+    title: "Bút kẻ mày Carslan Chống thấm nước và mồ hôi Màu sắc nhu hòa không bị lem hay dính 0.26g",
+    media: "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mk0mbsnmtfyc68.webp",
+    link: "https://s.shopee.vn/5AneS86aCw",
+  },
+
+];
 export default function XinhDep() {
   return (
     <main>
@@ -352,7 +590,7 @@ export default function XinhDep() {
           as="p"
           title="Những điều em thích 💕"
           subtitle={`Đợt này bộ y tế vừa công bố thu hồi 291 sản phẩm mỹ phẩm không đủ an toàn. Nên là anh đã tìm và list ra đây cho em các dòng sản phẩm chất lượng, được đánh giá review tốt, nhiều người tin dùng và không nằm trong danh sách cấm. Em bé cứ yên tâm dùng nhé! `}
-          colors = {["#e208c5", "#a716fa", "#d6006b"]}
+          colors = {["#ffd0f9", "#ff85eb", "#ffa4d2"]}
         />
  
     <Section>
@@ -418,16 +656,59 @@ export default function XinhDep() {
         items={kemLot}
       />
     </Section>
-        <Section>
+    <Section>
       <SlideShow
         introTitle="Xịt Khóa Nền 💕"
         variant={1}
         items={xitKhoaNen}
       />
     </Section>
+    <Section>
+          <SlideShow
+        introTitle="Kem nền (Foundation) & Cushion 💕"
+        variant={2}
+        items={cushion}
+      />
+    </Section>
+        <Section>
+          <SlideShow
+        introTitle="Kem che khuyết điểm 💕"
+        variant={1}
+        items={cheKhuyetDiem}
+      />
+    </Section>
+
+    <Section>
+      <SlideShow
+        introTitle="Bảng Mắt & Phấn Má Hồng 💕"
+        variant={2}
+        items={phanMat}
+      />
+    </Section>
+    <Section>
+      <SlideShow
+        introTitle="Phấn Tạo Khối 💕"
+        variant={1}
+        items={phanTaoKhoi}
+      />
+    </Section>
+    <Section>
+      <SlideShow
+        introTitle="Phấn Phủ 💕"
+        variant={1}
+        items={phanPhu}
+      />
+    </Section>
+    <Section>
+      <SlideShow
+        introTitle="Mascara & Eyeliner💕"
+        variant={1}
+        items={mascara}
+      />
+    </Section>
       <p className="text-center max-w-2xl mx-auto leading-relaxed">
-        À. Một vài hãng sản phẩm ở đây thường xuyên hết hàng, thay đổi chính sách giá và quà tặng của họ, nên là em bé canh để săn được deal tốt! Anh sẽ cập nhật thêm các thông tin sản phẩm mới, trend, ưu đãi và quá tặng cho em. Khi cần dùng em nhớ ghé vào đây em nhé !
-      <br/>Thương em ! 💝
+        À. Một vài hãng sản phẩm ở thường xuyên cháy hàng, nhất là các sản phẩm makeup. Ngoài ra giá và quà tặng cũng được thay đổi thường xuyên, nên là em bé canh để săn được deal tốt! Anh sẽ cập nhật thêm các thông tin về sản phảm, trend, ưu đãi và quà cho em. Khi cần dùng em nhớ ghé vào đây em nhé !
+      <br/> Thương em ! 💝
       </p>
 
       <Footer />

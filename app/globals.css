@@ -86,7 +86,7 @@ body {
   );
 
   transform: skewX(-20deg);
-  animation: metalSweep 2.5s infinite;
+  animation: metalSweep 5s infinite;
 }
 
 /* hover sáng hơn */
