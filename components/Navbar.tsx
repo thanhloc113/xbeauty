@@ -15,7 +15,7 @@ export default function Navbar() {
   return (
     <section
       className={`w-full transition-all duration-300  
-        left-0 z-50 backdrop-blur-md bg-black/30 border-b border-white/10 shadow-lg
+        sticky top-0 left-0 z-50 backdrop-blur-md bg-black/30 border-b border-white/10 shadow-lg
         `}
     >
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
