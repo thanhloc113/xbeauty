@@ -6,7 +6,7 @@ interface ItemProps {
   link: string;
   type?: "image" | "video";
   ratio?: "vertical" | "square";
-  buttonText:string;
+  buttonText?:string;
   blank?: number;
 }
 
@@ -16,7 +16,7 @@ export default function Item({
   link,
   type = "image",
   ratio = "vertical",
-  buttonText = "Em thích",
+  buttonText = "🌸 Em thích 🌸",
   blank= 0
 }: ItemProps) {
   return (

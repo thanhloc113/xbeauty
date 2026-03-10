@@ -51,7 +51,6 @@ export default function SlideShow({
               key={i}
               {...item}
               ratio="square"
-              buttonText="Em muốn"
               blank={1}
             />
           ))}

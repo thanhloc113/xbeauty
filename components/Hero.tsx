@@ -55,7 +55,7 @@ export default function Hero({
         </Tag>
 
         {subtitle && (
-          <p className="mt-4 text-sm md:text-lg text-white/80">
+          <p className="mt-4 text-sm md:text-lg text-white/80 whitespace-pre-line">
             {subtitle}
           </p>
         )}
