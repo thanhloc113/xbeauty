@@ -361,55 +361,72 @@ export default function XinhDep() {
         variant={2}
         items={suaRuaMat}
       />
+    </Section>
+        <Section>
       <SlideShow
         introTitle="Nước tẩy trang 💕"
         variant={1}
         items={bongTayTrang}
       />
+          </Section>
+        <Section>
      <SlideShow
         introTitle="Serum 💕"
         variant={2}
         items={serum}
       />
+          </Section>
+        <Section>
       <SlideShow
         introTitle="Kem Chống Nắng 💕"
         variant={1}
         items={kemChongNang}
       />
+          </Section>
+        <Section>
       <SlideShow
         introTitle="Kem Dưỡng Ẩm 💕"
         variant={2}
         items={kemDuongAm}
       />
+          </Section>
+        <Section>
       <SlideShow
         introTitle="Toner 💕"
         variant={1}
         items={toner}
       />
+          </Section>
+        <Section>
       <SlideShow
         introTitle="Body Care 💕"
         variant={2}
         items={bodyCare}
       />
+          </Section>
+        <Section>
             <SlideShow
         introTitle="Son của em 💕"
         variant={1}
         items={son}
       />
+          </Section>
+        <Section>
       <SlideShow
         introTitle="Kem Lót 💕"
         variant={2}
         items={kemLot}
       />
-
+    </Section>
+        <Section>
       <SlideShow
         introTitle="Xịt Khóa Nền 💕"
         variant={1}
         items={xitKhoaNen}
       />
-      </Section>
+    </Section>
       <p className="text-center max-w-2xl mx-auto leading-relaxed">
-        À. Một vài hãng sản phẩm ở đây thường xuyên hết hàng, thay đổi chính sách giá và quà tặng của họ, nên là em bé canh để săn được deal tốt ! Anh sẽ cập nhật thêm các thông tin sản phẩm mới, trend, ưu đãi và quá tặng cho em. Khi cần dùng em nhớ ghé vào đây nhé !
+        À. Một vài hãng sản phẩm ở đây thường xuyên hết hàng, thay đổi chính sách giá và quà tặng của họ, nên là em bé canh để săn được deal tốt! Anh sẽ cập nhật thêm các thông tin sản phẩm mới, trend, ưu đãi và quá tặng cho em. Khi cần dùng em nhớ ghé vào đây em nhé !
       <br/>Thương em ! 💝
       </p>
 
