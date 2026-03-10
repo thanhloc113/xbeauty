@@ -53,6 +53,7 @@ export default function Item({
         <a
           href={link}
           className="metal-button text-center text-sm px-3 py-2 rounded-lg font-medium"
+          target="_blank"
         >
           {buttonText}
         </a>
