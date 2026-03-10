@@ -19,21 +19,21 @@ export default function DiBien() {
           title="💖 Em muốn xinh đẹp 💖"
           media="image/sexy3.jpg"
           ratio="vertical"
-          link="#"
+          link="/xinh-dep"
           buttonText="Anh ơi"
         />
         <Item
           title="💓Em muốn đi biển 💓"
           media="image/sexy2.jpg"
           ratio="vertical"
-          link="#"
+          link="/di-bien"
           buttonText="Anh ưi"
         />
         <Item
           title="💖 Em muốn nhận quà 💖"
           media="image/sexy4.jpg"
           ratio="vertical"
-          link="#"
+          link="/nhan-qua"
           buttonText="Anh iu"
         />
     </Gallery>

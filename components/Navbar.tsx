@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -19,10 +20,17 @@ export default function Navbar() {
         `}
     >
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
-
-        <h1 className="font-bold text-xl text-[#ff6adf]">
-          Chào em bé
-        </h1>
+ 
+      <p className="flex items-center gap-2 font-bold text-xl text-[#ff6adf]">
+      <Image
+        src="/image/logo.png"
+        alt="logo"
+        width={40}
+        height={40}
+        className="animate-[spin_6s_linear_infinite]"
+      />
+        <span>Chào em bé</span>
+      </p>
 
         {/* mobile button */}
         <button

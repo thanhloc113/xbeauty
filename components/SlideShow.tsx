@@ -26,8 +26,8 @@ export default function SlideShow({
 
   const backgroundClass =
     variant === 1
-? "bg-[linear-gradient(180deg,#0b1f5e,#1a0038)]"
-: "bg-[linear-gradient(180deg,#5b0f4e,#071a3a)]";
+? "bg-[linear-gradient(180deg,#34014d,#440144)]"
+: "bg-[linear-gradient(180deg,#2f086d,#060455)]";
 
   return (
     <section className={`w-full py-12 rounded-2xl 
@@ -40,7 +40,7 @@ export default function SlideShow({
       {/* Slide container */}
       <div className="mt-8 overflow-x-auto md:overflow-visible">
         <div
-          className="
+          className=" 
           flex gap-6 px-6 min-w-max
           md:grid md:grid-cols-5 md:min-w-0
           md:justify-center
