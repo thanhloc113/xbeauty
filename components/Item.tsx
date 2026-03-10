@@ -1,5 +1,5 @@
 "use client";
-const isDesktop = window.innerWidth >= 1024;
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 interface ItemProps {
   title: string;
   media: string;
@@ -53,7 +53,7 @@ export default function Item({
         <a
           href={link}
           className="metal-button text-center text-sm px-3 py-2 rounded-lg font-medium"
-          target={isDesktop ? "_blank" : "_self"}
+          target={isMobile ? "_blank" : "_self"}
         >
           {buttonText}
         </a>
