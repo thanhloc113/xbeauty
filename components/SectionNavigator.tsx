@@ -31,14 +31,14 @@ export default function SectionNavigator({ items }: { items: Item[] }) {
         `}
       >
         {items.map((item) => (
-          <Link
+          <a
             key={item.id}
             href={`#${item.id}`}
             className="text-pink-200 hover:text-[#ff6adf] transition"
             onClick={() => setOpen(false)}
           >
             {item.label}
-          </Link>
+          </a>
         ))}
       </div>
 
