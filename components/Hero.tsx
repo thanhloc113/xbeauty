@@ -11,7 +11,7 @@ export default function Hero({
   title,
   subtitle,
   background = "https://i.pinimg.com/736x/f8/e6/e0/f8e6e06b240c69476f6bcefbfa2cd280.jpg",
-  colors = ["#f472b6", "#a855f7", "#d946ef"],
+  colors = ["#ff37e4", "#15adf3", "#40ff3a", "#ebff3a", "#ff3a85"],
 }: HeroProps) {
 
   const Tag = as
