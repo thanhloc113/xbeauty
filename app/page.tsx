@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Intro from "@/components/Intro";
 import Gallery from "@/components/Gallery";
 import Item from "@/components/Item";
 import Section from "@/components/Section";

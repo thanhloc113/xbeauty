@@ -590,10 +590,10 @@ export default function XinhDep() {
 
       <Navbar />
         <Hero
-          as="p"
-          title="Những điều em thích 💕"
-          subtitle={`Đợt này bộ y tế vừa công bố thu hồi 291 sản phẩm mỹ phẩm không đủ an toàn. Nên là anh đã tìm và list ra đây cho em các dòng sản phẩm chất lượng, được đánh giá review tốt, nhiều người tin dùng và không nằm trong danh sách cấm. Em bé cứ yên tâm dùng nhé! `}
-          colors = {["#ffd0f9", "#ff85eb", "#ffa4d2"]}
+          as="h2"
+          title=" Nhan sắc của em dính trên mặt kìa "
+          subtitle={`Cùng chăm sóc cho nhan sắc đó tỏa sáng thôi nào !!!`}
+          colors = {["#ff37e4", "#15adf3", "#40ff3a", "#ebff3a", "#ff3a85"]}
         />
  <SectionNavigator
   items={[
@@ -729,11 +729,11 @@ export default function XinhDep() {
       />
     </Section>
       <p className="text-center max-w-2xl mx-auto leading-relaxed">
-        À. Một vài hãng sản phẩm ở thường xuyên cháy hàng, nhất là các sản phẩm makeup. Ngoài ra giá và quà tặng cũng được thay đổi thường xuyên, nên là em bé canh để săn được deal tốt! Anh sẽ cập nhật thêm các thông tin về sản phảm, trend, ưu đãi và quà cho em. Khi cần dùng em nhớ ghé vào đây em nhé !
+        À. Có rất nhiều mẫu sản phẩm ở đây thường xuyên cháy hàng, nhất là các sản phẩm makeup. Ngoài ra giá và quà tặng cũng được thay đổi thường xuyên, nên là nếu thấy deal tốt thì em bé đừng bỏ qua nhé! Anh sẽ cập nhật thêm các thông tin về sản phẩm, trend, ưu đãi và quà cho em. Khi cần em dùng quên ghé vào đây nhé !
       <br/> Thương em ! 💝
       </p>
 
-      <Footer />
+    <Footer />
 
     </main>
   );
