@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import SlideShow from "@/components/SlideShow";
 import SectionNavigator from "@/components/SectionNavigator"
 import VideoSlide from "@/components/VideoSlider";
-import { useScrollAlias } from "@/hooks/useScrollAlias";
 import ScrollAlias from "@/components/ScrollAlias";
 
 const suaRuaMat = [
@@ -793,7 +792,7 @@ export default function XinhDep() {
       />
     </Section>
       <p className="text-center max-w-2xl mx-auto leading-relaxed">
-        Nếu lướt đến đây rồi mà em vẫn phân vân chưa biết lấy sản phẩm nào thì cũng đừng lo nhé! Anh sẽ cập nhật thông tin về sản phẩm chi tiết hơn để em biết cái nào sẽ phù hợp cho em. Bên cạnh đó, anh cùng sẽ update thêm các trend mới, ưu đãi mới và quà cho em. Để lần tới em quay lại sẽ lựa được điều em thật sự thích ở đây nhé!
+        Nếu lướt đến đây rồi mà em vẫn phân vân chưa biết lấy sản phẩm nào thì cũng đừng lo nhé! Anh sẽ cập nhật thêm thông tin về sản phẩm chi tiết hơn, để em biết cái nào sẽ phù hợp cho em. Bên cạnh đó, anh cũng sẽ update thêm các trend mới, ưu đãi mới và quà cho em. Để lần tới em quay lại sẽ lựa được điều em thật sự thích ở đây nhé!
       <br/> Thương em ! 💝
       </p>
 
