@@ -20,8 +20,8 @@ export default function Navbar() {
         `}
     >
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
- 
-      <p className="flex items-center gap-2 font-bold text-xl text-[#ff6adf]">
+        
+      <Link href="/" className="flex items-center gap-2 font-bold text-xl text-[#ff6adf]">
       <Image
         src="/image/logo.png"
         alt="logo"
@@ -30,7 +30,7 @@ export default function Navbar() {
         className="animate-[spin_6s_linear_infinite]"
       />
         <span>Chào em bé</span>
-      </p>
+      </Link>
 
         {/* mobile button */}
         <button

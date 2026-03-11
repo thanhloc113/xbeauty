@@ -4,7 +4,9 @@ import Section from "@/components/Section";
 import Footer from "@/components/Footer";
 import SlideShow from "@/components/SlideShow";
 import SectionNavigator from "@/components/SectionNavigator"
-
+import VideoSlide from "@/components/VideoSlider";
+import { useScrollAlias } from "@/hooks/useScrollAlias";
+import ScrollAlias from "@/components/ScrollAlias";
 
 const suaRuaMat = [
   {
@@ -584,15 +586,72 @@ const mascara = [
   },
 
 ];
+  const videos = [
+    {
+     url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_aE5jM.mp4",
+     title:"Xinh đẹp để đi chơi",
+     poster:""
+    },
+    {
+     url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_ZrXbv.mp4",
+     title:"Xinh đẹp để đi học",
+     poster:""
+    },
+    {
+     url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_Ie89D.mp4",
+     title:"Xinh đẹp để đi làm",
+     poster:""
+    },
+    {
+     url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_GXsPq.mp4",
+     title:"Xinh đẹp để đó đây",
+     poster:""
+    },
+    {
+     url:"https://archive.org/download/lv_0_20260312024947/lv_0_20260312024947.ia.mp4",
+     title:"Xinh đẹp để có những kỉ niệm đẹp",
+     poster:""
+    },
+    {
+     url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_0uJQs.mp4",
+     title:"Xinh đẹp để yêu thương",
+     poster:""
+    },
+    {
+     url:"https://archive.org/download/snaptik.vn_ML4GM/snaptik.vn_ML4GM.mp4",
+     title:"Xinh đẹp để yêu đời",
+     poster:""
+    },
+  ];
 export default function XinhDep() {
+
   return (
     <main>
-
+    <ScrollAlias
+        ids={[
+    "suaRuaMat", 
+    "nuocTayTrang",
+    "serum", 
+    "kemChongNang",
+    "kemDuongAm",
+    "toner", 
+    "bodyCare", 
+    "son", 
+    "kemLot", 
+    "xitKhoaNen", 
+    "cushion", 
+    "cheKhuyetDiem", 
+    "phanMat", 
+    "phanTaoKhoi",
+    "phanPhu",
+    "mascara", 
+        ]}
+      />
       <Navbar />
         <Hero
           as="h2"
           title=" Nhan sắc của em dính trên mặt kìa "
-          subtitle={`Cùng chăm sóc cho nhan sắc đó tỏa sáng thôi nào !!!`}
+          subtitle={`Dạo gần đây bộ y tế đã tiến hành thu hồi 291 sản phẩm mỹ phẩm không an toàn, nên anh đã tìm và list ra đây cho em các dòng sản phẩm có review tốt từ nhiều nàng thơ, được cung cấp bởi các gian hàng chính hãng, người bán uy tín và không nằm trong danh sách cấm. Em cứ yên tâm dùng nhé !`}
           colors = {["#ff37e4", "#15adf3", "#40ff3a", "#ebff3a", "#ff3a85"]}
         />
  <SectionNavigator
@@ -614,7 +673,12 @@ export default function XinhDep() {
     { id: "phanPhu", label: "Phấn Phủ" },
     { id: "mascara", label: "Mascara & Eyeliner" },
   ]}
-/>
+/>  
+  <Section id="top">
+
+    <VideoSlide videos={videos} />
+
+  </Section>
     <Section id="suaRuaMat">
       <SlideShow
         introTitle="Sữa rửa mặt"
@@ -625,7 +689,7 @@ export default function XinhDep() {
     <Section id="nuocTayTrang">
       <SlideShow
         introTitle="Nước tẩy trang"
-        variant={1}
+        variant={2}
         items={nuocTayTrang}
       />
     </Section>
@@ -639,7 +703,7 @@ export default function XinhDep() {
         <Section id="kemChongNang">
       <SlideShow
         introTitle="Kem Chống Nắng"
-        variant={1}
+        variant={2}
         items={kemChongNang}
       />
           </Section>
@@ -653,7 +717,7 @@ export default function XinhDep() {
         <Section id="toner">
       <SlideShow
         introTitle="Toner"
-        variant={1}
+        variant={2}
         items={toner}
       />
           </Section>
@@ -667,7 +731,7 @@ export default function XinhDep() {
         <Section id="son">
             <SlideShow
         introTitle="Son của em"
-        variant={1}
+        variant={2}
         items={son}
       />
           </Section>
@@ -681,7 +745,7 @@ export default function XinhDep() {
     <Section id="xitKhoaNen">
       <SlideShow
         introTitle="Xịt Khóa Nền"
-        variant={1}
+        variant={2}
         items={xitKhoaNen}
       />
     </Section>
@@ -695,7 +759,7 @@ export default function XinhDep() {
         <Section id="cheKhuyetDiem">
           <SlideShow
         introTitle="Kem che khuyết điểm "
-        variant={1}
+        variant={2}
         items={cheKhuyetDiem}
       />
     </Section>
@@ -710,26 +774,26 @@ export default function XinhDep() {
     <Section id="phanTaoKhoi">
       <SlideShow
         introTitle="Phấn Tạo Khối "
-        variant={1}
+        variant={2}
         items={phanTaoKhoi}
       />
     </Section>
     <Section id="phanPhu">
       <SlideShow
         introTitle="Phấn Phủ"
-        variant={1}
+        variant={2}
         items={phanPhu}
       />
     </Section>
     <Section id="mascara">
       <SlideShow
         introTitle="Mascara & Eyeliner"
-        variant={1}
+        variant={2}
         items={mascara}
       />
     </Section>
       <p className="text-center max-w-2xl mx-auto leading-relaxed">
-        À. Có rất nhiều mẫu sản phẩm ở đây thường xuyên cháy hàng, nhất là các sản phẩm makeup. Ngoài ra giá và quà tặng cũng được thay đổi thường xuyên, nên là nếu thấy deal tốt thì em bé đừng bỏ qua nhé! Anh sẽ cập nhật thêm các thông tin về sản phẩm, trend, ưu đãi và quà cho em. Khi cần em dùng quên ghé vào đây nhé !
+        Nếu lướt đến đây rồi mà em vẫn phân vân chưa biết lấy sản phẩm nào thì cũng đừng lo nhé! Anh sẽ cập nhật thông tin về sản phẩm chi tiết hơn để em biết cái nào sẽ phù hợp cho em. Bên cạnh đó, anh cùng sẽ update thêm các trend mới, ưu đãi mới và quà cho em. Để lần tới em quay lại sẽ lựa được điều em thật sự thích ở đây nhé!
       <br/> Thương em ! 💝
       </p>
 

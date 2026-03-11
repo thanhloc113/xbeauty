@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/image/logo.png",
+        url: "image/logo.png",
         width: 1200,
         height: 1200,
       },
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     title: "XBeauty – Beauty & Beach Store",
     description:
       "Mỹ phẩm chất lượng, bikini đẹp và thực phẩm healthy.",
-    images: ["/og-image.jpg"],
+    images: ["image/logo.png"],
   },
 
   robots: {
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/favicon.ico",
+    icon: "image/logo.png",
   },
 };
 
@@ -65,7 +66,24 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+
+        {/* <!-- Google tag (gtag.js) --> */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-6JMZL6ZMNX"
+          strategy="afterInteractive"
+        />
+
+        <Script id="ga-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-6JMZL6ZMNX');
+          `}
+        </Script>
       </body>
+
+
     </html>
   );
 }
