@@ -67,11 +67,13 @@ export default function VideoItem({
   };
 
   return (
-  <div className="relative 
-        w-[33vw] h-[33vh] 
-        md:w-[25vw] md:h-[36vh] 
-        lg:w-[20vw] lg:h-[40vh] 
-        max-w-[220px] overflow-hidden rounded-xl bg-black shrink-0">
+ <div className="relative 
+    w-[33.33vw] 
+    lg:w-[14vw] 
+    aspect-[9/16] 
+    max-w-[260px]
+    overflow-hidden rounded-xl bg-black shrink-0"
+    >
     <video
       ref={videoRef}
       src={src}
@@ -85,7 +87,7 @@ export default function VideoItem({
     {!playing && (
       <button
         onClick={togglePlay}
-        className="absolute inset-0 flex items-center justify-center"
+        className="absolute py-5 inset-0 flex items-center justify-center"
       >
         <div className="bg-black/40 backdrop-blur-md text-white w-12 h-12 rounded-full flex items-center justify-center text-xl">
           ▶

@@ -586,6 +586,11 @@ const mascara = [
 
 ];
   const videos = [
+       {
+     url:"https://archive.org/download/lv_0_20260312024947/lv_0_20260312024947.ia.mp4",
+     title:"Xinh đẹp để có những kỉ niệm đẹp",
+     poster:""
+    },
     {
      url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_aE5jM.mp4",
      title:"Xinh đẹp để đi chơi",
@@ -606,11 +611,7 @@ const mascara = [
      title:"Xinh đẹp để đó đây",
      poster:""
     },
-    {
-     url:"https://archive.org/download/lv_0_20260312024947/lv_0_20260312024947.ia.mp4",
-     title:"Xinh đẹp để có những kỉ niệm đẹp",
-     poster:""
-    },
+ 
     {
      url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_0uJQs.mp4",
      title:"Xinh đẹp để yêu thương",
