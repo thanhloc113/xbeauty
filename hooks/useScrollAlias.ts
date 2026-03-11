@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export function useScrollAlias(ids: string[]) {
+  const activeId = useRef<string | null>(null);
+
   useEffect(() => {
     const sections = ids
       .map((id) => document.getElementById(id))
@@ -10,22 +12,24 @@ export function useScrollAlias(ids: string[]) {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.id;
+        const visible = entries.find((e) => e.isIntersecting);
 
-            history.replaceState(null, "", `#${id}`);
-          }
-        });
+        if (!visible) return;
+
+        const id = visible.target.id;
+
+        if (activeId.current === id) return;
+
+        activeId.current = id;
+
+        history.replaceState(null, "", `#${id}`);
       },
       {
-        threshold: 0.6, // 60% section visible
+        rootMargin: "-45% 0px -45% 0px",
       }
     );
 
-    sections.forEach((section) => {
-      if (section) observer.observe(section);
-    });
+    sections.forEach((section) => observer.observe(section!));
 
     return () => observer.disconnect();
   }, [ids]);

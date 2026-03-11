@@ -67,35 +67,38 @@ export default function VideoItem({
   };
 
   return (
-    <div className="relative w-[20vw] max-w-[220px] aspect-[9/16] overflow-hidden rounded-xl bg-black shrink-0">
+  <div className="relative 
+        w-[33vw] h-[33vh] 
+        md:w-[25vw] md:h-[36vh] 
+        lg:w-[20vw] lg:h-[40vh] 
+        max-w-[220px] overflow-hidden rounded-xl bg-black shrink-0">
+    <video
+      ref={videoRef}
+      src={src}
+      poster={poster}
+      className="w-full h-full object-cover cursor-pointer"
+      onClick={togglePlay}
+      playsInline
+      preload="metadata"
+    />
 
-      <video
-        ref={videoRef}
-        src={src}
-        poster={poster}
-        className="w-full h-full object-cover cursor-pointer"
+    {!playing && (
+      <button
         onClick={togglePlay}
-        playsInline
-        preload="metadata"
-      />
+        className="absolute inset-0 flex items-center justify-center"
+      >
+        <div className="bg-black/40 backdrop-blur-md text-white w-12 h-12 rounded-full flex items-center justify-center text-xl">
+          ▶
+        </div>
+      </button>
+    )}
 
-      {!playing && (
-        <button
-          onClick={togglePlay}
-          className="absolute inset-0 flex items-center justify-center"
-        >
-          <div className="bg-black/40 backdrop-blur-md text-white w-12 h-12 rounded-full flex items-center justify-center text-xl">
-            ▶
-          </div>
-        </button>
-      )}
-
-      <div className="absolute top-2 left-2 right-2">
-        <p className="text-xs text-white line-clamp-2 px-2 py-1 rounded-md bg-black/30 backdrop-blur-md">
-          {title}
-        </p>
-      </div>
-
+    <div className="absolute top-2 left-2 right-2">
+      <p className="text-[11px] text-white px-2 py-1 rounded-md bg-black/30 backdrop-blur-md leading-snug">
+        {title}
+      </p>
     </div>
-  );
+
+  </div>
+);
 }
