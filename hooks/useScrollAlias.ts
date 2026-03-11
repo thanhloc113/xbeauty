@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 
 export function useScrollAlias(ids: string[]) {
   const activeId = useRef<string | null>(null);
-  const ticking = useRef(false);
 
   useEffect(() => {
     const sections = ids
@@ -13,26 +12,30 @@ export function useScrollAlias(ids: string[]) {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries.find((e) => e.isIntersecting);
-        if (!visible) return;
+        let bestEntry: IntersectionObserverEntry | null = null;
+        let maxRatio = 0;
 
-        const id = visible.target.id;
+        entries.forEach((entry) => {
+          if (entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio;
+            bestEntry = entry;
+          }
+        });
+
+        if (!bestEntry) return;
+
+        const id = (bestEntry as IntersectionObserverEntry).target.id;
 
         if (activeId.current === id) return;
 
-        if (!ticking.current) {
-          ticking.current = true;
+        activeId.current = id;
 
-          requestAnimationFrame(() => {
-            activeId.current = id;
-            history.replaceState(null, "", `#${id}`);
-            ticking.current = false;
-          });
-        }
+        requestAnimationFrame(() => {
+          history.replaceState(null, "", `#${id}`);
+        });
       },
       {
-        rootMargin: "-45% 0px -45% 0px",
-        threshold: 0,
+        threshold: [0.25, 0.5, 0.75],
       }
     );
 
