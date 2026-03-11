@@ -42,7 +42,7 @@ export default function VideoSlide({ videos,linkId = "footer" }: Props) {
       {/* button */}
   <div className="flex justify-center mt-2">
     <button
-      onClick={() => scrollToId(linkId, 100000)}
+      onClick={() => scrollToId(linkId)}
       className="w-[220px] flex items-center justify-center
       relative overflow-hidden py-2 rounded-xl font-semibold text-white
       bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500

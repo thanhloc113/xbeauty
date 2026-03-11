@@ -1,41 +1,31 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export function useScrollAlias(ids: string[]) {
-  const activeId = useRef<string | null>(null);
-
   useEffect(() => {
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
 
+    let current = "";
+
     const observer = new IntersectionObserver(
       (entries) => {
-        let bestEntry: IntersectionObserverEntry | null = null;
-        let maxRatio = 0;
-
         entries.forEach((entry) => {
-          if (entry.intersectionRatio > maxRatio) {
-            maxRatio = entry.intersectionRatio;
-            bestEntry = entry;
-          }
-        });
+          if (!entry.isIntersecting) return;
 
-        if (!bestEntry) return;
+          const id = entry.target.id;
 
-        const id = (bestEntry as IntersectionObserverEntry).target.id;
+          if (current === id) return;
 
-        if (activeId.current === id) return;
+          current = id;
 
-        activeId.current = id;
-
-        requestAnimationFrame(() => {
           history.replaceState(null, "", `#${id}`);
         });
       },
       {
-        threshold: [0.25, 0.5, 0.75],
+        rootMargin: "-40% 0px -40% 0px",
       }
     );
 

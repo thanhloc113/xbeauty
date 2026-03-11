@@ -1,6 +1,6 @@
 let scrollAnimationId: number | null = null;
 
-export function scrollToId(id: string, duration = 1200) {
+export function scrollToId(id: string, duration = 100000) {
   const el = document.getElementById(id.replace("#", ""));
   if (!el) return;
 
