@@ -586,41 +586,40 @@ const mascara = [
 
 ];
   const videos = [
-       {
-     url:"https://archive.org/download/lv_0_20260312024947/lv_0_20260312024947.ia.mp4",
-     title:"Xinh đẹp để có những kỉ niệm đẹp",
-     poster:""
-    },
-    {
-     url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_aE5jM.mp4",
-     title:"Xinh đẹp để đi chơi",
-     poster:""
-    },
-    {
+      {
      url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_ZrXbv.mp4",
      title:"Xinh đẹp để đi học",
-     poster:""
+     poster:"https://i.pinimg.com/736x/3f/fa/37/3ffa37e25d53ee2d74ab543666786e97.jpg"
     },
     {
      url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_Ie89D.mp4",
      title:"Xinh đẹp để đi làm",
-     poster:""
+     poster:"https://i.pinimg.com/736x/8a/ef/70/8aef707f9995a1b1e1d5142fe92bd571.jpg"
+    },
+    {
+     url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_aE5jM.mp4",
+     title:"Xinh đẹp để đi chơi",
+     poster:"https://i.pinimg.com/736x/f5/94/45/f59445db898d030a42b44a0eed74781f.jpg"
     },
     {
      url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_GXsPq.mp4",
-     title:"Xinh đẹp để đó đây",
-     poster:""
+     title:"Xinh đẹp để đến đó đây",
+     poster:"https://i.pinimg.com/736x/63/34/39/63343907bd30b92c4205cf8be7f52427.jpg"
     },
- 
+    {
+     url:"https://archive.org/download/0312_20260312/0312.mp4",
+     title:"Xinh đẹp để yêu đời",
+     poster:"https://i.pinimg.com/736x/e9/48/c3/e948c34d7cd1c583fc4bb503abd289ee.jpg"
+    },
     {
      url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_0uJQs.mp4",
      title:"Xinh đẹp để yêu thương",
-     poster:""
+     poster:"https://i.pinimg.com/1200x/11/73/d8/1173d83e710591f88ac8c97e736d2537.jpg"
     },
     {
-     url:"https://archive.org/download/snaptik.vn_ML4GM/snaptik.vn_ML4GM.mp4",
-     title:"Xinh đẹp để yêu đời",
-     poster:""
+     url:"https://archive.org/download/lv_0_20260312024947/lv_0_20260312024947.ia.mp4",
+     title:"Xinh đẹp để có những kỉ niệm đẹp",
+     poster:"https://i.pinimg.com/736x/b4/c2/a5/b4c2a5984623bfb6634e393ca29466f8.jpg"
     },
   ];
 export default function XinhDep() {

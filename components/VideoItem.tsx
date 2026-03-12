@@ -68,7 +68,7 @@ export default function VideoItem({
 
   return (
  <div className="relative 
-    w-[33.33vw] 
+    w-[42vw] 
     lg:w-[14vw] 
     aspect-[9/16] 
     max-w-[260px]
