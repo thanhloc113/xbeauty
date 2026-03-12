@@ -603,7 +603,7 @@ const mascara = [
     },
     {
      url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_GXsPq.mp4",
-     title:"Xinh đẹp để đến đó đây",
+     title:"Xinh đẹp để đến đâu cũng là nơi đáng đến",
      poster:"https://i.pinimg.com/736x/63/34/39/63343907bd30b92c4205cf8be7f52427.jpg"
     },
     {
@@ -649,8 +649,8 @@ export default function XinhDep() {
       <Navbar />
         <Hero
           as="h2"
-          title=" Nhan sắc của em dính trên mặt kìa "
-          subtitle={`Dạo gần đây bộ y tế đã tiến hành thu hồi 291 sản phẩm mỹ phẩm không an toàn, nên anh đã tìm và list ra đây cho em các dòng sản phẩm có review tốt từ nhiều nàng thơ, được cung cấp bởi các gian hàng chính hãng, người bán uy tín và không nằm trong danh sách cấm. Em cứ yên tâm dùng nhé !`}
+          title=" Nhan sắc của em dính ở trên mặt kìa "
+          subtitle={`Dạo gần đây bộ y tế đã tiến hành thu hồi 291 sản phẩm mỹ phẩm không an toàn, nên anh đã tìm và chọn lọc ra đây các dòng sản phẩm có review tốt, được nhiều nàng thơ tin dùng, cung cấp bởi các nhà bán hàng uy tín và không nằm trong danh sách cấm. Có rất nhiều thứ tốt đẹp dành cho em đấy!`}
           colors = {["#ff37e4", "#15adf3", "#40ff3a", "#ebff3a", "#ff3a85"]}
         />
  <SectionNavigator
@@ -792,8 +792,8 @@ export default function XinhDep() {
       />
     </Section>
       <p className="text-center max-w-2xl mx-auto leading-relaxed">
-        Nếu lướt đến đây mà vẫn chưa chọn được sản phẩm nào thì là em đang phân vân lắm đúng không? Thật ra, nếu em chưa dùng thử sản phẩm nào cả thì sẽ không thể biết được cái nào sẽ là cái phù hợp với em hơn. Và em cũng đừng lo, anh sẽ cập nhật thêm thông tin chi tiết về sản phẩm, ưu đãi mới và quà tặng cho em, để mỗi lần em ghé vào đây đều sẽ có được điều mà em thích!
-      <br/> Thương em ! 💝
+       Nếu lướt đến đây rồi mà vẫn chưa chọn được sản phẩm nào thì là em đang phân vân lắm đúng không? Thật ra, nếu em chưa dùng thử sản phẩm nào, thì sẽ không thể biết được cái nào sẽ là cái phù hợp với em hơn. Em cũng đừng lo, anh sẽ cập nhật thêm các thông tin chi tiết về sản phẩm, ưu đãi mới và quà tặng cho em, để mỗi lần em ghé vào đây đều sẽ có được điều mà em thích và yên tâm sử dụng!
+       Thương em ! 💝
       </p>
 
     <Footer />
