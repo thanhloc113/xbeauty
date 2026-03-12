@@ -31,6 +31,7 @@ export default function VideoItem({
       video.play();
     } else {
       video.pause();
+      video.currentTime = 0;
       loopCountRef.current = 0; // reset loop
     }
   }, [playing]);
@@ -77,12 +78,20 @@ export default function VideoItem({
     <video
       ref={videoRef}
       src={src}
-      poster={poster}
       className="w-full h-full object-cover cursor-pointer"
       onClick={togglePlay}
       playsInline
       preload="metadata"
     />
+    {poster && (
+      <img
+        src={poster}
+        alt={title}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-600 pointer-events-none ${
+          playing ? "opacity-0" : "opacity-100"
+        }`}
+      />
+    )}
 
     {!playing && (
       <button

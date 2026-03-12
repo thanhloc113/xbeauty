@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "image/logo.png",
-        width: 1200,
-        height: 1200,
+        url: "https://i.pinimg.com/736x/b3/88/b4/b388b419365b411aa8ba4c35a1cf2ecd.jpg",
+        width: 736,
+        height: 977,
       },
     ],
   },
