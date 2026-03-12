@@ -21,24 +21,27 @@ export default function Page() {
       <Gallery >
         <Item
           title="💖 Em muốn xinh đẹp 💖"
-          media="https://i.pinimg.com/736x/b3/88/b4/b388b419365b411aa8ba4c35a1cf2ecd.jpg"
+          media="video/video4.mp4"
           ratio="vertical"
+          type="video"
           link="/xinh-dep"
-          buttonText="Anh ơi"
+          buttonText="Anh ơii"
         />
         <Item
           title="💓Em muốn đi biển 💓"
-          media="image/sexy2.jpg"
+          media="video/video5.mp4"
           ratio="vertical"
+          type="video"
           link="/di-bien"
-          buttonText="Anh ưi"
+          buttonText="Anh ưii"
         />
         <Item
           title="💖 Em muốn nhận quà 💖"
-          media="https://i.pinimg.com/736x/30/aa/cb/30aacb23fd69a74a66038304fef431a2.jpg"
+          media="video/video7.mp4"
           ratio="vertical"
+          type="video"
           link="/nhan-qua"
-          buttonText="Anh iu"
+          buttonText="Anh iiu"
         />
     </Gallery>
 

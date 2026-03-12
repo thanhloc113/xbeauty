@@ -603,7 +603,7 @@ const mascara = [
     },
     {
      url:"https://ik.imagekit.io/7a7njhuhn/snaptik.vn_GXsPq.mp4",
-     title:"Xinh đẹp mỉnh đi lung tung",
+     title:"Xinh đẹp mình đi lung tung",
      poster:"https://i.pinimg.com/736x/63/34/39/63343907bd30b92c4205cf8be7f52427.jpg"
     },
     {
