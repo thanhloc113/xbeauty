@@ -18,7 +18,7 @@ export default function SectionNavigator({ items }: { items: Item[] }) {
       {/* menu */}
       <div
         className={`
-          absolute bottom-6 right-15
+          absolute bottom-6 right-10
           flex flex-col gap-2
           bg-black/80 backdrop-blur-md
           border border-white/10
@@ -63,7 +63,7 @@ export default function SectionNavigator({ items }: { items: Item[] }) {
         width={40}
         height={40}
         alt=""
-        className="animate-[spin_6s_linear_infinite]"
+        // className="animate-[spin_6s_linear_infinite]"
         />
       </button>
 
