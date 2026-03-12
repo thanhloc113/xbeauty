@@ -14,16 +14,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "XBeauty – Mỹ phẩm, đồ đi biển & healthy food",
+  title: "XBeauty – Mang yêu thương đến cho em",
   description:
-    "Gian hàng mỹ phẩm, đồ đi biển, bikini và thực phẩm healthy được nhiều người tin dùng.",
+    "Mỹ phẩm, đồ đi biển, bikini và thực phẩm healthy được nhiều người tin dùng.",
     
   metadataBase: new URL("https://xbeauty.vercel.app"),
 
   openGraph: {
-    title: "XBeauty – Beauty & Beach ",
+    title: "XBeauty – Mang yêu thương đến cho em",
     description:
-      "Mỹ phẩm chất lượng, bikini đẹp và thực phẩm healthy.",
+      "Yêu em thì khó tưởng, mà thương em thì khó tả",
     url: "https://xbeauty.vercel.app",
     siteName: "XBeauty",
     locale: "vi_VN",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "XBeauty – Beauty & Beach Store",
     description:
-      "Mỹ phẩm chất lượng, bikini đẹp và thực phẩm healthy.",
+      "Yêu em thì khó tưởng, mà thương em thì khó tả",
     images: ["image/logo.png"],
   },
 
