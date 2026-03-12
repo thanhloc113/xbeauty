@@ -8,6 +8,7 @@ interface ItemProps {
   ratio?: "vertical" | "square";
   buttonText?:string;
   blank?: number;
+  zoomVideo?:number;
 }
 
 export default function Item({
@@ -17,7 +18,8 @@ export default function Item({
   type = "image",
   ratio = "vertical",
   buttonText = "🌸 Em thích 🌸",
-  blank= 0
+  blank= 0,
+  zoomVideo=1
 }: ItemProps) {
   return (
     <div className="w-full max-w-[260px] rounded-xl border border-pink-400/60 bg-white/5 backdrop-blur-md overflow-hidden flex flex-col">
@@ -31,6 +33,7 @@ export default function Item({
     <video
       src={media}
       className="absolute inset-0 w-full h-full object-cover"
+      style={{ transform: `scale(${zoomVideo})` }}
       muted
       autoPlay
       loop

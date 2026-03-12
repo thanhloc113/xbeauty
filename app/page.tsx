@@ -34,6 +34,7 @@ export default function Page() {
           type="video"
           link="/di-bien"
           buttonText="Anh ưii"
+          zoomVideo={1.1}
         />
         <Item
           title="💖 Em muốn nhận quà 💖"
