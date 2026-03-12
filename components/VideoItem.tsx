@@ -31,7 +31,10 @@ export default function VideoItem({
       video.play();
     } else {
       video.pause();
+      setTimeout(() => {
       video.currentTime = 0;
+      loopCountRef.current = 0;
+    }, 600); // khớp với duration-500
       loopCountRef.current = 0; // reset loop
     }
   }, [playing]);
