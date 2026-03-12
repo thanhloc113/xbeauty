@@ -792,7 +792,7 @@ export default function XinhDep() {
       />
     </Section>
       <p className="text-center max-w-2xl mx-auto leading-relaxed">
-        Nếu lướt đến đây rồi mà em vẫn phân vân chưa biết lấy sản phẩm nào thì cũng đừng lo nhé! Anh sẽ cập nhật thêm thông tin về sản phẩm chi tiết hơn, để em biết cái nào sẽ phù hợp cho em. Bên cạnh đó, anh cũng sẽ update thêm các trend mới, ưu đãi mới và quà cho em. Để lần tới em quay lại sẽ lựa được điều em thật sự thích ở đây nhé!
+        Nếu lướt đến đây mà vẫn chưa chọn được sản phẩm nào thì là em đang phân vân lắm đúng không? Thật ra, nếu em chưa dùng thử sản phẩm nào cả thì sẽ không thể biết được cái nào sẽ là cái phù hợp với em hơn. Và em cũng đừng lo, anh sẽ cập nhật thêm thông tin chi tiết về sản phẩm, ưu đãi mới và quà tặng cho em, để mỗi lần em ghé vào đây đều sẽ có được điều mà em thích!
       <br/> Thương em ! 💝
       </p>
 
