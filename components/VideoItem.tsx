@@ -17,7 +17,7 @@ export default function VideoItem({
   onPlay,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const loopCountRef = useRef(0);
+  // const loopCountRef = useRef(0);
 
   const [localPlaying, setLocalPlaying] = useState(false);
   const playing = isPlaying ?? localPlaying;
@@ -33,34 +33,34 @@ export default function VideoItem({
       video.pause();
       setTimeout(() => {
       video.currentTime = 0;
-      loopCountRef.current = 0;
+      // loopCountRef.current = 0;
     }, 600); // khớp với duration-500
-      loopCountRef.current = 0; // reset loop
+      // loopCountRef.current = 0; // reset loop
     }
   }, [playing]);
 
   // loop tối đa 5 lần
-  useEffect(() => {
-  const video = videoRef.current;
-  if (!video) return;
+// useEffect(() => {
+//   const video = videoRef.current;
+//   if (!video) return;
 
-  const handleTimeUpdate = () => {
-    if (video.currentTime >= video.duration - 0.2) {
-      if (loopCountRef.current < 4) {
-        loopCountRef.current += 1;
+//   const handleTimeUpdate = () => {
+//     if (video.currentTime >= video.duration - 0.2) {
+//       if (loopCountRef.current < 4) {
+//         loopCountRef.current += 1;
 
-        video.currentTime = 0;
-        video.play().catch(() => {});
-      }
-    }
-  };
+//         video.currentTime = 0;
+//         video.play().catch(() => {});
+//       }
+//     }
+//   };
 
-  video.addEventListener("timeupdate", handleTimeUpdate);
+//   video.addEventListener("timeupdate", handleTimeUpdate);
 
-  return () => {
-    video.removeEventListener("timeupdate", handleTimeUpdate);
-  };
-}, []);
+//   return () => {
+//     video.removeEventListener("timeupdate", handleTimeUpdate);
+//   };
+// }, []);
 
   const togglePlay = () => {
     if (onPlay) {
@@ -81,6 +81,7 @@ export default function VideoItem({
     <video
       ref={videoRef}
       src={src}
+      loop
       className="w-full h-full object-cover cursor-pointer"
       onClick={togglePlay}
       playsInline
