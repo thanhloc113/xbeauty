@@ -115,13 +115,13 @@ export default function UserProductItem({ product }: { product: Product }) {
 
   return (
     <>
- <div className="w-full max-w-[260px] rounded-xl border border-pink-400/60 backdrop-blur-md overflow-hidden flex flex-col">
+      <div className="w-full max-w-[260px] rounded-xl border border-pink-400/60 backdrop-blur-md overflow-hidden flex flex-col">
         {/* IMAGE */}
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover"
-          /> 
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover"
+        />
 
         {/* CONTENT */}
         <div className="p-2 md:p-4">
@@ -139,7 +139,7 @@ export default function UserProductItem({ product }: { product: Product }) {
           )}
 
           {/* DESC */}
-          <p className="text-[10px] md:text-xs text-purple-300 mt-1 line-clamp-2 min-h-[20px]">
+          <p className="text-[10px] md:text-xs text-pink-300 mt-1 line-clamp-2 min-h-[20px]">
             {product.short_description}
           </p>
 
@@ -165,7 +165,7 @@ export default function UserProductItem({ product }: { product: Product }) {
 
             {discount > 0 && (
               <span className="ml-1 text-[10px] text-white bg-red-500 px-1 py-0.5 rounded">
-                 {status === "active" ? `>-${discount}%` : `-${discount}%`}
+                {status === "active" ? `>-${discount}%` : `-${discount}%`}
               </span>
             )}
           </div>
