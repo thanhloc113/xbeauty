@@ -235,6 +235,7 @@ export default function EditProductReviews({
                 reviews={reviews}
                 caption={caption}
                 productName=""
+                affiliateLink=""
               />
             </div>
 
