@@ -57,7 +57,7 @@ export default function XinhDep() {
       setLoading(true)
 
       const res = await fetch("/api/product-categories")
-      console.log(res);
+
       const data = await res.json()
 
       setCategories(data || [])

@@ -129,3 +129,7 @@ body {
     opacity: 0;
   }
 }
+/* báo cho brower biết phần này sẽ aimation */
+.progress-bar {
+  will-change: transform;
+}

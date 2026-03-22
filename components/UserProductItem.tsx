@@ -115,19 +115,19 @@ export default function UserProductItem({ product }: { product: Product }) {
 
   return (
     <>
- <div className="w-full max-w-[260px] rounded-xl border border-pink-400/60 bg-white/5 backdrop-blur-md overflow-hidden flex flex-col">
+ <div className="w-full max-w-[260px] rounded-xl border border-pink-400/60 backdrop-blur-md overflow-hidden flex flex-col">
         {/* IMAGE */}
           <img
             src={product.image}
             alt={product.name}
             className="w-full h-full object-cover"
-          />
+          /> 
 
         {/* CONTENT */}
         <div className="p-2 md:p-4">
 
           {/* NAME */}
-          <h2 className="font-semibold text-xs md:text-sm leading-snug min-h-[40px] md:min-h-[60px] line-clamp-2 md:line-clamp-3">
+          <h2 className="font-semibold text-xs md:text-sm leading-snug line-clamp-2 md:line-clamp-3">
             {product.name}
           </h2>
 
@@ -139,7 +139,7 @@ export default function UserProductItem({ product }: { product: Product }) {
           )}
 
           {/* DESC */}
-          <p className="text-[10px] md:text-xs text-blue-300 mt-1 line-clamp-2 min-h-[20px]">
+          <p className="text-[10px] md:text-xs text-purple-300 mt-1 line-clamp-2 min-h-[20px]">
             {product.short_description}
           </p>
 
@@ -150,7 +150,7 @@ export default function UserProductItem({ product }: { product: Product }) {
 
           {/* RATING */}
           <div className="text-[10px] md:text-xs mt-1">
-            ⭐ {product.rating} ({formatNumber(product.review_count)}+)
+            ⭐ {product.rating} ({formatNumber(product.review_count)}+ reviews)
           </div>
 
           {/* PRICE */}
@@ -165,7 +165,7 @@ export default function UserProductItem({ product }: { product: Product }) {
 
             {discount > 0 && (
               <span className="ml-1 text-[10px] text-white bg-red-500 px-1 py-0.5 rounded">
-                -{discount}%
+                 {status === "active" ? `>-${discount}%` : `-${discount}%`}
               </span>
             )}
           </div>
@@ -174,13 +174,13 @@ export default function UserProductItem({ product }: { product: Product }) {
           <div className="mt-1 text-[10px] md:text-xs min-h-[16px]">
             {status === "active" && (
               <p className="text-red-500">
-                ⏳ {timeLeft}
+                ⏳Flashsale kết thúc sau: {timeLeft}
               </p>
             )}
 
             {status === "coming" && (
               <p className="text-orange-400">
-                ⏳ {timeLeft}
+                ⏳Flashsale sắp bắt đầu: {timeLeft}
               </p>
             )}
           </div>
@@ -194,11 +194,11 @@ export default function UserProductItem({ product }: { product: Product }) {
                 flex-1 h-8 text-[11px] md:h-10 md:text-sm
                 flex items-center justify-center
                 rounded-lg text-white
-                bg-[linear-gradient(135deg,#2563eb,#3b82f6)]
+                bg-[linear-gradient(135deg,#3b82f6,#8b5cf6)]
                 active:scale-95 transition
               "
             >
-              Review
+              Xem Reviews
             </button>
 
             <a
@@ -208,7 +208,7 @@ export default function UserProductItem({ product }: { product: Product }) {
                 relative flex-1 h-8 text-[11px] md:h-10 md:text-sm
                 flex items-center justify-center
                 rounded-lg text-white overflow-hidden
-                bg-[linear-gradient(135deg,#f50fb0,#ff7c11)]
+                bg-[linear-gradient(135deg,#f50fb0,#dd034c)]
                 active:scale-95 transition
               "
             >
@@ -219,7 +219,7 @@ export default function UserProductItem({ product }: { product: Product }) {
                   animate-[shine_4s_linear_infinite]
                 "
               />
-              <span className="relative z-10">Mua</span>
+              <span className="relative z-10">Mua Ngay</span>
             </a>
           </div>
         </div>
@@ -245,14 +245,22 @@ export default function UserProductItem({ product }: { product: Product }) {
             </button>
 
             <div className="w-full h-full">
-              {loading || reviews.length === 0 ? (
-                <p className="text-sm">Đang tải review...</p>
-              ) : (
-                <ProductReviewSlider
-                  reviews={reviews}
-                  caption={caption}
-                />
-              )}
+              <div className="w-full h-full">
+                {loading ? (
+                  <p className="text-sm">Đang tải review...</p>
+                ) : reviews.length === 0 ? (
+                  <p className="text-sm text-center text-gray-400">
+                    Reviews đang được cập nhật...
+                  </p>
+                ) : (
+                  <ProductReviewSlider
+                    reviews={reviews}
+                    caption={caption}
+                    productName={product.name}
+                    affiliateLink={product.affiliate_link}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -23,7 +23,7 @@ export default function EditProductReviews({
   const [showPreview, setShowPreview] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
-  console.log(reviews);
+
   // LOAD DATA
   useEffect(() => {
     const fetchData = async () => {
@@ -234,6 +234,7 @@ export default function EditProductReviews({
               <ProductReviewSlider
                 reviews={reviews}
                 caption={caption}
+                productName=""
               />
             </div>
 

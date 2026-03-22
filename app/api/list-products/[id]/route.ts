@@ -31,7 +31,7 @@ export async function PUT(
       AND expires_at > NOW()
       LIMIT 1
     `
-    console.log("deviceId",deviceId);
+ 
     if (session.length === 0) {
       return Response.json({ error: "Invalid session" }, { status: 403 })
     }
