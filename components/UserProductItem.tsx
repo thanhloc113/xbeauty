@@ -115,14 +115,13 @@ export default function UserProductItem({ product }: { product: Product }) {
 
   return (
     <>
-      <div className="border rounded-xl overflow-hidden hover:shadow-md transition bg-[#0c004d]">
-
+ <div className="w-full max-w-[260px] rounded-xl border border-pink-400/60 bg-white/5 backdrop-blur-md overflow-hidden flex flex-col">
         {/* IMAGE */}
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full aspect-square object-cover"
-        />
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
 
         {/* CONTENT */}
         <div className="p-2 md:p-4">
