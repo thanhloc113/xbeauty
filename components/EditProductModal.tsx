@@ -8,6 +8,17 @@ type Props = {
   onSave: (product: Product) => void
 }
 
+function formatDatetimeLocal(time: string | null) {
+  if (!time) return ""
+
+  const date = new Date(time)
+
+  const offset = date.getTimezoneOffset() * 60000
+  const localDate = new Date(date.getTime() - offset)
+
+  return localDate.toISOString().slice(0, 16)
+}
+
 export default function EditProductModal({ product, onClose, onSave }: Props) {
 
   const [localProductState,setlocalProductState] = useState<Product>(product)
@@ -16,7 +27,7 @@ export default function EditProductModal({ product, onClose, onSave }: Props) {
     setlocalProductState(product)
   },[product])
 
-  if(!setlocalProductState) return null
+if (!localProductState) return null
 
   function handleChange(field:keyof Product,value: Product[keyof Product]){
     setlocalProductState(prev => ({
@@ -142,17 +153,29 @@ export default function EditProductModal({ product, onClose, onSave }: Props) {
 
           </div>
 
-          <label className="flex gap-2 text-sm">
+          <div className="grid grid-cols-2 gap-3">
 
-            <input
-              type="checkbox"
-              checked={localProductState.flash_sale}
-              onChange={(e)=>handleChange("flash_sale",e.target.checked)}
-            />
+            <div>
+              <label className="text-sm">Flash Sale Start</label>
+              <input
+                type="datetime-local"
+                value={formatDatetimeLocal(localProductState.flash_sale_start || "")}
+                onChange={(e)=>handleChange("flash_sale_start",e.target.value)}
+                className="border w-full p-2 rounded"
+              />
+            </div>
 
-            Flash sale
+            <div>
+              <label className="text-sm">Flash Sale End</label>
+              <input
+                type="datetime-local"
+                value={formatDatetimeLocal(localProductState.flash_sale_end || "")}
+                onChange={(e)=>handleChange("flash_sale_end",e.target.value)}
+                className="border w-full p-2 rounded"
+              />
+            </div>
 
-          </label>
+          </div>
 
         </div>
 
@@ -169,7 +192,7 @@ export default function EditProductModal({ product, onClose, onSave }: Props) {
             onClick={handleSubmit}
             className="px-4 py-2 bg-green-500 text-white rounded"
           >
-            Save
+            Preview
           </button>
 
         </div>

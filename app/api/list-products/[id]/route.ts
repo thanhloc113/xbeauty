@@ -8,6 +8,7 @@ export async function PUT(
 
   try {
     const { id } = await context.params
+     
     const [cookieStore, headerList] = await Promise.all([
       cookies(),
       headers()
@@ -30,10 +31,11 @@ export async function PUT(
       AND expires_at > NOW()
       LIMIT 1
     `
-
+    console.log("deviceId",deviceId);
     if (session.length === 0) {
       return Response.json({ error: "Invalid session" }, { status: 403 })
     }
+
 
     // check admin
     const admin = await sql`
@@ -47,15 +49,14 @@ export async function PUT(
     }
 
     const body = await req.json()
-
+    if (!body) {
+      return Response.json({ error: "Invalid body" }, { status: 400 })
+    }
     const {
       name,
       slug,
       image,
       affiliate_link,
-      item_id,
-      shop_id,
-      category,
       skin_type,
       main_problem,
       highlight_tag,
@@ -68,8 +69,12 @@ export async function PUT(
       sold,
       original_price,
       best_price,
-      flash_sale,
+      flash_sale_start,
+      flash_sale_end
+    
     } = body
+    
+ new Date(flash_sale_start).toISOString()
 
    const update = await sql`
       UPDATE products
@@ -78,7 +83,6 @@ export async function PUT(
       slug = ${slug},
       image = ${image},
       affiliate_link = ${affiliate_link},
-      category = ${category},
       skin_type = ${skin_type},
       main_problem = ${main_problem},
       highlight_tag = ${highlight_tag},
@@ -90,8 +94,9 @@ export async function PUT(
       review_count = ${review_count},
       sold = ${sold},
       original_price = ${original_price},
-      best_price = ${best_price},
-      flash_sale = ${flash_sale}
+      best_price=${best_price},
+      flash_sale_start = ${ new Date(flash_sale_start).toISOString()},
+      flash_sale_end = ${new Date(flash_sale_end).toISOString()}
         WHERE id = ${id}
         RETURNING id
       `

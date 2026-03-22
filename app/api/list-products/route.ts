@@ -5,74 +5,53 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
 
   const category = searchParams.get("category")
-  const limit = Number(searchParams.get("limit") ?? 50)
+  const search = searchParams.get("search")
 
-  let result
+  const page = Number(searchParams.get("page") ?? 1)
+  const limit = Number(searchParams.get("limit") ?? 20)
 
-  if (category) {
-    result = await sql`
-      SELECT * FROM products
-      WHERE is_active = true
-      AND category = ${category}
-      ORDER BY id DESC
-      LIMIT ${limit}
-    `
-  } else {
-    result = await sql`
-      SELECT * FROM products
-      WHERE is_active = true
-      ORDER BY id DESC
-      LIMIT ${limit}
-    `
-  }
+  const offset = (page - 1) * limit
 
-  return Response.json(result)
-}
+  /* COUNT */
 
-export async function POST(req: Request) {
-
-  const body = await req.json()
-
-  const product = await sql`
-    INSERT INTO products (
-      name,
-      slug,
-      image,
-      category,
-      original_price,
-      best_price,
-      is_active
-    )
-    VALUES (
-      ${body.name},
-      ${body.slug},
-      ${body.image},
-      ${body.category},
-      ${body.original_price},
-      ${body.best_price},
-      true
-    )
-    RETURNING *
+  const countResult = await sql`
+    SELECT COUNT(*) as total
+    FROM products p
+    LEFT JOIN product_categories c
+    ON p.category_id = c.id
+    WHERE
+      p.is_active = true
+      AND (${category}::text IS NULL OR c.slug = ${category})
+      AND (${search}::text IS NULL OR p.name ILIKE '%' || ${search} || '%')
   `
 
-  return Response.json(product)
-}
+  const total = Number(countResult[0].total)
 
-export async function PUT(req: Request) {
+  /* PRODUCTS */
 
-  const body = await req.json()
-
-  const product = await sql`
-    UPDATE products
-    SET
-      name = ${body.name},
-      image = ${body.image},
-      category = ${body.category},
-      best_price = ${body.best_price},
-      is_active = ${body.is_active}
-    WHERE id = ${body.id}
-    RETURNING *
+  const products = await sql`
+    SELECT 
+      p.*,
+      c.name as category_name,
+      c.slug as category_slug
+    FROM products p
+    LEFT JOIN product_categories c
+    ON p.category_id = c.id
+    WHERE
+      p.is_active = true
+      AND (${category}::text IS NULL OR c.slug = ${category})
+      AND (${search}::text IS NULL OR p.name ILIKE '%' || ${search} || '%')
+    ORDER BY p.id ASC
+    LIMIT ${limit}
+    OFFSET ${offset}
   `
 
-  return Response.json(product)
+  return Response.json({
+    products,
+    total,
+    page,
+    limit,
+    totalPages: Math.ceil(total / limit)
+  })
+
 }

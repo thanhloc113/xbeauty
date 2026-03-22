@@ -16,6 +16,7 @@ export type Product = {
   review_count: number
   sold: number
   original_price: number
-  best_price: number
-  flash_sale: boolean
+  best_price:number
+  flash_sale_start: string
+  flash_sale_end: string
 }

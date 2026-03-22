@@ -3,6 +3,7 @@ export const runtime = "nodejs";
 import { Pool } from "pg";
 import { cookies, headers } from "next/headers";
 import crypto from "crypto";
+import { console } from "inspector";
 
 const db = new Pool({
   connectionString: process.env.DATABASE_URL
@@ -44,7 +45,6 @@ export async function POST(req: Request){
         WHERE id=$1 AND device_id=$2`,
         [user.id, deviceId]
       )
-
       if(oldSession.rows.length){
 
         // update session cũ

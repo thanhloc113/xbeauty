@@ -10,7 +10,6 @@ export default function Page() {
     <main>
 
       <Navbar />
-
       <Hero
         as="h1"
         title="Em bé cần anh giúp gì nè ?"
@@ -42,7 +41,7 @@ export default function Page() {
           ratio="vertical"
           type="video"
           link="/nhan-qua"
-          buttonText="Anh iiu"
+          buttonText="Anh iuu"
         />
     </Gallery>
 

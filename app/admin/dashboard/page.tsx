@@ -1,31 +1,26 @@
 import ProductList from "@/components/ProductList"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
-import { Pool } from "pg"
-
-const db = new Pool({
-  connectionString: process.env.DATABASE_URL
-})
+import { sql } from "@/lib/db"
 
 export default async function Page() {
-
   const cookieStore = await cookies()
   const token = cookieStore.get("admin_session")?.value
 
   // chưa login
-  if(!token){
+  if (!token) {
     redirect("/admin")
   }
 
-  const result = await db.query(
-    `SELECT * FROM admin_sessions
-     WHERE session_token=$1
-     AND expires_at > NOW()`,
-    [token]
-  )
+  const result = await sql`
+    SELECT *
+    FROM admin_sessions
+    WHERE session_token = ${token}
+      AND expires_at > NOW()
+  `
 
   // session không hợp lệ
-  if(!result.rows.length){
+  if (!result || result.length === 0) {
     redirect("/admin")
   }
 

@@ -1,61 +1,59 @@
-"use client";
+"use client"
 
-import Intro from "./Intro";
-import Item from "./Item";
-
-interface SlideItem {
-  title: string;
-  media: string;
-  link: string;
-  type?: "image" | "video";
-}
-
-interface SlideShowProps {
-  introTitle: string;
-  introText?: string;
-  items: SlideItem[];
-  variant?: 1 | 2;
-}
-
+import { useEffect, useState } from "react"
+import UserProductItem from "./UserProductItem"
+import Intro from "./Intro"
+import { Product } from "@/types/product"
 export default function SlideShow({
   introTitle,
-  introText,
-  items,
-  variant = 1,
-}: SlideShowProps) {
+  category,
+}: {
+  introTitle: string
+  category: string
+}) {
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const backgroundClass =
-    variant === 1
-? "bg-[linear-gradient(180deg,#34014d,#440144)]"
-: "bg-[linear-gradient(180deg,#2f086d,#060455)]";
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true)
+
+      const params = new URLSearchParams()
+
+      // ✅ giống admin
+      if (category) params.append("category", category)
+
+      params.append("limit", "20")
+      params.append("page", "1")
+
+      // 🔥 optional (có thể bỏ nếu không cần)
+      params.append("sort", "rating") // hoặc "new"
+
+      const res = await fetch(`/api/list-products?${params}`)
+            console.log(res);
+      const data = await res.json()
+
+
+      setProducts(data.products || [])
+      setLoading(false)
+    }
+
+    load()
+  }, [category])
 
   return (
-    <section className={`w-full py-12 rounded-2xl 
-                        rounded-2xl
-                        border-4 border-purple-400/20
-                        shadow-[0_0_40px_rgba(120,0,255,0.25)] ${backgroundClass}`}>
-      {/* Intro */}
-      <Intro title={introTitle} text={introText} />
+    <section className="w-full py-12 rounded-2xl border shadow">
+      <Intro title={introTitle} />
 
-      {/* Slide container */}
-      <div className="mt-8 overflow-x-auto md:overflow-visible">
-        <div
-          className=" 
-          flex gap-6 px-6 min-w-max
-          md:grid md:grid-cols-5 md:min-w-0
-          md:justify-center
-        "
-        >
-          {items.map((item, i) => (
-            <Item
-              key={i}
-              {...item}
-              ratio="square"
-              blank={1}
-            />
-          ))}
-        </div>
+      {loading && (
+        <p className="text-center mt-6">Đang tải sản phẩm...</p>
+      )}
+
+      <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-4 px-6">
+        {products.map((product) => (
+          <UserProductItem key={product.id} product={product} />
+        ))}
       </div>
     </section>
-  );
+  )
 }
