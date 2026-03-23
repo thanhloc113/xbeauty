@@ -31,8 +31,11 @@ export async function PUT(
       AND expires_at > NOW()
       LIMIT 1
     `
+
+    console.log("sessionToken",sessionToken);
  
     if (session.length === 0) {
+      console.log("Invalid session");
       return Response.json({ error: "Invalid session" }, { status: 403 })
     }
 
@@ -45,6 +48,7 @@ export async function PUT(
     `
 
     if (admin.length === 0) {
+      console.log("Not admin");
       return Response.json({ error: "Not admin" }, { status: 403 })
     }
 
@@ -74,7 +78,7 @@ export async function PUT(
     
     } = body
     
- new Date(flash_sale_start).toISOString()
+
 
    const update = await sql`
       UPDATE products
@@ -95,8 +99,8 @@ export async function PUT(
       sold = ${sold},
       original_price = ${original_price},
       best_price=${best_price},
-      flash_sale_start = ${ new Date(flash_sale_start).toISOString()},
-      flash_sale_end = ${new Date(flash_sale_end).toISOString()}
+      flash_sale_start = ${flash_sale_start},
+      flash_sale_end = ${flash_sale_end}
         WHERE id = ${id}
         RETURNING id
       `
