@@ -32,7 +32,6 @@ export async function PUT(
       LIMIT 1
     `
 
-    console.log("sessionToken",sessionToken);
  
     if (session.length === 0) {
       console.log("Invalid session");

@@ -30,21 +30,37 @@ export async function GET(req: Request) {
   /* PRODUCTS */
 
   const products = await sql`
-    SELECT 
-      p.*,
-      c.name as category_name,
-      c.slug as category_slug
-    FROM products p
-    LEFT JOIN product_categories c
-    ON p.category_id = c.id
-    WHERE
-      p.is_active = true
-      AND (${category}::text IS NULL OR c.slug = ${category})
-      AND (${search}::text IS NULL OR p.name ILIKE '%' || ${search} || '%')
-    ORDER BY p.id ASC
-    LIMIT ${limit}
-    OFFSET ${offset}
-  `
+  SELECT 
+    p.id,
+    p.name,
+    p.image,
+    p.original_price,
+    p.best_price,
+    p.sold,
+    p.rating,
+    p.review_count,
+    p.highlight_tag,
+    p.short_description,
+    p.affiliate_link,
+
+    -- 👇 FIX TIMEZONE CHỖ NÀY
+    (p.flash_sale_start AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_start,
+    (p.flash_sale_end AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_end,
+
+    c.name as category_name,
+    c.slug as category_slug
+
+  FROM products p
+  LEFT JOIN product_categories c
+  ON p.category_id = c.id
+  WHERE
+    p.is_active = true
+    AND (${category}::text IS NULL OR c.slug = ${category})
+    AND (${search}::text IS NULL OR p.name ILIKE '%' || ${search} || '%')
+  ORDER BY p.id ASC
+  LIMIT ${limit}
+  OFFSET ${offset}
+`
 
   return Response.json({
     products,
