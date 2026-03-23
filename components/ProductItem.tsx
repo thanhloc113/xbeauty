@@ -4,13 +4,20 @@ import { Product } from "@/types/product"
 import { useEffect, useState } from "react"
 import EditProductReviews from "./EditProductReviews"
 import { formatPriceDisplay, formatNumber } from "@/utils/formatPrice"
+
+function parseVNTime(dateStr: string) {
+  // convert "2026-03-24 10:00:00" -> "2026-03-24T10:00:00+07:00"
+  return new Date(dateStr.replace(" ", "T") + "+07:00")
+}
+
 function getFlashSaleStatus(start: string | null, end: string | null) {
   const now = Date.now()
 
   if (!start || !end) return "none"
 
-  const startTime = new Date(start + "+07:00").getTime()
-  const endTime = new Date(end + "+07:00").getTime()
+
+  const startTime = new Date(start).getTime()
+  const endTime = new Date(end).getTime()
 
   if (now < startTime) return "coming"
   if (now >= startTime && now <= endTime) return "active"

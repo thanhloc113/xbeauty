@@ -20,6 +20,9 @@ function formatDatetimeLocal(time: string | null) {
 }
 
 export default function EditProductModal({ product, onClose, onSave }: Props) {
+   console.log("id",product.id);
+  console.log("start",product.flash_sale_start);
+  console.log("endTime",product.flash_sale_end);
 
   const [localProductState,setlocalProductState] = useState<Product>(product)
 
