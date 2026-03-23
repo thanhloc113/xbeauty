@@ -51,9 +51,9 @@ export async function POST(req: Request) {
       // Insert session mới
       await sql`
         INSERT INTO admin_sessions
-        (id, admin_username, session_token, device_id, user_agent, ip_address, expires_at)
+        (admin_username, session_token, device_id, user_agent, ip_address, expires_at)
         VALUES
-        (${user.id}, ${username}, ${sessionToken}, ${deviceId}, ${userAgent}, ${ip}, ${expires})
+        (${username}, ${sessionToken}, ${deviceId}, ${userAgent}, ${ip}, ${expires})
       `;
     }
 
