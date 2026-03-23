@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     const cookieStore = await cookies();
     cookieStore.set("admin_session", sessionToken, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       path: "/",
       expires,
     });
