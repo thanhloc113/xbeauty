@@ -9,8 +9,8 @@ function getFlashSaleStatus(start: string | null, end: string | null) {
 
   if (!start || !end) return "none"
 
-  const startTime = new Date(start).getTime()
-  const endTime = new Date(end).getTime()
+  const startTime = new Date(start + "+07:00").getTime()
+  const endTime = new Date(end + "+07:00").getTime()
 
   if (now < startTime) return "coming"
   if (now >= startTime && now <= endTime) return "active"
