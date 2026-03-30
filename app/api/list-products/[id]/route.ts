@@ -60,9 +60,6 @@ export async function PUT(
       slug,
       image,
       affiliate_link,
-      skin_type,
-      main_problem,
-      highlight_tag,
       short_description,
       benefits,
       ingredients,
@@ -73,7 +70,8 @@ export async function PUT(
       original_price,
       best_price,
       flash_sale_start,
-      flash_sale_end
+      flash_sale_end,
+      product_link,
     
     } = body
     
@@ -86,9 +84,6 @@ export async function PUT(
       slug = ${slug},
       image = ${image},
       affiliate_link = ${affiliate_link},
-      skin_type = ${skin_type},
-      main_problem = ${main_problem},
-      highlight_tag = ${highlight_tag},
       short_description = ${short_description},
       benefits = ${benefits},
       ingredients = ${ingredients},
@@ -99,7 +94,8 @@ export async function PUT(
       original_price = ${original_price},
       best_price=${best_price},
       flash_sale_start = ${flash_sale_start},
-      flash_sale_end = ${flash_sale_end}
+      flash_sale_end = ${flash_sale_end},
+      product_link = ${product_link},
         WHERE id = ${id}
         RETURNING id
       `

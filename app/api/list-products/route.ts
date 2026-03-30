@@ -39,9 +39,9 @@ export async function GET(req: Request) {
     p.sold,
     p.rating,
     p.review_count,
-    p.highlight_tag,
     p.short_description,
     p.affiliate_link,
+    p.product_link,
 
     -- 👇 FIX TIMEZONE CHỖ NÀY
     (p.flash_sale_start AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_start,

@@ -20,9 +20,6 @@ function formatDatetimeLocal(time: string | null) {
 }
 
 export default function EditProductModal({ product, onClose, onSave }: Props) {
-   console.log("id",product.id);
-  console.log("start",product.flash_sale_start);
-  console.log("endTime",product.flash_sale_end);
 
   const [localProductState,setlocalProductState] = useState<Product>(product)
 
@@ -80,12 +77,11 @@ if (!localProductState) return null
               className="border w-full p-2 rounded"
             />
           </div>
-
           <div>
-            <label className="text-sm">Category</label>
+            <label className="text-sm">product link</label>
             <input
-              value={localProductState.category}
-              onChange={(e)=>handleChange("category",e.target.value)}
+              value={localProductState.product_link ?? ""}
+              onChange={(e)=>handleChange("product_link",e.target.value)}
               className="border w-full p-2 rounded"
             />
           </div>

@@ -5,10 +5,6 @@ import { useEffect, useState } from "react"
 import EditProductReviews from "./EditProductReviews"
 import { formatPriceDisplay, formatNumber } from "@/utils/formatPrice"
 
-function parseVNTime(dateStr: string) {
-  // convert "2026-03-24 10:00:00" -> "2026-03-24T10:00:00+07:00"
-  return new Date(dateStr.replace(" ", "T") + "+07:00")
-}
 
 function getFlashSaleStatus(start: string | null, end: string | null) {
   const now = Date.now()
@@ -161,10 +157,17 @@ export default function ProductItem({ product }: { product: Product }) {
             target="_blank"
             className="flex-1 text-center bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600"
           >
-            Shopee
+           link tiếp thị
           </a>
-
+                          <a
+            href={product.product_link}
+            target="_blank"
+            className="flex-1 text-center bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600"
+          >
+           link product
+          </a>
         </div>
+
 
       </div>
 
