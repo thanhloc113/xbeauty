@@ -19,7 +19,7 @@ const Product = {
   highlight_tag: "bán chạy",
 
   short_description:  "Dành cho da dầu mụn đặc biết hiệu quả sau 7 ngày",
-  benefits:   "Kiềm dầu tốt , Che Khuyết Điểm",
+  benefits:   "Kiềm dầu tốt , Che Khuyết Điểm, Ngừa mun, Làm dịu da ",
   ingredients:  "thảo môc",
   usage:  "2 lần sáng tối",
 
