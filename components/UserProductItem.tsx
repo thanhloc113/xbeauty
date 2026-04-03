@@ -52,6 +52,14 @@ export default function UserProductItem({ product }: { product: Product }) {
   const [caption, setCaption] = useState("")
   const [loading, setLoading] = useState(false)
 
+  const benefitList = Array.isArray(product.benefits)
+  ? product.benefits
+  : product.benefits?.split(" ")
+
+  const problemList = Array.isArray(product.main_problem)
+  ? product.main_problem
+  : product.main_problem?.split(",") || []
+
   /* FLASH SALE */
   useEffect(() => {
     function updateFlashSale() {
@@ -116,12 +124,30 @@ export default function UserProductItem({ product }: { product: Product }) {
   return (
     <>
       <div className="w-full max-w-[260px] rounded-xl border border-pink-400/60 backdrop-blur-md overflow-hidden flex flex-col">
+
         {/* IMAGE */}
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-full object-cover"
-        />
+        <div className="relative">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
+
+          {/* TAG TOP LEFT */}
+          {product.highlight_tag && (
+            <span
+              className="
+                absolute top-2 left-2
+                text-[10px] md:text-xs
+                bg-red-500 text-white
+                px-2 py-0.5 rounded-md
+                shadow-md
+              "
+            >
+              {product.highlight_tag}
+            </span>
+          )}
+        </div>
 
         {/* CONTENT */}
         <div className="p-2 md:p-4">
@@ -131,17 +157,85 @@ export default function UserProductItem({ product }: { product: Product }) {
             {product.name}
           </h2>
 
-          {/* TAG */}
-          {product.highlight_tag && (
-            <span className="text-[10px] md:text-xs bg-red-500 text-white px-2 py-0.5 rounded">
-              {product.highlight_tag}
-            </span>
+          {/* DESC */}
+          {/* <p className="text-[10px] md:text-xs text-pink-300 mt-1 line-clamp-2 min-h-[20px]">
+            {product.short_description}
+          </p> */}
+
+          {/* SKIN TYPE */}
+          {product.skin_type && (
+            <div className="mt-1 text-[10px] md:text-xs text-blue-300">
+              Phù hợp: <span className="font-medium">{product.skin_type}</span>
+            </div>
           )}
 
-          {/* DESC */}
-          <p className="text-[10px] md:text-xs text-pink-300 mt-1 line-clamp-2 min-h-[20px]">
-            {product.short_description}
-          </p>
+          {/* MAIN PROBLEM */}
+          
+          {problemList.length > 0 && (
+            <div className="mt-1">
+              <p className="text-[10px] md:text-xs font-semibold text-red-400 uppercase tracking-wide">
+                Giảm thiểu các tình trạng:
+              </p>
+
+              <ul className="text-[10px] md:text-xs text-red-300 space-y-0.5 mt-0.5">
+                {(Array.isArray(product.main_problem)
+                  ? product.main_problem
+                  : product.main_problem.split(",")
+                ).map((b: string, i: number) => (
+                  <li key={i}>• {b.trim()}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* BENEFITS */}
+          {product.benefits && (
+            <div className="mt-2">
+              {/* <p className="text-[10px] md:text-xs font-semibold text-green-400 uppercase tracking-wide mb-1">
+                Hiệu quả
+              </p> */}
+
+             <div className="relative w-full min-w-0">
+              <div
+                className="
+                  flex gap-1
+                  overflow-x-auto
+                  no-scrollbar
+                  scroll-smooth
+                  snap-x snap-mandatory
+                  overscroll-x-contain
+                  pb-1
+                "
+              >
+                {(Array.isArray(product.benefits)
+                  ? product.benefits
+                  : product.benefits.split(",")
+                ).map((b: string, i: number) => (
+                  <div
+                    key={i}
+                    className="
+                      flex-shrink-0 snap-start
+                      flex items-center gap-1
+                      px-2 py-1
+                      text-[10px] md:text-xs
+                      rounded-md
+                      border border-green-400/40
+                      bg-green-500/10
+                      text-green-300
+                      whitespace-nowrap
+                    "
+                  >
+                    <span className="text-green-400">✔</span>
+                    <span>{b.trim()}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* fade */}
+              <div className="absolute right-0 top-0 h-full w-6 bg-gradient-to-l from-[#0f172a] to-transparent pointer-events-none" />
+            </div>
+            </div>
+          )}
 
           {/* SOLD */}
           <div className="text-[10px] md:text-xs text-gray-300">
@@ -169,6 +263,20 @@ export default function UserProductItem({ product }: { product: Product }) {
               </span>
             )}
           </div>
+
+          {/* INGREDIENTS */}
+          {product.ingredients && (
+            <div className="text-[10px] text-gray-400 mt-1 line-clamp-1">
+              🌿 {product.ingredients}
+            </div>
+          )}
+
+          {/* USAGE */}
+          {product.usage && (
+            <div className="text-[10px] text-yellow-300 mt-1">
+              📌 {product.usage}
+            </div>
+          )}
 
           {/* FLASH SALE */}
           <div className="mt-1 text-[10px] md:text-xs min-h-[16px]">
