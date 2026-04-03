@@ -18,7 +18,7 @@ const product = {
     "Dễ nổi mụn ẩn",
     "Da bóng giữa ngày",
   ],
-  benefits: ["Kiềm dầu", "Giảm mụn", "Không khô da"],
+  benefits: "Kiềm dầu, Giảm mụn, Không khô da",
   expected_results: [
     "3 ngày: giảm nhờn",
     "7 ngày: giảm mụn",
@@ -87,14 +87,14 @@ export default function TestUI() {
           <div>
             <p className="font-medium text-sm">Giải pháp:</p>
             <div className="flex flex-wrap gap-2">
-              {product.benefits.map((b, i) => (
+              {/* {product.benefits.map((b, i) => (
                 <span
                   key={i}
                   className="text-xs px-2 py-1 bg-gray-100 text-black rounded-full"
                 >
                   {b}
                 </span>
-              ))}
+              ))} */}
             </div>
           </div>
 

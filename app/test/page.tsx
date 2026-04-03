@@ -15,7 +15,7 @@ const Product = {
   shop_id:  "",
 
   skin_type:  "da dầu",
-  main_problem:  ["Rửa mặt xong vẫn đổ dầu", "Dễ nổi mụn"],
+  main_problem:  "Rửa mặt xong vẫn đổ dầu ,Dễ nổi mụn",
   highlight_tag: "bán chạy",
 
   short_description:  "Dành cho da dầu mụn đặc biết hiệu quả sau 7 ngày",
@@ -54,7 +54,7 @@ export default function TestPage() {
       <TestCP />
 
             {/* UI1 */}
-      <TestUI />
+      {/* <TestUI /> */}
 
       <UserProductItem product={Product} />
     </div>
