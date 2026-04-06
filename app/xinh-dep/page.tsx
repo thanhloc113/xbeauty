@@ -7,7 +7,7 @@ import SlideShow from "@/components/SlideShow";
 import SectionNavigator from "@/components/SectionNavigator"
 import VideoSlide from "@/components/VideoSlider";
 import ScrollAlias from "@/components/ScrollAlias";
-import { Category } from "@/types/category";
+import { Category } from "@/types/product";
 import { useState , useEffect} from "react";
 
   const videos = [

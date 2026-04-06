@@ -3,34 +3,27 @@
 import { useEffect, useState } from "react"
 import ProductItem from "./ProductItem"
 import { Product } from "@/types/product"
-import { Category } from "@/types/category"
-import EditProductModal from "./EditProductModal"
+import { Category } from "@/types/product"
+import AddProductModal from "./AddProductModal"
 
 export default function ProductList() {
 
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(false)
+  //add prooduct 
+    const [addProduct, setAddProduct] = useState(false)
 
   /* FILTER */
-
   const [category, setCategory] = useState("")
   const [search, setSearch] = useState("")
   const [sort, setSort] = useState("new")
 
   /* PAGINATION */
-
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
   const limit = 20
-
-  /* EDIT */
-
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
-  const [draftProducts, setDraftProducts] = useState<Record<number, Product>>({})
-
-  /* LOAD CATEGORY */
 
   useEffect(() => {
     fetch("/api/product-categories")
@@ -38,89 +31,47 @@ export default function ProductList() {
       .then(data => setCategories(data))
   }, [])
 
-  /* LOAD PRODUCTS */
+const reloadProducts = async () => {
 
-  useEffect(() => {
-    fetchProducts()
-  }, [category, search, page, sort])
+  const params = new URLSearchParams()
 
-  const fetchProducts = async () => {
+  if (category) params.append("category", category)
+  if (search) params.append("search", search)
 
+  params.append("limit", String(limit))
+  params.append("page", String(page))
+  params.append("sort", sort)
+
+  const res = await fetch(`/api/list-products?${params}`)
+  const data = await res.json()
+
+  setProducts(data.products || [])
+  setTotalPages(data.totalPages || 1)
+}
+
+useEffect(() => {
+
+  async function load() {
     setLoading(true)
-
-    const params = new URLSearchParams()
-
-    if (category) params.append("category", category)
-    if (search) params.append("search", search)
-
-    params.append("limit", String(limit))
-    params.append("page", String(page))
-    params.append("sort", sort)
-
-    const res = await fetch(`/api/list-products?${params}`)
-    const data = await res.json()
-
-    setProducts(data.products || [])
-    setTotalPages(data.totalPages || 1)
-
+    await reloadProducts()
     setLoading(false)
   }
 
-  /* SAVE LOCAL DRAFT */
+  load()
 
-  function handleSave(product: Product) {
+}, [category, search, page, sort])
 
-    setDraftProducts(prev => ({
-      ...prev,
-      [product.id]: product
-    }))
 
-    setEditingProduct(null)
-  }
-
-  /* SAVE DATABASE */
-
-  async function handleSaveToDB(id: number) {
-
-    const product = draftProducts[id]
-    if (!product) return
-
-    try {
-
-      const res = await fetch(`/api/list-products/${id}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "device-id": localStorage.getItem("device-id") || ""
-        },
-        body: JSON.stringify(product)
-      })
-
-      if (!res.ok) throw new Error()
-
-      await fetchProducts()
-
-      setDraftProducts(prev => {
-        const copy = { ...prev }
-        delete copy[id]
-        return copy
-      })
-
-    } catch {
-      alert("Lưu thất bại")
-    }
-  }
 
   return (
 
     <div className="space-y-6">
-
+      <button className="border px-4 py-2 rounded" onClick={() => setAddProduct(true)}>
+        Thêm sản phẩm
+      </button>
+      
       {/* FILTER BAR */}
-
       <div className="flex gap-4 flex-wrap items-center">
-
-        {/* CATEGORY */}
 
         <select
           value={category}
@@ -128,10 +79,9 @@ export default function ProductList() {
             setPage(1)
             setCategory(e.target.value)
           }}
-          className="border border-gray-300 px-3 py-2 rounded bg-white text-sm focus:outline-none focus:ring-2 focus:ring-black hover:border-gray-400 transition"
+          className="border px-3 py-2 rounded text-sm"
         >
           <option value="">All category</option>
-
           {categories.map(cat => (
             <option key={cat.id} value={cat.slug}>
               {cat.name}
@@ -139,23 +89,19 @@ export default function ProductList() {
           ))}
         </select>
 
-        {/* SORT */}
-
         <select
           value={sort}
           onChange={(e) => {
             setPage(1)
             setSort(e.target.value)
           }}
-          className="border border-gray-300 px-3 py-2 rounded bg-white text-sm focus:outline-none focus:ring-2 focus:ring-black hover:border-gray-400 transition"
+          className="border px-3 py-2 rounded text-sm"
         >
           <option value="new">Newest</option>
           <option value="rating">Best rating</option>
           <option value="price">Best price</option>
           <option value="flashsale">Flash sale</option>
         </select>
-
-        {/* SEARCH */}
 
         <input
           type="text"
@@ -165,82 +111,37 @@ export default function ProductList() {
             setPage(1)
             setSearch(e.target.value)
           }}
-          className="border border-gray-300 px-3 py-2 rounded w-64 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+          className="border px-3 py-2 rounded w-64 text-sm"
         />
 
       </div>
 
-      {/* PRODUCT GRID */}
-
+      {/* GRID */}
       {loading ? (
-
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-
           {Array.from({ length: 8 }).map((_, i) => (
-
-            <div
-              key={i}
-              className="h-60 bg-gray-200 animate-pulse rounded"
-            />
-
+            <div key={i} className="h-60 bg-gray-200 animate-pulse rounded" />
           ))}
-
         </div>
-
       ) : (
-
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-
-          {products.map(product => {
-
-            const displayProduct = draftProducts[product.id] ?? product
-
-            return (
-
-              <div key={product.id}>
-
-                <ProductItem product={displayProduct} />
-
-                <div className="flex gap-2 mt-2">
-
-                  <button
-                    onClick={() => setEditingProduct(displayProduct)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition"
-                  >
-                    cap nhat san pham
-                  </button>
-
-                  {draftProducts[product.id] && (
-
-                    <button
-                      onClick={() => handleSaveToDB(product.id)}
-                      className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm transition"
-                    >
-                      Save
-                    </button>
-
-                  )}
-
-                </div>
-
-              </div>
-
-            )
-
-          })}
-
+          {products.map(product => (
+            <ProductItem
+              key={product.id}
+              product={product}
+              onUpdated={reloadProducts}
+            />
+          ))}
         </div>
-
       )}
 
       {/* PAGINATION */}
-
       <div className="flex gap-4 justify-center pt-6">
 
         <button
           disabled={page === 1}
           onClick={() => setPage(p => p - 1)}
-          className="px-4 py-2 border rounded hover:bg-gray-100 disabled:opacity-40"
+          className="px-4 py-2 border rounded disabled:opacity-40"
         >
           Prev
         </button>
@@ -252,26 +153,19 @@ export default function ProductList() {
         <button
           disabled={page >= totalPages}
           onClick={() => setPage(p => p + 1)}
-          className="px-4 py-2 border rounded hover:bg-gray-100 disabled:opacity-40"
+          className="px-4 py-2 border rounded disabled:opacity-40"
         >
           Next
         </button>
 
       </div>
-
-      {/* EDIT MODAL */}
-
-       {editingProduct && (
-
-        <EditProductModal
-          product={editingProduct}
-          onClose={() => setEditingProduct(null)}
-          onSave={handleSave}
+      {addProduct && (
+        <AddProductModal 
+          onClose={() => setAddProduct(false)}
+         
         />
-
       )}
 
     </div>
-
   )
 }

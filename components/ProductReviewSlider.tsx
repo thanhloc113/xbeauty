@@ -2,54 +2,69 @@
 
 import { useState, useRef, useEffect } from "react"
 
-type ReviewInput = {
-  id?: number
-  product_id: number
-  media_type: "image" | "video"
-  media_url: string
-  display_order: number
-}
+// Thay vì khai báo riêng
+// export type ProductReview = { ... }
+
+import { ProductReview as ProductReviewType } from "@/types/product"
+
+type ReviewInput = ProductReviewType
 
 export default function ProductReviewSlider({
   reviews,
   caption,
   productName,
   affiliateLink,
+
 }: {
   reviews: ReviewInput[]
   caption: string
   productName: string
-  affiliateLink: string
+  affiliateLink: string | null
+  onClose?: () => void
 }) {
   const [current, setCurrent] = useState(0)
   const [expand, setExpand] = useState(false)
-  const [showExpandBtn, setShowExpandBtn] = useState(false) // mới
+  const toggleLockRef = useRef(false)
   const [progress, setProgress] = useState(0)
   const [duration, setDuration] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isSeeking, setIsSeeking] = useState(false)
+
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const captionRef = useRef<HTMLDivElement | null>(null) // ref caption
-  const item = reviews[current]
+  const captionRef = useRef<HTMLDivElement | null>(null)
+  const progressRef = useRef<HTMLDivElement | null>(null)
   const isSeekingRef = useRef(false)
   const lastRenderRef = useRef(0)
-  const progressRef = useRef<HTMLDivElement | null>(null)
+// xử lí caption [
+  const MAX_LENGTH = 50
+const isLongCaption = caption.length > MAX_LENGTH
 
+const displayedCaption = expand
+  ? caption
+  : caption.slice(0, MAX_LENGTH) + (isLongCaption ? "..." : "")
+
+// xử lí caption ] 
+
+  const item = reviews[current]
+
+// proload video kế nếu có
+  useEffect(() => {
+  const nextIndex = (current + 1) % reviews.length
+  const nextItem = reviews[nextIndex]
+
+  if (nextItem?.media_type === "video") {
+    const v = document.createElement("video")
+    v.src = nextItem.media_url
+    v.preload = "auto"
+  }
+}, [current])
   useEffect(() => {
     isSeekingRef.current = isSeeking
   }, [isSeeking])
 
-  // Kiểm tra xem caption có dài hơn 2 dòng không
-  useEffect(() => {
-    if (captionRef.current) {
-      const el = captionRef.current
-      const lineHeight = parseFloat(getComputedStyle(el).lineHeight || "16")
-      const maxHeight = lineHeight * 2
-      setShowExpandBtn(el.scrollHeight > maxHeight)
-    }
-  }, [caption, current])
 
-  // thanh progress mượt hơn
+
+  // Update progress mượt
   useEffect(() => {
     const video = videoRef.current
     if (!video || !progressRef.current) return
@@ -118,16 +133,26 @@ export default function ProductReviewSlider({
     if (videoRef.current && isPlaying) videoRef.current.play()
   }
 
-  const handleTogglePlay = async () => {
-    const video = videoRef.current
-    if (!video) return
-    try {
-      if (video.paused) await video.play()
-      else video.pause()
-    } catch (err) {
-      console.log("Play bị block:", err)
+const handleTogglePlay = () => {
+  const video = videoRef.current
+  if (!video || toggleLockRef.current) return
+
+  toggleLockRef.current = true
+
+  if (video.paused) {
+    const playPromise = video.play()
+    if (playPromise !== undefined) {
+      playPromise.finally(() => {
+        toggleLockRef.current = false
+      })
+    } else {
+      toggleLockRef.current = false
     }
+  } else {
+    video.pause()
+    toggleLockRef.current = false
   }
+}
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value)
@@ -163,14 +188,12 @@ export default function ProductReviewSlider({
 
   return (
     <div className="flex flex-col w-full h-full rounded-xl overflow-hidden">
-
       {/* HEADER */}
       <div className="relative flex items-center justify-between px-3 py-2 text-pink">
         <div className="text-xs">{current + 1} / {reviews.length}</div>
         <div className="absolute left-1/2 -translate-x-1/2 text-sm font-semibold max-w-[60%] text-center line-clamp-1">
           {productName}
         </div>
-        <button className="text-sm">✕</button>
       </div>
 
       {/* MEDIA + CAPTION */}
@@ -183,11 +206,10 @@ export default function ProductReviewSlider({
               ref={videoRef}
               src={item.media_url}
               onLoadedMetadata={handleLoaded}
-              onClick={handleTogglePlay}
+              onPointerDown={handleTogglePlay}
               onEnded={handleEnded}
               playsInline
-              autoPlay
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain touch-none"
             />
             {!isPlaying && !isSeeking && (
               <div className="absolute inset-0 flex items-center justify-center text-white text-4xl bg-black/30 pointer-events-none">
@@ -212,14 +234,13 @@ export default function ProductReviewSlider({
                 : ""
             }`}
           >
-            <div
-              ref={captionRef}
-              className={`text-white text-sm leading-relaxed line-clamp-2`}
-            >
-              {caption}
-            </div>
+          <div
+            className="text-white text-sm leading-relaxed"
+          >
+            {displayedCaption}
+          </div>
             <div className="flex gap-3 mt-2">
-              {showExpandBtn && (
+              {isLongCaption  && (
                 <button
                   onClick={() => setExpand(!expand)}
                   className="text-xs text-pink-300"
@@ -227,6 +248,7 @@ export default function ProductReviewSlider({
                   {expand ? "Thu gọn" : "Xem thêm"}
                 </button>
               )}
+              {affiliateLink && (
                 <a
                   href={affiliateLink}
                   target="_blank"
@@ -242,7 +264,6 @@ export default function ProductReviewSlider({
                     inline-block
                   "
                 >
-                  {/* Shine effect */}
                   <span className="
                     absolute top-0 left-0 h-full w-full 
                     bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent)]
@@ -254,6 +275,7 @@ export default function ProductReviewSlider({
 
                   <span className="relative z-10">Mua ngay</span>
                 </a>
+              )}
             </div>
           </div>
         </div>
