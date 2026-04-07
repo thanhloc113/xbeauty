@@ -728,6 +728,10 @@ function handleSubmit() {
             productName={localProductState.name}
             affiliateLink={localProductState.affiliate_link}
             reviews={localProductState.reviews}
+            benefit={localProductState.benefits}
+            usage={localProductState.usage}
+            ingredient={localProductState.ingredients}
+
           />
         )}
       </div>

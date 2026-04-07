@@ -217,6 +217,9 @@ const benefitList = getFilterValues(product, "cong-dung")
                   productName={product.name}
                   affiliateLink={product.affiliate_link}
                   reviews={product.reviews}
+                  benefit={product.benefits}
+                  usage={product.usage}
+                  ingredient={product.ingredients}
 
                 />
               )}

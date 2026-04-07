@@ -275,7 +275,7 @@ const handleTogglePlay = () => {
             }`}
           >
           <div
-            className="text-white text-sm leading-relaxed"
+            className="font-semibold text-pink-400 text-sm leading-relaxed"
           >
           {displayedCaption}
 {expand && (
