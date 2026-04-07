@@ -142,10 +142,11 @@ console.log(product)
                       <p className="text-sm text-center text-gray-400">Reviews đang được cập nhật...</p>
                     ) : (
                       <ProductReviewSlider
-                        caption={product.short_description || ""}
+                        short_description={product.short_description || ""}
                         productName={product.name}
                         affiliateLink={product.affiliate_link}
                         reviews={product.reviews}
+        
       
                       />
                     )}
