@@ -129,11 +129,11 @@ const benefitList = getFilterValues(product, "cong-dung")
 
           {/* BENEFITS */}
           {/* BENEFITS Đặc Biệt */}
-          {product.benefits && (
+          {/* {product.benefits && (
           <div className="text-[10px] text-green-300 mt-1">
             ✨ Đặc biệt: {product.benefits}
           </div>
-        )}
+        )} */}
           {benefitList.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
               {benefitList.map((b, i) => (
@@ -149,10 +149,12 @@ const benefitList = getFilterValues(product, "cong-dung")
           )}
 
           {/* USAGE */}
-          {product.usage && (
+          {/* {product.usage && (
             <div className="text-[10px] text-yellow-300 mt-1">📌 {product.usage}</div>
+          )} */}
+          {product.cta && (
+            <div className="text-[10px] text-yellow-300 mt-1">👉 {product.cta}</div>
           )}
-
           {/* PRICE */}
           <div className="mt-1">
             <span className="text-red-500 font-bold text-sm md:text-base mr-1">
@@ -180,7 +182,7 @@ const benefitList = getFilterValues(product, "cong-dung")
               onClick={() => setOpenReview(true)}
               className="flex-1 h-8 text-[11px] md:h-10 md:text-sm flex items-center justify-center rounded-lg text-white bg-[linear-gradient(135deg,#3b82f6,#8b5cf6)] active:scale-95 transition"
             >
-              Xem Reviews
+              Xem Chi Tiết
             </button>
 
             <a
@@ -211,7 +213,7 @@ const benefitList = getFilterValues(product, "cong-dung")
                 <p className="text-sm text-center text-gray-400">Reviews đang được cập nhật...</p>
               ) : (
                 <ProductReviewSlider
-                  caption={product.short_description || ""}
+                  short_description={product.short_description || ""}
                   productName={product.name}
                   affiliateLink={product.affiliate_link}
                   reviews={product.reviews}

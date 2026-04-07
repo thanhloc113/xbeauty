@@ -168,7 +168,8 @@ function createEmptyProduct(): Product {
     reviews: [],
     tags: [],
     productfilter: [],
-    category_id :0
+    category_id :0,
+    cta:""
   }
 }
 

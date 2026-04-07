@@ -11,15 +11,21 @@ type ReviewInput = ProductReviewType
 
 export default function ProductReviewSlider({
   reviews,
-  caption,
+  short_description,
   productName,
   affiliateLink,
+  benefit,
+  ingredient,
+  usage,
 
 }: {
   reviews: ReviewInput[]
-  caption: string
+  short_description: string
   productName: string
   affiliateLink: string | null
+  benefit?: string
+  ingredient?: string
+  usage?: string
   onClose?: () => void
 }) {
   const [current, setCurrent] = useState(0)
@@ -31,19 +37,53 @@ export default function ProductReviewSlider({
   const [isSeeking, setIsSeeking] = useState(false)
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const captionRef = useRef<HTMLDivElement | null>(null)
   const progressRef = useRef<HTMLDivElement | null>(null)
   const isSeekingRef = useRef(false)
   const lastRenderRef = useRef(0)
-// xử lí caption [
-  const MAX_LENGTH = 50
-const isLongCaption = caption.length > MAX_LENGTH
+const [openSection, setOpenSection] = useState<{
+  benefit: boolean
+  ingredient: boolean
+  usage: boolean
+}>({
+  benefit: true,
+  ingredient: false,
+  usage: false,
+})
+const toggleSection = (key: "benefit" | "ingredient" | "usage") => {
+  setOpenSection(prev => ({
+    ...prev,
+    [key]: !prev[key],
+  }))
+}
+const parseList = (str?: string) =>
+  str
+    ? str.split(",").map(i => i.trim()).filter(Boolean)
+    : []
+
+const benefitList = parseList(benefit)
+const ingredientList = parseList(ingredient)
+const usageList = parseList(usage)
+// xử lí toogle xem thêm [
+const MAX_LENGTH = 50
+
+const hasExtraContent =
+  benefitList.length > 0 ||
+  ingredientList.length > 0 ||
+  usageList.length > 0
+
+const isLongCaption = short_description.length > MAX_LENGTH
+
+const shouldShowExpand = isLongCaption || hasExtraContent
 
 const displayedCaption = expand
-  ? caption
-  : caption.slice(0, MAX_LENGTH) + (isLongCaption ? "..." : "")
+  ? short_description
+  : short_description.slice(0, MAX_LENGTH) +
+    (isLongCaption ? "..." : "")
 
-// xử lí caption ] 
+
+
+
+
 
   const item = reviews[current]
 
@@ -237,10 +277,87 @@ const handleTogglePlay = () => {
           <div
             className="text-white text-sm leading-relaxed"
           >
-            {displayedCaption}
+          {displayedCaption}
+{expand && (
+  <div className="mt-3 space-y-2 text-white text-sm">
+
+    {/* BENEFIT */}
+    {benefitList.length > 0 && (
+      <div className="bg-white/5 rounded-lg">
+        <button
+          onClick={() => toggleSection("benefit")}
+          className="w-full flex items-center justify-between px-3 py-2"
+        >
+          <div className="flex items-center gap-2 text-pink-300 font-semibold">
+            <span>💧</span>
+            Công dụng
+          </div>
+          <span>{openSection.benefit ? "−" : "+"}</span>
+        </button>
+
+        {openSection.benefit && (
+          <ul className="list-disc pl-6 pb-2 pr-3 space-y-1 text-white/90">
+            {benefitList.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )}
+
+    {/* INGREDIENT */}
+    {ingredientList.length > 0 && (
+      <div className="bg-white/5 rounded-lg">
+        <button
+          onClick={() => toggleSection("ingredient")}
+          className="w-full flex items-center justify-between px-3 py-2"
+        >
+          <div className="flex items-center gap-2 text-pink-300 font-semibold">
+            <span>🌿</span>
+            Thành phần nổi bật
+          </div>
+          <span>{openSection.ingredient ? "−" : "+"}</span>
+        </button>
+
+        {openSection.ingredient && (
+          <ul className="list-disc pl-6 pb-2 pr-3 space-y-1 text-white/90">
+            {ingredientList.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )}
+
+    {/* USAGE */}
+    {usageList.length > 0 && (
+      <div className="bg-white/5 rounded-lg">
+        <button
+          onClick={() => toggleSection("usage")}
+          className="w-full flex items-center justify-between px-3 py-2"
+        >
+          <div className="flex items-center gap-2 text-pink-300 font-semibold">
+            <span>🔥</span>
+            Cách dùng
+          </div>
+          <span>{openSection.usage ? "−" : "+"}</span>
+        </button>
+
+        {openSection.usage && (
+          <ul className="list-disc pl-6 pb-2 pr-3 space-y-1 text-white/90">
+            {usageList.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )}
+
+  </div>
+)}
           </div>
             <div className="flex gap-3 mt-2">
-              {isLongCaption  && (
+              {shouldShowExpand   && (
                 <button
                   onClick={() => setExpand(!expand)}
                   className="text-xs text-pink-300"
@@ -280,7 +397,13 @@ const handleTogglePlay = () => {
           </div>
         </div>
       </div>
+              {expand && (
+  <div className="mt-3 space-y-2 text-white text-sm">
+    
 
+
+  </div>
+)}
       {/* PROGRESS */}
       {item.media_type === "video" && (
         <div className="px-2 py-2 bg-black/40">

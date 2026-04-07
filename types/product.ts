@@ -62,4 +62,5 @@ export type Product = {
   tags: Tag[]
   productfilter: ProductFilter
   category_id: number
+  cta:string
 }

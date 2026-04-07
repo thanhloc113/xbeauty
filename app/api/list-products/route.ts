@@ -45,6 +45,7 @@ export async function GET(req: Request) {
         p.short_description,
         p.affiliate_link,
         p.product_link,
+        p.cta,
 
         -- FIX TIMEZONE
         (p.flash_sale_start AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_start,
@@ -132,7 +133,7 @@ export async function GET(req: Request) {
       p.is_active = true
       AND (${category}::text IS NULL OR c.slug = ${category})
       AND (${search}::text IS NULL OR p.name ILIKE '%' || ${search} || '%')
-    ORDER BY c.display_order ASC
+    ORDER BY p.id ASC
     LIMIT ${limit}
     OFFSET ${offset};
     `

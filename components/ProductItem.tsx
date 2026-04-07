@@ -58,7 +58,7 @@ const [editingProduct, setEditingProduct] = useState<Product | null>(null)
 const [draft, setDraft] = useState<Product | null>(null)
 const [saving, setSaving] = useState(false)
 const displayProduct = draft ?? product
-
+console.log(displayProduct.short_description)
 // ✅ NEW
 function getFilterValues(product: Product, slug: string) {
   const group = product.productfilter?.find((g) => g.slug === slug)
@@ -167,11 +167,11 @@ async function handleSaveToDB() {
           </div>
 
           {/* INGREDIENTS */}
-          {displayProduct.ingredients && (
+          {/* {displayProduct.ingredients && (
             <div className="text-[10px] text-gray-400 mt-1 line-clamp-1">
               🌿 {displayProduct.ingredients}
             </div>
-          )}
+          )} */}
 
           {/* SKIN TYPE */}
           {skinTypeList.length > 0 && (
@@ -181,11 +181,11 @@ async function handleSaveToDB() {
           )}
 
           {/* BENEFITS */}
-                   {displayProduct.benefits && (
-          <div className="text-[10px] text-green-300 mt-1">
-            ✨ Đặc biệt: {displayProduct.benefits}
-          </div>
-        )}
+          {/* {displayProduct.benefits && (
+            <div className="text-[10px] text-green-300 mt-1">
+              ✨ Đặc biệt: {displayProduct.benefits}
+            </div>
+           )} */}
           {benefitList.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
               {benefitList.map((b, i) => (
@@ -201,11 +201,14 @@ async function handleSaveToDB() {
           )}
 
           {/* USAGE */}
-          {displayProduct.usage && (
+          {/* {displayProduct.usage && (
             <div className="text-[10px] text-yellow-300 mt-1">📌 {displayProduct.usage}</div>
+          )} */}
+
+          {/* CTA */}
+          {displayProduct.cta && (
+            <div className="text-[10px] text-yellow-300 mt-1">👉 {displayProduct.cta}</div>
           )}
-
-
         <div className="mt-2">
           <span className="text-red-600 font-bold mr-2">
             {formatPriceDisplay(displayProduct.best_price,status)?.toLocaleString()}
@@ -307,10 +310,13 @@ async function handleSaveToDB() {
           </p>
         ) : (
           <ProductReviewSlider
-            caption={displayProduct.short_description || ""}
+            short_description={displayProduct.short_description || ""}
             productName={displayProduct.name}
             affiliateLink={displayProduct.affiliate_link}
             reviews={displayProduct.reviews}
+            benefit={displayProduct.benefits}
+            usage={displayProduct.usage}
+            ingredient={displayProduct.ingredients}
           />
         )}
       </div>

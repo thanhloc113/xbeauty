@@ -25,62 +25,7 @@ function parseValues(str: string): string[] {
     .map(v => v.trim())
 }
 
-type FilterItem = {
-  groupSlug: string
-  valueSlug: string
-}
-// conver để hiện UI
-function mapProductFilterToItems(filters: ProductFilter): FilterItem[] {
-  if (!filters) return []
 
-  const result: FilterItem[] = []
-
-  filters.forEach(group => {
-    group.value.forEach(v => {
-      result.push({
-        groupSlug: group.slug,
-        valueSlug: v.slug
-      })
-    })
-  })
-
-  return result
-}
-// conver nguộc để luu db
-function mapArrayToFilter(items: FilterItem[]): ProductFilter {
-  const result: ProductFilter = []
-
-  const groupMap: Record<string, FilterItem[]> = {}
-
-  // group theo slug
-  items.forEach(item => {
-    if (!item.groupSlug || !item.valueSlug) return
-
-    if (!groupMap[item.groupSlug]) {
-      groupMap[item.groupSlug] = []
-    }
-
-    groupMap[item.groupSlug].push(item)
-  })
-
-  // build lại đúng structure
-  Object.entries(groupMap).forEach(([slug, values]) => {
-    const def = defaultFilter.find(f => f.slug === slug)
-    if (!def) return
-
-    result.push({
-      id: def.id,
-      slug: def.slug,
-      name: def.name,
-      value: values.map(v => {
-        const found = def.value.find(opt => opt.slug === v.valueSlug)
-        return found!
-      })
-    })
-  })
-
-  return result
-}
 const defaultFilter =[
   {
     "id": 1,
@@ -271,11 +216,9 @@ const [localProductState, setLocalProductState] = useState<Product>({
     setLocalProductState(product)
   }, [product])
 
-const [filterItems, setFilterItems] = useState<FilterItem[]>([])
 
-useEffect(() => {
-  setFilterItems(mapProductFilterToItems(product.productfilter))
-}, [product])
+
+
 
 
 function handleReviewChange(newReviews: ProductReview[]) {
@@ -285,12 +228,14 @@ function handleReviewChange(newReviews: ProductReview[]) {
   }))
 }
 const [showPreview, setShowPreview] = useState(false)
+
 useEffect(() => {
   handleReviewChange(product.reviews || [])
 }, [product])
 
-  if (!localProductState) return null
-  function handleChange<K extends keyof Product>(
+if (!localProductState) return null
+
+function handleChange<K extends keyof Product>(
     field: K,
     value: Product[K]
   ) {
@@ -300,12 +245,64 @@ useEffect(() => {
     }))
   }
 
+function addFilterGroup(slug: string) {
+  if (!slug) return
+
+  const exist = localProductState.productfilter.find(g => g.slug === slug)
+  if (exist) return
+
+  const def = defaultFilter.find(f => f.slug === slug)
+  if (!def) return
+
+  handleChange("productfilter", [
+    ...localProductState.productfilter,
+    {
+      id: def.id,
+      slug: def.slug,
+      name: def.name,
+      value: []
+    }
+  ])
+}
+
+function updateFilterValue(groupSlug: string, valueSlug: string) {
+  const def = defaultFilter.find(f => f.slug === groupSlug)
+  if (!def) return
+
+  const val = def.value.find(v => v.slug === valueSlug)
+  if (!val) return
+
+  const newFilter = localProductState.productfilter.map(group => {
+    if (group.slug !== groupSlug) return group
+
+    if (group.value.some(v => v.slug === valueSlug)) return group
+
+    return {
+      ...group,
+      value: [...group.value, val]
+    }
+  })
+
+  handleChange("productfilter", newFilter)
+}
+
+function removeFilterValue(groupSlug: string, valueSlug: string) {
+  const newFilter = localProductState.productfilter.map(group => {
+    if (group.slug !== groupSlug) return group
+
+    return {
+      ...group,
+      value: group.value.filter(v => v.slug !== valueSlug)
+    }
+  })
+
+  handleChange("productfilter", newFilter)
+}
+
 function handleSubmit() {
   const updatedProduct: Product = {
-    ...localProductState,
-    productfilter: mapArrayToFilter(filterItems),
+    ...localProductState
   }
-
   console.log(updatedProduct)
   onSave(updatedProduct)
 }
@@ -356,7 +353,7 @@ function handleSubmit() {
               className="border w-full p-2 rounded"
             />
           </div>
-
+          
           {/* DESCRIPTION */}
           <div>
             <label className="block font-semibold mb-1">Short Description</label>
@@ -379,7 +376,7 @@ function handleSubmit() {
           <div>
             <label className="block font-semibold mb-1">Ingredients</label>
             <textarea
-              value={localProductState.ingredients}
+              value={localProductState.ingredients || ""}
               onChange={(e) => handleChange("ingredients", e.target.value)}
               className="border w-full p-2 rounded"
             />
@@ -388,8 +385,16 @@ function handleSubmit() {
           <div>
             <label className="block font-semibold mb-1">Usage</label>
             <textarea
-              value={localProductState.usage}
+              value={localProductState.usage || ""}
               onChange={(e) => handleChange("usage", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
+          <div>
+            <label className="block font-semibold mb-1">Cta</label>
+            <textarea
+              value={localProductState.cta || ""}
+              onChange={(e) => handleChange("cta", e.target.value)}
               className="border w-full p-2 rounded"
             />
           </div>
@@ -459,87 +464,92 @@ function handleSubmit() {
 
 {/* FILTERS */}
 <div>
+
+
+
+  <div>
   <label className="block font-semibold mb-2">Filters</label>
 
-  <div className="space-y-2">
+  {/* ADD GROUP */}
+  <select
+    onChange={(e) => {
+      const slug = e.target.value
+      if (!slug) return
 
-    {filterItems.map((item, index) => {
-  const filterDef = defaultFilter.find(f => f.slug === item.groupSlug)
-  const options = filterDef?.value || []
+      addFilterGroup(slug)
+      e.target.value = ""
+    }}
+    className="border p-2 rounded mb-3 w-full"
+  >
+    <option value="">-- Thêm filter --</option>
 
-  return (
-    <div key={index} className="flex gap-2">
+    {defaultFilter
+      .filter(
+        f => !localProductState.productfilter.some(g => g.slug === f.slug)
+      )
+      .map(f => (
+        <option key={f.id} value={f.slug}>
+          {f.name}
+        </option>
+      ))}
+  </select>
 
-      {/* GROUP */}
-      <select
-        value={item.groupSlug}
-        onChange={(e) => {
-          const newItems = [...filterItems]
-          newItems[index] = {
-            groupSlug: e.target.value,
-            valueSlug: ""
-          }
-          setFilterItems(newItems)
-        }}
-        className="border p-2 rounded"
-      >
-        <option value="">-- Chọn loại --</option>
+  {/* GROUP LIST */}
+  {localProductState.productfilter.map(group => {
+    const def = defaultFilter.find(f => f.slug === group.slug)
+    if (!def) return null
 
-        {defaultFilter.map(f => (
-          <option key={f.id} value={f.slug}>
-            {f.name}
-          </option>
-        ))}
-      </select>
+    return (
+      <div key={group.slug} className="mb-3 border p-3 rounded">
 
-      {/* VALUE */}
-      <select
-        value={item.valueSlug}
-        onChange={(e) => {
-          const newItems = [...filterItems]
-          newItems[index].valueSlug = e.target.value
-          setFilterItems(newItems)
-        }}
-        className="border p-2 rounded w-full"
-      >
-        <option value="">-- Chọn giá trị --</option>
+        {/* HEADER */}
+        <div className="flex justify-between items-center mb-2">
+          <p className="font-semibold">{group.name}</p>
 
-        {options.map(v => (
-          <option key={v.id} value={v.slug}>
-            {v.value}
-          </option>
-        ))}
-      </select>
+          <button
+            onClick={() =>
+              handleChange(
+                "productfilter",
+                localProductState.productfilter.filter(g => g.slug !== group.slug)
+              )
+            }
+            className="text-red-500 text-sm"
+          >
+            X
+          </button>
+        </div>
 
-      {/* DELETE */}
-      <button
-        type="button"
-        onClick={() => {
-          setFilterItems(filterItems.filter((_, i) => i !== index))
-        }}
-        className="px-3 bg-red-500 text-white rounded"
-      >
-        X
-      </button>
-    </div>
-  )
-})}
+        {/* VALUE */}
+        <div className="flex flex-wrap gap-2">
+          {def.value.map(v => {
+            const selected = group.value.find(val => val.slug === v.slug)
+
+            return (
+              <button
+                key={v.id}
+                onClick={() =>
+                  selected
+                    ? removeFilterValue(group.slug, v.slug)
+                    : updateFilterValue(group.slug, v.slug)
+                }
+                className={`px-3 py-1 rounded border ${
+                  selected
+                    ? "bg-blue-500 text-white"
+                    : "bg-white"
+                }`}
+              >
+                {v.value}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    )
+  })}
+
 
   </div>
 
-  {/* ADD */}
-  <button
-    type="button"
-    onClick={() => {
-        setFilterItems([
-          ...filterItems,
-          { groupSlug: "", valueSlug: "" }
-        ])
-    }}
-    className="mt-3 px-4 py-2 bg-blue-500 text-white rounded"
-  >
-    + Add Filter
-  </button>
 </div>
 
 {/* REVIEWS */}
@@ -714,7 +724,7 @@ function handleSubmit() {
           </p>
         ) : (
           <ProductReviewSlider
-            caption={localProductState.short_description || ""}
+            short_description={localProductState.short_description || ""}
             productName={localProductState.name}
             affiliateLink={localProductState.affiliate_link}
             reviews={localProductState.reviews}
