@@ -17,6 +17,7 @@ export default function ProductReviewSlider({
   benefit,
   ingredient,
   usage,
+  onClose
 
 }: {
   reviews: ReviewInput[]
@@ -231,22 +232,36 @@ const handleTogglePlay = () => {
   .filter(Boolean)
   return (
     <div className="flex flex-col w-full h-full rounded-xl overflow-hidden">
-      {/* HEADER */}
-        <div className="grid grid-cols-3 items-center px-3 py-2 text-pink mb-2">
-          <div className="text-xs">
-            {current + 1} / {reviews.length}
-          </div>
 
-          <div className="absolute left-1/2 -translate-x-1/2 
-                          text-sm font-semibold 
-                          max-w-[70%] text-center 
-                          leading-snug">
+      {/* HEADER */}
+        <div className="flex items-center justify-between text-pink mb-2 h-8">
+        <div className="text-xs flex items-center h-full">
+          {current + 1} / {reviews.length}
+        </div>
+
+      {/* CENTER: PRODUCT NAME */}
+        <div className="flex-1 flex items-center justify-center min-w-0 px-2">
+          <div className="text-center font-semibold leading-tight w-full">
             {productNameLines.map((line, idx) => (
-              <div key={idx}>{line}</div>
+              <div
+                key={idx}
+                className="
+                  overflow-hidden
+                  text-ellipsis
+                  w-full
+                  text-[14px]
+                  leading-tight
+                "
+              >
+                {line}
+              </div>
             ))}
           </div>
+        </div>
 
-          <div></div>
+        {/* RIGHT: placeholder để cân layout */}
+        <div className="w-[10px]" />
+
         </div>
 
       {/* MEDIA + CAPTION */}
