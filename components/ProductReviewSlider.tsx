@@ -17,6 +17,7 @@ export default function ProductReviewSlider({
   benefit,
   ingredient,
   usage,
+  cta,
   onClose
 
 }: {
@@ -27,6 +28,7 @@ export default function ProductReviewSlider({
   benefit?: string
   ingredient?: string
   usage?: string
+  cta?:string
   onClose?: () => void
 }) {
   const [current, setCurrent] = useState(0)
@@ -234,7 +236,7 @@ const handleTogglePlay = () => {
     <div className="flex flex-col w-full h-full rounded-xl overflow-hidden">
 
       {/* HEADER */}
-<div className="flex flex-col px-3 text-pink">
+    <div className="flex flex-col px-3 pt-2 pb-1 text-pink">
 
   {/* TOP: LENGTH */}
   <div className="text-xs leading-none">
@@ -242,7 +244,7 @@ const handleTogglePlay = () => {
   </div>
 
   {/* BOTTOM: PRODUCT NAME */}
-  <div className="mt-3 text-center ">
+  <div className="mt-1 text-center ">
     <div className="font-semibold leading-tight">
       {productNameLines.map((line, idx) => (
         <div
@@ -263,7 +265,7 @@ const handleTogglePlay = () => {
 
 </div>
       {/* MEDIA + CAPTION */}
-      <div className="relative flex-1 flex items-center justify-center overflow-hidden">
+      <div className="relative flex-1 flex items-center justify-center overflow-hidden mt-2">
         {item.media_type === "image" ? (
           <img src={item.media_url} className="w-full h-full object-contain" />
         ) : (
@@ -391,6 +393,9 @@ const handleTogglePlay = () => {
                   {expand ? "Thu gọn" : "Xem thêm"}
                 </button>
               )}
+            {cta && (
+              <div className="text-[10px] text-yellow-300 mt-1">👉 {cta}</div>
+            )}
               {affiliateLink && (
                 <a
                   href={affiliateLink}

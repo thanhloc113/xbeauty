@@ -220,6 +220,7 @@ const benefitList = getFilterValues(product, "cong-dung")
                   benefit={product.benefits}
                   usage={product.usage}
                   ingredient={product.ingredients}
+                  cta={product.cta}
 
                 />
               )}
