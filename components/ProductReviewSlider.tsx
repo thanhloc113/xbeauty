@@ -225,16 +225,29 @@ const handleTogglePlay = () => {
   }
 
   if (!reviews || reviews.length === 0) return <div>No review</div>
-
+  const productNameLines = productName
+  .split("|")
+  .map(i => i.trim())
+  .filter(Boolean)
   return (
     <div className="flex flex-col w-full h-full rounded-xl overflow-hidden">
       {/* HEADER */}
-      <div className="relative flex items-center justify-between px-3 py-2 text-pink">
-        <div className="text-xs">{current + 1} / {reviews.length}</div>
-        <div className="absolute left-1/2 -translate-x-1/2 text-sm font-semibold max-w-[60%] text-center line-clamp-1">
-          {productName}
+        <div className="grid grid-cols-3 items-center px-3 py-2 text-pink mb-2">
+          <div className="text-xs">
+            {current + 1} / {reviews.length}
+          </div>
+
+          <div className="absolute left-1/2 -translate-x-1/2 
+                          text-sm font-semibold 
+                          max-w-[70%] text-center 
+                          leading-snug">
+            {productNameLines.map((line, idx) => (
+              <div key={idx}>{line}</div>
+            ))}
+          </div>
+
+          <div></div>
         </div>
-      </div>
 
       {/* MEDIA + CAPTION */}
       <div className="relative flex-1 flex items-center justify-center overflow-hidden">
