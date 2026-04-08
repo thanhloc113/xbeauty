@@ -6,10 +6,12 @@ import Intro from "./Intro"
 import { Product } from "@/types/product"
 
 export default function SlideShow({
-  introTitle,
+  title,
+  intro = "",
   category,
 }: {
-  introTitle: string
+  title:string
+  intro?: string
   category: string
 }) {
   const [products, setProducts] = useState<Product[]>([])
@@ -38,7 +40,7 @@ export default function SlideShow({
 
   return (
     <section className="w-full py-12 rounded-2xl border shadow">
-      <Intro title={introTitle} />
+      <Intro title={title} intro={intro}/>
 
       {loading && (
         <p className="text-center mt-6">Đang tải sản phẩm...</p>

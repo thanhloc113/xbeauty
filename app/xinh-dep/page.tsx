@@ -125,7 +125,8 @@ export default function XinhDep() {
         categories.map((cat) => (
           <Section key={cat.id} id={cat.slug}>
             <SlideShow
-              introTitle={cat.name}
+              title={cat.name}
+              intro={cat.intro}
               category={cat.slug}
             />
           </Section>

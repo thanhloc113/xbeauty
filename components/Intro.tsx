@@ -2,13 +2,13 @@
 
 interface IntroProps {
   title: string;
-  text?: string;
+  intro?: string;
   align?: "center" | "left";
 }
 
 export default function Intro({
   title,
-  text,
+  intro,
   align = "center",
 }: IntroProps) {
   return (
@@ -23,9 +23,9 @@ export default function Intro({
       </h2>
 
       {/* Text */}
-      {text && (
+      {intro && (
         <p className="text-sm md:text-base text-white/70 leading-relaxed">
-          {text}
+          {intro}
         </p>
       )}
     </div>

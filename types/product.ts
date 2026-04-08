@@ -2,6 +2,7 @@
 export type Category = {
   id: number
   name: string
+  intro:string
   slug: string
 }
 
