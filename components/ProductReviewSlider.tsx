@@ -265,7 +265,7 @@ const handleTogglePlay = () => {
 
 </div>
       {/* MEDIA + CAPTION */}
-      <div className="relative flex-1 flex items-center justify-center overflow-hidden mt-2">
+      <div className="relative flex-1 flex justify-center overflow-hidden mt-2">
         {item.media_type === "image" ? (
           <img src={item.media_url} className="w-full h-full object-contain" />
         ) : (
