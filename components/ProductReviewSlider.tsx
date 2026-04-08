@@ -234,17 +234,16 @@ const handleTogglePlay = () => {
     <div className="flex flex-col w-full h-full rounded-xl overflow-hidden">
 
       {/* HEADER */}
-{/* HEADER */}
-<div className="flex items-center justify-between px-3 py-2 text-pink min-h-[44px]">
+<div className="flex flex-col px-3 py-2 text-pink">
 
-  {/* LEFT */}
-  <div className="text-xs flex items-center h-full leading-none">
+  {/* TOP: LENGTH */}
+  <div className="text-xs leading-none">
     {current + 1} / {reviews.length}
   </div>
 
-  {/* CENTER */}
-  <div className="flex-1 flex items-center justify-center min-w-0 px-2">
-    <div className="text-center font-semibold leading-tight">
+  {/* BOTTOM: PRODUCT NAME */}
+  <div className="mt-1 text-center">
+    <div className="font-semibold leading-tight">
       {productNameLines.map((line, idx) => (
         <div
           key={idx}
@@ -254,7 +253,6 @@ const handleTogglePlay = () => {
             whitespace-nowrap
             overflow-hidden
             text-ellipsis
-            text-[clamp(12px,3.5vw,14px)]
           "
         >
           {line}
@@ -263,19 +261,7 @@ const handleTogglePlay = () => {
     </div>
   </div>
 
-  {/* RIGHT (nút close nếu có) */}
-  <div className="flex items-center justify-end min-w-[32px]">
-    {onClose && (
-      <button
-        onClick={onClose}
-        className="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white"
-      >
-        ✕
-      </button>
-    )}
-  </div>
 </div>
-
       {/* MEDIA + CAPTION */}
       <div className="relative flex-1 flex items-center justify-center overflow-hidden">
         {item.media_type === "image" ? (
