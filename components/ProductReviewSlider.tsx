@@ -254,6 +254,7 @@ const handleTogglePlay = () => {
             whitespace-nowrap
             overflow-hidden
             text-ellipsis
+            text-[clamp(12px,3.5vw,14px)]
           "
         >
           {line}
