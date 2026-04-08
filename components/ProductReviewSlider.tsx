@@ -242,7 +242,7 @@ const handleTogglePlay = () => {
   </div>
 
   {/* BOTTOM: PRODUCT NAME */}
-  <div className="mt-1 text-center py-2">
+  <div className="mt-3 text-center ">
     <div className="font-semibold leading-tight">
       {productNameLines.map((line, idx) => (
         <div
@@ -287,8 +287,8 @@ const handleTogglePlay = () => {
 
         {/* NAV */}
         <div className="absolute top-1/2 left-0 right-0 flex justify-between px-4 z-20">
-          <button onClick={prev} className="bg-white/5 px-2 py-2 rounded-full">◀</button>
-          <button onClick={next} className="bg-white/5 px-2 py-2 rounded-full">▶</button>
+          <button onClick={prev} className="bg-white/10 px-2 py-2 rounded-full">◀</button>
+          <button onClick={next} className="bg-white/10 px-2 py-2 rounded-full">▶</button>
         </div>
 
         {/* CAPTION + MUA NGAY */}

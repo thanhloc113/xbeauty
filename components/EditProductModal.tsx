@@ -637,8 +637,9 @@ function handleSubmit() {
 </div>
           {/* PRICE */}
           <div>
-            <label className="block font-semibold mb-1">Pricing</label>
             <div className="grid grid-cols-2 gap-3">
+              <div>
+              <label className="block font-semibold mb-1">original_price</label>
               <input
                 type="number"
                 value={localProductState.original_price}
@@ -646,6 +647,9 @@ function handleSubmit() {
                 placeholder="Original price"
                 className="border p-2 rounded"
               />
+              </div>
+                 <div>
+               <label className="block font-semibold mb-1">best_price</label>
               <input
                 type="number"
                 value={localProductState.best_price}
@@ -653,34 +657,44 @@ function handleSubmit() {
                 placeholder="Best price"
                 className="border p-2 rounded"
               />
+              </div>
             </div>
           </div>
 
           {/* STATS */}
           <div>
-            <label className="block font-semibold mb-1">Product Stats</label>
+            
             <div className="grid grid-cols-3 gap-3">
-              <input
-                type="number"
-                value={localProductState.rating}
-                onChange={(e) => handleChange("rating", Number(e.target.value))}
-                placeholder="Rating"
-                className="border p-2 rounded"
-              />
-              <input
-                type="number"
-                value={localProductState.review_count}
-                onChange={(e) => handleChange("review_count", Number(e.target.value))}
-                placeholder="Review count"
-                className="border p-2 rounded"
-              />
-              <input
-                type="number"
-                value={localProductState.sold}
-                onChange={(e) => handleChange("sold", Number(e.target.value))}
-                placeholder="Sold"
-                className="border p-2 rounded"
-              />
+              <div>
+                <label className="block font-semibold mb-1">rating</label>
+                <input
+                  type="number"
+                  value={localProductState.rating}
+                  onChange={(e) => handleChange("rating", Number(e.target.value))}
+                  placeholder="Rating"
+                  className="border p-2 rounded"
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">review_count</label>
+                <input
+                  type="number"
+                  value={localProductState.review_count}
+                  onChange={(e) => handleChange("review_count", Number(e.target.value))}
+                  placeholder="Review count"
+                  className="border p-2 rounded"
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">sold</label>
+                <input
+                  type="number"
+                  value={localProductState.sold}
+                  onChange={(e) => handleChange("sold", Number(e.target.value))}
+                  placeholder="Sold"
+                  className="border p-2 rounded"
+                />
+                </div>
             </div>
           </div>
 
