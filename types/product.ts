@@ -59,9 +59,11 @@ export type Product = {
   flash_sale_start: string
   flash_sale_end: string
   product_link: string
+  category_id: number
+  hook:string
+  cta:string
   reviews: ProductReview[]
   tags: Tag[]
   productfilter: ProductFilter
-  category_id: number
-  cta:string
+
 }

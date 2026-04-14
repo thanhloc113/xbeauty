@@ -27,117 +27,7 @@ function parseValues(str: string): string[] {
 
 
 const defaultFilter =[
-  {
-    "id": 1,
-    "slug": "loai-da",
-    "name": "Loại da",
-    "value": [
-      {
-        "id": 1,
-        "slug": "da-thuong",
-        "value": "Da thường"
-      },
-      {
-        "id": 2,
-        "slug": "da-dau",
-        "value": "Da dầu"
-      },
-      {
-        "id": 3,
-        "slug": "da-kho",
-        "value": "Da khô"
-      },
-      {
-        "id": 4,
-        "slug": "da-hon-hop",
-        "value": "Da hỗn hợp"
-      },
-      {
-        "id": 5,
-        "slug": "da-nhay-cam",
-        "value": "Da nhạy cảm"
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "slug": "cong-dung",
-    "name": "Công dụng",
-    "value": [
-      {
-        "id": 6,
-        "slug": "lam-sach",
-        "value": "Làm sạch"
-      },
-      {
-        "id": 7,
-        "slug": "duong-am",
-        "value": "Dưỡng ẩm"
-      },
-      {
-        "id": 8,
-        "slug": "lam-sang-da",
-        "value": "Làm sáng da"
-      },
-      {
-        "id": 9,
-        "slug": "tri-mun",
-        "value": "Trị mụn"
-      },
-      {
-        "id": 10,
-        "slug": "kiem-soat-dau",
-        "value": "Kiểm soát dầu"
-      },
-      {
-        "id": 11,
-        "slug": "chong-nang",
-        "value": "Chống nắng"
-      },
-      {
-        "id": 12,
-        "slug": "chong-lao-hoa",
-        "value": "Chống lão hóa"
-      },
-      {
-        "id": 13,
-        "slug": "lam-diu-da",
-        "value": "Làm dịu da"
-      },
-      {
-        "id": 14,
-        "slug": "tay-te-bao-chet",
-        "value": "Tẩy tế bào chết"
-      },
-      {
-        "id": 15,
-        "slug": "thu-nho-lo-chan-long",
-        "value": "Thu nhỏ lỗ chân lông"
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "slug": "thanh-phan",
-    "name": "Thành phần",
-    "value": [
-      {
-        "id": 16,
-        "slug": "tu-nhien",
-        "value": "Tự nhiên"
-      },
-      {
-        "id": 17,
-        "slug": "chiet-xuat-tu-nhien",
-        "value": "Chiết xuất tự nhiên"
-      },
-      {
-        "id": 18,
-        "slug": "hoat-chat-hieu-qua-cao",
-        "value": "Hoạt chất hiệu quả cao"
-      }
-    ]
-  }
+{"id":1,"slug":"loai-da","name":"Loại da","value":[{"id":1,"slug":"da-thuong","value":"Da thường"},{"id":2,"slug":"da-dau","value":"Da dầu"},{"id":3,"slug":"da-kho","value":"Da khô"},{"id":4,"slug":"da-hon-hop","value":"Da hỗn hợp"},{"id":5,"slug":"da-nhay-cam","value":"Da nhạy cảm"}]},{"id":2,"slug":"skin-care","name":"Skin Care","value":[{"id":19,"slug":"lam-sach-sau","value":"Làm sạch sâu"},{"id":20,"slug":"tay-trang","value":"Tẩy trang"},{"id":21,"slug":"loai-bo-ba-nhon","value":"Loại bỏ bã nhờn"},{"id":22,"slug":"lam-sach-diu-nhe","value":"Làm sạch dịu nhẹ"},{"id":23,"slug":"cap-am-tuc-thi","value":"Cấp ẩm tức thì"},{"id":24,"slug":"duong-am-sau","value":"Dưỡng ẩm sâu"},{"id":25,"slug":"phuc-hoi-da","value":"Phục hồi da (rất quan trọng)"},{"id":26,"slug":"tang-cuong-hang-rao-bao-ve-da","value":"Tăng cường hàng rào bảo vệ da"},{"id":27,"slug":"giam-bong-troc-kho-cang","value":"Giảm bong tróc khô căng"},{"id":28,"slug":"tri-mun-viem","value":"Trị mụn viêm"},{"id":29,"slug":"tri-mun-an","value":"Trị mụn ẩn"},{"id":30,"slug":"giam-mun-dau-den","value":"Giảm mụn đầu đen"},{"id":31,"slug":"ngua-mun","value":"Ngừa mụn"},{"id":32,"slug":"lam-diu-mun-sung-do","value":"Làm dịu mụn sưng đỏ"},{"id":33,"slug":"kiem-soat-dau","value":"Kiểm soát dầu"},{"id":34,"slug":"thu-nho-lo-chan-long","value":"Thu nhỏ lỗ chân lông"},{"id":35,"slug":"giam-bong-nhon","value":"Giảm bóng nhờn"},{"id":36,"slug":"lam-sang-da","value":"Làm sáng da"},{"id":37,"slug":"mo-tham-mun","value":"Mờ thâm mụn (cực kỳ quan trọng)"},{"id":38,"slug":"giam-nam-tan-nhang","value":"Giảm nám / tàn nhang"},{"id":39,"slug":"lam-deu-mau-da","value":"Làm đều màu da"},{"id":40,"slug":"chong-lao-hoa","value":"Chống lão hóa"},{"id":41,"slug":"giam-nep-nhan","value":"Giảm nếp nhăn"},{"id":42,"slug":"tang-dan-hoi-da","value":"Tăng đàn hồi da"},{"id":43,"slug":"san-chac-da","value":"Săn chắc da"},{"id":44,"slug":"tay-te-bao-chet-vat-ly","value":"Tẩy tế bào chết vật lý"},{"id":45,"slug":"tay-te-bao-chet-hoa-hoc","value":"Tẩy tế bào chết hóa học (AHA/BHA/PHA)"},{"id":46,"slug":"tai-tao-da","value":"Tái tạo da"},{"id":47,"slug":"lam-diu-da","value":"Làm dịu da"},{"id":48,"slug":"giam-kich-ung","value":"Giảm kích ứng"},{"id":49,"slug":"giam-do","value":"Giảm đỏ"},{"id":50,"slug":"phu-hop-da-nhay-cam","value":"Phù hợp da nhạy cảm"},{"id":51,"slug":"chong-nang","value":"Chống nắng"},{"id":52,"slug":"bao-ve-da-khoi-tia-uv","value":"Bảo vệ da khỏi tia UV"},{"id":53,"slug":"chong-anh-sang-xanh","value":"Chống ánh sáng xanh"},{"id":80,"slug":"nang-tone","value":"Nâng Tone"}]},{"id":3,"slug":"makeup","name":"Makeup","value":[{"id":54,"slug":"che-phu-cao","value":"Che phủ cao"},{"id":55,"slug":"che-phu-nhe-tu-nhien","value":"Che phủ nhẹ tự nhiên"},{"id":56,"slug":"nang-tone-da","value":"Nâng tone da"},{"id":57,"slug":"lam-deu-mau-da","value":"Làm đều màu da"},{"id":58,"slug":"hieu-ung-li-matte","value":"Hiệu ứng lì (matte)"},{"id":59,"slug":"hieu-ung-cang-bong-glow-dewy","value":"Hiệu ứng căng bóng (glow/dewy)"},{"id":60,"slug":"bat-sang-highlight","value":"Bắt sáng (highlight)"},{"id":61,"slug":"tao-khoi-contour","value":"Tạo khối (contour)"},{"id":62,"slug":"lau-troi","value":"Lâu trôi"},{"id":63,"slug":"chong-nuoc","value":"Chống nước"},{"id":64,"slug":"chong-mo-hoi","value":"Chống mồ hôi"},{"id":65,"slug":"khong-xuong-tone","value":"Không xuống tone"},{"id":66,"slug":"khong-lem-khong-troi","value":"Không lem / không trôi"},{"id":67,"slug":"mong-nhe","value":"Mỏng nhẹ"},{"id":68,"slug":"khong-bet-dinh","value":"Không bết dính"},{"id":69,"slug":"khong-cakey-khong-moc-nen","value":"Không cakey / không mốc nền"},{"id":70,"slug":"thoang-da","value":"Thoáng da"},{"id":71,"slug":"de-tan","value":"Dễ tán"},{"id":72,"slug":"phu-hop-da-dau","value":"Phù hợp da dầu"},{"id":73,"slug":"phu-hop-da-kho","value":"Phù hợp da khô"},{"id":74,"slug":"phu-hop-da-nhay-cam","value":"Phù hợp da nhạy cảm"},{"id":75,"slug":"khong-gay-bit-tac-non-comedogenic","value":"Không gây bít tắc (non-comedogenic)"},{"id":76,"slug":"co-duong-am","value":"Có dưỡng ẩm"},{"id":77,"slug":"co-chong-nang-spf","value":"Có chống nắng (SPF)"},{"id":78,"slug":"kiem-dau","value":"Kiềm dầu"},{"id":79,"slug":"lam-diu-da","value":"Làm dịu da"}]}
 ]
 
 const defaultTag = [{
@@ -217,7 +107,7 @@ const [localProductState, setLocalProductState] = useState<Product>({
   }, [product])
 
 
-
+console.log(localProductState);
 
 
 
@@ -303,7 +193,6 @@ function handleSubmit() {
   const updatedProduct: Product = {
     ...localProductState
   }
-  console.log(updatedProduct)
   onSave(updatedProduct)
 }
 
@@ -353,7 +242,14 @@ function handleSubmit() {
               className="border w-full p-2 rounded"
             />
           </div>
-          
+          <div>
+            <label className="block font-semibold mb-1">Hook</label>
+            <textarea
+              value={localProductState.hook || ""}
+              onChange={(e) => handleChange("hook", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
           {/* DESCRIPTION */}
           <div>
             <label className="block font-semibold mb-1">Short Description</label>
@@ -390,6 +286,7 @@ function handleSubmit() {
               className="border w-full p-2 rounded"
             />
           </div>
+
           <div>
             <label className="block font-semibold mb-1">Cta</label>
             <textarea

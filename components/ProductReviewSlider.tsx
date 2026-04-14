@@ -222,9 +222,9 @@ const handleTogglePlay = () => {
   }
 
   const handleEnded = () => {
-    if (!videoRef.current) return
-    videoRef.current.currentTime = 0
-    videoRef.current.play()
+    // if (!videoRef.current) return
+    // videoRef.current.currentTime = 0
+    // videoRef.current.play()
   }
 
   if (!reviews || reviews.length === 0) return <div>No review</div>
@@ -303,7 +303,7 @@ const handleTogglePlay = () => {
             }`}
           >
           <div
-            className="font-semibold text-pink-400 text-sm leading-relaxed"
+            className="font-semibold text-white text-sm leading-relaxed "
           >
           {displayedCaption}
 {expand && (

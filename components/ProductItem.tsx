@@ -58,7 +58,7 @@ const [editingProduct, setEditingProduct] = useState<Product | null>(null)
 const [draft, setDraft] = useState<Product | null>(null)
 const [saving, setSaving] = useState(false)
 const displayProduct = draft ?? product
-console.log(displayProduct.short_description)
+
 // ✅ NEW
 function getFilterValues(product: Product, slug: string) {
   const group = product.productfilter?.find((g) => g.slug === slug)
@@ -66,7 +66,9 @@ function getFilterValues(product: Product, slug: string) {
 }
 
 const skinTypeList = getFilterValues(displayProduct, "loai-da")
-const benefitList = getFilterValues(displayProduct, "cong-dung")
+const as = getFilterValues(displayProduct, "skin-care")
+const am = getFilterValues(displayProduct,"makeup")
+const benefitList = [...as,...am];
 // funtion update
 function handleSaveLocal(updated: Product) {
   setDraft(updated)
@@ -167,11 +169,11 @@ async function handleSaveToDB() {
           </div>
 
           {/* INGREDIENTS */}
-          {/* {displayProduct.ingredients && (
+          {displayProduct.ingredients && (
             <div className="text-[10px] text-gray-400 mt-1 line-clamp-1">
               🌿 {displayProduct.ingredients}
             </div>
-          )} */}
+          )}
 
           {/* SKIN TYPE */}
           {skinTypeList.length > 0 && (
@@ -205,10 +207,11 @@ async function handleSaveToDB() {
             <div className="text-[10px] text-yellow-300 mt-1">📌 {displayProduct.usage}</div>
           )} */}
 
-          {/* CTA */}
-          {displayProduct.cta && (
-            <div className="text-[10px] text-yellow-300 mt-1">👉 {displayProduct.cta}</div>
+          {/* Hook */}
+          {displayProduct.hook && (
+            <div className="text-[10px] text-yellow-300 mt-1">👉 {displayProduct.hook}</div>
           )}
+
         <div className="mt-2">
           <span className="text-red-600 font-bold mr-2">
             {formatPriceDisplay(displayProduct.best_price,status)?.toLocaleString()}
@@ -317,6 +320,7 @@ async function handleSaveToDB() {
             benefit={displayProduct.benefits}
             usage={displayProduct.usage}
             ingredient={displayProduct.ingredients}
+            cta={displayProduct.cta}
           />
         )}
       </div>

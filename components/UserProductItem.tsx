@@ -46,7 +46,9 @@ function getFilterValues(product: Product, slug: string) {
 }
 
 const skinTypeList = getFilterValues(product, "loai-da")
-const benefitList = getFilterValues(product, "cong-dung")
+const as = getFilterValues(product, "skin-care")
+const am = getFilterValues(product,"makeup")
+const benefitList = [...as,...am];
 
 
 
@@ -152,8 +154,8 @@ const benefitList = getFilterValues(product, "cong-dung")
           {/* {product.usage && (
             <div className="text-[10px] text-yellow-300 mt-1">📌 {product.usage}</div>
           )} */}
-          {product.cta && (
-            <div className="text-[10px] text-yellow-300 mt-1">👉 {product.cta}</div>
+          {product.hook && (
+            <div className="text-[10px] text-yellow-300 mt-1">👉 {product.hook}</div>
           )}
           {/* PRICE */}
           <div className="mt-1">
