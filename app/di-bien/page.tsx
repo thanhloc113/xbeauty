@@ -27,12 +27,13 @@ export default function Page() {
           buttonText="Anh ơii"
         />
         <Item
-          title="💖 Em muốn nhận quà 💖"
-          media="video/video7.mp4"
+          title="💓Em muốn đi biển 💓"
+          media="video/video5.mp4"
           ratio="vertical"
           type="video"
-          link="/nhan-qua"
-          buttonText="Anh iuu"
+          link="/di-bien"
+          buttonText="Anh ưii"
+          zoomVideo={1.1}
         />
     </Gallery>
 

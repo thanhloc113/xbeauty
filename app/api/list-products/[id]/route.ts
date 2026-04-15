@@ -61,6 +61,8 @@ const updateProductTags = async (productId: number, tags: Tag[]) => {
     SELECT tag_id FROM product_tag_map
     WHERE product_id = ${productId}
   `
+
+
   const existingIds: number[] = existing.map(e => Number(e.tag_id))
   const incomingIds: number[] = tags.map(t => Number(t.id))
 
@@ -68,14 +70,12 @@ const updateProductTags = async (productId: number, tags: Tag[]) => {
   const idsToDelete = existingIds.filter(id => !incomingIds.includes(id))
   const idsToInsert = incomingIds.filter(id => !existingIds.includes(id))
   for (const id of idsToDelete) {
-    const queryStr = `DELETE FROM product_tag_map WHERE product_id = ${productId} AND tag_id = ${id};`
-    console.log("Executing DELETE tag:", queryStr)
+
     await sql`DELETE FROM product_tag_map WHERE product_id = ${productId} AND tag_id = ${id}`
   }
 
   for (const id of idsToInsert) {
-    const queryStr = `INSERT INTO product_tag_map (product_id, tag_id) VALUES (${productId}, ${id});`
-    console.log("Executing INSERT tag:", queryStr)
+
     await sql`INSERT INTO product_tag_map (product_id, tag_id) VALUES (${productId}, ${id})`
   }
 }
@@ -102,18 +102,15 @@ const updateProductFilter = async (
     group.value.map(v => Number(v.id))
   )
 
-  console.log("Incoming filter IDs:", incomingIds)
+
 
   const idsToDelete = existingIds.filter(id => !incomingIds.includes(id))
   const idsToInsert = incomingIds.filter(id => !existingIds.includes(id))
 
-  console.log("Delete IDs:", idsToDelete)
-  console.log("Insert IDs:", idsToInsert)
 
   // DELETE
   for (const id of idsToDelete) {
-    const queryStr = `DELETE FROM product_filter_map WHERE product_id = ${productId} AND product_filter_value_id = ${id};`
-    console.log("Executing DELETE filter:", queryStr)
+
 
     await sql`
       DELETE FROM product_filter_map
@@ -124,8 +121,7 @@ const updateProductFilter = async (
 
   // INSERT
   for (const id of idsToInsert) {
-    const queryStr = `INSERT INTO product_filter_map (product_id, product_filter_value_id) VALUES (${productId}, ${id});`
-    console.log("Executing INSERT filter:", queryStr)
+
 
     await sql`
       INSERT INTO product_filter_map (product_id, product_filter_value_id)
@@ -163,7 +159,7 @@ const updateProductReviews = async (
   const idsToDelete = existingIds.filter(id => !incomingIds.includes(id))
 
   for (const id of idsToDelete) {
-    console.log(`DELETE review id=${id}`)
+
 
     await sql`
       DELETE FROM product_reviews
@@ -184,7 +180,7 @@ const updateProductReviews = async (
       old.media_url !== r.media_url ||
       old.display_order !== r.display_order
     ) {
-      console.log(`UPDATE review id=${id}`)
+
 
       await sql`
         UPDATE product_reviews
@@ -204,7 +200,7 @@ const updateProductReviews = async (
   })
 
   for (const r of newReviews) {
-    console.log("INSERT review:", r)
+
 
     await sql`
       INSERT INTO product_reviews (
@@ -258,10 +254,10 @@ export async function PUT(
     const body: Product = await req.json()
     if (!body) return Response.json({ error: "Invalid body" }, { status: 400 })
 
-    console.log("Updating product ID:", productId)
+
     await updateProduct(productId, body)
 
-    if (body.tags?.length) await updateProductTags(productId, body.tags)
+    if (body.tags) await updateProductTags(productId, body.tags)
     if (body.productfilter) await updateProductFilter(productId, body.productfilter)
     if (body.reviews)  await updateProductReviews(productId, body.reviews || [])
     return Response.json({ success: true })

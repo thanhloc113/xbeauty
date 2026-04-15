@@ -45,7 +45,7 @@ export default function Navbar() {
           <Link href="/" className={linkStyle}>Home</Link>
           <Link href="/xinh-dep" className={linkStyle}>Xinh Đẹp</Link>
           <Link href="/di-bien" className={linkStyle}>Đi Biển</Link>
-          <Link href="/nhan-qua" className={linkStyle}>Nhận Quà</Link>
+          {/* <Link href="/nhan-qua" className={linkStyle}>Nhận Quà</Link> */}
         </nav>
       </div>
 
@@ -55,7 +55,7 @@ export default function Navbar() {
           <Link href="/" className={linkStyle}>Home</Link>
           <Link href="/xinh-dep" className={linkStyle}>Xinh Đẹp</Link>
           <Link href="/di-bien" className={linkStyle}>Đi Biển</Link>
-          <Link href="/nhan-qua" className={linkStyle}>Nhận Quà</Link>
+          {/* <Link href="/nhan-qua" className={linkStyle}>Nhận Quà</Link> */}
         </nav>
       )}
     </section>

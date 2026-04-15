@@ -35,14 +35,14 @@ export default function Page() {
           buttonText="Anh ưii"
           zoomVideo={1.1}
         />
-        <Item
+        {/* <Item
           title="💖 Em muốn nhận quà 💖"
           media="video/video7.mp4"
           ratio="vertical"
           type="video"
           link="/nhan-qua"
           buttonText="Anh iuu"
-        />
+        /> */}
     </Gallery>
 
       </Section>
