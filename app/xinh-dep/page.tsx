@@ -92,8 +92,8 @@ export default function XinhDep() {
       <Navbar />
         <Hero
           as="h2"
-          title=" Nhan sắc của em dính ở trên mặt kìa "
-          subtitle={`Dạo gần đây bộ y tế đã tiến hành thu hồi 291 sản phẩm mỹ phẩm không an toàn, nên anh đã tìm và chọn lọc ra đây các dòng sản phẩm có review tốt, được nhiều nàng thơ tin dùng, cung cấp bởi các nhà bán hàng uy tín và không nằm trong danh sách cấm. Có rất nhiều thứ tốt đẹp dành cho em đấy!`}
+          title="Nhan sắc của em dính ở trên mặt kìa!"
+          subtitle={``}
           colors = {["#ff37e4", "#15adf3", "#40ff3a", "#ebff3a", "#ff3a85"]}
         />
     <SectionNavigator
@@ -131,10 +131,10 @@ export default function XinhDep() {
             />
           </Section>
         ))}
-      <p className="text_center max_w_2xl mx_auto leading_relaxed">
+      {/* <p className="text_center max_w_2xl mx_auto leading_relaxed">
        Lướt đến đây rồi mà vẫn chưa biết lấy cái nào thì là em đang phân vân lắm đúng không? Nếu em chưa từng dùng qua sản phẩm nào thì cứ hãy thử một cái đi. Vì chỉ khi đó, em mới biết được cái nào là cái phù hợp với em hơn.
        Anh vẫn đang cập nhật thêm thông tin chi tiết về các sản phẩm, cả ưu đãi mới và quà tặng cho em nữa. Để mỗi lần ghé vào đây, em đều có thể yên tâm sử dụng những thứ mà em thích! Thương em! 💝
-      </p>
+      </p> */}
 
     <Footer />
 

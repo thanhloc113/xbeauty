@@ -29,7 +29,7 @@ export default function Navbar() {
         height={40}
         // className="animate-[spin_6s_linear_infinite]"
       />
-        <span>Đại ca xinh chào em bé</span>
+        <span>Chào em bé</span>
       </Link>
 
         {/* mobile button */}
