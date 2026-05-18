@@ -12,7 +12,7 @@ export default function Page() {
       <Navbar />
       <Hero
         as="h1"
-        title="Em bé cần anh giúp gì nè ?"
+        title="Hôm nay em bé muốn gì nè ?"
       />
 
 
