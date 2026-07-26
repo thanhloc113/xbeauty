@@ -14,18 +14,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "XBeauty – Mang yêu thương đến cho em",
+  title: "Dear My Darling",
   description:
-    "Mỹ phẩm, đồ đi biển, bikini và thực phẩm healthy được nhiều người tin dùng.",
+    "Chăm sóc da thông minh hơn - hiệu quả hơn ",
     
-  metadataBase: new URL("https://xbeauty.vercel.app"),
+  metadataBase: new URL("https://dearmydarling.com"),
 
   openGraph: {
-    title: "XBeauty – Mang yêu thương đến cho em",
+    title: "DearMyDarling",
     description:
-      "Yêu em thì khó tưởng, mà thương em thì khó tả",
-    url: "https://xbeauty.vercel.app",
-    siteName: "XBeauty",
+      "Dear My Darling – Khám phá kiến thức chăm sóc da, mỹ phẩm và làm đẹp khoa học. Đánh giá sản phẩm, hướng dẫn skincare, bí quyết chăm sóc tóc, cơ thể và lựa chọn mỹ phẩm phù hợp cho mọi làn da.",
+    url: "https://dearmydarling.com",
+    siteName: "DearMyDarling",
     locale: "vi_VN",
     type: "website",
     images: [
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "XBeauty – Beauty & Beach Store",
+    title: "Dear My Darling",
     description:
-      "Yêu em thì khó tưởng, mà thương em thì khó tả",
+      "Chăm sóc da thông minh hơn - hiệu quả hơn",
     images: ["image/logo.png"],
   },
 

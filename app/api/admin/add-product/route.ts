@@ -11,11 +11,11 @@ export async function POST(req: NextRequest) {
     const result = await sql`
       INSERT INTO products
       (name, image, affiliate_link, product_link, short_description, benefits, ingredients, usage,
-       best_price, original_price, rating, review_count, sold, flash_sale_start, flash_sale_end, category_id)
+       best_price, original_price, rating, review_count, sold, flash_sale_start, flash_sale_end, category_id, hook, cta)
       VALUES
       (${body.name}, ${body.image}, ${body.affiliate_link}, ${body.product_link}, ${body.short_description}, 
        ${body.benefits}, ${body.ingredients}, ${body.usage}, ${body.best_price}, ${body.original_price},
-       ${body.rating}, ${body.review_count}, ${body.sold}, ${body.flash_sale_start || null}, ${body.flash_sale_end || null}, ${body.category_id || null})
+       ${body.rating}, ${body.review_count}, ${body.sold}, ${body.flash_sale_start || null}, ${body.flash_sale_end || null}, ${body.category_id || null}, ${body.hook}, ${body.cta})
       RETURNING id
     `
     const product_id = result[0].id

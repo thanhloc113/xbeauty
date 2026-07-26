@@ -9,6 +9,7 @@ import VideoSlide from "@/components/VideoSlider";
 import ScrollAlias from "@/components/ScrollAlias";
 import { Category } from "@/types/product";
 import { useState , useEffect} from "react";
+import SubMenu from "@/components/Submenu";
 
   const videos = [
       {
@@ -92,7 +93,7 @@ export default function XinhDep() {
       <Navbar />
         <Hero
           as="h2"
-          title="Nhan sắc của em dính ở trên mặt kìa!"
+          title="Em bé cần cải thiện vấn đề gì ?"
           subtitle={``}
           colors = {["#ff37e4", "#15adf3", "#40ff3a", "#ebff3a", "#ff3a85"]}
         />
@@ -118,7 +119,8 @@ export default function XinhDep() {
     />  
 
 
-      <VideoSlide videos={videos} />
+      {/* <VideoSlide videos={videos} /> */}
+      <SubMenu/>
 
       {/* CATEGORY SECTIONS */}
       {!loading &&
