@@ -7,6 +7,7 @@ import { formatPriceDisplay, formatNumber } from "@/utils/formatPrice"
 
 function getFlashSaleStatus(start: string | null, end: string | null) {
   const now = Date.now()
+
   if (!start || !end) return "none"
 
   const startTime = new Date(start).getTime()
@@ -35,24 +36,31 @@ function countdown(time: string) {
 }
 
 export default function UserProductItem({ product }: { product: Product }) {
-  const [status, setStatus] = useState<"none" | "coming" | "active" | "ended">("none")
+  const [status, setStatus] = useState<
+    "none" | "coming" | "active" | "ended"
+  >("none")
   const [timeLeft, setTimeLeft] = useState("")
   const [openReview, setOpenReview] = useState(false)
 
-// ✅ NEW
-function getFilterValues(product: Product, slug: string) {
-  const group = product.productfilter?.find((g) => g.slug === slug)
-  return group?.value.map((v) => v.value) || []
-}
+  function getFilterValues(product: Product, slug: string) {
+    const group = product.productfilter?.find((g) => g.slug === slug)
+    return group?.value.map((v) => v.value) || []
+  }
 
-const skinTypeList = getFilterValues(product, "loai-da")
-const as = getFilterValues(product, "skin-care")
-const am = getFilterValues(product,"makeup")
-const benefitList = [...as,...am];
+  const skinTypeList = getFilterValues(product, "loai-da")
+  const skinCareList = getFilterValues(product, "skin-care")
+  const makeupList = getFilterValues(product, "makeup")
+  const benefitList = [...skinCareList, ...makeupList]
 
+  // Ưu tiên thông tin giải quyết vấn đề; chỉ lấy tối đa 2 ý để card scan nhanh.
+  const solutionList =
+    benefitList.length > 0
+      ? benefitList.slice(0, 2)
+      : skinTypeList.length > 0
+        ? skinTypeList.slice(0, 2)
+        : []
 
-
-  /* FLASH SALE */
+  // FLASH SALE
   useEffect(() => {
     function updateFlashSale() {
       const newStatus = getFlashSaleStatus(
@@ -76,133 +84,156 @@ const benefitList = [...as,...am];
     }
 
     updateFlashSale()
+
     const timer = setInterval(updateFlashSale, 1000)
+
     return () => clearInterval(timer)
   }, [product.flash_sale_start, product.flash_sale_end])
 
   const discount =
     product.original_price && product.best_price
-      ? Math.round((1 - product.best_price / product.original_price) * 100)
+      ? Math.round(
+          (1 - product.best_price / product.original_price) * 100
+        )
       : 0
 
   return (
     <>
-      <div className="w-full max-w-[260px] rounded-xl border border-pink-400/60 backdrop-blur-md overflow-hidden flex flex-col">
+      {/* QUICK SCAN
+          Card này chỉ trả lời nhanh:
+          - Có giải quyết vấn đề của tôi không?
+          - Giá hiện tại bao nhiêu?
+          - Có gì cần lưu ý?
+          - Nơi bán có tín hiệu đáng tin không?
+      */}
+      <div className="w-full max-w-[250px] rounded-xl border border-pink-400/50 bg-[#24002f]/95 backdrop-blur-md overflow-hidden flex flex-col transition hover:border-pink-300/80 hover:shadow-lg">
+
         {/* IMAGE */}
-        <div className="relative">
+        <div className="relative aspect-square bg-white overflow-hidden">
           <img
             src={product.image}
             alt={product.name}
             className="w-full h-full object-cover"
           />
-          {/* TAG TOP LEFT */}
+
           {product.tags?.length > 0 && (
-            <span className="absolute top-2 left-2 text-[10px] md:text-xs bg-red-600 text-yellow-200 px-2 py-0.5 rounded-md shadow-md">
-              {product.tags.map((t) => t.name).join(" - ")}
+            <span className="absolute top-1.5 left-1.5 max-w-[78%] truncate text-[9px] font-semibold bg-red-600 text-white px-1.5 py-0.5 rounded-md shadow-md">
+              {product.tags[0].name}
             </span>
           )}
         </div>
 
-        {/* CONTENT */}
-        <div className="p-2 md:p-4">
-          {/* NAME */}
-          <h2 className="font-semibold text-xs md:text-sm leading-snug line-clamp-2 md:line-clamp-3">
+        <div className="p-2 md:p-2.5 flex flex-col">
+
+          {/* NAME + USER RATING */}
+          <h2 className="font-semibold text-[11px] md:text-xs leading-snug line-clamp-2 text-fuchsia-200">
             {product.name}
           </h2>
 
-          <div className="flex items-center justify-between text-[10px] md:text-xs mt-1">
-            <div>⭐ {product.rating} ({formatNumber(product.review_count)}+ reviews)</div>
-            <div className="text-gray-300">Đã bán {formatNumber(product.sold)}+</div>
+          <div className="mt-1 flex items-center gap-1 text-[9px] md:text-[10px] text-gray-300 whitespace-nowrap overflow-hidden">
+            <span className="text-yellow-300 font-medium">
+              ★ {product.rating}
+            </span>
+            <span className="text-gray-400">
+              ({formatNumber(product.review_count)}+)
+            </span>
+            <span className="text-gray-500">·</span>
+            <span className="truncate">
+              {formatNumber(product.sold)}+ đã bán
+            </span>
           </div>
 
-          {/* INGREDIENTS */}
-          {product.ingredients && (
-            <div className="text-[10px] text-gray-400 mt-1 line-clamp-1">
-              🌿 {product.ingredients}
+          {/* 01. SOLUTION
+              Không dùng nhiều tag; chỉ cho thấy 1–2 vấn đề chính.
+          */}
+          {solutionList.length > 0 && (
+            <div className="mt-2 rounded-lg bg-cyan-400/5 border border-cyan-400/20 px-2 py-1.5">
+              <div className="text-[9px] md:text-[10px] text-cyan-300 leading-tight">
+                🎯 {solutionList.join(" · ")}
+              </div>
             </div>
           )}
 
-          {/* SKIN TYPE */}
-          {skinTypeList.length > 0 && (
-            <div className="mt-1 text-[10px] md:text-xs text-blue-300">
-              Phù hợp: <span className="font-medium">{skinTypeList.join(", ")}</span>
-            </div>
-          )}
-
-          {/* BENEFITS */}
-          {/* BENEFITS Đặc Biệt */}
-          {/* {product.benefits && (
-          <div className="text-[10px] text-green-300 mt-1">
-            ✨ Đặc biệt: {product.benefits}
-          </div>
-        )} */}
-          {benefitList.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-1">
-              {benefitList.map((b, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-1 px-2 py-1 text-[10px] md:text-xs rounded-md border border-green-400/40 bg-green-500/10 text-green-300 whitespace-nowrap flex-none"
-                >
-                  <span className="text-green-400">✔</span>
-                  <span>{b}</span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* USAGE */}
-          {/* {product.usage && (
-            <div className="text-[10px] text-yellow-300 mt-1">📌 {product.usage}</div>
-          )} */}
-          {product.hook && (
-            <div className="text-[10px] text-yellow-300 mt-1">👉 {product.hook}</div>
-          )}
-          {/* PRICE */}
-          <div className="mt-1">
-            <span className="text-red-500 font-bold text-sm md:text-base mr-1">
-              {formatPriceDisplay(product.best_price, status)?.toLocaleString()}
+          {/* 02. PRICE
+              Chưa có dữ liệu so sánh thị trường/value-score trong Product,
+              nên chỉ hiển thị giá thật và mức giảm, không tự tạo điểm "đáng tiền".
+          */}
+          <div className="mt-1.5 flex items-center gap-1.5 min-w-0">
+            <span className="text-sm md:text-base font-bold text-white whitespace-nowrap">
+              {formatPriceDisplay(
+                product.best_price,
+                status
+              )?.toLocaleString()}
             </span>
-            <span className="text-gray-400 line-through text-[10px] md:text-xs">
-              {formatNumber(product.original_price)?.toLocaleString()}
-            </span>
+
+            {product.original_price && (
+              <span className="text-[9px] md:text-[10px] text-gray-500 line-through whitespace-nowrap">
+                {formatNumber(product.original_price)?.toLocaleString()}
+              </span>
+            )}
+
             {discount > 0 && (
-              <span className="ml-1 text-[10px] text-white bg-red-500 px-1 py-0.5 rounded">
-                {status === "active" ? `>-${discount}%` : `-${discount}%`}
+              <span className="text-[8px] md:text-[9px] text-white bg-red-500 px-1 py-0.5 rounded whitespace-nowrap">
+                -{discount}%
               </span>
             )}
           </div>
 
-          {/* FLASH SALE */}
-          <div className="mt-1 text-[10px] md:text-xs min-h-[16px]">
-            {status === "active" && <p className="text-red-500">⏳Flashsale kết thúc sau: {timeLeft}</p>}
-            {status === "coming" && <p className="text-orange-400">⏳Flashsale sắp bắt đầu: {timeLeft}</p>}
+          {/* FLASH SALE - chỉ giữ tín hiệu ngắn */}
+          {(status === "active" || status === "coming") && (
+            <div className="mt-0.5 text-[9px] md:text-[10px] leading-tight">
+              {status === "active" && (
+                <span className="text-red-300">🔥 {timeLeft}</span>
+              )}
+              {status === "coming" && (
+                <span className="text-orange-300">⏳ {timeLeft}</span>
+              )}
+            </div>
+          )}
+
+          {/* 03. CAUTION
+              Không có dữ liệu thì không render để card không bị kéo dài.
+          */}
+          {(product.hook || product.usage) && (
+            <div className="mt-1.5 text-[9px] md:text-[10px] text-orange-200 leading-tight line-clamp-2">
+              ⚠️ {product.hook || product.usage}
+            </div>
+          )}
+
+          {/* 04. TRUST
+              Chỉ dùng các tín hiệu đang có trong Product.
+              Không tự nhận Official Store khi chưa có dữ liệu xác minh.
+          */}
+          <div className="mt-1.5 text-[9px] md:text-[10px] text-emerald-300 leading-tight truncate">
+            🛡️ ★ {product.rating} · {formatNumber(product.review_count)}+ đánh giá
           </div>
 
-          {/* BUTTONS */}
-          <div className="flex gap-1 mt-2">
+          {/* ACTIONS */}
+          <div className="flex gap-1.5 mt-2">
             <button
               onClick={() => setOpenReview(true)}
-              className="flex-1 h-8 text-[11px] md:h-10 md:text-sm flex items-center justify-center rounded-lg text-white bg-[linear-gradient(135deg,#3b82f6,#8b5cf6)] active:scale-95 transition"
+              className="flex-1 h-8 md:h-9 text-[10px] md:text-[11px] flex items-center justify-center rounded-lg text-white bg-[linear-gradient(135deg,#3b82f6,#8b5cf6)] active:scale-95 transition"
             >
-              Xem Chi Tiết
+              Phân tích
             </button>
 
             <a
               href={product.affiliate_link || "#"}
               target="_blank"
-              className="relative flex-1 h-8 text-[11px] md:h-10 md:text-sm flex items-center justify-center rounded-lg text-white overflow-hidden bg-[linear-gradient(135deg,#f50fb0,#dd034c)] active:scale-95 transition"
+              rel="noopener noreferrer"
+              className="relative flex-1 h-8 md:h-9 text-[10px] md:text-[11px] flex items-center justify-center rounded-lg text-white overflow-hidden bg-[linear-gradient(135deg,#f50fb0,#dd034c)] active:scale-95 transition"
             >
               <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent)] animate-[shine_4s_linear_infinite]" />
-              <span className="relative z-10">Mua Ngay</span>
+              <span className="relative z-10">Mua ngay</span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* REVIEW POPUP */}
+      {/* DETAIL REVIEW */}
       {openReview && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-[999]">
-          <div className="bg-[#0f172a] w-[95vw] md:w-[70vw] h-[80vh] rounded-xl p-3 md:p-4 relative flex flex-col overflow-hidden">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-[999] p-2">
+          <div className="bg-[#0f172a] w-[95vw] md:w-[70vw] h-[88vh] rounded-xl p-3 md:p-4 relative flex flex-col overflow-hidden">
             <button
               onClick={() => setOpenReview(false)}
               className="absolute top-3 right-3 z-[1000] w-9 h-9 md:w-11 md:h-11 flex items-center justify-center rounded-full bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 text-white text-sm md:text-lg shadow-xl active:scale-95 transition"
@@ -212,7 +243,9 @@ const benefitList = [...as,...am];
 
             <div className="w-full h-full">
               {product.reviews.length === 0 ? (
-                <p className="text-sm text-center text-gray-400">Reviews đang được cập nhật...</p>
+                <p className="text-sm text-center text-gray-400">
+                  Reviews đang được cập nhật...
+                </p>
               ) : (
                 <ProductReviewSlider
                   short_description={product.short_description || ""}
@@ -223,7 +256,6 @@ const benefitList = [...as,...am];
                   usage={product.usage}
                   ingredient={product.ingredients}
                   cta={product.cta}
-
                 />
               )}
             </div>

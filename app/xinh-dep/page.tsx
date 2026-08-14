@@ -9,22 +9,17 @@ import { useEffect, useMemo, useState } from "react";
 import { Category } from "@/types/product";
 import Section from "@/components/Section";
 import SlideShow from "@/components/SlideShow";
+import ProductItem from "@/components/ProductItem";
+import UserProductItem from "@/components/UserProductItem";
 
 
 const skincareNeeds = [
-  "Mụn",
-  "Thâm mụn",
-  "Da dầu",
-  "Da khô",
-  "Da hỗn hợp",
-  "Da nhạy cảm",
-  "Lỗ chân lông to",
-  "Da mất nước",
-  "Xỉn màu",
-  "Lão hóa",
-  "Phục hồi",
-  "Làm sáng",
-  "Chống nắng",
+  "Bảo vệ & Chống Nắng",
+  "Làm sạch & Giảm mụn",
+  "Làm sáng mịn & đều màu da",
+  "Phục hồi & Cấp ẩm",
+  "Chống lão hóa",
+  "Chăm sóc cơ thể",
 ];
 
 const makeupNeeds = [
@@ -156,7 +151,17 @@ const handleSwitchType = () => {
           exploring={exploring}
         />
       </div>
-
+      {/* CATEGORY SECTIONS */}
+            {!loading &&
+              categories.map((cat) => (
+                <Section key={cat.id} id={cat.slug}>
+                  <SlideShow
+                    title={cat.name}
+                    intro={cat.intro}
+                    category={cat.slug}
+                  />
+                </Section>
+              ))}
 
       {/* =========================
           SLIDESHOW
