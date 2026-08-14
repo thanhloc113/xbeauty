@@ -433,491 +433,537 @@ const magicParticles = useMemo(() => {
         </button>
       </div>
 
-      {/* =================================================
-          DROPDOWN
-      ================================================= */}
 
-      <div className="relative mx-auto mt-4 w-full max-w-[340px]">
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          disabled={exploring}
-          className={`
-            flex
-            w-full
-            items-center
-            justify-between
-            rounded-2xl
-            border
-            px-4
-            py-3
-            text-left
-            transition-all
-            duration-300
-            disabled:cursor-not-allowed
+{/* =================================================
+    DROPDOWN + EXPLORE
+================================================= */}
 
-            ${
-              open
-                ? `
-                  ${theme.border}
-                  ${theme.dropdown}
-                  ${theme.glow}
-                `
-                : `
-                  border-gray-200
-                  bg-white
-                  hover:${theme.border}
-                `
-            }
-          `}
-        >
-          {/* Left */}
-          <div className="flex min-w-0 items-center gap-2.5">
-            {/* Icon */}
-            <span
-              className={`
-                flex
-                h-9
-                w-9
-                shrink-0
-                items-center
-                justify-center
-                rounded-xl
-                ${theme.iconBg}
-                text-base
-              `}
-            >
-              {theme.emoji}
-            </span>
+<div className="relative mx-auto mt-4 w-full max-w-[520px]">
 
-            {/* Text */}
-            <div className="min-w-0">
-              {selectedNeeds.length > 0 ? (
-                <div>
-                  <p
-                    className={`
-                      text-[11px]
-                      font-medium
-                      ${theme.text}
-                    `}
-                  >
-                    Đã chọn
-                  </p>
+  <div className="flex items-stretch gap-2">
 
-                  <p
-                    className="
-                      truncate
-                      text-sm
-                      font-semibold
-                      text-gray-800
-                    "
-                  >
-                    {selectedNeeds.length} vấn đề
-                  </p>
-                </div>
-              ) : (
-                <div>
-                  <p
-                    className="
-                      text-[11px]
-                      font-medium
-                      text-gray-400
-                    "
-                  >
-                    Chọn vấn đề
-                  </p>
+    {/* =================================================
+        DROPDOWN
+    ================================================= */}
 
-                  <p
-                    className="
-                      text-sm
-                      font-semibold
-                      text-gray-700
-                    "
-                  >
-                    Bạn đang quan tâm điều gì?
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
+    <div className="relative min-w-0 flex-1">
 
-          {/* Arrow */}
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        disabled={exploring}
+        className={`
+          flex
+          min-h-[52px]
+          w-full
+          items-center
+          justify-between
+          rounded-2xl
+          border
+          px-3
+          py-2
+          text-left
+          transition-all
+          duration-300
+          disabled:cursor-not-allowed
+
+          ${
+            open
+              ? `
+                ${theme.border}
+                ${theme.dropdown}
+                ${theme.glow}
+              `
+              : `
+                border-gray-200
+                bg-white
+                hover:${theme.border}
+              `
+          }
+        `}
+      >
+
+        {/* Left */}
+
+        <div className="flex min-w-0 items-center gap-2">
+
+          {/* Icon */}
+
           <span
             className={`
-              ml-2
               flex
               h-8
               w-8
               shrink-0
               items-center
               justify-center
-              rounded-full
-              border
-              transition-all
-              duration-300
-
-              ${
-                open
-                  ? `
-                    ${theme.borderSoft}
-                    bg-white/10
-                    ${theme.textLight}
-                    rotate-180
-                  `
-                  : `
-                    border-gray-200
-                    bg-gray-50
-                    ${theme.textStrong}
-                  `
-              }
+              rounded-lg
+              ${theme.iconBg}
+              text-sm
             `}
           >
-            <span className="text-lg font-bold leading-none">
-              🡇
-            </span>
+            {theme.emoji}
           </span>
-        </button>
 
-        {/* =================================================
-            DROPDOWN MENU
-        ================================================= */}
+          {/* Text */}
 
-        {open && (
-          <div
-            className={`
-              absolute
-              left-0
-              right-0
-              top-full
-              z-50
-              mt-2
-              overflow-hidden
-              rounded-2xl
-              border
-              ${theme.borderSoft}
-              ${theme.dropdown}
-              ${theme.dropdownGlow}
-              p-1.5
-              backdrop-blur-xl
-            `}
-          >
-            {/* Options */}
-            <div className="max-h-[260px] overflow-y-auto">
-              {needs.map((item) => {
-                const isSelected =
-                  selectedNeeds.includes(item);
+          <div className="min-w-0">
 
-                return (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() =>
-                      handleSelect(item)
-                    }
-                    className={`
-                      flex
-                      w-full
-                      items-center
-                      justify-between
-                      rounded-xl
-                      px-3
-                      py-2.5
-                      text-left
-                      text-xs
-                      transition-all
-                      duration-200
+            {selectedNeeds.length > 0 ? (
+              <div>
 
-                      ${
-                        isSelected
-                          ? `
-                            ${theme.selectedBg}
-                            text-white
-                          `
-                          : `
-                            text-white/65
-                            hover:bg-white/5
-                            hover:text-white
-                          `
-                      }
-                    `}
-                  >
-                    <span className="flex items-center gap-2.5">
-                      {/* Checkbox */}
-                      <span
-                        className={`
-                          flex
-                          h-4
-                          w-4
-                          shrink-0
-                          items-center
-                          justify-center
-                          rounded-[5px]
-                          border
-                          text-[9px]
-                          font-bold
-                          transition-all
-
-                          ${
-                            isSelected
-                              ? `
-                                ${theme.checkbox}
-                                text-white
-                              `
-                              : `
-                                border-white/20
-                                bg-white/5
-                                text-transparent
-                              `
-                          }
-                        `}
-                      >
-                        ✓
-                      </span>
-
-                      <span>
-                        {item}
-                      </span>
-                    </span>
-
-                    {isSelected && (
-                      <span
-                        className={`
-                          text-[9px]
-                          font-medium
-                          ${theme.accent}
-                        `}
-                      >
-                        Đã chọn
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Clear */}
-            {selectedNeeds.length > 0 && (
-              <div
-                className="
-                  mt-1
-                  border-t
-                  border-white/10
-                  px-2
-                  pt-1.5
-                "
-              >
-                <button
-                  type="button"
-                  onClick={() =>
-                    setSelectedNeeds([])
-                  }
+                <p
                   className={`
-                    w-full
-                    rounded-lg
-                    py-2
                     text-[10px]
                     font-medium
-                    text-white/35
-                    transition-colors
-                    hover:bg-white/5
-                    ${theme.textLight}
-                  `}
-                >
-                  Xóa tất cả lựa chọn
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* =================================================
-          SELECTED TAGS + EXPLORE
-      ================================================= */}
-
-      {selectedNeeds.length > 0 && (
-        <div className="mx-auto mt-3 w-full max-w-[340px]">
-          {/* Tags */}
-          <div className="flex flex-wrap justify-center gap-1.5">
-            {selectedNeeds.map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() =>
-                  handleSelect(item)
-                }
-                disabled={exploring}
-                className={`
-                  inline-flex
-                  items-center
-                  gap-1.5
-                  rounded-full
-                  border
-                  ${theme.borderSoft}
-                  ${theme.bgSoft}
-                  px-2.5
-                  py-1.5
-                  text-[11px]
-                  font-semibold
-                  ${theme.textStrong}
-                  shadow-sm
-                  transition-all
-                  duration-200
-                  active:scale-95
-                  ${theme.bgSoftHover}
-                  disabled:cursor-not-allowed
-                  disabled:opacity-60
-                `}
-              >
-                <span>
-                  {item}
-                </span>
-
-                <span
-                  className={`
-                    flex
-                    h-3.5
-                    w-3.5
-                    items-center
-                    justify-center
-                    rounded-full
-                    ${theme.bgSoft}
-                    text-[10px]
+                    leading-none
                     ${theme.text}
                   `}
                 >
-                  ×
-                </span>
-              </button>
-            ))}
+                  Đã chọn
+                </p>
+
+                <p
+                  className="
+                    mt-1
+                    truncate
+                    text-xs
+                    font-semibold
+                    text-gray-800
+                  "
+                >
+                  {selectedNeeds.length} hành trình
+                </p>
+
+              </div>
+            ) : (
+              <div>
+
+                <p
+                  className="
+                    text-[10px]
+                    font-medium
+                    leading-none
+                    text-gray-400
+                  "
+                >
+                  Chọn hành trình
+                </p>
+
+                <p
+                  className="
+                    mt-1
+                    truncate
+                    text-[11px]
+                    text-gray-700
+                  "
+                >
+                  Em đang muốn cải thiện điều gì?
+                </p>
+
+              </div>
+            )}
+
           </div>
 
+        </div>
 
-{/* =================================================
-    EXPLORE BUTTON + MAGIC PARTICLES
-================================================= */}
+        {/* Arrow */}
 
-<div className="relative mx-auto w-full">
-
-  {/* EXPLORE BUTTON */}
-
-  <button
-    type="button"
-    onClick={() => onExplore(selectedNeeds)}
-    disabled={exploring}
-    className={`
-      group
-      relative
-      z-10
-      mt-5
-      flex
-      w-full
-      items-center
-      justify-center
-      gap-2
-      overflow-hidden
-      rounded-2xl
-      border
-      border-white/60
-      bg-gradient-to-r
-      ${theme.gradient}
-      ${theme.gradientHover}
-      px-5
-      py-3.5
-      text-sm
-      font-bold
-      text-white
-      ${theme.shadow}
-      transition-all
-      duration-300
-      hover:-translate-y-0.5
-      active:scale-[0.98]
-      disabled:cursor-wait
-      disabled:scale-[1.02]
-
-      ${exploring ? "magic-transform" : ""}
-    `}
-  >
-    {/* Magic shine */}
-
-    <span
-      className={`
-        pointer-events-none
-        absolute
-        inset-0
-        -translate-x-full
-        bg-gradient-to-r
-        from-transparent
-        via-white/50
-        to-transparent
-
-        ${
-          exploring
-            ? ""
-            : `
-              transition-transform
-              duration-700
-              group-hover:translate-x-full
-            `
-        }
-      `}
-    />
-
-    {/* Inner glow */}
-
-    {exploring && (
-      <span
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          rounded-2xl
-          bg-white/10
-          opacity-0
-          animate-pulse
-        "
-      />
-    )}
-
-    {/* Content */}
-
-    <span className="relative flex items-center gap-2">
-      <span
-        className={`
-          text-base
-          transition-transform
-          duration-300
-          ${exploring ? "scale-125" : ""}
-        `}
-      >
-        {exploring ? "🪄" : theme.emoji}
-      </span>
-
-      <span>
-        {exploring
-          ? "Đang khám phá..."
-          : "Bắt đầu khám phá"}
-      </span>
-
-      {!exploring && (
         <span
-          className="
-            text-base
-            transition-transform
+          className={`
+            ml-1
+            flex
+            h-7
+            w-7
+            shrink-0
+            items-center
+            justify-center
+            rounded-full
+            border
+            transition-all
             duration-300
-            group-hover:translate-x-1
-          "
-        >
-          →
-        </span>
-      )}
-    </span>
-  </button>
-</div>
 
+            ${
+              open
+                ? `
+                  ${theme.borderSoft}
+                  bg-white/10
+                  ${theme.textLight}
+                  rotate-180
+                `
+                : `
+                  border-gray-200
+                  bg-gray-50
+                  ${theme.textStrong}
+                `
+            }
+          `}
+        >
+          <span className="text-base font-bold leading-none">
+            🡇
+          </span>
+        </span>
+
+      </button>
+
+
+      {/* =================================================
+          DROPDOWN MENU
+      ================================================= */}
+
+      {open && (
+        <div
+          className={`
+            absolute
+            left-0
+            right-0
+            top-full
+            z-50
+            mt-2
+            overflow-hidden
+            rounded-2xl
+            border
+            ${theme.borderSoft}
+            ${theme.dropdown}
+            ${theme.dropdownGlow}
+            p-1.5
+            backdrop-blur-xl
+          `}
+        >
+
+          <div className="max-h-[260px] overflow-y-auto">
+
+            {needs.map((item) => {
+
+              const isSelected =
+                selectedNeeds.includes(item);
+
+              return (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => handleSelect(item)}
+                  className={`
+                    flex
+                    w-full
+                    items-center
+                    justify-between
+                    rounded-xl
+                    px-3
+                    py-2
+                    text-left
+                    text-xs
+                    transition-all
+                    duration-200
+
+                    ${
+                      isSelected
+                        ? `
+                          ${theme.selectedBg}
+                          text-white
+                        `
+                        : `
+                          text-white/65
+                          hover:bg-white/5
+                          hover:text-white
+                        `
+                    }
+                  `}
+                >
+
+                  <span className="flex items-center gap-2">
+
+                    <span
+                      className={`
+                        flex
+                        h-4
+                        w-4
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-[5px]
+                        border
+                        text-[9px]
+                        font-bold
+
+                        ${
+                          isSelected
+                            ? `
+                              ${theme.checkbox}
+                              text-white
+                            `
+                            : `
+                              border-white/20
+                              bg-white/5
+                              text-transparent
+                            `
+                        }
+                      `}
+                    >
+                      ✓
+                    </span>
+
+                    <span>
+                      {item}
+                    </span>
+
+                  </span>
+
+                  {isSelected && (
+                    <span
+                      className={`
+                        text-[9px]
+                        font-medium
+                        ${theme.accent}
+                      `}
+                    >
+                      Đã chọn
+                    </span>
+                  )}
+
+                </button>
+              );
+            })}
+
+          </div>
+
+          {/* Clear */}
+
+          {selectedNeeds.length > 0 && (
+            <div
+              className="
+                mt-1
+                border-t
+                border-white/10
+                px-2
+                pt-1
+              "
+            >
+              <button
+                type="button"
+                onClick={() => setSelectedNeeds([])}
+                className={`
+                  w-full
+                  rounded-lg
+                  py-1.5
+                  text-[10px]
+                  font-medium
+                  text-white/35
+                  transition-colors
+                  hover:bg-white/5
+                  ${theme.textLight}
+                `}
+              >
+                Xóa tất cả lựa chọn
+              </button>
+            </div>
+          )}
 
         </div>
       )}
+
+    </div>
+
+
+    {/* =================================================
+        EXPLORE BUTTON
+    ================================================= */}
+
+    <div className="relative shrink-0">
+
+      <button
+        type="button"
+        onClick={() => {
+          setOpen(false);
+          onExplore(selectedNeeds);}}
+        disabled={exploring}
+        className={`
+          group
+          relative
+          z-10
+          flex
+          h-full
+          min-h-[52px]
+          items-center
+          justify-center
+          gap-1.5
+          overflow-hidden
+          rounded-2xl
+          border
+          border-white/60
+          bg-gradient-to-r
+          ${theme.gradient}
+          ${theme.gradientHover}
+          px-4
+          py-2
+          text-xs
+          font-bold
+          text-white
+          ${theme.shadow}
+          transition-all
+          duration-300
+          hover:-translate-y-0.5
+          active:scale-[0.98]
+          disabled:cursor-wait
+          disabled:scale-[1.02]
+
+          ${exploring ? "magic-transform" : ""}
+        `}
+      >
+
+        {/* Magic shine */}
+
+        <span
+          className={`
+            pointer-events-none
+            absolute
+            inset-0
+            -translate-x-full
+            bg-gradient-to-r
+            from-transparent
+            via-white/50
+            to-transparent
+
+            ${
+              exploring
+                ? ""
+                : `
+                  transition-transform
+                  duration-700
+                  group-hover:translate-x-full
+                `
+            }
+          `}
+        />
+
+        {/* Inner glow */}
+
+        {exploring && (
+          <span
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              rounded-2xl
+              bg-white/10
+              opacity-0
+              animate-pulse
+            "
+          />
+        )}
+
+        {/* Content */}
+
+        <span className="relative flex items-center gap-1.5">
+
+          <span
+            className={`
+              text-sm
+              transition-transform
+              duration-300
+              ${exploring ? "scale-125" : ""}
+            `}
+          >
+            {exploring ? "🪄" : theme.emoji}
+          </span>
+
+          <span className="whitespace-nowrap">
+            {exploring
+              ? "Đang khám phá..."
+              : "Khám phá"}
+          </span>
+
+          {!exploring && (
+            <span
+              className="
+                text-sm
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+              "
+            >
+              →
+            </span>
+          )}
+
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+
+{/* =================================================
+    SELECTED TAGS
+================================================= */}
+
+{selectedNeeds.length > 0 && (
+  <div className="mx-auto mt-3 w-full max-w-[520px]">
+
+    <div className="flex flex-wrap justify-start gap-1.5">
+
+      {selectedNeeds.map((item) => (
+        <button
+          key={item}
+          type="button"
+          onClick={() => handleSelect(item)}
+          disabled={exploring}
+          className={`
+            inline-flex
+            items-center
+            gap-1.5
+            rounded-full
+            border
+            ${theme.borderSoft}
+            ${theme.bgSoft}
+            px-2.5
+            py-1.5
+            text-[11px]
+            font-semibold
+            ${theme.textStrong}
+            shadow-sm
+            transition-all
+            duration-200
+            active:scale-95
+            ${theme.bgSoftHover}
+            disabled:cursor-not-allowed
+            disabled:opacity-60
+          `}
+        >
+
+          <span>
+            {item}
+          </span>
+
+          <span
+            className={`
+              flex
+              h-3.5
+              w-3.5
+              items-center
+              justify-center
+              rounded-full
+              ${theme.bgSoft}
+              text-[10px]
+              ${theme.text}
+            `}
+          >
+            ×
+          </span>
+
+        </button>
+      ))}
+
+    </div>
+
+  </div>
+)}
+
+
     </section>
   );
 }
