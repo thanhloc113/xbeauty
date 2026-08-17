@@ -7,7 +7,6 @@ import { formatPriceDisplay, formatNumber } from "@/utils/formatPrice"
 
 function getFlashSaleStatus(start: string | null, end: string | null) {
   const now = Date.now()
-
   if (!start || !end) return "none"
 
   const startTime = new Date(start).getTime()
@@ -15,7 +14,6 @@ function getFlashSaleStatus(start: string | null, end: string | null) {
 
   if (now < startTime) return "coming"
   if (now >= startTime && now <= endTime) return "active"
-
   return "ended"
 }
 
@@ -52,15 +50,14 @@ export default function UserProductItem({ product }: { product: Product }) {
   const makeupList = getFilterValues(product, "makeup")
   const benefitList = [...skinCareList, ...makeupList]
 
-  // Ưu tiên thông tin giải quyết vấn đề; chỉ lấy tối đa 2 ý để card scan nhanh.
+  // Quick Scan: chỉ lấy thông tin quan trọng nhất.
   const solutionList =
     benefitList.length > 0
       ? benefitList.slice(0, 2)
-      : skinTypeList.length > 0
-        ? skinTypeList.slice(0, 2)
-        : []
+      : skinTypeList.slice(0, 2)
 
-  // FLASH SALE
+  const highlightList = benefitList.slice(0, 3)
+
   useEffect(() => {
     function updateFlashSale() {
       const newStatus = getFlashSaleStatus(
@@ -84,166 +81,238 @@ export default function UserProductItem({ product }: { product: Product }) {
     }
 
     updateFlashSale()
-
     const timer = setInterval(updateFlashSale, 1000)
-
     return () => clearInterval(timer)
   }, [product.flash_sale_start, product.flash_sale_end])
 
-  const discount =
-    product.original_price && product.best_price
-      ? Math.round(
-          (1 - product.best_price / product.original_price) * 100
-        )
-      : 0
+  // Hỗ trợ các field khối lượng/thể tích/số lượng nếu Product đã có.
+  // Nếu chưa có thì chỉ hiển thị giá, không tự đoán dữ liệu.
+  function getProductAmount(product: Product) {
+    const data = product as Product & {
+      weight?: number | string
+      volume?: number | string
+      quantity?: number | string
+      unit?: string
+      weight_unit?: string
+      volume_unit?: string
+    }
+
+    if (data.weight) return `${data.weight}${data.weight_unit || "g"}`
+    if (data.volume) return `${data.volume}${data.volume_unit || "ml"}`
+    if (data.quantity) return `${data.quantity} ${data.unit || "sản phẩm"}`
+
+    return ""
+  }
+
+  const productAmount = getProductAmount(product)
+
+  // Các field này có thể khác nhau tùy Product type/API.
+  // Không có dữ liệu thì nút/link sẽ được ẩn hoặc disabled.
+  const productData = product as Product & {
+    seller_name?: string
+    seller?: { name?: string }
+    shop_name?: string
+    tiktok_link?: string
+    shopee_link?: string
+    tiktok_url?: string
+    shopee_url?: string
+  }
+
+  const sellerName =
+    productData.seller_name ||
+    productData.seller?.name ||
+    productData.shop_name ||
+    "Nhà bán hàng chính hãng"
+
+  const tiktokLink = productData.tiktok_link || productData.tiktok_url || ""
+  const shopeeLink =
+    productData.shopee_link ||
+    productData.shopee_url ||
+    product.affiliate_link ||
+    ""
 
   return (
     <>
-      {/* QUICK SCAN
-          Card này chỉ trả lời nhanh:
-          - Có giải quyết vấn đề của tôi không?
-          - Giá hiện tại bao nhiêu?
-          - Có gì cần lưu ý?
-          - Nơi bán có tín hiệu đáng tin không?
-      */}
-      <div className="w-full max-w-[250px] rounded-xl border border-pink-400/50 bg-[#24002f]/95 backdrop-blur-md overflow-hidden flex flex-col transition hover:border-pink-300/80 hover:shadow-lg">
+      {/* QUICK SCAN */}
+      <article className="w-full max-w-[250px] overflow-hidden rounded-2xl border border-white/10 bg-[#1b0625] shadow-lg transition hover:-translate-y-0.5 hover:border-pink-400/50">
 
-        {/* IMAGE */}
-        <div className="relative aspect-square bg-white overflow-hidden">
+        {/* 01. IMAGE */}
+        <div className="relative aspect-square overflow-hidden bg-white">
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
           />
 
           {product.tags?.length > 0 && (
-            <span className="absolute top-1.5 left-1.5 max-w-[78%] truncate text-[9px] font-semibold bg-red-600 text-white px-1.5 py-0.5 rounded-md shadow-md">
+            <span className="absolute left-2 top-2 max-w-[75%] truncate rounded-full bg-black/65 px-2 py-1 text-[9px] font-semibold text-white backdrop-blur-sm">
               {product.tags[0].name}
             </span>
           )}
         </div>
 
-        <div className="p-2 md:p-2.5 flex flex-col">
+        <div className="p-2.5">
 
-          {/* NAME + USER RATING */}
-          <h2 className="font-semibold text-[11px] md:text-xs leading-snug line-clamp-2 text-fuchsia-200">
-            {product.name}
-          </h2>
-
-          <div className="mt-1 flex items-center gap-1 text-[9px] md:text-[10px] text-gray-300 whitespace-nowrap overflow-hidden">
-            <span className="text-yellow-300 font-medium">
-              ★ {product.rating}
-            </span>
-            <span className="text-gray-400">
-              ({formatNumber(product.review_count)}+)
-            </span>
-            <span className="text-gray-500">·</span>
-            <span className="truncate">
-              {formatNumber(product.sold)}+ đã bán
-            </span>
-          </div>
-
-          {/* 01. SOLUTION
-              Không dùng nhiều tag; chỉ cho thấy 1–2 vấn đề chính.
-          */}
+          {/* 02. GIẢI PHÁP */}
           {solutionList.length > 0 && (
-            <div className="mt-2 rounded-lg bg-cyan-400/5 border border-cyan-400/20 px-2 py-1.5">
-              <div className="text-[9px] md:text-[10px] text-cyan-300 leading-tight">
-                🎯 {solutionList.join(" · ")}
+            <div className="mb-1.5">
+              <div className="mt-0.5 line-clamp-2 text-[13px] font-bold leading-tight text-white md:text-sm">
+                {solutionList.join(" + ")}
               </div>
             </div>
           )}
 
-          {/* 02. PRICE
-              Chưa có dữ liệu so sánh thị trường/value-score trong Product,
-              nên chỉ hiển thị giá thật và mức giảm, không tự tạo điểm "đáng tiền".
-          */}
-          <div className="mt-1.5 flex items-center gap-1.5 min-w-0">
-            <span className="text-sm md:text-base font-bold text-white whitespace-nowrap">
+          {/* 03. PRODUCT NAME */}
+          <h2 className="line-clamp-2 text-[10px] font-medium leading-snug text-pink-300 md:text-[11px]">
+            {product.name}
+          </h2>
+
+          {/* 04. ĐIỂM NỔI BẬT */}
+          {highlightList.length > 0 && (
+            <div className="mt-2 space-y-1">
+              {highlightList.map((item, index) => (
+                <div
+                  key={`${item}-${index}`}
+                  className="flex items-start gap-1.5 text-[9px] leading-tight text-green-400 md:text-[10px]"
+                >
+                  <span className="mt-[1px] shrink-0 text-emerald-400">✓</span>
+                  <span className="line-clamp-1">{item}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* 05. PHÂN TÍCH */}
+          {highlightList.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setOpenReview(true)}
+              className="mt-2 inline-flex items-center gap-1 text-[10px] font-semibold text-cyan-300 underline decoration-cyan-300/70 underline-offset-2 transition hover:text-cyan-200 md:text-[11px]"
+            >
+              Xem phân tích sản phẩm
+              <span className="text-[11px]">→</span>
+            </button>
+          )}
+
+          {/* 06. GIÁ / KHỐI LƯỢNG */}
+          <div className="mt-1.5 flex items-baseline gap-1.5">
+            <span className="whitespace-nowrap text-[15px] font-bold text-white md:text-base">
               {formatPriceDisplay(
                 product.best_price,
                 status
               )?.toLocaleString()}
             </span>
 
-            {product.original_price && (
-              <span className="text-[9px] md:text-[10px] text-gray-500 line-through whitespace-nowrap">
-                {formatNumber(product.original_price)?.toLocaleString()}
-              </span>
-            )}
-
-            {discount > 0 && (
-              <span className="text-[8px] md:text-[9px] text-white bg-red-500 px-1 py-0.5 rounded whitespace-nowrap">
-                -{discount}%
-              </span>
+            {productAmount && (
+              <>
+                <span className="text-[9px] text-gray-500">/</span>
+                <span className="whitespace-nowrap text-[10px] font-medium text-gray-300 md:text-[11px]">
+                  {productAmount}
+                </span>
+              </>
             )}
           </div>
 
-          {/* FLASH SALE - chỉ giữ tín hiệu ngắn */}
+          {/* 07. FLASH SALE */}
           {(status === "active" || status === "coming") && (
-            <div className="mt-0.5 text-[9px] md:text-[10px] leading-tight">
-              {status === "active" && (
-                <span className="text-red-300">🔥 {timeLeft}</span>
-              )}
-              {status === "coming" && (
-                <span className="text-orange-300">⏳ {timeLeft}</span>
+            <div className="mt-0.5 text-[8px] leading-tight md:text-[9px]">
+              {status === "active" ? (
+                <span className="text-red-300">🔥 Còn {timeLeft}</span>
+              ) : (
+                <span className="text-orange-300">
+                  ⏳ Bắt đầu sau {timeLeft}
+                </span>
               )}
             </div>
           )}
 
-          {/* 03. CAUTION
-              Không có dữ liệu thì không render để card không bị kéo dài.
-          */}
+          {/* 08. CẦN BIẾT */}
           {(product.hook || product.usage) && (
-            <div className="mt-1.5 text-[9px] md:text-[10px] text-orange-200 leading-tight line-clamp-2">
-              ⚠️ {product.hook || product.usage}
+            <div className="mt-2 rounded-lg border border-orange-300/10 bg-orange-400/5 px-2 py-1.5">
+              <div className="text-[9px] font-semibold text-orange-300">
+                ⚠️ Cần biết
+              </div>
+
+              <div className="mt-0.5 line-clamp-2 text-[9px] leading-tight text-gray-200 md:text-[10px]">
+                {product.hook || product.usage}
+              </div>
             </div>
           )}
 
-          {/* 04. TRUST
-              Chỉ dùng các tín hiệu đang có trong Product.
-              Không tự nhận Official Store khi chưa có dữ liệu xác minh.
-          */}
-          <div className="mt-1.5 text-[9px] md:text-[10px] text-emerald-300 leading-tight truncate">
-            🛡️ ★ {product.rating} · {formatNumber(product.review_count)}+ đánh giá
+          {/* 09. NHÀ BÁN HÀNG UY TÍN */}
+          <div className="mt-2 border-t border-white/10 pt-2">
+            <div className="flex items-center gap-1.5 text-[9px] leading-tight md:text-[10px]">
+              <span className="shrink-0 text-emerald-400">🛡️</span>
+              <span className="font-semibold text-emerald-300">
+                Nhà bán hàng uy tín
+              </span>
+            </div>
+
+            <div className="mt-1 truncate text-[10px] font-semibold text-white md:text-[11px]">
+              {sellerName}
+            </div>
+
+            <div className="mt-1 flex items-center gap-1 overflow-hidden whitespace-nowrap text-[8px] text-gray-400 md:text-[9px]">
+              <span className="text-yellow-300">★ {product.rating}</span>
+              <span>·</span>
+              <span>{formatNumber(product.review_count)}+ đánh giá</span>
+              <span>·</span>
+              <span>{formatNumber(product.sold)}+ đã bán</span>
+            </div>
           </div>
 
-          {/* ACTIONS */}
-          <div className="flex gap-1.5 mt-2">
-            <button
-              onClick={() => setOpenReview(true)}
-              className="flex-1 h-8 md:h-9 text-[10px] md:text-[11px] flex items-center justify-center rounded-lg text-white bg-[linear-gradient(135deg,#3b82f6,#8b5cf6)] active:scale-95 transition"
-            >
-              Phân tích
-            </button>
+          {/* 10. MARKETPLACES */}
+          <div className="mt-2.5 flex gap-1.5">
+            {tiktokLink ? (
+              <a
+                href={tiktokLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative flex h-8 flex-1 items-center justify-center overflow-hidden rounded-lg bg-[linear-gradient(135deg,#3b82f6,#8b5cf6)] text-[10px] font-semibold text-white ring-1 ring-white/15 transition active:scale-95 md:h-9 md:text-[11px]"
+              >
+                <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)] animate-[shine_4s_linear_infinite]" />
+                <span className="relative z-10">TikTok</span>
+              </a>
+            ) : (
+              <span className="flex h-8 flex-1 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#3b82f6,#8b5cf6)] text-[10px] font-semibold text-gray-300 ring-1 ring-white/10 md:h-9 md:text-[11px]">
+                TikTok
+              </span>
+            )}
 
-            <a
-              href={product.affiliate_link || "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative flex-1 h-8 md:h-9 text-[10px] md:text-[11px] flex items-center justify-center rounded-lg text-white overflow-hidden bg-[linear-gradient(135deg,#f50fb0,#dd034c)] active:scale-95 transition"
-            >
-              <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent)] animate-[shine_4s_linear_infinite]" />
-              <span className="relative z-10">Mua ngay</span>
-            </a>
+            {shopeeLink ? (
+              <a
+                href={shopeeLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative flex h-8 flex-1 items-center justify-center overflow-hidden rounded-lg bg-[linear-gradient(135deg,#f50fb0,#dd034c)] text-[10px] font-semibold text-white transition active:scale-95 md:h-9 md:text-[11px]"
+              >
+                <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.45),transparent)] animate-[shine_4s_linear_infinite]" />
+                <span className="relative z-10">Shopee</span>
+              </a>
+            ) : (
+              <span className="flex h-8 flex-1 items-center justify-center rounded-lg bg-white/5 text-[10px] font-semibold text-gray-500 ring-1 ring-white/10 md:h-9 md:text-[11px]">
+                Shopee
+              </span>
+            )}
           </div>
         </div>
-      </div>
+      </article>
 
       {/* DETAIL REVIEW */}
       {openReview && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-[999] p-2">
-          <div className="bg-[#0f172a] w-[95vw] md:w-[70vw] h-[88vh] rounded-xl p-3 md:p-4 relative flex flex-col overflow-hidden">
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-2 backdrop-blur-sm">
+          <div className="relative flex h-[88vh] w-[95vw] flex-col overflow-hidden rounded-xl bg-[#0f172a] p-3 md:w-[70vw] md:p-4">
             <button
               onClick={() => setOpenReview(false)}
-              className="absolute top-3 right-3 z-[1000] w-9 h-9 md:w-11 md:h-11 flex items-center justify-center rounded-full bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 text-white text-sm md:text-lg shadow-xl active:scale-95 transition"
+              className="absolute right-3 top-3 z-[1000] flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 text-sm text-white shadow-xl transition active:scale-95 md:h-11 md:w-11 md:text-lg"
+              aria-label="Đóng"
             >
               ✕
             </button>
 
-            <div className="w-full h-full">
+            <div className="h-full w-full">
               {product.reviews.length === 0 ? (
-                <p className="text-sm text-center text-gray-400">
+                <p className="text-center text-sm text-gray-400">
                   Reviews đang được cập nhật...
                 </p>
               ) : (
