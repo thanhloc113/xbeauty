@@ -104,7 +104,7 @@ export default function UserProductItem({ product }: { product: Product }) {
     return ""
   }
 
-  const productAmount = getProductAmount(product)
+  const productAmount = "500 ml"
 
   // Các field này có thể khác nhau tùy Product type/API.
   // Không có dữ liệu thì nút/link sẽ được ẩn hoặc disabled.
@@ -124,7 +124,7 @@ export default function UserProductItem({ product }: { product: Product }) {
     productData.shop_name ||
     "Nhà bán hàng chính hãng"
 
-  const tiktokLink = productData.tiktok_link || productData.tiktok_url || ""
+  const tiktokLink = productData.tiktok_link || productData.tiktok_url || "https://www.tiktok.com/@dai.ca.xinh/photo/7665978536506690823"
   const shopeeLink =
     productData.shopee_link ||
     productData.shopee_url ||
@@ -143,44 +143,53 @@ export default function UserProductItem({ product }: { product: Product }) {
             alt={product.name}
             className="h-full w-full object-cover"
           />
-
-          {product.tags?.length > 0 && (
-            <span className="absolute left-2 top-2 max-w-[75%] truncate rounded-full bg-black/65 px-2 py-1 text-[9px] font-semibold text-white backdrop-blur-sm">
-              {product.tags[0].name}
+              {/* SKIN TYPE */}
+          <span className="absolute left-2 top-2 max-w-[80%] truncate rounded-full border border-rose-400/80 bg-black/65 px-3 py-1.5 text-[10px] font-bold text-[#FFD6C2] shadow-[0_0_10px_rgba(251,113,133,0.35)] backdrop-blur-md">
+            <span className="mr-1 text-rose-300">✦</span>
+            <span className="text-rose-200">
+              {skinTypeList.join(" • ")}
             </span>
-          )}
+          </span>
         </div>
 
         <div className="p-2.5">
-
-          {/* 02. GIẢI PHÁP */}
+                    {/* 02. Name */}
           {solutionList.length > 0 && (
             <div className="mb-1.5">
-              <div className="mt-0.5 line-clamp-2 text-[13px] font-bold leading-tight text-white md:text-sm">
-                {solutionList.join(" + ")}
-              </div>
+              <h2 className="mt-0.5 line-clamp-2 text-[13px] font-bold leading-tight text-pink-500 md:text-sm">
+                {product.name}
+              </h2>
             </div>
           )}
 
+          {/* 02. GIẢI PHÁP */}
+          {/* {solutionList.length > 0 && (
+            <div className="mb-1.5">
+              <div className="mt-0.5 line-clamp-2 text-[13px] font-bold leading-tight text-pink-300 md:text-sm">
+                {solutionList.join(" + ")}
+              </div>
+            </div>
+          )} */}
+
           {/* 03. PRODUCT NAME */}
-          <h2 className="line-clamp-2 text-[10px] font-medium leading-snug text-pink-300 md:text-[11px]">
+          {/* <h2 className="line-clamp-2 text-[10px] font-medium leading-snug text-white md:text-[11px]">
             {product.name}
-          </h2>
+          </h2> */}
 
           {/* 04. ĐIỂM NỔI BẬT */}
-          {highlightList.length > 0 && (
+          {/* {highlightList.length > 0 && (
             <div className="mt-2 space-y-1">
               {highlightList.map((item, index) => (
                 <div
                   key={`${item}-${index}`}
-                  className="flex items-start gap-1.5 text-[9px] leading-tight text-green-400 md:text-[10px]"
+                  className="flex items-start gap-1.5 text-[9px] leading-tight text-emerald-300 md:text-[10px]"
                 >
                   <span className="mt-[1px] shrink-0 text-emerald-400">✓</span>
                   <span className="line-clamp-1">{item}</span>
                 </div>
               ))}
             </div>
-          )}
+          )} */}
 
           {/* 05. PHÂN TÍCH */}
           {highlightList.length > 0 && (
@@ -196,7 +205,7 @@ export default function UserProductItem({ product }: { product: Product }) {
 
           {/* 06. GIÁ / KHỐI LƯỢNG */}
           <div className="mt-1.5 flex items-baseline gap-1.5">
-            <span className="whitespace-nowrap text-[15px] font-bold text-white md:text-base">
+            <span className="whitespace-nowrap text-[15px] font-bold text-red-500 md:text-base">
               {formatPriceDisplay(
                 product.best_price,
                 status
@@ -205,7 +214,7 @@ export default function UserProductItem({ product }: { product: Product }) {
 
             {productAmount && (
               <>
-                <span className="text-[9px] text-gray-500">/</span>
+                <span className="text-[12px] text-white">/</span>
                 <span className="whitespace-nowrap text-[10px] font-medium text-gray-300 md:text-[11px]">
                   {productAmount}
                 </span>
@@ -226,16 +235,10 @@ export default function UserProductItem({ product }: { product: Product }) {
             </div>
           )}
 
-          {/* 08. CẦN BIẾT */}
-          {(product.hook || product.usage) && (
-            <div className="mt-2 rounded-lg border border-orange-300/10 bg-orange-400/5 px-2 py-1.5">
-              <div className="text-[9px] font-semibold text-orange-300">
-                ⚠️ Cần biết
-              </div>
-
-              <div className="mt-0.5 line-clamp-2 text-[9px] leading-tight text-gray-200 md:text-[10px]">
-                {product.hook || product.usage}
-              </div>
+          {/* 08. Dòng sản phẩm */}
+          {product.tags?.length > 0 && (
+            <div className="mt-0.5 line-clamp-2 bg-gradient-to-r from-[#E8B894] via-[#FFF1D6] to-[#D9A77C] bg-clip-text text-[9px] font-semibold leading-tight text-transparent drop-shadow-[0_0_6px_rgba(255,220,180,0.3)] md:text-[10px]">
+              {product.tags[0].name}
             </div>
           )}
 
@@ -243,12 +246,12 @@ export default function UserProductItem({ product }: { product: Product }) {
           <div className="mt-2 border-t border-white/10 pt-2">
             <div className="flex items-center gap-1.5 text-[9px] leading-tight md:text-[10px]">
               <span className="shrink-0 text-emerald-400">🛡️</span>
-              <span className="font-semibold text-emerald-300">
+              <span className="font-semibold text-white">
                 Nhà bán hàng uy tín
               </span>
             </div>
 
-            <div className="mt-1 truncate text-[10px] font-semibold text-white md:text-[11px]">
+            <div className="mt-1 truncate text-[10px] font-semibold text-yellow-500 md:text-[11px]">
               {sellerName}
             </div>
 
