@@ -1,33 +1,52 @@
-"use client";
+"use client"
 
 interface IntroProps {
-  title: string;
-  intro?: string;
-  align?: "center" | "left";
+  title: string
+  intro?: string
+  align?: "center" | "left"
+  titleClassName?: string
+  introClassName?: string
 }
 
 export default function Intro({
   title,
   intro,
   align = "center",
+  titleClassName = "text-pink-400",
+  introClassName = "text-white/70",
 }: IntroProps) {
   return (
     <div
-      className={`max-w-3xl mx-auto px-6 ${
+      className={`mx-auto max-w-3xl px-6 ${
         align === "center" ? "text-center" : "text-left"
       }`}
     >
       {/* Title */}
-      <h2 className="text-2xl md:text-3xl font-bold text-pink-400 mb-4">
+      <h2
+        className={`
+          mb-4
+          text-2xl
+          font-bold
+          md:text-3xl
+          ${titleClassName}
+        `}
+      >
         {title}
       </h2>
 
       {/* Text */}
       {intro && (
-        <p className="text-sm md:text-base text-white/70 leading-relaxed">
+        <p
+          className={`
+            text-sm
+            leading-relaxed
+            md:text-base
+            ${introClassName}
+          `}
+        >
           {intro}
         </p>
       )}
     </div>
-  );
+  )
 }

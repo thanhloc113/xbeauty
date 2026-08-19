@@ -2,6 +2,7 @@
 
 import { Category } from "@/types/product"
 import {
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -12,18 +13,55 @@ interface CategoryMenuProps {
   categories: Category[]
   type: "skincare" | "makeup"
   switching: boolean
+  activeCategory?: Category
   onChange?: (category: Category) => void
 }
 
 export default function CategoryMenu({
   categories,
   type,
+  activeCategory,
   switching,
   onChange,
 }: CategoryMenuProps) {
+  // =====================================================
+  // ACTIVE CATEGORY
+  // =====================================================
+
   const [activeId, setActiveId] = useState<number | null>(
-    categories[0]?.id ?? null
+    activeCategory?.id ?? categories[0]?.id ?? null
   )
+
+  // =====================================================
+  // SYNC ACTIVE ID WITH PARENT
+  // =====================================================
+
+  useEffect(() => {
+    if (!categories.length) {
+      setActiveId(null)
+      return
+    }
+
+    // Nếu parent đã có currentCategory
+    // và category đó tồn tại trong danh sách hiện tại
+    if (
+      activeCategory &&
+      categories.some(
+        (category) => category.id === activeCategory.id
+      )
+    ) {
+      setActiveId(activeCategory.id)
+      return
+    }
+
+    // Nếu chưa có currentCategory
+    // thì mặc định chọn category đầu tiên
+    setActiveId(categories[0].id)
+  }, [categories, activeCategory])
+
+  // =====================================================
+  // STATE
+  // =====================================================
 
   const [translateX, setTranslateX] = useState(0)
   const [mounted, setMounted] = useState(false)
@@ -34,6 +72,10 @@ export default function CategoryMenu({
     Record<number, HTMLButtonElement | null>
   >({})
 
+  // =====================================================
+  // DISPLAY CATEGORIES
+  // =====================================================
+
   /*
    * Xoay mảng để active luôn ở vị trí giữa
    *
@@ -42,6 +84,7 @@ export default function CategoryMenu({
    *
    * => 3 4 [5] 1 2
    */
+
   const displayCategories = useMemo(() => {
     if (!categories.length) return []
 
@@ -69,41 +112,45 @@ export default function CategoryMenu({
     ]
   }, [categories, activeId])
 
-  /*
-   * Căn CHÍNH GIỮA của item active
-   * vào CHÍNH GIỮA của container
-   */
-const centerActiveItem = () => {
-  const container = containerRef.current
+  // =====================================================
+  // CENTER ACTIVE ITEM
+  // =====================================================
 
-  if (!container || activeId === null) return
+  const centerActiveItem = () => {
+    const container = containerRef.current
 
-  const activeItem =
-    itemRefs.current[activeId]
+    if (!container || activeId === null) return
 
-  if (!activeItem) return
+    const activeItem =
+      itemRefs.current[activeId]
 
-  const containerRect =
-    container.getBoundingClientRect()
+    if (!activeItem) return
 
-  const itemRect =
-    activeItem.getBoundingClientRect()
+    const containerRect =
+      container.getBoundingClientRect()
 
-  const containerCenter =
-    containerRect.left +
-    containerRect.width / 2
+    const itemRect =
+      activeItem.getBoundingClientRect()
 
-  const itemCenter =
-    itemRect.left +
-    itemRect.width / 2
+    const containerCenter =
+      containerRect.left +
+      containerRect.width / 2
 
-  const difference =
-    containerCenter - itemCenter
+    const itemCenter =
+      itemRect.left +
+      itemRect.width / 2
 
-  setTranslateX((current) =>
-    current + difference
-  )
-}
+    const difference =
+      containerCenter - itemCenter
+
+    setTranslateX((current) =>
+      current + difference
+    )
+  }
+
+  // =====================================================
+  // SELECT
+  // =====================================================
 
   const handleSelect = (category: Category) => {
     if (category.id === activeId) return
@@ -113,10 +160,10 @@ const centerActiveItem = () => {
     onChange?.(category)
   }
 
-  /*
-   * Sau khi DOM đã render theo thứ tự mới,
-   * lấy đúng vị trí giữa của item active
-   */
+  // =====================================================
+  // CENTER AFTER RENDER
+  // =====================================================
+
   useLayoutEffect(() => {
     const frame = requestAnimationFrame(() => {
       centerActiveItem()
@@ -128,9 +175,10 @@ const centerActiveItem = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId, displayCategories])
 
-  /*
-   * Resize vẫn giữ chính giữa
-   */
+  // =====================================================
+  // RESIZE
+  // =====================================================
+
   useLayoutEffect(() => {
     const handleResize = () => {
       centerActiveItem()
@@ -151,18 +199,17 @@ const centerActiveItem = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId])
 
+  // =====================================================
+  // EMPTY
+  // =====================================================
+
   if (!categories.length) return null
 
-
-  // switch theme
-  const isSkincare = type === "skincare"
-
-  /*
-   * Theme giống BeautyFilter
-   */
   // =====================================================
   // THEME
   // =====================================================
+
+  const isSkincare = type === "skincare"
 
   const theme = isSkincare
     ? {
@@ -216,7 +263,6 @@ const centerActiveItem = () => {
 
         accent:
           "text-cyan-300",
-
       }
     : {
         gradient:
@@ -269,127 +315,113 @@ const centerActiveItem = () => {
 
         accent:
           "text-pink-300",
+      }
 
-      };
+  // =====================================================
+  // RENDER
+  // =====================================================
 
-
-return (
-  <div
-    ref={containerRef}
-    className="
-      relative
-      w-full
-      overflow-hidden
-
-      py-[clamp(10px,2vw,20px)]
-    "
-  >
-
-    {/* Track */}
+  return (
     <div
-      className={`
-        flex
-        w-max
-        items-center
-
-        gap-[clamp(6px,1.2vw,12px)]
-
-        will-change-transform
-
-        ${
-          mounted
-            ? `
-              transition-transform
-              duration-500
-              ease-[cubic-bezier(0.22,1,0.36,1)]
-            `
-            : ""
-        }
-      `}
-      style={{
-        transform: `translateX(${translateX}px)`,
-      }}
+      ref={containerRef}
+      className="
+        relative
+        w-full
+        overflow-hidden
+        py-[clamp(10px,2vw,20px)]
+      "
     >
+      {/* Track */}
+      <div
+        className={`
+          flex
+          w-max
+          items-center
+          gap-[clamp(6px,1.2vw,12px)]
+          will-change-transform
 
-      {displayCategories.map((category) => {
+          ${
+            mounted
+              ? `
+                transition-transform
+                duration-500
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+              `
+              : ""
+          }
+        `}
+        style={{
+          transform: `translateX(${translateX}px)`,
+        }}
+      >
+        {displayCategories.map((category) => {
+          const isActive =
+            category.id === activeId
 
-        const isActive =
-          category.id === activeId
-
-        return (
-
-          <button
-            key={category.id}
-
-            ref={(el) => {
-              itemRefs.current[category.id] = el
-            }}
-
-            onClick={() =>
-              handleSelect(category)
-            }
-
-            className={`
-              relative
-              shrink-0
-              whitespace-nowrap
-
-              rounded-full
-
-              font-semibold
-
-              transition-all
-              duration-500
-              ease-[cubic-bezier(0.22,1,0.36,1)]
-
-              ${
-                isActive
-                  ? `
-                      z-20
-
-                      px-[clamp(14px,2.8vw,28px)]
-                      py-[clamp(7px,1.1vw,12px)]
-
-                      text-[clamp(11px,1.44vw,16px)]
-
-                      bg-gradient-to-r
-                      from-amber-200
-                      via-yellow-100
-                      to-amber-300
-
-                      text-amber-900
-
-                      shadow-[0_0_clamp(12px,2.4vw,24px)_rgba(251,191,36,0.45)]
-                    `
-                  : `
-                      z-10
-
-                      px-[clamp(10px,2vw,20px)]
-                      py-[clamp(5px,0.9vw,8px)]
-
-                      text-[clamp(10px,1.2vw,14px)]
-
-                      bg-gradient-to-r
-                      ${theme.gradient}
-                      ${theme.gradientHover}
-
-                      text-white
-                      opacity-90
-
-                      hover:scale-105
-                      hover:opacity-100
-                    `
+          return (
+            <button
+              key={category.id}
+              ref={(el) => {
+                itemRefs.current[category.id] = el
+              }}
+              onClick={() =>
+                handleSelect(category)
               }
-            `}
-          >
-            {category.name}
-          </button>
+              className={`
+                relative
+                shrink-0
+                whitespace-nowrap
+                rounded-full
+                font-semibold
+                transition-all
+                duration-500
+                ease-[cubic-bezier(0.22,1,0.36,1)]
 
-        )
-      })}
+                ${
+                  isActive
+                    ? `
+                        z-20
 
+                        px-[clamp(14px,2.8vw,28px)]
+                        py-[clamp(7px,1.1vw,12px)]
+
+                        text-[clamp(11px,1.44vw,16px)]
+
+                        bg-gradient-to-r
+                        from-amber-200
+                        via-yellow-100
+                        to-amber-300
+
+                        text-amber-900
+
+                        shadow-[0_0_clamp(12px,2.4vw,24px)_rgba(251,191,36,0.45)]
+                      `
+                    : `
+                        z-10
+
+                        px-[clamp(10px,2vw,20px)]
+                        py-[clamp(5px,0.9vw,8px)]
+
+                        text-[clamp(10px,1.2vw,14px)]
+
+                        bg-gradient-to-r
+                        ${theme.gradient}
+                        ${theme.gradientHover}
+
+                        text-white
+                        opacity-90
+
+                        hover:scale-105
+                        hover:opacity-100
+                      `
+                }
+              `}
+            >
+              {category.name}
+            </button>
+          )
+        })}
+      </div>
     </div>
-
-  </div>
-)
+  )
 }

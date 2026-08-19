@@ -9,13 +9,39 @@ export default function SlideShow({
   title,
   intro = "",
   category,
+  type
 }: {
   title: string
   intro?: string
   category: string
+  type: "skincare" | "makeup"
 }) {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+
+  const isSkincare = type === "skincare"
+
+  const theme = isSkincare
+    ? {
+        border: "border-teal-300",
+        borderSoft: "border-teal-300/30",
+        text: "text-teal-200",
+        textStrong: "text-teal-400",
+        textLight: "text-teal-300",
+        accent: "text-cyan-300",
+        gradient: "from-emerald-500 via-teal-500 to-cyan-500",
+        glow: "shadow-[0_0_25px_rgba(20,184,166,0.2)]",
+      }
+    : {
+        border: "border-fuchsia-500",
+        borderSoft: "border-fuchsia-500/30",
+        text: "text-fuchsia-500",
+        textStrong: "text-fuchsia-500",
+        textLight: "text-fuchsia-300",
+        accent: "text-pink-400",
+        gradient: "from-purple-600 via-fuchsia-500 to-pink-500",
+        glow: "shadow-[0_0_25px_rgba(236,72,153,0.2)]",
+      }
 
   useEffect(() => {
     const load = async () => {
@@ -53,8 +79,25 @@ export default function SlideShow({
   }, [category])
 
   return (
-    <section className="w-full rounded-2xl border py-6 shadow md:py-12">
-      <Intro title={title} intro={intro} />
+      <section
+        className={`
+          relative
+          w-full
+          overflow-hidden
+          rounded-2xl
+          border
+          ${theme.border}
+          py-6
+          ${theme.glow}
+          md:py-10
+        `}
+      >
+      <Intro
+        title={title}
+        intro={intro}
+        titleClassName={theme.textStrong}
+        introClassName={theme.text}
+      />
 
       {loading && (
         <p className="mt-5 text-center text-sm text-gray-500">

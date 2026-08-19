@@ -5,12 +5,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import BeautyFilter from "@/components/beautypage/BeautyFilter";
-import { useEffect, useMemo, useState } from "react";
+import {useState } from "react";
 import { Category } from "@/types/product";
-import Section from "@/components/Section";
 import SlideShow from "@/components/SlideShow";
-import ProductItem from "@/components/ProductItem";
-import UserProductItem from "@/components/UserProductItem";
 import CategoryMenu from "@/components/beautypage/CategoryMenu";
 
 
@@ -92,7 +89,6 @@ const [switching, setSwitching] =
   // =========================
   // chuyển layout
   // =========================
-
 const handleSwitchType = () => {
   if (switching || exploring) return;
 
@@ -158,6 +154,7 @@ const handleSwitchType = () => {
 
         const data = await res.json()
         setCategories(data || [])
+        setCurrentCategory(data[0])
       } catch (error) {
         console.error(error)
       } finally {
@@ -170,7 +167,7 @@ const handleSwitchType = () => {
   <main className="min-h-screen">
     <Navbar />
 
-    <section className="relative w-full px-4 py-12 sm:py-16">
+    <section className="relative w-full px-4 py-8">
       
       {/* =========================
           BEAUTY FILTER
@@ -195,6 +192,7 @@ const handleSwitchType = () => {
             categories={categories}
             type={selected}
             switching={switching}
+            activeCategory={currentCategory}
             onChange={(category) => {
               setCurrentCategory(category)
             }}
@@ -204,12 +202,12 @@ const handleSwitchType = () => {
       {/* CATEGORY SECTIONS */}
             {!loading &&
             currentCategory && (
-
-                  <SlideShow
-                    title={currentCategory.name}
-                    intro={currentCategory.intro}
-                    category={currentCategory.slug}
-                  />
+            <SlideShow
+              title={currentCategory.name}
+              intro={currentCategory.intro}
+              category={currentCategory.slug}
+              type={selected}
+            />
   
               )}
 
