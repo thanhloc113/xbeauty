@@ -10,7 +10,7 @@ export default function SlideShow({
   intro = "",
   category,
 }: {
-  title:string
+  title: string
   intro?: string
   category: string
 }) {
@@ -19,54 +19,83 @@ export default function SlideShow({
 
   useEffect(() => {
     const load = async () => {
-      setLoading(true)
+      try {
+        setLoading(true)
 
-      const params = new URLSearchParams()
+        const params = new URLSearchParams()
 
-      if (category) params.append("category", category)
-      params.append("limit", "20")
-      params.append("page", "1")
-      params.append("sort", "rating")
+        if (category) params.append("category", category)
 
-      const res = await fetch(`/api/list-products?${params}`)
-      const data = await res.json()
+        params.append("limit", "20")
+        params.append("page", "1")
+        params.append("sort", "rating")
 
-      setProducts(data.products || [])
-      setLoading(false)
+        const res = await fetch(`/api/list-products?${params}`)
+
+        if (!res.ok) {
+          throw new Error("Không thể tải sản phẩm")
+        }
+
+        const data = await res.json()
+
+        setProducts(data.products || [])
+      } catch (error) {
+        console.error(error)
+        setProducts([])
+      } finally {
+        setLoading(false)
+      }
     }
 
     load()
   }, [category])
 
   return (
-    <section className="w-full py-12 rounded-2xl border shadow">
-      <Intro title={title} intro={intro}/>
+    <section className="w-full rounded-2xl border py-6 shadow md:py-12">
+      <Intro title={title} intro={intro} />
 
       {loading && (
-        <p className="text-center mt-6">Đang tải sản phẩm...</p>
+        <p className="mt-5 text-center text-sm text-gray-500">
+          Đang tải sản phẩm...
+        </p>
       )}
 
-      {/* ✅ Mobile: scroll ngang | Desktop: grid */}
-      <div className="mt-8 px-6">
-        {/* Mobile */}
-        <div className="flex gap-4 overflow-x-auto md:hidden scrollbar-hide">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="min-w-[160px] flex-shrink-0"
-            >
-              <UserProductItem product={product} />
-            </div>
-          ))}
-        </div>
+      {!loading && products.length > 0 && (
+        <div className="mt-5 md:mt-8">
+          {/* Mobile */}
+          <div className="flex gap-2 overflow-x-auto px-3 pb-2 scrollbar-hide md:hidden">
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className="
+                  w-[44vw]
+                  min-w-[44vw]
+                  max-w-[180px]
+                  flex-shrink-0
+                "
+              >
+                <UserProductItem product={product} />
+              </div>
+            ))}
+          </div>
 
-        {/* Desktop */}
-        <div className="hidden md:grid md:grid-cols-5 gap-4">
-          {products.map((product) => (
-            <UserProductItem key={product.id} product={product} />
-          ))}
+          {/* Desktop */}
+          <div className="hidden gap-4 px-6 md:grid md:grid-cols-5">
+            {products.map((product) => (
+              <UserProductItem
+                key={product.id}
+                product={product}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {!loading && products.length === 0 && (
+        <p className="mt-5 text-center text-sm text-gray-500">
+          Chưa có sản phẩm phù hợp
+        </p>
+      )}
     </section>
   )
 }

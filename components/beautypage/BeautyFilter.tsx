@@ -3,14 +3,19 @@
 
 import { CSSProperties, useMemo, useState } from "react";
 
+type Needs = {
+  name: string
+  slug: string
+}
+
 interface BeautyFilterProps {
   type: "skincare" | "makeup";
-  needs: string[];
+  needs: Needs[];
   selectedNeeds: string[];
   setSelectedNeeds: (value: string[]) => void;
   onSwitch: () => void;
   switching: boolean;
-  onExplore: (needs: string[]) => void;
+  loadListProduct: (topic: string) => void;
   exploring: boolean;
 }
 
@@ -21,7 +26,7 @@ export default function BeautyFilter({
   setSelectedNeeds,
   onSwitch,
   switching,
-  onExplore,
+  loadListProduct,
   exploring,
 }: BeautyFilterProps) {
   const [open, setOpen] = useState(false);
@@ -148,20 +153,27 @@ const magicParticles = useMemo(() => {
   // SELECT
   // =====================================================
 
-  const handleSelect = (item: string) => {
-    if (selectedNeeds.includes(item)) {
-      setSelectedNeeds(
-        selectedNeeds.filter((i) => i !== item)
-      );
-    } else {
-      setSelectedNeeds([
-        ...selectedNeeds,
-        item,
-      ]);
-    }
-  };
+const handleSelect = (item: { name: string; slug: string }) => {
+  setSelectedNeeds([item.name]);
+};
 
+const handleExplore = () => {
+  setOpen(false);
 
+  const selectedName = selectedNeeds[0];
+
+  if (!selectedName) return;
+
+  const selectedItem = needs.find(
+    (item) => item.name === selectedName
+  );
+
+  if (!selectedItem) return;
+
+  console.log("Selected topic:", selectedItem.slug);
+
+  loadListProduct(selectedItem.slug);
+};
 
   // =====================================================
   // THEME
@@ -508,10 +520,8 @@ const magicParticles = useMemo(() => {
           {/* Text */}
 
           <div className="min-w-0">
-
             {selectedNeeds.length > 0 ? (
-              <div>
-
+               <div className="min-w-0">
                 <p
                   className={`
                     text-[10px]
@@ -532,9 +542,8 @@ const magicParticles = useMemo(() => {
                     text-gray-800
                   "
                 >
-                  {selectedNeeds.length} hành trình
+                  {selectedNeeds[0]}
                 </p>
-
               </div>
             ) : (
               <div>
@@ -636,12 +645,10 @@ const magicParticles = useMemo(() => {
 
             {needs.map((item) => {
 
-              const isSelected =
-                selectedNeeds.includes(item);
-
+              const isSelected = selectedNeeds.includes(item.name);
               return (
                 <button
-                  key={item}
+                  key={item.slug}
                   type="button"
                   onClick={() => handleSelect(item)}
                   className={`
@@ -705,7 +712,7 @@ const magicParticles = useMemo(() => {
                     </span>
 
                     <span>
-                      {item}
+                      {item.name}
                     </span>
 
                   </span>
@@ -730,7 +737,7 @@ const magicParticles = useMemo(() => {
 
           {/* Clear */}
 
-          {selectedNeeds.length > 0 && (
+          {/* {selectedNeeds.length > 0 && (
             <div
               className="
                 mt-1
@@ -758,7 +765,7 @@ const magicParticles = useMemo(() => {
                 Xóa tất cả lựa chọn
               </button>
             </div>
-          )}
+          )} */}
 
         </div>
       )}
@@ -774,9 +781,7 @@ const magicParticles = useMemo(() => {
 
       <button
         type="button"
-        onClick={() => {
-          setOpen(false);
-          onExplore(selectedNeeds);}}
+        onClick={()=>handleExplore()}
         disabled={exploring}
         className={`
           group
@@ -901,7 +906,7 @@ const magicParticles = useMemo(() => {
     SELECTED TAGS
 ================================================= */}
 
-{selectedNeeds.length > 0 && (
+{/* {selectedNeeds.length > 0 && (
   <div className="mx-auto mt-3 w-full max-w-[520px]">
 
     <div className="flex flex-wrap justify-start gap-1.5">
@@ -961,7 +966,7 @@ const magicParticles = useMemo(() => {
     </div>
 
   </div>
-)}
+)} */}
 
 
     </section>

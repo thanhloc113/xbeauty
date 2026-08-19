@@ -144,9 +144,8 @@ export default function UserProductItem({ product }: { product: Product }) {
             className="h-full w-full object-cover"
           />
               {/* SKIN TYPE */}
-          <span className="absolute left-2 top-2 max-w-[80%] truncate rounded-full border border-rose-400/80 bg-black/65 px-3 py-1.5 text-[10px] font-bold text-[#FFD6C2] shadow-[0_0_10px_rgba(251,113,133,0.35)] backdrop-blur-md">
-            <span className="mr-1 text-rose-300">✦</span>
-            <span className="text-rose-200">
+          <span className="absolute left-2 top-2 inline-flex max-w-[80%] items-center overflow-hidden rounded-full border border-rose-400/80 bg-black/65 px-3 py-1.5 text-[10px] font-bold text-[#FFD6C2] shadow-[0_0_10px_rgba(251,113,133,0.35)] backdrop-blur-md">
+            <span className=" text-rose-200">
               {skinTypeList.join(" • ")}
             </span>
           </span>
@@ -236,11 +235,31 @@ export default function UserProductItem({ product }: { product: Product }) {
           )}
 
           {/* 08. Dòng sản phẩm */}
-          {product.tags?.length > 0 && (
-            <div className="mt-0.5 line-clamp-2 bg-gradient-to-r from-[#E8B894] via-[#FFF1D6] to-[#D9A77C] bg-clip-text text-[9px] font-semibold leading-tight text-transparent drop-shadow-[0_0_6px_rgba(255,220,180,0.3)] md:text-[10px]">
-              {product.tags[0].name}
-            </div>
-          )}
+{product.tags?.length > 0 && (
+  <div
+    className="
+      mt-0.5
+      line-clamp-2
+      bg-gradient-to-r
+      from-[#FFD76A]
+      via-[#FFF3B0]
+      via-[#FFFFFF]
+      via-[#FFE08A]
+      to-[#F6C64E]
+      bg-[length:250%_100%]
+      animate-[metalShine_3s_linear_infinite]
+      bg-clip-text
+      text-[9px]
+      font-bold
+      leading-tight
+      text-transparent
+      drop-shadow-[0_0_4px_rgba(255,220,100,0.9)]
+      md:text-[10px]
+    "
+  >
+    {product.tags[0].name}
+  </div>
+)}
 
           {/* 09. NHÀ BÁN HÀNG UY TÍN */}
           <div className="mt-2 border-t border-white/10 pt-2">
@@ -251,7 +270,7 @@ export default function UserProductItem({ product }: { product: Product }) {
               </span>
             </div>
 
-            <div className="mt-1 truncate text-[10px] font-semibold text-yellow-500 md:text-[11px]">
+            <div className="mt-1 truncate text-[10px] font-semibold text-yellow-300 md:text-[11px]">
               {sellerName}
             </div>
 

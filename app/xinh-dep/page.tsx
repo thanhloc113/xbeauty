@@ -14,28 +14,58 @@ import UserProductItem from "@/components/UserProductItem";
 
 
 const skincareNeeds = [
-  "Bảo vệ & Chống Nắng",
-  "Làm sạch & Giảm mụn",
-  "Làm sáng mịn & đều màu da",
-  "Phục hồi & Cấp ẩm",
-  "Chống lão hóa",
-  "Chăm sóc cơ thể",
-];
+  {
+    name: "Làm sạch",
+    slug: "lam-sach",
+  },
+  {
+    name: "Kiểm soát mụn",
+    slug: "kiem-soat-mun",
+  },
+  {
+    name: "Làm sáng & Giảm thâm",
+    slug: "lam-sang-giam-tham",
+  },
+  {
+    name: "Dưỡng ẩm & Phục hồi",
+    slug: "duong-am-phuc-hoi",
+  },
+  {
+    name: "Bảo vệ & Chống nắng",
+    slug: "bao-ve-chong-nang",
+  },
+  {
+    name: "Chống lão hóa",
+    slug: "chong-lao-hoa",
+  },
+  {
+    name: "Chăm sóc cơ thể",
+    slug: "cham-soc-co-the",
+  },
+]
 
 const makeupNeeds = [
-  "Kem nền",
-  "Cushion",
-  "Che khuyết điểm",
-  "Phấn phủ",
-  "Má hồng",
-  "Son",
-  "Mascara",
-  "Kẻ mắt",
-  "Kẻ mày",
-  "Highlight",
-  "Tạo khối",
-  "Kem lót",
-];
+  {
+    name: "Nền Hoàn Hảo",
+    slug: "nen-hoan-hao",
+  },
+  {
+    name: "Tạo Khối & Bắt Sáng",
+    slug: "tao-khoi-bat-sang",
+  },
+  {
+    name: "Mắt Đẹp",
+    slug: "mat-dep",
+  },
+  {
+    name: "Má Hồng",
+    slug: "ma-hong",
+  },
+  {
+    name: "Môi Xinh",
+    slug: "moi-xinh",
+  },
+]
 
 export default function XinhDep() {
   // =========================
@@ -115,20 +145,44 @@ const handleSwitchType = () => {
   // RENDER
   // =========================
 
-  useEffect(() => {
-      const load = async () => {
+  // useEffect(() => {
+  //     const load = async () => {
+  //       setLoading(true)
+  
+  //       const res = await fetch("/api/product-categories")
+  
+  //       const data = await res.json()
+  
+  //       setCategories(data || [])
+  //       setLoading(false)
+  //     }
+  
+  //     load()
+  //   }, [])
+
+    const handleLoadListProductExplore = async (topic: string) => {
+      try {
+        setExploring(true)
         setLoading(true)
-  
-        const res = await fetch("/api/product-categories")
-  
+
+        const res = await fetch(
+          `/api/product-categories?topic=${topic}`
+        )
+
+        if (!res.ok) {
+          throw new Error("Không thể tải sản phẩm")
+        }
+
         const data = await res.json()
-  
         setCategories(data || [])
+      } catch (error) {
+        console.error(error)
+      } finally {
         setLoading(false)
+        setExploring(false)
       }
-  
-      load()
-    }, [])
+    }
+
   return (
   <main className="min-h-screen">
     <Navbar />
@@ -147,7 +201,7 @@ const handleSwitchType = () => {
           setSelectedNeeds={setSelectedNeeds}
           onSwitch={handleSwitchType}
           switching={switching}
-          onExplore={handleViewProducts}
+          loadListProduct={handleLoadListProductExplore}
           exploring={exploring}
         />
       </div>
