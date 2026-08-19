@@ -373,14 +373,14 @@ const handleExplore = () => {
             bg-gradient-to-r
             ${theme.gradient}
             ${theme.gradientHover}
-            px-5
-            py-2.5
-            sm:px-7
-            sm:py-3
-            text-sm
-            sm:text-[15px]
+
+            px-[clamp(12px,2vw,28px)]
+            py-[clamp(6px,1vw,12px)]
+
+            text-[clamp(11px,1.1vw,15px)]
             font-semibold
             text-white
+
             ${theme.shadow}
             backdrop-blur-xl
             transition-all
@@ -390,6 +390,7 @@ const handleExplore = () => {
             active:scale-95
             disabled:cursor-not-allowed
             disabled:opacity-80
+
             ${switching ? "electric-switch" : ""}
           `}
         >
@@ -410,8 +411,9 @@ const handleExplore = () => {
             "
           />
 
-          <span className="relative flex items-center gap-2.5 sm:gap-3">
-            <span className="text-lg sm:text-xl">
+          <span className="relative flex items-center gap-[clamp(6px,0.9vw,12px)]">
+            
+            <span className="text-[clamp(15px,1.5vw,20px)]">
               {theme.emoji}
             </span>
 
@@ -422,16 +424,13 @@ const handleExplore = () => {
             <span
               className="
                 flex
-                h-6
-                w-6
-                sm:h-7
-                sm:w-7
+                h-[clamp(22px,2.1vw,28px)]
+                w-[clamp(22px,2.1vw,28px)]
                 items-center
                 justify-center
                 rounded-full
                 bg-white/20
-                text-base
-                sm:text-lg
+                text-[clamp(14px,1.4vw,18px)]
                 font-bold
                 shadow-inner
                 transition-transform
@@ -441,6 +440,7 @@ const handleExplore = () => {
             >
               ⇄
             </span>
+
           </span>
         </button>
       </div>
@@ -450,7 +450,7 @@ const handleExplore = () => {
     DROPDOWN + EXPLORE
 ================================================= */}
 
-<div className="relative mx-auto mt-4 w-full max-w-[520px]">
+<div className="relative mx-auto mt-[clamp(10px,1.5vw,16px)] w-full max-w-[min(520px,92vw)]" >
 
   <div className="flex items-stretch gap-2">
 
@@ -466,14 +466,17 @@ const handleExplore = () => {
         disabled={exploring}
         className={`
           flex
-          min-h-[52px]
           w-full
+          min-h-[clamp(40px,5vw,52px)]
           items-center
           justify-between
-          rounded-2xl
+
+          rounded-[clamp(12px,1.5vw,16px)]
           border
-          px-3
-          py-2
+
+          px-[clamp(8px,1vw,12px)]
+          py-[clamp(5px,0.8vw,8px)]
+
           text-left
           transition-all
           duration-300
@@ -495,36 +498,46 @@ const handleExplore = () => {
         `}
       >
 
-        {/* Left */}
+        {/* LEFT */}
+        <div
+          className="
+            flex
+            min-w-0
+            items-center
+            gap-[clamp(6px,0.8vw,8px)]
+          "
+        >
 
-        <div className="flex min-w-0 items-center gap-2">
-
-          {/* Icon */}
-
+          {/* ICON */}
           <span
             className={`
               flex
-              h-8
-              w-8
+              h-[clamp(26px,3vw,32px)]
+              w-[clamp(26px,3vw,32px)]
               shrink-0
               items-center
               justify-center
-              rounded-lg
+
+              rounded-[clamp(8px,1vw,10px)]
+
+              text-[clamp(11px,1.2vw,14px)]
+
               ${theme.iconBg}
-              text-sm
             `}
           >
             {theme.emoji}
           </span>
 
-          {/* Text */}
-
+          {/* TEXT */}
           <div className="min-w-0">
+
             {selectedNeeds.length > 0 ? (
-               <div className="min-w-0">
+
+              <div className="min-w-0">
+
                 <p
                   className={`
-                    text-[10px]
+                    text-[clamp(8px,0.85vw,10px)]
                     font-medium
                     leading-none
                     ${theme.text}
@@ -535,22 +548,27 @@ const handleExplore = () => {
 
                 <p
                   className="
-                    mt-1
+                    mt-[clamp(2px,0.3vw,4px)]
                     truncate
-                    text-xs
+
+                    text-[clamp(10px,1vw,12px)]
+
                     font-semibold
-                    text-gray-800
+                    text-gray-600
                   "
                 >
                   {selectedNeeds[0]}
                 </p>
+
               </div>
+
             ) : (
+
               <div>
 
                 <p
                   className="
-                    text-[10px]
+                    text-[clamp(8px,0.85vw,10px)]
                     font-medium
                     leading-none
                     text-gray-400
@@ -561,9 +579,11 @@ const handleExplore = () => {
 
                 <p
                   className="
-                    mt-1
+                    mt-[clamp(2px,0.3vw,4px)]
                     truncate
-                    text-[11px]
+
+                    text-[clamp(9px,0.95vw,11px)]
+
                     text-gray-700
                   "
                 >
@@ -571,25 +591,30 @@ const handleExplore = () => {
                 </p>
 
               </div>
+
             )}
 
           </div>
 
         </div>
 
-        {/* Arrow */}
 
+        {/* ARROW */}
         <span
           className={`
-            ml-1
+            ml-[clamp(4px,0.6vw,6px)]
+
             flex
-            h-7
-            w-7
+            h-[clamp(22px,2.5vw,28px)]
+            w-[clamp(22px,2.5vw,28px)]
+
             shrink-0
             items-center
             justify-center
+
             rounded-full
             border
+
             transition-all
             duration-300
 
@@ -609,19 +634,28 @@ const handleExplore = () => {
             }
           `}
         >
-          <span className="text-base font-bold leading-none">
+
+          <span
+            className="
+              text-[clamp(12px,1.4vw,16px)]
+              font-bold
+              leading-none
+            "
+          >
             🡇
           </span>
+
         </span>
 
       </button>
 
 
-      {/* =================================================
+      {/* =========================
           DROPDOWN MENU
-      ================================================= */}
+      ========================== */}
 
       {open && (
+
         <div
           className={`
             absolute
@@ -629,38 +663,59 @@ const handleExplore = () => {
             right-0
             top-full
             z-50
-            mt-2
+
+            mt-[clamp(6px,0.8vw,8px)]
+
             overflow-hidden
-            rounded-2xl
+
+            rounded-[clamp(12px,1.5vw,16px)]
+
             border
+
             ${theme.borderSoft}
             ${theme.dropdown}
             ${theme.dropdownGlow}
-            p-1.5
+
+            p-[clamp(4px,0.5vw,6px)]
+
             backdrop-blur-xl
           `}
         >
 
-          <div className="max-h-[260px] overflow-y-auto">
+          <div
+            className="
+              max-h-[clamp(180px,25vw,260px)]
+              overflow-y-auto
+            "
+          >
 
             {needs.map((item) => {
 
-              const isSelected = selectedNeeds.includes(item.name);
+              const isSelected =
+                selectedNeeds.includes(item.name);
+
               return (
+
                 <button
                   key={item.slug}
                   type="button"
                   onClick={() => handleSelect(item)}
+
                   className={`
                     flex
                     w-full
                     items-center
                     justify-between
-                    rounded-xl
-                    px-3
-                    py-2
+
+                    rounded-[clamp(8px,1vw,12px)]
+
+                    px-[clamp(8px,1vw,12px)]
+                    py-[clamp(6px,0.8vw,8px)]
+
                     text-left
-                    text-xs
+
+                    text-[clamp(10px,1vw,12px)]
+
                     transition-all
                     duration-200
 
@@ -679,19 +734,35 @@ const handleExplore = () => {
                   `}
                 >
 
-                  <span className="flex items-center gap-2">
+                  <span
+                    className="
+                      flex
+                      min-w-0
+                      items-center
 
+                      gap-[clamp(6px,0.8vw,8px)]
+                    "
+                  >
+
+                    {/* CHECKBOX */}
                     <span
                       className={`
                         flex
-                        h-4
-                        w-4
+
+                        h-[clamp(13px,1.5vw,16px)]
+                        w-[clamp(13px,1.5vw,16px)]
+
                         shrink-0
+
                         items-center
                         justify-center
-                        rounded-[5px]
+
+                        rounded-[clamp(4px,0.5vw,5px)]
+
                         border
-                        text-[9px]
+
+                        text-[clamp(7px,0.8vw,9px)]
+
                         font-bold
 
                         ${
@@ -711,63 +782,44 @@ const handleExplore = () => {
                       ✓
                     </span>
 
-                    <span>
+
+                    <span className="truncate">
                       {item.name}
                     </span>
 
                   </span>
 
+
                   {isSelected && (
+
                     <span
                       className={`
-                        text-[9px]
+                        ml-[clamp(4px,0.5vw,6px)]
+
+                        shrink-0
+
+                        text-[clamp(7px,0.8vw,9px)]
+
                         font-medium
+
                         ${theme.accent}
                       `}
                     >
                       Đã chọn
                     </span>
+
                   )}
 
                 </button>
+
               );
+
             })}
 
           </div>
 
-          {/* Clear */}
-
-          {/* {selectedNeeds.length > 0 && (
-            <div
-              className="
-                mt-1
-                border-t
-                border-white/10
-                px-2
-                pt-1
-              "
-            >
-              <button
-                type="button"
-                onClick={() => setSelectedNeeds([])}
-                className={`
-                  w-full
-                  rounded-lg
-                  py-1.5
-                  text-[10px]
-                  font-medium
-                  text-white/35
-                  transition-colors
-                  hover:bg-white/5
-                  ${theme.textLight}
-                `}
-              >
-                Xóa tất cả lựa chọn
-              </button>
-            </div>
-          )} */}
-
         </div>
+
       )}
 
     </div>
@@ -788,28 +840,41 @@ const handleExplore = () => {
           relative
           z-10
           flex
+
           h-full
-          min-h-[52px]
+          min-h-[clamp(40px,5vw,52px)]
+
           items-center
           justify-center
-          gap-1.5
+
+          gap-[clamp(4px,0.6vw,6px)]
+
           overflow-hidden
-          rounded-2xl
+
+          rounded-[clamp(12px,1.5vw,16px)]
+
           border
           border-white/60
+
           bg-gradient-to-r
           ${theme.gradient}
           ${theme.gradientHover}
-          px-4
-          py-2
-          text-xs
+
+          px-[clamp(10px,1.5vw,16px)]
+          py-[clamp(5px,0.8vw,8px)]
+
+          text-[clamp(10px,1vw,12px)]
           font-bold
           text-white
+
           ${theme.shadow}
+
           transition-all
           duration-300
+
           hover:-translate-y-0.5
           active:scale-[0.98]
+
           disabled:cursor-wait
           disabled:scale-[1.02]
 
@@ -862,16 +927,16 @@ const handleExplore = () => {
 
         <span className="relative flex items-center gap-1.5">
 
-          <span
-            className={`
-              text-sm
-              transition-transform
-              duration-300
-              ${exploring ? "scale-125" : ""}
-            `}
-          >
-            {exploring ? "🪄" : theme.emoji}
-          </span>
+        <span
+          className={`
+            text-[clamp(12px,1.2vw,14px)]
+            transition-transform
+            duration-300
+            ${exploring ? "scale-125" : ""}
+          `}
+        >
+          {exploring ? "🪄" : theme.emoji}
+        </span>
 
           <span className="whitespace-nowrap">
             {exploring
@@ -882,7 +947,7 @@ const handleExplore = () => {
           {!exploring && (
             <span
               className="
-                text-sm
+                text-[clamp(12px,1.2vw,14px)]
                 transition-transform
                 duration-300
                 group-hover:translate-x-1

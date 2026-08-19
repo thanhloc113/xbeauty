@@ -24,7 +24,9 @@ export default function SlideShow({
 
         const params = new URLSearchParams()
 
-        if (category) params.append("category", category)
+        if (category) {
+          params.append("category", category)
+        }
 
         params.append("limit", "20")
         params.append("page", "1")
@@ -61,26 +63,17 @@ export default function SlideShow({
       )}
 
       {!loading && products.length > 0 && (
-        <div className="mt-5 md:mt-8">
-          {/* Mobile */}
-          <div className="flex gap-2 overflow-x-auto px-3 pb-2 scrollbar-hide md:hidden">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="
-                  w-[44vw]
-                  min-w-[44vw]
-                  max-w-[180px]
-                  flex-shrink-0
-                "
-              >
-                <UserProductItem product={product} />
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop */}
-          <div className="hidden gap-4 px-6 md:grid md:grid-cols-5">
+        <div className="mt-5 px-2 md:mt-8 md:px-6">
+          <div
+            className="
+              grid
+              grid-cols-2
+              gap-2
+              sm:gap-3
+              md:grid-cols-5
+              md:gap-4
+            "
+          >
             {products.map((product) => (
               <UserProductItem
                 key={product.id}

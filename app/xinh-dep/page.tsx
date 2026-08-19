@@ -11,6 +11,7 @@ import Section from "@/components/Section";
 import SlideShow from "@/components/SlideShow";
 import ProductItem from "@/components/ProductItem";
 import UserProductItem from "@/components/UserProductItem";
+import CategoryMenu from "@/components/beautypage/CategoryMenu";
 
 
 const skincareNeeds = [
@@ -78,9 +79,6 @@ const [selected, setSelected] =
 const [selectedNeeds, setSelectedNeeds] =
   useState<string[]>([]);
 
-const [showSlideShow, setShowSlideShow] =
-  useState(false);
-
 const [exploring, setExploring] =
   useState(false);
 
@@ -88,24 +86,8 @@ const [switching, setSwitching] =
   useState(false);
 
   const [categories, setCategories] = useState<Category[]>([])
+  const [currentCategory, setCurrentCategory] = useState<Category>();
   const [loading, setLoading] = useState(true)
-// ========================= // GET PRODUCTS // =========================
-
-const handleViewProducts = () => {
-  if (selectedNeeds.length === 0 || exploring) return;
-
-  setExploring(true);
-
-  // Bắt đầu hiệu ứng phép thuật
-  setTimeout(() => {
-    setShowSlideShow(true);
-  }, 1100);
-
-  // Kết thúc hiệu ứng
-  setTimeout(() => {
-    setExploring(false);
-  }, 1700);
-};
 
   // =========================
   // chuyển layout
@@ -115,7 +97,6 @@ const handleSwitchType = () => {
   if (switching || exploring) return;
 
   setSwitching(true);
-  setShowSlideShow(false);
 
   setTimeout(() => {
     setSelected((prev) =>
@@ -125,6 +106,8 @@ const handleSwitchType = () => {
     );
 
     setSelectedNeeds([]);
+    setCategories([]);
+    setCurrentCategory(undefined)
     setSwitching(false);
   }, 400);
 };
@@ -205,17 +188,30 @@ const handleSwitchType = () => {
           exploring={exploring}
         />
       </div>
+
+      {/* Load Categories Menu */}
+        {categories.length > 0 && (
+          <CategoryMenu
+            categories={categories}
+            type={selected}
+            switching={switching}
+            onChange={(category) => {
+              setCurrentCategory(category)
+            }}
+          />
+        )}
+
       {/* CATEGORY SECTIONS */}
             {!loading &&
-              categories.map((cat) => (
-                <Section key={cat.id} id={cat.slug}>
+            currentCategory && (
+
                   <SlideShow
-                    title={cat.name}
-                    intro={cat.intro}
-                    category={cat.slug}
+                    title={currentCategory.name}
+                    intro={currentCategory.intro}
+                    category={currentCategory.slug}
                   />
-                </Section>
-              ))}
+  
+              )}
 
       {/* =========================
           SLIDESHOW
