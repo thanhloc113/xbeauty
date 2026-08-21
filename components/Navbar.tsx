@@ -27,9 +27,9 @@ export default function Navbar() {
         alt="logo"
         width={40}
         height={40}
-        // className="animate-[spin_6s_linear_infinite]"
+        className="animate-[spin_6s_linear_infinite]"
       />
-        <span>Chào em bé</span>
+        <span>DearMyDarling.com</span>
       </Link>
 
         {/* mobile button */}

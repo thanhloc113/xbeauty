@@ -4,6 +4,9 @@ import { Product } from "@/types/product"
 import { useEffect, useState } from "react"
 import ProductReviewSlider from "./ProductReviewSlider"
 import { formatPriceDisplay, formatNumber } from "@/utils/formatPrice"
+import { FaShop } from "react-icons/fa6";
+
+
 
 function getFlashSaleStatus(start: string | null, end: string | null) {
   const now = Date.now()
@@ -34,6 +37,7 @@ function countdown(time: string) {
 }
 
 export default function UserProductItem({ product }: { product: Product }) {
+
   const [status, setStatus] = useState<
     "none" | "coming" | "active" | "ended"
   >("none")
@@ -50,15 +54,13 @@ export default function UserProductItem({ product }: { product: Product }) {
   const makeupList = getFilterValues(product, "makeup")
   const benefitList = [...skinCareList, ...makeupList]
 
-  // Quick Scan: chỉ lấy thông tin quan trọng nhất.
-  const solutionList =
-    benefitList.length > 0
-      ? benefitList.slice(0, 2)
-      : skinTypeList.slice(0, 2)
 
   const highlightList = benefitList.slice(0, 3)
 
   useEffect(() => {
+    if(product.id === 33 || product.id === 32){
+      console.log(product)
+    }
     function updateFlashSale() {
       const newStatus = getFlashSaleStatus(
         product.flash_sale_start,
@@ -104,13 +106,11 @@ export default function UserProductItem({ product }: { product: Product }) {
     return ""
   }
 
-  const productAmount = "500 ml"
+
 
   // Các field này có thể khác nhau tùy Product type/API.
   // Không có dữ liệu thì nút/link sẽ được ẩn hoặc disabled.
   const productData = product as Product & {
-    seller_name?: string
-    seller?: { name?: string }
     shop_name?: string
     tiktok_link?: string
     shopee_link?: string
@@ -118,37 +118,29 @@ export default function UserProductItem({ product }: { product: Product }) {
     shopee_url?: string
   }
 
-  const sellerName =
-    productData.seller_name ||
-    productData.seller?.name ||
-    productData.shop_name ||
-    "Nhà bán hàng chính hãng"
 
-  const tiktokLink = productData.tiktok_link || productData.tiktok_url || "https://www.tiktok.com/@dai.ca.xinh/photo/7665978536506690823"
-  const shopeeLink =
-    productData.shopee_link ||
-    productData.shopee_url ||
-    product.affiliate_link ||
-    ""
+
 
 return (
   <>
     {/* QUICK SCAN */}
     <article
       className="
-        group
-        w-full
-        max-w-[250px]
-        min-w-0
-        overflow-hidden
-        rounded-[clamp(10px,1.5vw,16px)]
-        border
-        border-white/10
-        bg-[#1b0625]
-        shadow-lg
-        transition
-        hover:-translate-y-0.5
-        hover:border-pink-400/50
+          group
+          flex
+          h-full
+          w-full
+          max-w-[250px]
+          min-w-0
+          flex-col
+          overflow-hidden
+          rounded-[clamp(10px,1.5vw,16px)]
+          border
+          border-pink-400/50
+          bg-[#1b0625]
+          shadow-lg
+          transition
+          hover:-translate-y-1
       "
     >
       {/* 01. IMAGE */}
@@ -160,7 +152,8 @@ return (
         />
 
         {/* SKIN TYPE */}
-        <span
+        {product.tags.length > 0 && (
+                  <span
           className="
             absolute
             left-[4%]
@@ -184,19 +177,24 @@ return (
           "
         >
           <span className="truncate text-rose-200">
-            {skinTypeList.join(" • ")}
+            {product.tags[0].name}
           </span>
         </span>
+        )}
+
       </div>
 
       <div
         className="
+          flex
           min-w-0
+          flex-1
+          flex-col
           p-[clamp(6px,2vw,10px)]
         "
       >
         {/* 02. PRODUCT NAME */}
-        {solutionList.length > 0 && (
+
           <div className="mb-[clamp(3px,1vw,6px)]">
             <h2
               className="
@@ -211,10 +209,35 @@ return (
               {product.name}
             </h2>
           </div>
-        )}
 
+        {/* 08. DÒNG SẢN PHẨM */}
+        {skinTypeList.length > 0 && (
+          <div
+            className="
+              mt-[2px]
+              line-clamp-2
+              bg-gradient-to-r
+              from-[#FFD76A]
+              via-[#FFF3B0]
+              via-[#FFFFFF]
+              via-[#FFE08A]
+              to-[#F6C64E]
+              bg-[length:250%_100%]
+              animate-[metalShine_3s_linear_infinite]
+              bg-clip-text
+              text-[clamp(6px,1.8vw,9px)]
+              font-bold
+              leading-[1.25]
+              text-transparent
+              drop-shadow-[0_0_4px_rgba(255,220,100,0.9)]
+              md:text-[10px]
+            "
+          >
+            {skinTypeList.join(" • ")}
+          </div>
+        )}
         {/* 05. PHÂN TÍCH */}
-        {highlightList.length > 0 && (
+        {product.reviews.length > 0 && (
           <button
             type="button"
             onClick={() => setOpenReview(true)}
@@ -268,13 +291,15 @@ return (
               md:text-base
             "
           >
+
+
             {formatPriceDisplay(
               product.best_price,
               status
             )?.toLocaleString()}
           </span>
 
-          {productAmount && (
+          {product.net_weight && (
             <>
               <span className="shrink-0 text-[clamp(8px,2vw,12px)] text-white">
                 /
@@ -287,67 +312,51 @@ return (
                   whitespace-nowrap
                   text-[clamp(7px,2vw,10px)]
                   font-medium
-                  text-gray-300
+                  text-red-300
                   md:text-[11px]
                 "
               >
-                {productAmount}
+                {product.net_weight}
               </span>
             </>
           )}
         </div>
-
-        {/* 07. FLASH SALE */}
+         {/* 07. FLASH SALE */}
         {(status === "active" || status === "coming") && (
-          <div
-            className="
-              mt-[2px]
+          <>
+            <div
+            className={`
+
+              my-[10px]
               min-w-0
-              text-[clamp(6px,1.8vw,8px)]
+              truncate
+              text-[clamp(10px,1.8vw,12px)]
               leading-tight
-              md:text-[9px]
-            "
+              
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-green-300"  }
+
+            `}
           >
+            🎁 {product.promotion_program}
             {status === "active" ? (
-              <span className="block truncate text-red-300">
-                🔥 Còn {timeLeft}
+              <span className=" block ml-[5px] mt-[6px]">
+                Đang diễn ra {timeLeft}s
               </span>
             ) : (
-              <span className="block truncate text-orange-300">
-                ⏳ Bắt đầu sau {timeLeft}
+              <span className=" block ml-[5px] mt-[6px] ml-[5px]  ">
+                Bắt đầu sau {timeLeft}
               </span>
             )}
           </div>
+
+          </>
+
         )}
 
-        {/* 08. DÒNG SẢN PHẨM */}
-        {product.tags?.length > 0 && (
-          <div
-            className="
-              mt-[2px]
-              line-clamp-2
-              bg-gradient-to-r
-              from-[#FFD76A]
-              via-[#FFF3B0]
-              via-[#FFFFFF]
-              via-[#FFE08A]
-              to-[#F6C64E]
-              bg-[length:250%_100%]
-              animate-[metalShine_3s_linear_infinite]
-              bg-clip-text
-              text-[clamp(6px,1.8vw,9px)]
-              font-bold
-              leading-[1.25]
-              text-transparent
-              drop-shadow-[0_0_4px_rgba(255,220,100,0.9)]
-              md:text-[10px]
-            "
-          >
-            {product.tags[0].name}
-          </div>
-        )}
 
         {/* 09. NHÀ BÁN HÀNG UY TÍN */}
+        
+        { product.seller_name && (
         <div
           className="
             mt-[clamp(6px,2vw,10px)]
@@ -367,12 +376,8 @@ return (
               md:text-[10px]
             "
           >
-            <span className="shrink-0 text-emerald-400">
-              🛡️
-            </span>
-
             <span className="truncate font-semibold text-white">
-              Nhà bán hàng uy tín
+              {product.seller_type}
             </span>
           </div>
 
@@ -386,7 +391,11 @@ return (
               md:text-[11px]
             "
           >
-            {sellerName}
+            <span className="flex items-center gap-1">
+              <FaShop />
+              {product.seller_name}
+            </span>
+          
           </div>
 
           <div
@@ -400,7 +409,7 @@ return (
               whitespace-nowrap
               text-[clamp(6px,1.7vw,8px)]
               text-gray-400
-              md:text-[9px]
+              md:text-[11px]
             "
           >
             <span className="shrink-0 text-yellow-300">
@@ -420,18 +429,21 @@ return (
             </span>
           </div>
         </div>
+        )}
+
 
         {/* 10. MARKETPLACES */}
         <div
           className="
-            mt-[clamp(7px,2.5vw,10px)]
-            flex
-            gap-[clamp(3px,1.2vw,6px)]
+          mt-auto
+          flex
+          gap-[clamp(3px,1.2vw,6px)]
+          pt-[clamp(7px,2.5vw,10px)]
           "
         >
-          {tiktokLink ? (
+          {product.tiktok_shop_link ? (
             <a
-              href={tiktokLink}
+              href={product.tiktok_shop_link}
               target="_blank"
               rel="noopener noreferrer"
               className="
@@ -480,15 +492,16 @@ return (
                 text-gray-300
                 ring-1
                 ring-white/10
+                opacity-50
               "
             >
               TikTok
             </span>
           )}
 
-          {shopeeLink ? (
+          {product.affiliate_link ? (
             <a
-              href={shopeeLink}
+              href={product.affiliate_link}
               target="_blank"
               rel="noopener noreferrer"
               className="

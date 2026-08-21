@@ -7,10 +7,18 @@ export async function GET(req: Request) {
 
 
   if (!topicSlug) {
-    return Response.json(
-      { error: "Thiếu topic" },
-      { status: 400 }
-    )
+
+      const result = await sql`
+          SELECT 
+            id,
+            name,
+            intro,
+            slug,
+            display_order
+          FROM product_categories 
+          ORDER BY display_order ASC
+        `
+        return Response.json(result)
   }
 
   const result = await sql`

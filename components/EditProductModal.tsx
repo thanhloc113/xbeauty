@@ -32,36 +32,36 @@ const defaultFilter =[
 
 const defaultTag = [{
   "id": 1,
-  "name": "Hàng Viết Được Yêu Thích",
-  "slug": "hang_viet_duoc_yeu_thich"
+  "name": "Lành Tính",
+  "slug": "lanh-tinh"
 }, {
   "id": 2,
-  "name": "Best Choice",
-  "slug": "best-choice"
+  "name": "Sản phâm được đánh giá cao",
+  "slug": "san-pham-duoc-danh-gia-cao"
 }, {
   "id": 3,
   "name": "Giá tốt",
   "slug": "gia-tot"
 }, {
   "id": 4,
-  "name": "Yêu thích",
-  "slug": "yeu-thich"
+  "name": "Nhiêu ngươi tin dùng",
+  "slug": "duoc-nhieu-nguoi-tin-dung"
 }, {
   "id": 5,
   "name": "Hàng hiệu",
   "slug": "hang-hieu"
 }, {
   "id": 6,
-  "name": "Cao cấp",
-  "slug": "cao-cap"
+  "name": "Thương hiệu được yêu thích",
+  "slug": "thuong-hieu-duoc-yeu-thich"
 }, {
   "id": 7,
-  "name": "Hot trend",
+  "name": "Hot Trend",
   "slug": "hot-trend"
 }, {
   "id": 8,
-  "name": "Độc quyền",
-  "slug": "doc-quyen"
+  "name": "Sản phẩm signature",
+  "slug": "san-pham-signature"
 }, {
   "id": 9,
   "name": "Mới ra mắt",
@@ -553,36 +553,64 @@ function handleSubmit() {
   Xem review
 </button>
 </div>
+
+      
           {/* PRICE */}
           <div>
             <div className="grid grid-cols-2 gap-3">
+              {/* <div>
+                <label className="block font-semibold mb-1">original_price</label>
+                <input
+                  type="number"
+                  value={localProductState.original_price}
+                  onChange={(e) => handleChange("original_price", Number(e.target.value))}
+                  placeholder="Original price"
+                  className="border p-2 rounded"
+                />
+              </div> */}
               <div>
-              <label className="block font-semibold mb-1">original_price</label>
-              <input
-                type="number"
-                value={localProductState.original_price}
-                onChange={(e) => handleChange("original_price", Number(e.target.value))}
-                placeholder="Original price"
-                className="border p-2 rounded"
-              />
+                  <label className="block font-semibold mb-1">best_price</label>
+                  <input
+                  type="number"
+                  value={localProductState.best_price}
+                  onChange={(e) => handleChange("best_price", Number(e.target.value))}
+                  placeholder="Best price"
+                  className="border p-2 rounded"
+                  />
               </div>
-                 <div>
-               <label className="block font-semibold mb-1">best_price</label>
-              <input
-                type="number"
-                value={localProductState.best_price}
-                onChange={(e) => handleChange("best_price", Number(e.target.value))}
-                placeholder="Best price"
-                className="border p-2 rounded"
-              />
+              <div>
+                <label className="block font-semibold mb-1">Khối lượng</label>
+                <input
+                  value={localProductState.net_weight ?? ""}
+                  onChange={(e) => handleChange("net_weight", e.target.value)}
+                  className="border w-full p-2 rounded"
+                />
               </div>
             </div>
           </div>
 
           {/* STATS */}
           <div>
-            
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                <label className="block font-semibold mb-1">Nhà cung cấp</label>
+                <input
+                  value={localProductState.seller_name ?? ""}
+                  onChange={(e) => handleChange("seller_name", e.target.value)}
+                  className="border w-full p-2 rounded"
+                />
+                </div>
+                <div>
+                <label className="block font-semibold mb-1">Thương hiệu đến từ</label>
+                <input
+                  value={localProductState.seller_type ?? ""}
+                  onChange={(e) => handleChange("seller_type", e.target.value)}
+                  className="border w-full p-2 rounded"
+                />
+                </div>
+              </div>
             <div className="grid grid-cols-3 gap-3">
+
               <div>
                 <label className="block font-semibold mb-1">rating</label>
                 <input
@@ -616,9 +644,19 @@ function handleSubmit() {
             </div>
           </div>
 
-          {/* FLASH SALE */}
+          {/* Promotion program name */}
           <div>
-            <label className="block font-semibold mb-1">Flash Sale Time</label>
+            <label className="block font-semibold mb-1">Chương trình ưu đãi</label>
+            <input
+              value={localProductState.promotion_program ?? ""}
+              onChange={(e) => handleChange("promotion_program", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
+
+          {/* Promotion program Time */}
+          <div>
+            <label className="block font-semibold mb-1">Thời gian</label>
             <div className="grid grid-cols-2 gap-3">
               <input
                 type="datetime-local"

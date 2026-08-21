@@ -47,6 +47,10 @@ export async function GET(req: Request) {
         p.product_link,
         p.cta,
         p.hook,
+        p.promotion_program,
+        p.net_weight,
+        p.seller_type,
+        p.seller_name,
 
         -- FIX TIMEZONE
         (p.flash_sale_start AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_start,

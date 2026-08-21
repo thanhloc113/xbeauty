@@ -47,6 +47,7 @@ export type Product = {
   name: string
   image: string
   affiliate_link: string
+  tiktok_shop_link: string
   short_description: string
   benefits: string
   ingredients: string
@@ -65,5 +66,8 @@ export type Product = {
   reviews: ProductReview[]
   tags: Tag[]
   productfilter: ProductFilter
-
+  promotion_program: string
+  net_weight: string
+  seller_type: string
+  seller_name: string
 }
