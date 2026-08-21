@@ -138,6 +138,12 @@ function createEmptyProduct(): Product {
     reviews: [],
     tags: [],
     productfilter: [],
+    tiktok_shop_link:"",
+    seller_type:"",
+    seller_name:"",
+    promotion_program:"",
+    net_weight:""
+
 
   }
 }
