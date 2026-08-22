@@ -36,7 +36,10 @@ function countdown(time: string) {
     .padStart(2, "0")}`
 }
 
-export default function UserProductItem({ product }: { product: Product }) {
+export default function UserProductItem({ 
+  product
+}: { 
+  product: Product }) {
 
   const [status, setStatus] = useState<
     "none" | "coming" | "active" | "ended"
@@ -176,7 +179,7 @@ return (
             backdrop-blur-md
           "
         >
-          <span className="truncate text-rose-200">
+          <span className={`truncate text-rose-200`}>
             {product.tags[0].name}
           </span>
         </span>
@@ -197,14 +200,15 @@ return (
 
           <div className="mb-[clamp(3px,1vw,6px)]">
             <h2
-              className="
+              className={`
                 line-clamp-2
                 text-[clamp(9px,2.6vw,13px)]
                 font-bold
                 leading-[1.25]
                 text-pink-500
                 md:text-sm
-              "
+
+              `}
             >
               {product.name}
             </h2>
@@ -330,8 +334,9 @@ return (
               my-[10px]
               min-w-0
               truncate
-              text-[clamp(10px,1.8vw,12px)]
+              text-[clamp(10px,1.8vw,11px)]
               leading-tight
+              text-wrap
               
               ${status === "coming" ? "text-gray-400 opacity-80" : "text-green-300"  }
 
@@ -339,12 +344,12 @@ return (
           >
             🎁 {product.promotion_program}
             {status === "active" ? (
-              <span className=" block ml-[5px] mt-[6px]">
-                Đang diễn ra {timeLeft}s
+              <span className=" block mt-[6px]">
+              Đang diễn ra {timeLeft}s
               </span>
             ) : (
-              <span className=" block ml-[5px] mt-[6px] ml-[5px]  ">
-                Bắt đầu sau {timeLeft}
+              <span className=" block mt-[6px]">
+              Bắt đầu sau {timeLeft}
               </span>
             )}
           </div>
@@ -371,9 +376,9 @@ return (
               min-w-0
               items-center
               gap-[clamp(2px,0.8vw,6px)]
-              text-[clamp(6px,1.8vw,9px)]
+              text-[clamp(6px,1.8vw,11px)]
               leading-tight
-              md:text-[10px]
+              md:text-[11px]
             "
           >
             <span className="truncate font-semibold text-white">
@@ -385,7 +390,7 @@ return (
             className="
               mt-[clamp(2px,0.8vw,4px)]
               truncate
-              text-[clamp(7px,2vw,10px)]
+              text-[clamp(7px,2vw,11px)]
               font-semibold
               text-yellow-300
               md:text-[11px]
@@ -407,7 +412,7 @@ return (
               gap-[clamp(2px,0.7vw,4px)]
               overflow-hidden
               whitespace-nowrap
-              text-[clamp(6px,1.7vw,8px)]
+              text-[clamp(6px,1.7vw,11px)]
               text-gray-400
               md:text-[11px]
             "
@@ -558,9 +563,30 @@ return (
     </article>
 
     {/* DETAIL REVIEW */}
-    {openReview && (
-      <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-2 backdrop-blur-sm">
-        <div className="relative flex h-[88vh] w-[95vw] flex-col overflow-hidden rounded-xl bg-[#0f172a] p-3 md:w-[70vw] md:p-4">
+{openReview && (
+  <div
+    className="
+      fixed
+      inset-0
+      z-[999]
+      overflow-y-auto
+      bg-black/70
+      backdrop-blur-sm
+    "
+  >
+    <div
+      className="
+        relative
+        mx-auto
+        min-h-full
+        w-full
+        max-w-[95vw]
+        bg-[#0f172a]
+        p-3
+        md:max-w-[70vw]
+        md:p-4
+      "
+    >
           <button
             onClick={() => setOpenReview(false)}
             className="absolute right-3 top-3 z-[1000] flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 text-sm text-white shadow-xl transition active:scale-95 md:h-11 md:w-11 md:text-lg"
@@ -575,16 +601,210 @@ return (
                 Reviews đang được cập nhật...
               </p>
             ) : (
+              // <ProductReviewSlider
+              //   short_description={product.short_description || ""}
+              //   productName={product.name}
+              //   affiliateLink={product.affiliate_link}
+              //   reviews={product.reviews}
+              //   benefit={product.benefits}
+              //   usage={product.usage}
+              //   ingredient={product.ingredients}
+              //   cta={product.cta}
+              // />
               <ProductReviewSlider
-                short_description={product.short_description || ""}
+                reviews={product.reviews}
+                short_description="Toner tập trung vào dưỡng ẩm, làm dịu và cải thiện cảm giác khô căng."
                 productName={product.name}
                 affiliateLink={product.affiliate_link}
-                reviews={product.reviews}
-                benefit={product.benefits}
-                usage={product.usage}
-                ingredient={product.ingredients}
-                cta={product.cta}
-              />
+                cta="Kiểm tra giá sản phẩm chính hãng"
+                reviewData={{
+                  overallScore: 8.7,
+
+                  effectiveness: {
+                    summary:
+                      "Sản phẩm tập trung chủ yếu vào khả năng cấp ẩm và hỗ trợ làm dịu da.",
+
+                    scores: [
+                      {
+                        label: "Cấp ẩm",
+                        score: 9.2,
+                      },
+                      {
+                        label: "Làm dịu",
+                        score: 8.5,
+                      },
+                      {
+                        label: "Hỗ trợ phục hồi",
+                        score: 7.8,
+                      },
+                      {
+                        label: "Kiểm soát dầu",
+                        score: 5.5,
+                      },
+                      {
+                        label: "Hỗ trợ mụn",
+                        score: 3.5,
+                      },
+                    ],
+
+                    strengths: [
+                      "Khả năng cấp ẩm tốt.",
+                      "Phù hợp với routine dưỡng da hằng ngày.",
+                      "Có thể kết hợp trong routine phục hồi.",
+                    ],
+
+                    limitations: [
+                      "Không phải sản phẩm treatment trị mụn.",
+                      "Không nên kỳ vọng hiệu quả làm sáng mạnh.",
+                    ],
+                  },
+
+                  ingredients: {
+                    summary:
+                      "Công thức tập trung vào các thành phần hỗ trợ dưỡng ẩm và làm dịu.",
+
+                    highlights: [
+                      {
+                        title: "Beta-Glucan",
+                        description:
+                          "Hỗ trợ dưỡng ẩm và làm dịu, giúp cải thiện cảm giác khô căng trên da.",
+                      },
+                      {
+                        title: "Hyaluronic Acid",
+                        description:
+                          "Hỗ trợ giữ nước và duy trì cảm giác ẩm mượt cho bề mặt da.",
+                      },
+                    ],
+
+                    safety: {
+                      score: 8.2,
+
+                      summary:
+                        "Độ an toàn và mức độ phù hợp phụ thuộc vào toàn bộ công thức cũng như khả năng dung nạp của từng người.",
+
+                      cautions: [
+                        "Da rất nhạy cảm nên kiểm tra kỹ bảng thành phần trước khi sử dụng.",
+                      ],
+                    },
+                  },
+
+                  suitability: {
+                    summary:
+                      "Phù hợp nhất với người ưu tiên dưỡng ẩm và cải thiện tình trạng da thiếu nước.",
+
+                    skinTypes: [
+                      {
+                        label: "Da khô",
+                        score: 9.5,
+                      },
+                      {
+                        label: "Da thiếu nước",
+                        score: 9.3,
+                      },
+                      {
+                        label: "Da thường",
+                        score: 8.8,
+                      },
+                      {
+                        label: "Da hỗn hợp",
+                        score: 7.5,
+                      },
+                      {
+                        label: "Da dầu",
+                        score: 6.5,
+                      },
+                    ],
+
+                    concerns: [
+                      {
+                        label: "Thiếu nước",
+                        score: 9.3,
+                      },
+                      {
+                        label: "Khô căng",
+                        score: 9,
+                      },
+                      {
+                        label: "Cần làm dịu",
+                        score: 8.2,
+                      },
+                      {
+                        label: "Mụn",
+                        score: 4,
+                      },
+                    ],
+
+                    bestFor: [
+                      "Da đang thiếu nước hoặc thường xuyên khô căng.",
+                      "Người cần một toner dưỡng ẩm sử dụng hằng ngày.",
+                    ],
+
+                    avoidOrConsider: [
+                      "Người đang tìm một sản phẩm treatment trị mụn.",
+                      "Da có tiền sử nhạy cảm với thành phần cần lưu ý.",
+                    ],
+                  },
+
+                  experience: {
+                    texture: "Lỏng nhẹ",
+                    absorption: "Khá nhanh",
+                    finish: "Ẩm mượt",
+
+                    timeline: [
+                      {
+                        label: "Ngay sau khi dùng",
+                        description:
+                          "Da có thể cảm nhận mềm và ẩm hơn.",
+                      },
+                      {
+                        label: "Sau 1–2 tuần",
+                        description:
+                          "Có thể bắt đầu đánh giá mức độ cải thiện cảm giác khô căng nếu sản phẩm phù hợp.",
+                      },
+                      {
+                        label: "Sau 4–8 tuần",
+                        description:
+                          "Đánh giá hiệu quả duy trì và mức độ phù hợp trong toàn bộ routine.",
+                      },
+                    ],
+
+                    feedback: {
+                      positive: [
+                        "Khả năng cấp ẩm tốt.",
+                        "Dễ kết hợp với các bước skincare khác.",
+                      ],
+
+                      negative: [
+                        "Không phù hợp nếu kỳ vọng treatment chuyên sâu.",
+                      ],
+                    },
+                  },
+
+                  reliability: {
+                    brandScore: 8.8,
+                    sourceScore: 9,
+                    distributorScore: 8.5,
+
+                    brand:
+                      "Đánh giá dựa trên mức độ minh bạch thông tin và sự nhất quán của thương hiệu.",
+
+                    manufacturer:
+                      "Thông tin về nguồn gốc và nhà sản xuất nên có khả năng kiểm tra và xác minh.",
+
+                    distributor:
+                      "Ưu tiên nguồn bán có thông tin rõ ràng, chính sách hỗ trợ và khả năng xác minh hàng hóa.",
+
+                    strengths: [
+                      "Thông tin sản phẩm có thể kiểm tra.",
+                      "Có tiêu chí riêng để đánh giá nguồn bán.",
+                    ],
+
+                    cautions: [
+                      "Độ tin cậy của nơi bán cần được đánh giá riêng theo từng nhà phân phối.",
+                    ],
+                  },
+                }}
+/>
             )}
           </div>
         </div>

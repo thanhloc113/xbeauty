@@ -25,10 +25,10 @@ export default function SlideShow({
     ? {
         border: "border-teal-300",
         borderSoft: "border-teal-300/30",
-        text: "text-teal-200",
+        text: "text-teal-400",
         textStrong: "text-teal-400",
         textLight: "text-teal-300",
-        accent: "text-cyan-300",
+        accent: "text-cyan-400",
         gradient: "from-emerald-500 via-teal-500 to-cyan-500",
         glow: "shadow-[0_0_25px_rgba(20,184,166,0.2)]",
       }

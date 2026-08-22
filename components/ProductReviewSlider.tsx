@@ -1,160 +1,867 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-
-// Thay vì khai báo riêng
-// export type ProductReview = { ... }
-
+import { useEffect, useRef, useState } from "react"
 import { ProductReview as ProductReviewType } from "@/types/product"
 
 type ReviewInput = ProductReviewType
+
+/* =========================================================
+   REVIEW TYPES
+========================================================= */
+
+type ReviewSection =
+  | "effectiveness"
+  | "ingredients"
+  | "suitability"
+  | "experience"
+  | "reliability"
+
+type ScoreItem = {
+  label: string
+  score: number
+  description?: string
+}
+
+type HighlightItem = {
+  title: string
+  description: string
+}
+
+type TimelineItem = {
+  label: string
+  description: string
+}
+
+export type ProductReviewData = {
+  overallScore?: number
+
+  effectiveness?: {
+    summary?: string
+    scores?: ScoreItem[]
+    strengths?: string[]
+    limitations?: string[]
+  }
+
+  ingredients?: {
+    summary?: string
+
+    highlights?: HighlightItem[]
+
+    safety?: {
+      score: number
+      summary: string
+      cautions?: string[]
+    }
+  }
+
+  suitability?: {
+    summary?: string
+
+    skinTypes?: ScoreItem[]
+
+    concerns?: ScoreItem[]
+
+    bestFor?: string[]
+
+    avoidOrConsider?: string[]
+  }
+
+  experience?: {
+    texture?: string
+    absorption?: string
+    finish?: string
+
+    timeline?: TimelineItem[]
+
+    feedback?: {
+      positive?: string[]
+      negative?: string[]
+    }
+  }
+
+  reliability?: {
+    brandScore?: number
+    sourceScore?: number
+    distributorScore?: number
+
+    brand?: string
+    manufacturer?: string
+    distributor?: string
+
+    strengths?: string[]
+    cautions?: string[]
+  }
+}
+
+/* =========================================================
+   SCORE BAR
+========================================================= */
+
+// function ScoreBar({
+//   label,
+//   score,
+//   description,
+// }: ScoreItem) {
+//   const safeScore = Math.min(Math.max(score, 0), 10)
+//   const percent = safeScore * 10
+
+//   return (
+//     <div className="space-y-1.5">
+//       <div className="flex items-start justify-between gap-3">
+//         <div className="min-w-0">
+//           <div className="text-xs font-semibold text-white">
+//             {label}
+//           </div>
+
+//           {description && (
+//             <div className="mt-0.5 text-[10px] leading-relaxed text-white/40">
+//               {description}
+//             </div>
+//           )}
+//         </div>
+
+//         <div className="shrink-0 text-sm font-bold text-pink-300">
+//           {safeScore.toFixed(1)}
+//         </div>
+//       </div>
+
+//       <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+//         <div
+//           className="
+//             h-full
+//             rounded-full
+//             bg-gradient-to-r
+//             from-pink-500
+//             via-fuchsia-400
+//             to-violet-400
+//             transition-all
+//             duration-500
+//           "
+//           style={{
+//             width: `${percent}%`,
+//           }}
+//         />
+//       </div>
+//     </div>
+//   )
+// }
+
+/* =========================================================
+   REVIEW CONTENT
+========================================================= */
+
+function ReviewContent({
+  data,
+  active,
+}: {
+  data?: ProductReviewData
+  active: ReviewSection
+}) {
+  if (!data) {
+    return (
+      <div className="py-6 text-center text-xs text-white/40">
+        Chưa có dữ liệu đánh giá.
+      </div>
+    )
+  }
+
+  /* ========================
+     HIỆU QUẢ
+  ======================== */
+
+  if (active === "effectiveness") {
+    return (
+      <div className="space-y-4">
+        {data.effectiveness?.summary && (
+          <p className="text-xs leading-relaxed text-white/70">
+            {data.effectiveness.summary}
+          </p>
+        )}
+
+        {/* {data.effectiveness?.scores &&
+          data.effectiveness.scores.length > 0 && (
+            <div className="space-y-4">
+              {data.effectiveness.scores.map((item) => (
+                <ScoreBar
+                  key={item.label}
+                  {...item}
+                />
+              ))}
+            </div>
+          )}  */}
+
+        {data.effectiveness?.strengths &&
+          data.effectiveness.strengths.length > 0 && (
+            <div className="rounded-xl border border-emerald-400/10 bg-emerald-400/5 p-3">
+              <div className="mb-2 flex items-center gap-2 text-xs font-bold text-emerald-300">
+                <span>✓</span>
+                Điểm mạnh
+              </div>
+
+              <div className="space-y-1.5">
+                {data.effectiveness.strengths.map((item) => (
+                  <div
+                    key={item}
+                    className="text-xs leading-relaxed text-white/65"
+                  >
+                    • {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+        {data.effectiveness?.limitations &&
+          data.effectiveness.limitations.length > 0 && (
+            <div className="rounded-xl border border-amber-400/10 bg-amber-400/5 p-3">
+              <div className="mb-2 flex items-center gap-2 text-xs font-bold text-amber-300">
+                <span>⚠</span>
+                Không nên kỳ vọng
+              </div>
+
+              <div className="space-y-1.5">
+                {data.effectiveness.limitations.map((item) => (
+                  <div
+                    key={item}
+                    className="text-xs leading-relaxed text-white/65"
+                  >
+                    • {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+      </div>
+    )
+  }
+
+  /* ========================
+     THÀNH PHẦN
+  ======================== */
+
+  if (active === "ingredients") {
+    return (
+      <div className="space-y-4">
+        {data.ingredients?.summary && (
+          <p className="text-xs leading-relaxed text-white/70">
+            {data.ingredients.summary}
+          </p>
+        )}
+
+        {data.ingredients?.highlights &&
+          data.ingredients.highlights.length > 0 && (
+            <div className="space-y-3">
+              {data.ingredients.highlights.map((item) => (
+                <div
+                  key={item.title}
+                  className="
+                    rounded-xl
+                    border
+                    border-white/5
+                    bg-white/[0.035]
+                    p-3
+                  "
+                >
+                  <div className="text-xs font-bold text-pink-300">
+                    🧪 {item.title}
+                  </div>
+
+                  <p className="mt-1.5 text-xs leading-relaxed text-white/60">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+        {data.ingredients?.safety && (
+          <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
+            <div className="flex items-center justify-between gap-3">
+              <div className="text-xs font-bold text-white">
+                🛡 Đánh giá độ an toàn
+              </div>
+
+              <div className="text-base font-bold text-pink-300">
+                {data.ingredients.safety.score.toFixed(1)}
+                <span className="text-[10px] text-white/40">
+                  /10
+                </span>
+              </div>
+            </div>
+
+            <p className="mt-2 text-xs leading-relaxed text-white/60">
+              {data.ingredients.safety.summary}
+            </p>
+
+            {data.ingredients.safety.cautions &&
+              data.ingredients.safety.cautions.length > 0 && (
+                <div className="mt-3 border-t border-white/5 pt-3">
+                  <div className="mb-2 text-[11px] font-semibold text-amber-300">
+                    ⚠ Cần lưu ý
+                  </div>
+
+                  <div className="space-y-1">
+                    {data.ingredients.safety.cautions.map((item) => (
+                      <div
+                        key={item}
+                        className="text-[11px] leading-relaxed text-white/55"
+                      >
+                        • {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  /* ========================
+     ĐỘ PHÙ HỢP
+  ======================== */
+
+  if (active === "suitability") {
+    return (
+      <div className="space-y-5">
+        {data.suitability?.summary && (
+          <p className="text-xs leading-relaxed text-white/70">
+            {data.suitability.summary}
+          </p>
+        )}
+
+        {data.suitability?.skinTypes &&
+          data.suitability.skinTypes.length > 0 && (
+            <div>
+              <div className="mb-3 text-xs font-bold text-white">
+                👤 Phù hợp với loại da
+              </div>
+
+              {/* <div className="space-y-4">
+                {data.suitability.skinTypes.map((item) => (
+                  <ScoreBar
+                    key={item.label}
+                    {...item}
+                  />
+                ))}
+              </div> */}
+            </div>
+          )}
+
+        {data.suitability?.concerns &&
+          data.suitability.concerns.length > 0 && (
+            <div>
+              <div className="mb-3 text-xs font-bold text-white">
+                🎯 Phù hợp với nhu cầu
+              </div>
+
+              {/* <div className="space-y-4">
+                {data.suitability.concerns.map((item) => (
+                  <ScoreBar
+                    key={item.label}
+                    {...item}
+                  />
+                ))}
+              </div> */}
+            </div>
+          )}
+
+        {data.suitability?.bestFor &&
+          data.suitability.bestFor.length > 0 && (
+            <div className="rounded-xl border border-emerald-400/10 bg-emerald-400/5 p-3">
+              <div className="mb-2 text-xs font-bold text-emerald-300">
+                ✓ Nên chọn nếu bạn
+              </div>
+
+              <div className="space-y-1.5">
+                {data.suitability.bestFor.map((item) => (
+                  <div
+                    key={item}
+                    className="text-xs leading-relaxed text-white/65"
+                  >
+                    • {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+        {data.suitability?.avoidOrConsider &&
+          data.suitability.avoidOrConsider.length > 0 && (
+            <div className="rounded-xl border border-amber-400/10 bg-amber-400/5 p-3">
+              <div className="mb-2 text-xs font-bold text-amber-300">
+                ⚠ Nên cân nhắc nếu bạn
+              </div>
+
+              <div className="space-y-1.5">
+                {data.suitability.avoidOrConsider.map((item) => (
+                  <div
+                    key={item}
+                    className="text-xs leading-relaxed text-white/65"
+                  >
+                    • {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+      </div>
+    )
+  }
+
+  /* ========================
+     TRẢI NGHIỆM
+  ======================== */
+
+  if (active === "experience") {
+    const experienceItems = [
+      {
+        label: "Kết cấu",
+        value: data.experience?.texture,
+      },
+      {
+        label: "Thẩm thấu",
+        value: data.experience?.absorption,
+      },
+      {
+        label: "Cảm giác",
+        value: data.experience?.finish,
+      },
+    ].filter(
+      (
+        item
+      ): item is {
+        label: string
+        value: string
+      } => Boolean(item.value)
+    )
+
+    return (
+      <div className="space-y-5">
+        {experienceItems.length > 0 && (
+          <div className="grid grid-cols-3 gap-2">
+            {experienceItems.map((item) => (
+              <div
+                key={item.label}
+                className="
+                  rounded-xl
+                  border
+                  border-white/5
+                  bg-white/[0.035]
+                  p-2.5
+                  text-center
+                "
+              >
+                <div className="text-[10px] text-white/40">
+                  {item.label}
+                </div>
+
+                <div className="mt-1 text-[11px] font-semibold text-white/80">
+                  {item.value}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {data.experience?.timeline &&
+          data.experience.timeline.length > 0 && (
+            <div>
+              <div className="mb-4 text-xs font-bold text-white">
+                ⏱ Khi nào có thể cảm nhận hiệu quả?
+              </div>
+
+              <div className="space-y-0">
+                {data.experience.timeline.map((item, index,timeline) => (
+                  <div
+                    key={item.label}
+                    className="flex gap-3"
+                  >
+                    <div className="flex flex-col items-center">
+                      <div
+                        className="
+                          flex
+                          h-6
+                          w-6
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-full
+                          bg-pink-500/15
+                          text-[10px]
+                          font-bold
+                          text-pink-300
+                        "
+                      >
+                        {index + 1}
+                      </div>
+
+                      {index <
+                        timeline!.length - 1 && (
+                        <div className="my-1 h-full min-h-6 w-px bg-white/10" />
+                      )}
+                    </div>
+
+                    <div className="pb-4">
+                      <div className="text-xs font-semibold text-white">
+                        {item.label}
+                      </div>
+
+                      <div className="mt-1 text-[11px] leading-relaxed text-white/55">
+                        {item.description}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+        {data.experience?.feedback?.positive &&
+          data.experience.feedback.positive.length > 0 && (
+            <div className="rounded-xl border border-emerald-400/10 bg-emerald-400/5 p-3">
+              <div className="mb-2 text-xs font-bold text-emerald-300">
+                😊 Người dùng thường thích
+              </div>
+
+              <div className="space-y-1.5">
+                {data.experience.feedback.positive.map((item) => (
+                  <div
+                    key={item}
+                    className="text-xs leading-relaxed text-white/65"
+                  >
+                    • {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+        {data.experience?.feedback?.negative &&
+          data.experience.feedback.negative.length > 0 && (
+            <div className="rounded-xl border border-rose-400/10 bg-rose-400/5 p-3">
+              <div className="mb-2 text-xs font-bold text-rose-300">
+                😕 Một số phản hồi chưa hài lòng
+              </div>
+
+              <div className="space-y-1.5">
+                {data.experience.feedback.negative.map((item) => (
+                  <div
+                    key={item}
+                    className="text-xs leading-relaxed text-white/65"
+                  >
+                    • {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+      </div>
+    )
+  }
+
+  /* ========================
+     ĐỘ TIN CẬY
+  ======================== */
+
+  const reliabilityScores = [
+    {
+      label: "Thương hiệu",
+      score: data.reliability?.brandScore,
+    },
+    {
+      label: "Nguồn gốc",
+      score: data.reliability?.sourceScore,
+    },
+    {
+      label: "Phân phối",
+      score: data.reliability?.distributorScore,
+    },
+  ].filter(
+    (
+      item
+    ): item is {
+      label: string
+      score: number
+    } => typeof item.score === "number"
+  )
+
+  return (
+    <div className="space-y-4">
+      {reliabilityScores.length > 0 && (
+        <div className="grid grid-cols-3 gap-2">
+          {reliabilityScores.map((item) => (
+            <div
+              key={item.label}
+              className="
+                rounded-xl
+                border
+                border-white/5
+                bg-white/[0.035]
+                p-2.5
+                text-center
+              "
+            >
+              <div className="text-[10px] text-white/40">
+                {item.label}
+              </div>
+
+              <div className="mt-1 text-lg font-bold text-pink-300">
+                {item.score.toFixed(1)}
+              </div>
+
+              <div className="text-[9px] text-white/30">
+                /10
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {data.reliability?.brand && (
+        <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
+          <div className="text-xs font-bold text-white">
+            🏢 Thương hiệu
+          </div>
+
+          <p className="mt-1.5 text-xs leading-relaxed text-white/60">
+            {data.reliability.brand}
+          </p>
+        </div>
+      )}
+
+      {data.reliability?.manufacturer && (
+        <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
+          <div className="text-xs font-bold text-white">
+            🏭 Nhà sản xuất / nguồn gốc
+          </div>
+
+          <p className="mt-1.5 text-xs leading-relaxed text-white/60">
+            {data.reliability.manufacturer}
+          </p>
+        </div>
+      )}
+
+      {data.reliability?.distributor && (
+        <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
+          <div className="text-xs font-bold text-white">
+            🛒 Nhà phân phối
+          </div>
+
+          <p className="mt-1.5 text-xs leading-relaxed text-white/60">
+            {data.reliability.distributor}
+          </p>
+        </div>
+      )}
+
+      {data.reliability?.strengths &&
+        data.reliability.strengths.length > 0 && (
+          <div className="rounded-xl border border-emerald-400/10 bg-emerald-400/5 p-3">
+            <div className="mb-2 text-xs font-bold text-emerald-300">
+              ✓ Yếu tố tạo niềm tin
+            </div>
+
+            <div className="space-y-1.5">
+              {data.reliability.strengths.map((item) => (
+                <div
+                  key={item}
+                  className="text-xs leading-relaxed text-white/65"
+                >
+                  • {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+      {data.reliability?.cautions &&
+        data.reliability.cautions.length > 0 && (
+          <div className="rounded-xl border border-amber-400/10 bg-amber-400/5 p-3">
+            <div className="mb-2 text-xs font-bold text-amber-300">
+              ⚠ Cần kiểm tra thêm
+            </div>
+
+            <div className="space-y-1.5">
+              {data.reliability.cautions.map((item) => (
+                <div
+                  key={item}
+                  className="text-xs leading-relaxed text-white/65"
+                >
+                  • {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+    </div>
+  )
+}
+
+/* =========================================================
+   MAIN COMPONENT
+========================================================= */
 
 export default function ProductReviewSlider({
   reviews,
   short_description,
   productName,
   affiliateLink,
-  benefit,
-  ingredient,
-  usage,
+  reviewData,
   cta,
-  onClose
-
+  onClose,
 }: {
   reviews: ReviewInput[]
   short_description: string
   productName: string
   affiliateLink: string | null
-  benefit?: string
-  ingredient?: string
-  usage?: string
-  cta?:string
+  reviewData?: ProductReviewData
+  cta?: string
   onClose?: () => void
 }) {
   const [current, setCurrent] = useState(0)
-  const [expand, setExpand] = useState(false)
-  const toggleLockRef = useRef(false)
+
+  const [activeReview, setActiveReview] =
+    useState<ReviewSection>("effectiveness")
+
   const [progress, setProgress] = useState(0)
   const [duration, setDuration] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isSeeking, setIsSeeking] = useState(false)
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
+
   const progressRef = useRef<HTMLDivElement | null>(null)
+
   const isSeekingRef = useRef(false)
+
   const lastRenderRef = useRef(0)
-const [openSection, setOpenSection] = useState<{
-  benefit: boolean
-  ingredient: boolean
-  usage: boolean
-}>({
-  benefit: true,
-  ingredient: false,
-  usage: false,
-})
-const toggleSection = (key: "benefit" | "ingredient" | "usage") => {
-  setOpenSection(prev => ({
-    ...prev,
-    [key]: !prev[key],
-  }))
-}
-const parseList = (str?: string) =>
-  str
-    ? str.split(",").map(i => i.trim()).filter(Boolean)
-    : []
 
-const benefitList = parseList(benefit)
-const ingredientList = parseList(ingredient)
-const usageList = parseList(usage)
-// xử lí toogle xem thêm [
-const MAX_LENGTH = 50
-
-const hasExtraContent =
-  benefitList.length > 0 ||
-  ingredientList.length > 0 ||
-  usageList.length > 0
-
-const isLongCaption = short_description.length > MAX_LENGTH
-
-const shouldShowExpand = isLongCaption || hasExtraContent
-
-const displayedCaption = expand
-  ? short_description
-  : short_description.slice(0, MAX_LENGTH) +
-    (isLongCaption ? "..." : "")
-
-
-
-
-
+  const toggleLockRef = useRef(false)
 
   const item = reviews[current]
 
-// proload video kế nếu có
-  useEffect(() => {
-  const nextIndex = (current + 1) % reviews.length
-  const nextItem = reviews[nextIndex]
+  const productNameLines = productName
+    .split("|")
+    .map((item) => item.trim())
+    .filter(Boolean)
 
-  if (nextItem?.media_type === "video") {
-    const v = document.createElement("video")
-    v.src = nextItem.media_url
-    v.preload = "auto"
-  }
-}, [current])
+  /* =========================================================
+     PRELOAD NEXT VIDEO
+  ========================================================= */
+
+  useEffect(() => {
+    if (!reviews?.length) return
+     document.body.style.overflow = "hidden"
+
+    const nextIndex = (current + 1) % reviews.length
+    const nextItem = reviews[nextIndex]
+
+    if (nextItem?.media_type === "video") {
+      const video = document.createElement("video")
+
+      video.src = nextItem.media_url
+      video.preload = "auto"
+    }
+  }, [current, reviews])
+
+  /* =========================================================
+     SEEK STATE
+  ========================================================= */
+
   useEffect(() => {
     isSeekingRef.current = isSeeking
   }, [isSeeking])
 
+  /* =========================================================
+     VIDEO PROGRESS
+  ========================================================= */
 
-
-  // Update progress mượt
   useEffect(() => {
     const video = videoRef.current
+
     if (!video || !progressRef.current) return
 
-    let rafId: number
+    let rafId = 0
 
     const render = (time: number) => {
       if (!video) return
+
       if (time - lastRenderRef.current > 41) {
-        const percent = video.currentTime / (video.duration || 1)
-        progressRef.current!.style.transform = `scaleX(${percent})`
+        const percent =
+          video.currentTime / (video.duration || 1)
+
+        if (progressRef.current) {
+          progressRef.current.style.transform =
+            `scaleX(${percent})`
+        }
+
         lastRenderRef.current = time
       }
-      if (!video.paused) rafId = requestAnimationFrame(render)
+
+      if (!video.paused) {
+        rafId = requestAnimationFrame(render)
+      }
     }
 
-    if (!video.paused) rafId = requestAnimationFrame(render)
+    const onPlay = () => {
+      rafId = requestAnimationFrame(render)
+    }
 
-    const onPlay = () => { rafId = requestAnimationFrame(render) }
-    const onPause = () => { if (rafId) cancelAnimationFrame(rafId) }
+    const onPause = () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId)
+      }
+    }
 
     video.addEventListener("play", onPlay)
     video.addEventListener("pause", onPause)
 
+    if (!video.paused) {
+      rafId = requestAnimationFrame(render)
+    }
+
     return () => {
       video.removeEventListener("play", onPlay)
       video.removeEventListener("pause", onPause)
-      if (rafId) cancelAnimationFrame(rafId)
+
+      if (rafId) {
+        cancelAnimationFrame(rafId)
+      }
     }
   }, [current])
 
-  // reset video khi đổi slide
-  useEffect(() => {
-    const video = videoRef.current
-    if (video) {
-      video.pause()
-      video.currentTime = 0
-    }
-  }, [current])
+  /* =========================================================
+     RESET VIDEO WHEN CHANGE SLIDE
+  ========================================================= */
 
-  // toggle play/pause
   useEffect(() => {
     const video = videoRef.current
+
     if (!video) return
 
-    const onPlay = () => setIsPlaying(true)
-    const onPause = () => { if (!isSeekingRef.current) setIsPlaying(false) }
+    video.pause()
+    video.currentTime = 0
+  }, [current])
+
+  /* =========================================================
+     VIDEO PLAY STATE
+  ========================================================= */
+
+  useEffect(() => {
+    const video = videoRef.current
+
+    if (!video) return
+
+    const onPlay = () => {
+      setIsPlaying(true)
+    }
+
+    const onPause = () => {
+      if (!isSeekingRef.current) {
+        setIsPlaying(false)
+      }
+    }
 
     video.addEventListener("play", onPlay)
     video.addEventListener("pause", onPause)
@@ -164,110 +871,271 @@ const displayedCaption = expand
       video.removeEventListener("pause", onPause)
     }
   }, [current])
+
+  /* =========================================================
+     VIDEO HANDLERS
+  ========================================================= */
 
   const handleLoaded = () => {
     if (!videoRef.current) return
+
     setDuration(videoRef.current.duration)
   }
 
-  const handleSeekStart = () => setIsSeeking(true)
+  const handleSeekStart = () => {
+    setIsSeeking(true)
+  }
+
   const handleSeekEnd = () => {
     setIsSeeking(false)
-    if (videoRef.current && isPlaying) videoRef.current.play()
+
+    if (videoRef.current && isPlaying) {
+      videoRef.current.play()
+    }
   }
 
-const handleTogglePlay = () => {
-  const video = videoRef.current
-  if (!video || toggleLockRef.current) return
+  const handleTogglePlay = () => {
+    const video = videoRef.current
 
-  toggleLockRef.current = true
+    if (!video || toggleLockRef.current) return
 
-  if (video.paused) {
-    const playPromise = video.play()
-    if (playPromise !== undefined) {
-      playPromise.finally(() => {
+    toggleLockRef.current = true
+
+    if (video.paused) {
+      const playPromise = video.play()
+
+      if (playPromise !== undefined) {
+        playPromise
+          .catch(() => {})
+          .finally(() => {
+            toggleLockRef.current = false
+          })
+      } else {
         toggleLockRef.current = false
-      })
-    } else {
-      toggleLockRef.current = false
+      }
+
+      return
     }
-  } else {
+
     video.pause()
+
     toggleLockRef.current = false
   }
-}
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value)
+  const handleSeek = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = Number(event.target.value)
+
     if (!videoRef.current) return
 
     videoRef.current.currentTime = value
+
     setProgress(value)
 
     if (progressRef.current && duration > 0) {
-      progressRef.current.style.transform = `scaleX(${value / duration})`
+      progressRef.current.style.transform =
+        `scaleX(${value / duration})`
     }
   }
 
+  /* =========================================================
+     SLIDE NAVIGATION
+  ========================================================= */
+
   const next = () => {
-    setCurrent((prev) => (prev + 1) % reviews.length)
-    setExpand(false)
+    if (!reviews.length) return
+
+    setCurrent(
+      (prev) => (prev + 1) % reviews.length
+    )
+
     setProgress(0)
+    setDuration(0)
+    setIsPlaying(false)
   }
 
   const prev = () => {
-    setCurrent((prev) => (prev === 0 ? reviews.length - 1 : prev - 1))
-    setExpand(false)
+    if (!reviews.length) return
+
+    setCurrent(
+      (prev) =>
+        prev === 0
+          ? reviews.length - 1
+          : prev - 1
+    )
+
     setProgress(0)
+    setDuration(0)
+    setIsPlaying(false)
   }
 
-  const handleEnded = () => {
-    // if (!videoRef.current) return
-    // videoRef.current.currentTime = 0
-    // videoRef.current.play()
+  /* =========================================================
+     EMPTY STATE
+  ========================================================= */
+
+  if (!reviews || reviews.length === 0) {
+    return (
+      <div className="flex h-full w-full items-center justify-center text-sm text-white/50">
+        Chưa có review.
+      </div>
+    )
   }
 
-  if (!reviews || reviews.length === 0) return <div>No review</div>
-  const productNameLines = productName
-  .split("|")
-  .map(i => i.trim())
-  .filter(Boolean)
+  /* =========================================================
+     REVIEW NAVIGATION DATA
+  ========================================================= */
+
+  const reviewTabs: {
+    key: ReviewSection
+    icon: string
+    label: string
+    description: string
+  }[] = [
+    {
+      key: "effectiveness",
+      icon: "⚡",
+      label: "Hiệu quả",
+      description:
+        "Sản phẩm giải quyết được vấn đề gì?",
+    },
+    {
+      key: "ingredients",
+      icon: "🧪",
+      label: "Thành phần",
+      description:
+        "Công thức có giá trị và cần lưu ý gì?",
+    },
+    {
+      key: "suitability",
+      icon: "🎯",
+      label: "Phù hợp",
+      description:
+        "Sản phẩm phù hợp với ai?",
+    },
+    {
+      key: "experience",
+      icon: "💬",
+      label: "Trải nghiệm",
+      description:
+        "Cảm nhận và phản hồi thực tế.",
+    },
+    {
+      key: "reliability",
+      icon: "🛡",
+      label: "Tin cậy",
+      description:
+        "Đánh giá thương hiệu và nguồn sản phẩm.",
+    },
+  ]
+
+  const activeTab =
+    reviewTabs.find(
+      (item) => item.key === activeReview
+    ) ?? reviewTabs[0]
+
+  /* =========================================================
+     RENDER
+  ========================================================= */
+
   return (
-    <div className="flex flex-col w-full h-full rounded-xl overflow-hidden">
+    <div
+      className="
+          flex
+          w-full
+          flex-col
+          rounded-xl
+          bg-[#111827]
+          text-white
+      "
+    >
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
 
-      {/* HEADER */}
-    <div className="flex flex-col px-3 pt-2 pb-1 text-pink">
-
-  {/* TOP: LENGTH */}
-  <div className="text-xs leading-none">
-    {current + 1} / {reviews.length}
-  </div>
-
-  {/* BOTTOM: PRODUCT NAME */}
-  <div className="mt-1 text-center ">
-    <div className="font-semibold leading-tight">
-      {productNameLines.map((line, idx) => (
-        <div
-          key={idx}
-          className="
-            text-[13px]
-            leading-tight
-            whitespace-nowrap
-            overflow-hidden
-            text-ellipsis
-          "
-        >
-          {line}
+      <div className="relative shrink-0 px-3 pb-2 pt-2">
+        <div className="text-xs leading-none text-pink-300">
+          {current + 1} / {reviews.length}
         </div>
-      ))}
-    </div>
-  </div>
 
-</div>
-      {/* MEDIA + CAPTION */}
-      <div className="relative flex-1 flex justify-center overflow-hidden mt-2">
+        <div className="mt-1 text-center">
+          <div className="font-semibold leading-tight">
+            {productNameLines.map((line, index) => (
+              <div
+                key={`${line}-${index}`}
+                className="
+                  overflow-hidden
+                  text-ellipsis
+                  whitespace-nowrap
+                  text-[13px]
+                  leading-tight
+                  text-pink-400
+                "
+              >
+                {line}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="
+              absolute
+              right-3
+              top-2
+              flex
+              h-9
+              w-9
+              items-center
+              justify-center
+              rounded-full
+              bg-gradient-to-br
+              from-fuchsia-500
+              to-violet-600
+              text-xl
+              text-white
+              shadow-lg
+              shadow-fuchsia-500/20
+              transition-transform
+              active:scale-90
+            "
+            aria-label="Đóng"
+          >
+            ×
+          </button>
+        )}
+      </div>
+
+      {/* =====================================================
+          MEDIA
+      ===================================================== */}
+
+      <div
+        className="
+          relative
+          flex
+          h-[42svh]
+          w-full
+          shrink-0
+          items-center
+          justify-center
+          overflow-hidden
+          bg-black/20
+        "
+      >
         {item.media_type === "image" ? (
-          <img src={item.media_url} className="w-full h-full object-contain" />
+          <img
+            src={item.media_url}
+            alt={productName}
+            className="
+              h-full
+              w-full
+              object-contain
+            "
+          />
         ) : (
           <>
             <video
@@ -275,187 +1143,449 @@ const handleTogglePlay = () => {
               src={item.media_url}
               onLoadedMetadata={handleLoaded}
               onPointerDown={handleTogglePlay}
-              onEnded={handleEnded}
               playsInline
-              className="w-full h-full object-contain touch-none"
+              preload="metadata"
+              className="
+                h-full
+                w-full
+                object-contain
+                touch-none
+              "
             />
+
             {!isPlaying && !isSeeking && (
-              <div className="absolute inset-0 flex items-center justify-center text-white text-4xl bg-black/30 pointer-events-none">
-                ▶
+              <div
+                className="
+                  pointer-events-none
+                  absolute
+                  inset-0
+                  flex
+                  items-center
+                  justify-center
+                "
+              >
+                <div
+                  className="
+                    flex
+                    h-14
+                    w-14
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-black/45
+                    pl-1
+                    text-2xl
+                    text-white
+                    backdrop-blur-sm
+                  "
+                >
+                  ▶
+                </div>
               </div>
             )}
           </>
         )}
 
-        {/* NAV */}
-        <div className="absolute top-1/2 left-0 right-0 flex justify-between px-4 z-20">
-          <button onClick={prev} className="bg-white/10 px-2 py-2 rounded-full">◀</button>
-          <button onClick={next} className="bg-white/10 px-2 py-2 rounded-full">▶</button>
-        </div>
+        {/* PREVIOUS / NEXT */}
 
-        {/* CAPTION + MUA NGAY */}
-        <div className="absolute bottom-0 left-0 right-0 z-20">
+        {reviews.length > 1 && (
           <div
-            className={`p-3 ${
-              expand
-                ? "bg-[linear-gradient(to_top,rgba(88,28,135,0.9),rgba(88,28,135,0.6),transparent)] backdrop-blur-md"
-                : ""
-            }`}
+            className="
+              pointer-events-none
+              absolute
+              left-0
+              right-0
+              top-1/2
+              z-20
+              flex
+              -translate-y-1/2
+              justify-between
+              px-3
+            "
           >
+            <button
+              type="button"
+              onClick={prev}
+              className="
+                pointer-events-auto
+                flex
+                h-8
+                w-8
+                items-center
+                justify-center
+                rounded-full
+                bg-black/35
+                text-sm
+                text-white/90
+                backdrop-blur-sm
+              "
+              aria-label="Review trước"
+            >
+              ◀
+            </button>
+
+            <button
+              type="button"
+              onClick={next}
+              className="
+                pointer-events-auto
+                flex
+                h-8
+                w-8
+                items-center
+                justify-center
+                rounded-full
+                bg-black/35
+                text-sm
+                text-white/90
+                backdrop-blur-sm
+              "
+              aria-label="Review tiếp theo"
+            >
+              ▶
+            </button>
+          </div>
+        )}
+
+        {/* VIDEO PROGRESS */}
+
+        {item.media_type === "video" && (
           <div
-            className="font-semibold text-pink-400 text-sm leading-relaxed "
+            className="
+              absolute
+              bottom-0
+              left-0
+              right-0
+              z-30
+              px-2
+              pb-2
+            "
           >
-          {displayedCaption}
-{expand && (
-  <div className="mt-3 space-y-2 text-white text-sm">
+            <div
+              className="
+                relative
+                h-[4px]
+                w-full
+                overflow-hidden
+                rounded-full
+                bg-white/20
+              "
+            >
+              <div
+                ref={progressRef}
+                className="
+                  absolute
+                  left-0
+                  top-0
+                  h-full
+                  w-full
+                  origin-left
+                  bg-gradient-to-r
+                  from-pink-500
+                  via-fuchsia-400
+                  to-violet-400
+                "
+                style={{
+                  transform: "scaleX(0)",
+                }}
+              />
 
-    {/* BENEFIT */}
-    {benefitList.length > 0 && (
-      <div className="bg-white/5 rounded-lg">
-        <button
-          onClick={() => toggleSection("benefit")}
-          className="w-full flex items-center justify-between px-3 py-2"
-        >
-          <div className="flex items-center gap-2 text-pink-300 font-semibold">
-            <span>💧</span>
-            Công dụng
-          </div>
-          <span>{openSection.benefit ? "−" : "+"}</span>
-        </button>
-
-        {openSection.benefit && (
-          <ul className="list-disc pl-6 pb-2 pr-3 space-y-1 text-white/90">
-            {benefitList.map((item, idx) => (
-              <li key={idx}>{item}</li>
-            ))}
-          </ul>
-        )}
-      </div>
-    )}
-
-    {/* INGREDIENT */}
-    {ingredientList.length > 0 && (
-      <div className="bg-white/5 rounded-lg">
-        <button
-          onClick={() => toggleSection("ingredient")}
-          className="w-full flex items-center justify-between px-3 py-2"
-        >
-          <div className="flex items-center gap-2 text-pink-300 font-semibold">
-            <span>🌿</span>
-            Thành phần nổi bật
-          </div>
-          <span>{openSection.ingredient ? "−" : "+"}</span>
-        </button>
-
-        {openSection.ingredient && (
-          <ul className="list-disc pl-6 pb-2 pr-3 space-y-1 text-white/90">
-            {ingredientList.map((item, idx) => (
-              <li key={idx}>{item}</li>
-            ))}
-          </ul>
-        )}
-      </div>
-    )}
-
-    {/* USAGE */}
-    {usageList.length > 0 && (
-      <div className="bg-white/5 rounded-lg">
-        <button
-          onClick={() => toggleSection("usage")}
-          className="w-full flex items-center justify-between px-3 py-2"
-        >
-          <div className="flex items-center gap-2 text-pink-300 font-semibold">
-            <span>🔥</span>
-            Cách dùng
-          </div>
-          <span>{openSection.usage ? "−" : "+"}</span>
-        </button>
-
-        {openSection.usage && (
-          <ul className="list-disc pl-6 pb-2 pr-3 space-y-1 text-white/90">
-            {usageList.map((item, idx) => (
-              <li key={idx}>{item}</li>
-            ))}
-          </ul>
-        )}
-      </div>
-    )}
-
-  </div>
-)}
-          </div>
-            <div className="flex gap-3 mt-2">
-              {shouldShowExpand   && (
-                <button
-                  onClick={() => setExpand(!expand)}
-                  className="text-xs text-pink-300"
-                >
-                  {expand ? "Thu gọn" : "Xem thêm"}
-                </button>
-              )}
-            {cta && (
-              <div className="text-[10px] text-yellow-300 mt-1">👉 {cta}</div>
-            )}
-              {affiliateLink && (
-                <a
-                  href={affiliateLink}
-                  target="_blank"
-                  className="
-                    relative
-                    text-xs
-                    text-white
-                    px-3 py-1
-                    rounded
-                    overflow-hidden
-                    bg-[linear-gradient(135deg,#f50fb0,#dd034c)]
-                    transition-all
-                    inline-block
-                  "
-                >
-                  <span className="
-                    absolute top-0 left-0 h-full w-full 
-                    bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent)]
-                    -translate-x-full 
-                    skew-x-12 
-                    animate-[shine_4s_linear_infinite]
-                    pointer-events-none
-                  "></span>
-
-                  <span className="relative z-10">Mua ngay</span>
-                </a>
-              )}
+              <input
+                type="range"
+                min={0}
+                max={duration || 0}
+                value={progress}
+                onChange={handleSeek}
+                onMouseDown={handleSeekStart}
+                onMouseUp={handleSeekEnd}
+                onTouchStart={handleSeekStart}
+                onTouchEnd={handleSeekEnd}
+                className="
+                  absolute
+                  left-0
+                  top-0
+                  h-full
+                  w-full
+                  cursor-pointer
+                  opacity-0
+                "
+              />
             </div>
           </div>
+        )}
+      </div>
+
+      {/* =====================================================
+          PRODUCT SUMMARY
+      ===================================================== */}
+
+      <div
+        className="
+          shrink-0
+          border-t
+          border-white/5
+          px-4
+          pt-3
+        "
+      >
+        {short_description && (
+          <p
+            className="
+              text-center
+              text-[11px]
+              leading-relaxed
+              text-white/60
+            "
+          >
+            {short_description}
+          </p>
+        )}
+
+        {reviewData?.overallScore !== undefined && (
+          <div className="my-3 flex justify-center">
+            <div
+              className="
+                flex
+                items-center
+                gap-3
+                rounded-2xl
+                border
+                border-pink-500/15
+                bg-pink-500/[0.05]
+                px-4
+                py-2
+              "
+            >
+              <div
+                className="
+                  text-2xl
+                  font-black
+                  leading-none
+                  text-pink-300
+                "
+              >
+                {reviewData.overallScore.toFixed(1)}
+              </div>
+
+              <div>
+                <div
+                  className="
+                    text-[9px]
+                    font-medium
+                    uppercase
+                    tracking-[0.14em]
+                    text-white/35
+                  "
+                >
+                  XBeauty Score
+                </div>
+
+                <div className="mt-0.5 text-xs font-semibold text-white">
+                  Đánh giá tổng quan
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* =====================================================
+          REVIEW TABS
+      ===================================================== */}
+
+      <div
+        className="
+          no-scrollbar
+          flex
+          shrink-0
+          gap-2
+          overflow-x-auto
+          px-3
+          pb-3
+          pt-1
+        "
+      >
+        {reviewTabs.map((item) => {
+          const isActive =
+            activeReview === item.key
+
+          return (
+            <button
+              key={item.key}
+              type="button"
+              onClick={() =>
+                setActiveReview(item.key)
+              }
+              className={`
+                shrink-0
+                rounded-full
+                px-3
+                py-2
+                text-[11px]
+                font-semibold
+                transition-all
+                duration-200
+                ${
+                  isActive
+                    ? `
+                      bg-gradient-to-r
+                      from-pink-500
+                      via-fuchsia-500
+                      to-violet-500
+                      text-white
+                      shadow-lg
+                      shadow-pink-500/20
+                    `
+                    : `
+                      bg-white/[0.045]
+                      text-white/45
+                    `
+                }
+              `}
+            >
+              {item.icon} {item.label}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* =====================================================
+          REVIEW DETAIL
+      ===================================================== */}
+
+      <div
+        className="
+          px-3
+          pb-3
+        "
+      >
+        <div
+          className="
+            rounded-2xl
+            border
+            border-white/5
+            bg-white/[0.025]
+            p-4
+          "
+        >
+          {/* TITLE */}
+
+          <div className="mb-4 flex items-start gap-2.5">
+            <div
+              className="
+                flex
+                h-9
+                w-9
+                shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                bg-pink-500/10
+                text-base
+              "
+            >
+              {activeTab.icon}
+            </div>
+
+            <div className="min-w-0">
+              <div className="text-sm font-bold text-white">
+                {activeTab.label}
+              </div>
+
+              <div className="mt-0.5 text-[10px] leading-relaxed text-white/40">
+                {activeTab.description}
+              </div>
+            </div>
+          </div>
+
+          {/* CONTENT */}
+
+          <ReviewContent
+            data={reviewData}
+            active={activeReview}
+          />
         </div>
       </div>
-              {expand && (
-  <div className="mt-3 space-y-2 text-white text-sm">
-    
 
+      {/* =====================================================
+          CTA
+      ===================================================== */}
 
-  </div>
-)}
-      {/* PROGRESS */}
-      {item.media_type === "video" && (
-        <div className="px-2 py-2 bg-black/40">
-          <div className="relative w-full h-[4px] rounded-full bg-white/20 overflow-hidden">
-            <div
-              ref={progressRef}
-              className="absolute top-0 left-0 h-full w-full origin-left bg-[linear-gradient(90deg,#7c3aed,#c084fc)] progress-bar"
-              style={{ transform: "scaleX(0)" }}
+      {affiliateLink && (
+        <div
+          className="
+            shrink-0
+            border-t
+            border-white/5
+            bg-[#111827]/95
+            p-3
+            backdrop-blur-xl
+          "
+        >
+          {cta && (
+            <div className="mb-2 text-center text-[10px] text-yellow-300">
+              👉 {cta}
+            </div>
+          )}
+
+          <a
+            href={affiliateLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              relative
+              flex
+              w-full
+              items-center
+              justify-center
+              gap-2
+              overflow-hidden
+              rounded-xl
+              bg-gradient-to-r
+              from-pink-500
+              via-fuchsia-500
+              to-violet-500
+              px-4
+              py-3
+              text-sm
+              font-bold
+              text-white
+              shadow-lg
+              shadow-pink-500/20
+              transition-transform
+              duration-200
+              active:scale-[0.98]
+            "
+          >
+            <span
+              className="
+                pointer-events-none
+                absolute
+                left-0
+                top-0
+                h-full
+                w-full
+                -translate-x-full
+                skew-x-12
+                bg-gradient-to-r
+                from-transparent
+                via-white/25
+                to-transparent
+                animate-[shine_4s_linear_infinite]
+              "
             />
-            <input
-              type="range"
-              min={0}
-              max={duration || 0}
-              value={progress}
-              onChange={handleSeek}
-              onMouseDown={handleSeekStart}
-              onMouseUp={handleSeekEnd}
-              onTouchStart={handleSeekStart}
-              onTouchEnd={handleSeekEnd}
-              className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-            />
+
+            <span className="relative z-10">
+              🛒
+            </span>
+
+            <span className="relative z-10">
+              Kiểm tra giá & ưu đãi mới nhất
+            </span>
+          </a>
+
+          <div className="mt-1.5 text-center text-[9px] text-white/30">
+            Giá và ưu đãi có thể thay đổi theo thời điểm
           </div>
         </div>
       )}

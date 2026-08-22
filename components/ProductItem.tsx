@@ -228,15 +228,16 @@ async function handleSaveToDB() {
 
         </div>
 
+
         {status === "active" && (
           <p className="text-red-500">
-            🔥 Flash sale kết thúc sau {timeLeft}
+            🔥 Ưu đãi kết thúc sau {timeLeft}
           </p>
         )}
 
         {status === "coming" && (
           <p className="text-orange-500">
-            ⏳ Flash sale bắt đầu sau {timeLeft}
+            ⏳ Ưu đãi bắt đầu sau {timeLeft}
           </p>
         )}
 
@@ -317,9 +318,6 @@ async function handleSaveToDB() {
             productName={displayProduct.name}
             affiliateLink={displayProduct.affiliate_link}
             reviews={displayProduct.reviews}
-            benefit={displayProduct.benefits}
-            usage={displayProduct.usage}
-            ingredient={displayProduct.ingredients}
             cta={displayProduct.cta}
           />
         )}

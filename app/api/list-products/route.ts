@@ -43,6 +43,7 @@ export async function GET(req: Request) {
         p.rating,
         p.review_count,
         p.short_description,
+        p.tiktok_shop_link,
         p.affiliate_link,
         p.product_link,
         p.cta,

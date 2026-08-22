@@ -254,7 +254,14 @@ function handleSubmit() {
               className="border w-full p-2 rounded"
             />
           </div>
-
+          <div>
+            <label className="block font-semibold mb-1">Tiktok Link</label>
+            <input
+              value={localProductState.tiktok_shop_link ?? ""}
+              onChange={(e) => handleChange("tiktok_shop_link", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
           <div>
             <label className="block font-semibold mb-1">Product Link</label>
             <input
@@ -698,9 +705,6 @@ function handleSubmit() {
             productName={localProductState.name}
             affiliateLink={localProductState.affiliate_link}
             reviews={localProductState.reviews}
-            benefit={localProductState.benefits}
-            usage={localProductState.usage}
-            ingredient={localProductState.ingredients}
 
           />
         )}

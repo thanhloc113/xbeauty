@@ -2,6 +2,7 @@
 "use client";
 
 import { CSSProperties, useMemo, useState } from "react";
+import { IoMdArrowRoundDown } from "react-icons/io";
 
 type Needs = {
   name: string
@@ -642,7 +643,8 @@ const handleExplore = () => {
               leading-none
             "
           >
-            🡇
+            <IoMdArrowRoundDown />
+
           </span>
 
         </span>
