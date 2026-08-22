@@ -61,6 +61,18 @@ export default function UserProductItem({
   const highlightList = benefitList.slice(0, 3)
 
   useEffect(() => {
+  if (!openReview) return
+
+  const originalOverflow = document.body.style.overflow
+
+  document.body.style.overflow = "hidden"
+
+  return () => {
+    document.body.style.overflow = originalOverflow
+  }
+}, [openReview])
+
+  useEffect(() => {
     if(product.id === 33 || product.id === 32){
       console.log(product)
     }
@@ -585,6 +597,7 @@ return (
         p-3
         md:max-w-[70vw]
         md:p-4
+
       "
     >
           <button

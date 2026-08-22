@@ -752,7 +752,6 @@ export default function ProductReviewSlider({
 
   useEffect(() => {
     if (!reviews?.length) return
-     document.body.style.overflow = "hidden"
 
     const nextIndex = (current + 1) % reviews.length
     const nextItem = reviews[nextIndex]
