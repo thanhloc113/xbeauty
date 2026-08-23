@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { ProductReview as ProductReviewType } from "@/types/product"
+import { ProductReview, ProductReview as ProductReviewType } from "@/types/product"
 
 type ReviewInput = ProductReviewType
 
@@ -97,63 +97,65 @@ export type ProductReviewData = {
    SCORE BAR
 ========================================================= */
 
-// function ScoreBar({
-//   label,
-//   score,
-//   description,
-// }: ScoreItem) {
-//   const safeScore = Math.min(Math.max(score, 0), 10)
-//   const percent = safeScore * 10
+function ScoreBar({
+  label,
+  score,
+  description,
+}: ScoreItem) {
+  const safeScore = Math.min(Math.max(score, 0), 10)
+  const percent = safeScore * 10
 
-//   return (
-//     <div className="space-y-1.5">
-//       <div className="flex items-start justify-between gap-3">
-//         <div className="min-w-0">
-//           <div className="text-xs font-semibold text-white">
-//             {label}
-//           </div>
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="text-xs font-semibold text-white">
+            {label}
+          </div>
 
-//           {description && (
-//             <div className="mt-0.5 text-[10px] leading-relaxed text-white/40">
-//               {description}
-//             </div>
-//           )}
-//         </div>
+          {description && (
+            <div className="mt-0.5 text-[10px] leading-relaxed text-white/40">
+              {description}
+            </div>
+          )}
+        </div>
 
-//         <div className="shrink-0 text-sm font-bold text-pink-300">
-//           {safeScore.toFixed(1)}
-//         </div>
-//       </div>
+        <div className="shrink-0 text-sm font-bold text-pink-300">
+          {safeScore.toFixed(1)}
+        </div>
+      </div>
 
-//       <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
-//         <div
-//           className="
-//             h-full
-//             rounded-full
-//             bg-gradient-to-r
-//             from-pink-500
-//             via-fuchsia-400
-//             to-violet-400
-//             transition-all
-//             duration-500
-//           "
-//           style={{
-//             width: `${percent}%`,
-//           }}
-//         />
-//       </div>
-//     </div>
-//   )
-// }
+      <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+        <div
+          className="
+            h-full
+            rounded-full
+            bg-gradient-to-r
+            from-pink-500
+            via-fuchsia-400
+            to-violet-400
+            transition-all
+            duration-500
+          "
+          style={{
+            width: `${percent}%`,
+          }}
+        />
+      </div>
+    </div>
+  )
+}
 
 /* =========================================================
    REVIEW CONTENT
 ========================================================= */
 
 function ReviewContent({
+
   data,
   active,
 }: {
+
   data?: ProductReviewData
   active: ReviewSection
 }) {
@@ -178,7 +180,7 @@ function ReviewContent({
           </p>
         )}
 
-        {/* {data.effectiveness?.scores &&
+        {data.effectiveness?.scores &&
           data.effectiveness.scores.length > 0 && (
             <div className="space-y-4">
               {data.effectiveness.scores.map((item) => (
@@ -188,7 +190,7 @@ function ReviewContent({
                 />
               ))}
             </div>
-          )}  */}
+          )} 
 
         {data.effectiveness?.strengths &&
           data.effectiveness.strengths.length > 0 && (
@@ -338,14 +340,14 @@ function ReviewContent({
                 👤 Phù hợp với loại da
               </div>
 
-              {/* <div className="space-y-4">
+              <div className="space-y-4">
                 {data.suitability.skinTypes.map((item) => (
                   <ScoreBar
                     key={item.label}
                     {...item}
                   />
                 ))}
-              </div> */}
+              </div>
             </div>
           )}
 
@@ -356,14 +358,14 @@ function ReviewContent({
                 🎯 Phù hợp với nhu cầu
               </div>
 
-              {/* <div className="space-y-4">
+              <div className="space-y-4">
                 {data.suitability.concerns.map((item) => (
                   <ScoreBar
                     key={item.label}
                     {...item}
                   />
                 ))}
-              </div> */}
+              </div>
             </div>
           )}
 
@@ -1330,17 +1332,19 @@ export default function ProductReviewSlider({
         {short_description && (
           <p
             className="
+            mt-5
+            mb-5
               text-center
-              text-[11px]
+              text-[12px]
               leading-relaxed
-              text-white/60
+              text-white
             "
           >
             {short_description}
           </p>
         )}
 
-        {reviewData?.overallScore !== undefined && (
+        {/* {reviewData?.overallScore !== undefined && (
           <div className="my-3 flex justify-center">
             <div
               className="
@@ -1385,7 +1389,7 @@ export default function ProductReviewSlider({
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
 
       {/* =====================================================
@@ -1500,6 +1504,7 @@ export default function ProductReviewSlider({
           {/* CONTENT */}
 
           <ReviewContent
+
             data={reviewData}
             active={activeReview}
           />

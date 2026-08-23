@@ -109,7 +109,7 @@ const updateProductFilter = async (
 
   // 🔥 Lấy ID trực tiếp từ JSON mới
   const incomingIds: number[] = productfilter.flatMap(group =>
-    group.value.map(v => Number(v.id))
+    group.filterValues.map(v => Number(v.id))
   )
 
 

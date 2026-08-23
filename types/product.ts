@@ -29,6 +29,7 @@ export type FilterValue = {
   id: number
   slug: string
   value: string
+  score:number
 }
 
 // filter group
@@ -36,7 +37,7 @@ export type ProductFilterGroup = {
   id: number
   slug: string
   name: string
-  value: FilterValue[]
+  filterValues: FilterValue[]
 }
 
 // new product filter structure
@@ -70,4 +71,5 @@ export type Product = {
   net_weight: string
   seller_type: string
   seller_name: string
+  limitations:string
 }

@@ -26,8 +26,98 @@ function parseValues(str: string): string[] {
 }
 
 
-const defaultFilter =[
-{"id":1,"slug":"loai-da","name":"Loại da","value":[{"id":1,"slug":"da-thuong","value":"Da thường"},{"id":2,"slug":"da-dau","value":"Da dầu"},{"id":3,"slug":"da-kho","value":"Da khô"},{"id":4,"slug":"da-hon-hop","value":"Da hỗn hợp"},{"id":5,"slug":"da-nhay-cam","value":"Da nhạy cảm"},{"id":81,"slug":"moi-loai-da","value":"Mọi loại da"}]},{"id":2,"slug":"skin-care","name":"Skin Care","value":[{"id":19,"slug":"lam-sach-sau","value":"Làm sạch sâu"},{"id":20,"slug":"lam-min-da","value":"lam-min-da"},{"id":21,"slug":"loai-bo-ba-nhon","value":"Loại bỏ bã nhờn"},{"id":22,"slug":"lam-sach-diu-nhe","value":"Làm sạch dịu nhẹ"},{"id":23,"slug":"cap-am-tuc-thi","value":"Cấp ẩm tức thì"},{"id":24,"slug":"duong-am-sau","value":"Dưỡng ẩm sâu"},{"id":25,"slug":"phuc-hoi-da","value":"Phục hồi da (rất quan trọng)"},{"id":26,"slug":"tang-cuong-hang-rao-bao-ve-da","value":"Tăng cường hàng rào bảo vệ da"},{"id":27,"slug":"giam-bong-troc-kho-cang","value":"Giảm bong tróc khô căng"},{"id":28,"slug":"tri-mun-viem","value":"Trị mụn viêm"},{"id":29,"slug":"tri-mun-an","value":"Trị mụn ẩn"},{"id":30,"slug":"giam-mun-dau-den","value":"Giảm mụn đầu đen"},{"id":31,"slug":"ngua-mun","value":"Ngừa mụn"},{"id":32,"slug":"lam-diu-mun-sung-do","value":"Làm dịu mụn sưng đỏ"},{"id":33,"slug":"kiem-soat-dau","value":"Kiểm soát dầu"},{"id":34,"slug":"thu-nho-lo-chan-long","value":"Thu nhỏ lỗ chân lông"},{"id":35,"slug":"giam-bong-nhon","value":"Giảm bóng nhờn"},{"id":36,"slug":"lam-sang-da","value":"Làm sáng da"},{"id":37,"slug":"mo-tham-mun","value":"Mờ thâm mụn (cực kỳ quan trọng)"},{"id":38,"slug":"giam-nam-tan-nhang","value":"Giảm nám / tàn nhang"},{"id":39,"slug":"lam-deu-mau-da","value":"Làm đều màu da"},{"id":40,"slug":"chong-lao-hoa","value":"Chống lão hóa"},{"id":41,"slug":"giam-nep-nhan","value":"Giảm nếp nhăn"},{"id":42,"slug":"tang-dan-hoi-da","value":"Tăng đàn hồi da"},{"id":43,"slug":"san-chac-da","value":"Săn chắc da"},{"id":44,"slug":"tay-te-bao-chet-vat-ly","value":"Tẩy tế bào chết vật lý"},{"id":45,"slug":"tay-te-bao-chet-hoa-hoc","value":"Tẩy tế bào chết hóa học (AHA/BHA/PHA)"},{"id":46,"slug":"tai-tao-da","value":"Tái tạo da"},{"id":47,"slug":"lam-diu-da","value":"Làm dịu da"},{"id":48,"slug":"giam-kich-ung","value":"Giảm kích ứng"},{"id":49,"slug":"giam-do","value":"Giảm đỏ"},{"id":50,"slug":"phu-hop-da-nhay-cam","value":"Phù hợp da nhạy cảm"},{"id":51,"slug":"chong-nang","value":"Chống nắng"},{"id":52,"slug":"bao-ve-da-khoi-tia-uv","value":"Bảo vệ da khỏi tia UV"},{"id":53,"slug":"chong-anh-sang-xanh","value":"Chống ánh sáng xanh"},{"id":80,"slug":"nang-tone","value":"Nâng Tone"}]},{"id":3,"slug":"makeup","name":"Makeup","value":[{"id":54,"slug":"che-phu-cao","value":"Che phủ cao"},{"id":55,"slug":"che-phu-nhe-tu-nhien","value":"Che phủ nhẹ tự nhiên"},{"id":56,"slug":"nang-tone-da","value":"Nâng tone da"},{"id":57,"slug":"lam-deu-mau-da","value":"Làm đều màu da"},{"id":58,"slug":"hieu-ung-li-matte","value":"Hiệu ứng lì (matte)"},{"id":59,"slug":"hieu-ung-cang-bong-glow-dewy","value":"Hiệu ứng căng bóng (glow/dewy)"},{"id":60,"slug":"bat-sang-highlight","value":"Bắt sáng (highlight)"},{"id":61,"slug":"tao-khoi-contour","value":"Tạo khối (contour)"},{"id":62,"slug":"lau-troi","value":"Lâu trôi"},{"id":63,"slug":"chong-nuoc","value":"Chống nước"},{"id":64,"slug":"chong-mo-hoi","value":"Chống mồ hôi"},{"id":65,"slug":"khong-xuong-tone","value":"Không xuống tone"},{"id":66,"slug":"khong-lem-khong-troi","value":"Không lem / không trôi"},{"id":67,"slug":"mong-nhe","value":"Mỏng nhẹ"},{"id":68,"slug":"khong-bet-dinh","value":"Không bết dính"},{"id":69,"slug":"khong-cakey-khong-moc-nen","value":"Không cakey / không mốc nền"},{"id":70,"slug":"thoang-da","value":"Thoáng da"},{"id":71,"slug":"de-tan","value":"Dễ tán"},{"id":72,"slug":"phu-hop-da-dau","value":"Phù hợp da dầu"},{"id":73,"slug":"phu-hop-da-kho","value":"Phù hợp da khô"},{"id":74,"slug":"phu-hop-da-nhay-cam","value":"Phù hợp da nhạy cảm"},{"id":75,"slug":"khong-gay-bit-tac-non-comedogenic","value":"Không gây bít tắc (non-comedogenic)"},{"id":76,"slug":"co-duong-am","value":"Có dưỡng ẩm"},{"id":77,"slug":"co-chong-nang-spf","value":"Có chống nắng (SPF)"},{"id":78,"slug":"kiem-dau","value":"Kiềm dầu"},{"id":79,"slug":"lam-diu-da","value":"Làm dịu da"}]}
+const defaultFilter = [
+  {
+    id: 1,
+    slug: "loai-da",
+    name: "Loại da",
+    filterValues: [
+      { id: 1, slug: "da-thuong", value: "Da thường", score: 0 },
+      { id: 2, slug: "da-dau", value: "Da dầu", score: 0 },
+      { id: 3, slug: "da-kho", value: "Da khô", score: 0 },
+      { id: 4, slug: "da-hon-hop", value: "Da hỗn hợp", score: 0 },
+      { id: 5, slug: "da-nhay-cam", value: "Da nhạy cảm", score: 0 },
+      { id: 81, slug: "moi-loai-da", value: "Mọi loại da", score: 0 },
+    ],
+  },
+
+  {
+    id: 2,
+    slug: "skin-care",
+    name: "Skin Care",
+    filterValues: [
+      { id: 19, slug: "lam-sach-sau", value: "Làm sạch sâu", score: 0 },
+      { id: 20, slug: "lam-min-da", value: "lam-min-da", score: 0 },
+      { id: 21, slug: "loai-bo-ba-nhon", value: "Loại bỏ bã nhờn", score: 0 },
+      { id: 22, slug: "lam-sach-diu-nhe", value: "Làm sạch dịu nhẹ", score: 0 },
+      { id: 23, slug: "cap-am-tuc-thi", value: "Cấp ẩm tức thì", score: 0 },
+      { id: 24, slug: "duong-am-sau", value: "Dưỡng ẩm sâu", score: 0 },
+      { id: 25, slug: "phuc-hoi-da", value: "Phục hồi da (rất quan trọng)", score: 0 },
+      { id: 26, slug: "tang-cuong-hang-rao-bao-ve-da", value: "Tăng cường hàng rào bảo vệ da", score: 0 },
+      { id: 27, slug: "giam-bong-troc-kho-cang", value: "Giảm bong tróc khô căng", score: 0 },
+      { id: 28, slug: "tri-mun-viem", value: "Trị mụn viêm", score: 0 },
+      { id: 29, slug: "tri-mun-an", value: "Trị mụn ẩn", score: 0 },
+      { id: 30, slug: "giam-mun-dau-den", value: "Giảm mụn đầu đen", score: 0 },
+      { id: 31, slug: "ngua-mun", value: "Ngừa mụn", score: 0 },
+      { id: 32, slug: "lam-diu-mun-sung-do", value: "Làm dịu mụn sưng đỏ", score: 0 },
+      { id: 33, slug: "kiem-soat-dau", value: "Kiểm soát dầu", score: 0 },
+      { id: 34, slug: "thu-nho-lo-chan-long", value: "Thu nhỏ lỗ chân lông", score: 0 },
+      { id: 35, slug: "giam-bong-nhon", value: "Giảm bóng nhờn", score: 0 },
+      { id: 36, slug: "lam-sang-da", value: "Làm sáng da", score: 0 },
+      { id: 37, slug: "mo-tham-mun", value: "Mờ thâm mụn (cực kỳ quan trọng)", score: 0 },
+      { id: 38, slug: "giam-nam-tan-nhang", value: "Giảm nám / tàn nhang", score: 0 },
+      { id: 39, slug: "lam-deu-mau-da", value: "Làm đều màu da", score: 0 },
+      { id: 40, slug: "chong-lao-hoa", value: "Chống lão hóa", score: 0 },
+      { id: 41, slug: "giam-nep-nhan", value: "Giảm nếp nhăn", score: 0 },
+      { id: 42, slug: "tang-dan-hoi-da", value: "Tăng đàn hồi da", score: 0 },
+      { id: 43, slug: "san-chac-da", value: "Săn chắc da", score: 0 },
+      { id: 44, slug: "tay-te-bao-chet-vat-ly", value: "Tẩy tế bào chết vật lý", score: 0 },
+      { id: 45, slug: "tay-te-bao-chet-hoa-hoc", value: "Tẩy tế bào chết hóa học (AHA/BHA/PHA)", score: 0 },
+      { id: 46, slug: "tai-tao-da", value: "Tái tạo da", score: 0 },
+      { id: 47, slug: "lam-diu-da", value: "Làm dịu da", score: 0 },
+      { id: 48, slug: "giam-kich-ung", value: "Giảm kích ứng", score: 0 },
+      { id: 49, slug: "giam-do", value: "Giảm đỏ", score: 0 },
+      { id: 50, slug: "phu-hop-da-nhay-cam", value: "Phù hợp da nhạy cảm", score: 0 },
+      { id: 51, slug: "chong-nang", value: "Chống nắng", score: 0 },
+      { id: 52, slug: "bao-ve-da-khoi-tia-uv", value: "Bảo vệ da khỏi tia UV", score: 0 },
+      { id: 53, slug: "chong-anh-sang-xanh", value: "Chống ánh sáng xanh", score: 0 },
+      { id: 80, slug: "nang-tone", value: "Nâng Tone", score: 0 },
+    ],
+  },
+
+  {
+    id: 3,
+    slug: "makeup",
+    name: "Makeup",
+    filterValues: [
+      { id: 54, slug: "che-phu-cao", value: "Che phủ cao", score: 0 },
+      { id: 55, slug: "che-phu-nhe-tu-nhien", value: "Che phủ nhẹ tự nhiên", score: 0 },
+      { id: 56, slug: "nang-tone-da", value: "Nâng tone da", score: 0 },
+      { id: 57, slug: "lam-deu-mau-da", value: "Làm đều màu da", score: 0 },
+      { id: 58, slug: "hieu-ung-li-matte", value: "Hiệu ứng lì (matte)", score: 0 },
+      { id: 59, slug: "hieu-ung-cang-bong-glow-dewy", value: "Hiệu ứng căng bóng (glow/dewy)", score: 0 },
+      { id: 60, slug: "bat-sang-highlight", value: "Bắt sáng (highlight)", score: 0 },
+      { id: 61, slug: "tao-khoi-contour", value: "Tạo khối (contour)", score: 0 },
+      { id: 62, slug: "lau-troi", value: "Lâu trôi", score: 0 },
+      { id: 63, slug: "chong-nuoc", value: "Chống nước", score: 0 },
+      { id: 64, slug: "chong-mo-hoi", value: "Chống mồ hôi", score: 0 },
+      { id: 65, slug: "khong-xuong-tone", value: "Không xuống tone", score: 0 },
+      { id: 66, slug: "khong-lem-khong-troi", value: "Không lem / không trôi", score: 0 },
+      { id: 67, slug: "mong-nhe", value: "Mỏng nhẹ", score: 0 },
+      { id: 68, slug: "khong-bet-dinh", value: "Không bết dính", score: 0 },
+      { id: 69, slug: "khong-cakey-khong-moc-nen", value: "Không cakey / không mốc nền", score: 0 },
+      { id: 70, slug: "thoang-da", value: "Thoáng da", score: 0 },
+      { id: 71, slug: "de-tan", value: "Dễ tán", score: 0 },
+      { id: 72, slug: "phu-hop-da-dau", value: "Phù hợp da dầu", score: 0 },
+      { id: 73, slug: "phu-hop-da-kho", value: "Phù hợp da khô", score: 0 },
+      { id: 74, slug: "phu-hop-da-nhay-cam", value: "Phù hợp da nhạy cảm", score: 0 },
+      { id: 75, slug: "khong-gay-bit-tac-non-comedogenic", value: "Không gây bít tắc (non-comedogenic)", score: 0 },
+      { id: 76, slug: "co-duong-am", value: "Có dưỡng ẩm", score: 0 },
+      { id: 77, slug: "co-chong-nang-spf", value: "Có chống nắng (SPF)", score: 0 },
+      { id: 78, slug: "kiem-dau", value: "Kiềm dầu", score: 0 },
+      { id: 79, slug: "lam-diu-da", value: "Làm dịu da", score: 0 },
+    ],
+  },
 ]
 
 const defaultTag = [{
@@ -147,7 +237,7 @@ function addFilterGroup(slug: string) {
       id: def.id,
       slug: def.slug,
       name: def.name,
-      value: []
+      filterValues: []
     }
   ])
 }
@@ -156,8 +246,10 @@ function updateFilterValue(groupSlug: string, valueSlug: string) {
   const def = defaultFilter.find(f => f.slug === groupSlug)
   if (!def) return
 
-  const val = def.value.find(v => v.slug === valueSlug)
+  const val = def.filterValues.find(v => v.slug === valueSlug)
   if (!val) return
+
+  console.log(localProductState.productfilter)
 
   const newFilter = localProductState.productfilter.map(group => {
     if (group.slug !== groupSlug) return group
@@ -170,27 +262,27 @@ function updateFilterValue(groupSlug: string, valueSlug: string) {
       if (isAllOption) {
         return {
           ...group,
-          value: [val] // chỉ giữ nó
+          filterValues: [val] // chỉ giữ nó
         }
       }
 
       // Nếu chọn option khác → remove "moi-loai-da" nếu có
-      const newValues = group.value.filter(v => v.slug !== "moi-loai-da")
+      const newValues = group.filterValues.filter(v => v.slug !== "moi-loai-da")
 
       if (newValues.some(v => v.slug === valueSlug)) return group
 
       return {
         ...group,
-        value: [...newValues, val]
+        filterValues: [...newValues, val]
       }
     }
 
     // 👉 Các group khác (skin-care, makeup...) giữ logic cũ
-    if (group.value.some(v => v.slug === valueSlug)) return group
+    if (group.filterValues.some(v => v.slug === valueSlug)) return group
 
     return {
       ...group,
-      value: [...group.value, val]
+      filterValues: [...group.filterValues, val]
     }
   })
 
@@ -203,7 +295,7 @@ function removeFilterValue(groupSlug: string, valueSlug: string) {
 
     return {
       ...group,
-      value: group.value.filter(v => v.slug !== valueSlug)
+      filterValues: group.filterValues.filter(v => v.slug !== valueSlug)
     }
   })
 
@@ -446,12 +538,13 @@ function handleSubmit() {
 
         {/* VALUE */}
         <div className="flex flex-wrap gap-2">
-          {def.value.map(v => {
-            const selected = group.value.find(val => val.slug === v.slug)
+          {def.filterValues.map(v => {
+            const selected = group.filterValues.find(val => val.slug === v.slug)
 
             return (
-              <button
-                key={v.id}
+   
+                <button
+                  key={v.id}
                 onClick={() =>
                   selected
                     ? removeFilterValue(group.slug, v.slug)
@@ -465,6 +558,8 @@ function handleSubmit() {
               >
                 {v.value}
               </button>
+
+
             )
           })}
         </div>

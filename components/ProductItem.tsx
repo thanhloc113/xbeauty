@@ -62,7 +62,7 @@ const displayProduct = draft ?? product
 // ✅ NEW
 function getFilterValues(product: Product, slug: string) {
   const group = product.productfilter?.find((g) => g.slug === slug)
-  return group?.value.map((v) => v.value) || []
+  return group?.filterValues.map((v) => v.value) || []
 }
 
 const skinTypeList = getFilterValues(displayProduct, "loai-da")

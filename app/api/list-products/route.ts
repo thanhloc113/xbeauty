@@ -52,6 +52,7 @@ export async function GET(req: Request) {
         p.net_weight,
         p.seller_type,
         p.seller_name,
+        p.limitations,
 
         -- FIX TIMEZONE
         (p.flash_sale_start AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_start,
@@ -104,7 +105,7 @@ export async function GET(req: Request) {
                 'id', sub.id,
                 'slug', sub.slug,
                 'name', sub.name,
-                'value', sub.values
+                'filterValues', sub.values
               )
             )
             FROM (
@@ -116,7 +117,8 @@ export async function GET(req: Request) {
                   jsonb_build_object(
                     'id', pfv.id,
                     'slug', pfv.slug,
-                    'value', pfv.value
+                    'value', pfv.value,
+                    'score', pfm.score
                   )
                   ORDER BY pfv.id
                 ) AS values

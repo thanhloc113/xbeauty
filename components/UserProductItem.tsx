@@ -49,7 +49,7 @@ export default function UserProductItem({
 
   function getFilterValues(product: Product, slug: string) {
     const group = product.productfilter?.find((g) => g.slug === slug)
-    return group?.value.map((v) => v.value) || []
+    return group?.filterValues.map((v) => v.value) || []
   }
 
   const skinTypeList = getFilterValues(product, "loai-da")
@@ -101,40 +101,6 @@ export default function UserProductItem({
     const timer = setInterval(updateFlashSale, 1000)
     return () => clearInterval(timer)
   }, [product.flash_sale_start, product.flash_sale_end])
-
-  // Hỗ trợ các field khối lượng/thể tích/số lượng nếu Product đã có.
-  // Nếu chưa có thì chỉ hiển thị giá, không tự đoán dữ liệu.
-  function getProductAmount(product: Product) {
-    const data = product as Product & {
-      weight?: number | string
-      volume?: number | string
-      quantity?: number | string
-      unit?: string
-      weight_unit?: string
-      volume_unit?: string
-    }
-
-    if (data.weight) return `${data.weight}${data.weight_unit || "g"}`
-    if (data.volume) return `${data.volume}${data.volume_unit || "ml"}`
-    if (data.quantity) return `${data.quantity} ${data.unit || "sản phẩm"}`
-
-    return ""
-  }
-
-
-
-  // Các field này có thể khác nhau tùy Product type/API.
-  // Không có dữ liệu thì nút/link sẽ được ẩn hoặc disabled.
-  const productData = product as Product & {
-    shop_name?: string
-    tiktok_link?: string
-    shopee_link?: string
-    tiktok_url?: string
-    shopee_url?: string
-  }
-
-
-
 
 return (
   <>
@@ -626,50 +592,24 @@ return (
               // />
               <ProductReviewSlider
                 reviews={product.reviews}
-                short_description="Toner tập trung vào dưỡng ẩm, làm dịu và cải thiện cảm giác khô căng."
+                short_description={product.short_description}
                 productName={product.name}
                 affiliateLink={product.affiliate_link}
-                cta="Kiểm tra giá sản phẩm chính hãng"
+                cta={product.cta}
                 reviewData={{
-                  overallScore: 8.7,
-
                   effectiveness: {
-                    summary:
-                      "Sản phẩm tập trung chủ yếu vào khả năng cấp ẩm và hỗ trợ làm dịu da.",
+                    summary: product.hook,
 
-                    scores: [
-                      {
-                        label: "Cấp ẩm",
-                        score: 9.2,
-                      },
-                      {
-                        label: "Làm dịu",
-                        score: 8.5,
-                      },
-                      {
-                        label: "Hỗ trợ phục hồi",
-                        score: 7.8,
-                      },
-                      {
-                        label: "Kiểm soát dầu",
-                        score: 5.5,
-                      },
-                      {
-                        label: "Hỗ trợ mụn",
-                        score: 3.5,
-                      },
-                    ],
+                    scores: product.productfilter
+                            ?.find((filter) => filter.slug === "skin-care")
+                            ?.filterValues.map((item) => ({
+                              label: item.value,
+                              score: item.score,
+                            })) ?? [],
 
-                    strengths: [
-                      "Khả năng cấp ẩm tốt.",
-                      "Phù hợp với routine dưỡng da hằng ngày.",
-                      "Có thể kết hợp trong routine phục hồi.",
-                    ],
+                    strengths: product.benefits.split(".") ?? [],
 
-                    limitations: [
-                      "Không phải sản phẩm treatment trị mụn.",
-                      "Không nên kỳ vọng hiệu quả làm sáng mạnh.",
-                    ],
+                    limitations: product.limitations?.split(".") ?? [],
                   },
 
                   ingredients: {
