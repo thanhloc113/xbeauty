@@ -55,10 +55,9 @@ export default function UserProductItem({
   const skinTypeList = getFilterValues(product, "loai-da")
   const skinCareList = getFilterValues(product, "skin-care")
   const makeupList = getFilterValues(product, "makeup")
-  const benefitList = [...skinCareList, ...makeupList]
+  const effectList = [...skinCareList, ...makeupList]
 
-
-  const highlightList = benefitList.slice(0, 3)
+ 
 
   useEffect(() => {
   if (!openReview) return
@@ -73,9 +72,6 @@ export default function UserProductItem({
 }, [openReview])
 
   useEffect(() => {
-    if(product.id === 33 || product.id === 32){
-      console.log(product)
-    }
     function updateFlashSale() {
       const newStatus = getFlashSaleStatus(
         product.flash_sale_start,
@@ -360,7 +356,7 @@ return (
             "
           >
             <span className="truncate font-semibold text-white">
-              {product.seller_type}
+              Thương Hiệu {product.seller_type}
             </span>
           </div>
 
@@ -370,7 +366,7 @@ return (
               truncate
               text-[clamp(7px,2vw,11px)]
               font-semibold
-              text-yellow-300
+              text-orange-300
               md:text-[11px]
             "
           >
@@ -413,7 +409,11 @@ return (
           </div>
         </div>
         )}
-
+        {product.cta && (
+            <div className="my-2 text-[10px] text-yellow-300">
+              👉 {product.cta}
+            </div>
+          )}
 
         {/* 10. MARKETPLACES */}
         <div
@@ -455,7 +455,7 @@ return (
               <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)] animate-[shine_4s_linear_infinite]" />
 
               <span className="relative z-10 truncate">
-                TikTok
+               🛒 TikTok
               </span>
             </a>
           ) : (
@@ -511,7 +511,7 @@ return (
               <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.45),transparent)] animate-[shine_4s_linear_infinite]" />
 
               <span className="relative z-10 truncate">
-                Shopee
+                🛒 Shopee
               </span>
             </a>
           ) : (
@@ -594,11 +594,17 @@ return (
                 reviews={product.reviews}
                 short_description={product.short_description}
                 productName={product.name}
+                hook= {product.hook}
+                status = {status}
+                timeStart = {product.flash_sale_start}
+                timeEnd = {product.flash_sale_end}
+                tiktokShopLink={product.tiktok_shop_link}
                 affiliateLink={product.affiliate_link}
+                promotionProgram= {product.promotion_program}
                 cta={product.cta}
                 reviewData={{
                   effectiveness: {
-                    summary: product.hook,
+                    summary: product.benefits,
 
                     scores: product.productfilter
                             ?.find((filter) => filter.slug === "skin-care")
@@ -609,25 +615,12 @@ return (
 
                     strengths: product.benefits.split(".") ?? [],
 
-                    limitations: product.limitations?.split(".") ?? [],
                   },
 
                   ingredients: {
-                    summary:
-                      "Công thức tập trung vào các thành phần hỗ trợ dưỡng ẩm và làm dịu.",
+                    summary: product.ingredients_summary,
 
-                    highlights: [
-                      {
-                        title: "Beta-Glucan",
-                        description:
-                          "Hỗ trợ dưỡng ẩm và làm dịu, giúp cải thiện cảm giác khô căng trên da.",
-                      },
-                      {
-                        title: "Hyaluronic Acid",
-                        description:
-                          "Hỗ trợ giữ nước và duy trì cảm giác ẩm mượt cho bề mặt da.",
-                      },
-                    ],
+                    highlights: product.ingredients,
 
                     safety: {
                       score: 8.2,
@@ -642,31 +635,15 @@ return (
                   },
 
                   suitability: {
-                    summary:
-                      "Phù hợp nhất với người ưu tiên dưỡng ẩm và cải thiện tình trạng da thiếu nước.",
+                    // summary:
+                    //   "Phù hợp nhất với người ưu tiên dưỡng ẩm và cải thiện tình trạng da thiếu nước.",
 
-                    skinTypes: [
-                      {
-                        label: "Da khô",
-                        score: 9.5,
-                      },
-                      {
-                        label: "Da thiếu nước",
-                        score: 9.3,
-                      },
-                      {
-                        label: "Da thường",
-                        score: 8.8,
-                      },
-                      {
-                        label: "Da hỗn hợp",
-                        score: 7.5,
-                      },
-                      {
-                        label: "Da dầu",
-                        score: 6.5,
-                      },
-                    ],
+                    skinTypes: product.productfilter
+                            ?.find((filter) => filter.slug === "loai-da")
+                            ?.filterValues.map((item) => ({
+                              label: item.value,
+                              score: item.score,
+                            })) ?? [],
 
                     concerns: [
                       {
@@ -687,15 +664,9 @@ return (
                       },
                     ],
 
-                    bestFor: [
-                      "Da đang thiếu nước hoặc thường xuyên khô căng.",
-                      "Người cần một toner dưỡng ẩm sử dụng hằng ngày.",
-                    ],
+                    bestFor: product.usage?.split(".") ?? [],
 
-                    avoidOrConsider: [
-                      "Người đang tìm một sản phẩm treatment trị mụn.",
-                      "Da có tiền sử nhạy cảm với thành phần cần lưu ý.",
-                    ],
+                    avoidOrConsider: product.limitations?.split(".") ?? [],
                   },
 
                   experience: {
@@ -734,18 +705,15 @@ return (
                   },
 
                   reliability: {
-                    brandScore: 8.8,
-                    sourceScore: 9,
-                    distributorScore: 8.5,
+                    brandFoundedYear: 2010,
+                    marketCount: 50,
+                    soldOnTiktokAndShopee: 10000000,
 
-                    brand:
-                      "Đánh giá dựa trên mức độ minh bạch thông tin và sự nhất quán của thương hiệu.",
+                    brand: product.brand,
 
-                    manufacturer:
-                      "Thông tin về nguồn gốc và nhà sản xuất nên có khả năng kiểm tra và xác minh.",
+                    manufacturer: product.seller_type,
 
-                    distributor:
-                      "Ưu tiên nguồn bán có thông tin rõ ràng, chính sách hỗ trợ và khả năng xác minh hàng hóa.",
+                    distributor: product.seller_name,
 
                     strengths: [
                       "Thông tin sản phẩm có thể kiểm tra.",

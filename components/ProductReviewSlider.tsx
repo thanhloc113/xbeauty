@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { ProductReview, ProductReview as ProductReviewType } from "@/types/product"
+import { ProductIngredient, ProductReview, ProductReviewData, ProductReview as ProductReviewType, ScoreItem } from "@/types/product"
+import { formatNumber } from "@/utils/formatPrice"
 
 type ReviewInput = ProductReviewType
 
@@ -16,82 +17,7 @@ type ReviewSection =
   | "experience"
   | "reliability"
 
-type ScoreItem = {
-  label: string
-  score: number
-  description?: string
-}
 
-type HighlightItem = {
-  title: string
-  description: string
-}
-
-type TimelineItem = {
-  label: string
-  description: string
-}
-
-export type ProductReviewData = {
-  overallScore?: number
-
-  effectiveness?: {
-    summary?: string
-    scores?: ScoreItem[]
-    strengths?: string[]
-    limitations?: string[]
-  }
-
-  ingredients?: {
-    summary?: string
-
-    highlights?: HighlightItem[]
-
-    safety?: {
-      score: number
-      summary: string
-      cautions?: string[]
-    }
-  }
-
-  suitability?: {
-    summary?: string
-
-    skinTypes?: ScoreItem[]
-
-    concerns?: ScoreItem[]
-
-    bestFor?: string[]
-
-    avoidOrConsider?: string[]
-  }
-
-  experience?: {
-    texture?: string
-    absorption?: string
-    finish?: string
-
-    timeline?: TimelineItem[]
-
-    feedback?: {
-      positive?: string[]
-      negative?: string[]
-    }
-  }
-
-  reliability?: {
-    brandScore?: number
-    sourceScore?: number
-    distributorScore?: number
-
-    brand?: string
-    manufacturer?: string
-    distributor?: string
-
-    strengths?: string[]
-    cautions?: string[]
-  }
-}
 
 /* =========================================================
    SCORE BAR
@@ -120,28 +46,30 @@ function ScoreBar({
           )}
         </div>
 
-        <div className="shrink-0 text-sm font-bold text-pink-300">
-          {safeScore.toFixed(1)}
-        </div>
+        {/* <div className="shrink-0 text-sm font-bold text-pink-300">
+          // {safeScore.toFixed(1)}
+        </div> */}
       </div>
+          { score >0 && (
+              <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+                <div
+                  className="
+                    h-full
+                    rounded-full
+                    bg-gradient-to-r
+                    from-pink-500
+                    via-fuchsia-400
+                    to-violet-400
+                    transition-all
+                    duration-500
+                  "
+                  style={{
+                    width: `${percent}%`,
+                  }}
+                />
+              </div>
+          ) }
 
-      <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
-        <div
-          className="
-            h-full
-            rounded-full
-            bg-gradient-to-r
-            from-pink-500
-            via-fuchsia-400
-            to-violet-400
-            transition-all
-            duration-500
-          "
-          style={{
-            width: `${percent}%`,
-          }}
-        />
-      </div>
     </div>
   )
 }
@@ -246,16 +174,16 @@ function ReviewContent({
       <div className="space-y-4">
         {data.ingredients?.summary && (
           <p className="text-xs leading-relaxed text-white/70">
-            {data.ingredients.summary}
+            {data.ingredients?.summary}
           </p>
         )}
 
         {data.ingredients?.highlights &&
           data.ingredients.highlights.length > 0 && (
             <div className="space-y-3">
-              {data.ingredients.highlights.map((item) => (
+              {data.ingredients.highlights.map((item,index) => (
                 <div
-                  key={item.title}
+                  key={index}
                   className="
                     rounded-xl
                     border
@@ -265,18 +193,18 @@ function ReviewContent({
                   "
                 >
                   <div className="text-xs font-bold text-pink-300">
-                    🧪 {item.title}
+                    🧪 {item.name}
                   </div>
 
                   <p className="mt-1.5 text-xs leading-relaxed text-white/60">
-                    {item.description}
+                    {item.notes}
                   </p>
                 </div>
               ))}
             </div>
           )}
 
-        {data.ingredients?.safety && (
+        {/* {data.ingredients?.safety && (
           <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
             <div className="flex items-center justify-between gap-3">
               <div className="text-xs font-bold text-white">
@@ -315,7 +243,7 @@ function ReviewContent({
                 </div>
               )}
           </div>
-        )}
+        )} */}
       </div>
     )
   }
@@ -351,7 +279,7 @@ function ReviewContent({
             </div>
           )}
 
-        {data.suitability?.concerns &&
+        {/* {data.suitability?.concerns &&
           data.suitability.concerns.length > 0 && (
             <div>
               <div className="mb-3 text-xs font-bold text-white">
@@ -367,7 +295,7 @@ function ReviewContent({
                 ))}
               </div>
             </div>
-          )}
+          )} */}
 
         {data.suitability?.bestFor &&
           data.suitability.bestFor.length > 0 && (
@@ -566,19 +494,29 @@ function ReviewContent({
   /* ========================
      ĐỘ TIN CẬY
   ======================== */
+  const currentYear = new Date().getFullYear();
+  const founded = data.reliability?.brandFoundedYear
+  let yearActive = 0;
+  if(founded ){
+    yearActive = currentYear - founded
+  }
+
 
   const reliabilityScores = [
     {
-      label: "Thương hiệu",
-      score: data.reliability?.brandScore,
+      label: "Thành Lập",
+      score: yearActive,
+      unit: "year"
     },
     {
-      label: "Nguồn gốc",
-      score: data.reliability?.sourceScore,
+      label: "Có mặt tại",
+      score: data.reliability?.marketCount,
+      unit:"quốc gia"
     },
     {
-      label: "Phân phối",
-      score: data.reliability?.distributorScore,
+      label: "Tổng lượt bán",
+      score: data.reliability?.soldOnTiktokAndShopee,
+      unit:"tiktok & shopee"
     },
   ].filter(
     (
@@ -586,6 +524,7 @@ function ReviewContent({
     ): item is {
       label: string
       score: number
+      unit:string
     } => typeof item.score === "number"
   )
 
@@ -605,16 +544,16 @@ function ReviewContent({
                 text-center
               "
             >
-              <div className="text-[10px] text-white/40">
+              <div className="text-[10px] text-white/70">
                 {item.label}
               </div>
 
               <div className="mt-1 text-lg font-bold text-pink-300">
-                {item.score.toFixed(1)}
+                {formatNumber(item.score)}+
               </div>
 
-              <div className="text-[9px] text-white/30">
-                /10
+              <div className="text-[9px] text-white/70">
+                / {item.unit}
               </div>
             </div>
           ))}
@@ -623,11 +562,11 @@ function ReviewContent({
 
       {data.reliability?.brand && (
         <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
-          <div className="text-xs font-bold text-white">
+          <div className="text-xs font-bold text-green-400">
             🏢 Thương hiệu
           </div>
 
-          <p className="mt-1.5 text-xs leading-relaxed text-white/60">
+          <p className="mt-1.5 text-xs leading-relaxed text-white">
             {data.reliability.brand}
           </p>
         </div>
@@ -635,11 +574,11 @@ function ReviewContent({
 
       {data.reliability?.manufacturer && (
         <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
-          <div className="text-xs font-bold text-white">
-            🏭 Nhà sản xuất / nguồn gốc
+          <div className="text-xs font-bold text-blue-400">
+            🏭 Xuất sứ
           </div>
 
-          <p className="mt-1.5 text-xs leading-relaxed text-white/60">
+          <p className="mt-1.5 text-xs leading-relaxed text-white">
             {data.reliability.manufacturer}
           </p>
         </div>
@@ -647,11 +586,11 @@ function ReviewContent({
 
       {data.reliability?.distributor && (
         <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
-          <div className="text-xs font-bold text-white">
-            🛒 Nhà phân phối
+          <div className="text-xs font-bold text-orange-400">
+            🛒 Phân phối chính thức
           </div>
 
-          <p className="mt-1.5 text-xs leading-relaxed text-white/60">
+          <p className="mt-1.5 text-xs leading-relaxed text-white">
             {data.reliability.distributor}
           </p>
         </div>
@@ -708,20 +647,73 @@ export default function ProductReviewSlider({
   reviews,
   short_description,
   productName,
+  tiktokShopLink,
   affiliateLink,
   reviewData,
+  hook,
   cta,
+  status,
+  timeStart,
+  timeEnd,
+  promotionProgram,
   onClose,
 }: {
   reviews: ReviewInput[]
   short_description: string
   productName: string
+  tiktokShopLink?: string
   affiliateLink: string | null
   reviewData?: ProductReviewData
+  hook?:string
   cta?: string
+  status?:string
+  timeStart?: string,
+  timeEnd?: string,
+  promotionProgram?: string,
   onClose?: () => void
+
 }) {
   const [current, setCurrent] = useState(0)
+  const [timeLeft, setTimeLeft] = useState("")
+
+function countdown(time: string) {
+  const end = new Date(time).getTime()
+  const now = Date.now()
+  const diff = end - now
+
+  if (diff <= 0) return "00:00:00"
+
+  const hours = Math.floor(diff / (1000 * 60 * 60))
+  const minutes = Math.floor((diff / (1000 * 60)) % 60)
+  const seconds = Math.floor((diff / 1000) % 60)
+
+  return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}`
+}
+
+
+  useEffect(() => {
+    function updateFlashSale() {
+  
+      if (status === "active" && timeEnd) {
+        setTimeLeft(countdown(timeEnd))
+      }
+
+      if (status === "coming" && timeStart) {
+        setTimeLeft(countdown(timeStart))
+      }
+
+      if (status === "ended") {
+        setTimeLeft("00:00:00")
+      }
+    }
+
+    updateFlashSale()
+    const timer = setInterval(updateFlashSale, 1000)
+    return () => clearInterval(timer)
+  }, [status, timeStart, timeEnd])
+
 
   const [activeReview, setActiveReview] =
     useState<ReviewSection>("effectiveness")
@@ -743,11 +735,7 @@ export default function ProductReviewSlider({
 
   const item = reviews[current]
 
-  const productNameLines = productName
-    .split("|")
-    .map((item) => item.trim())
-    .filter(Boolean)
-
+  const productNameLines = [productName,hook].filter(Boolean)
   /* =========================================================
      PRELOAD NEXT VIDEO
   ========================================================= */
@@ -1014,13 +1002,13 @@ export default function ProductReviewSlider({
       description:
         "Sản phẩm phù hợp với ai?",
     },
-    {
-      key: "experience",
-      icon: "💬",
-      label: "Trải nghiệm",
-      description:
-        "Cảm nhận và phản hồi thực tế.",
-    },
+    // {
+    //   key: "experience",
+    //   icon: "💬",
+    //   label: "Trải nghiệm",
+    //   description:
+    //     "Cảm nhận và phản hồi thực tế.",
+    // },
     {
       key: "reliability",
       icon: "🛡",
@@ -1527,66 +1515,164 @@ export default function ProductReviewSlider({
           "
         >
           {cta && (
-            <div className="mb-2 text-center text-[10px] text-yellow-300">
+            <div className="mb-2 text-center text-[11px] text-yellow-300">
               👉 {cta}
             </div>
           )}
+          {(status === "active" || status === "coming") && (
+          <>
+            <div
+            className={`
 
-          <a
-            href={affiliateLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              relative
-              flex
-              w-full
-              items-center
-              justify-center
-              gap-2
-              overflow-hidden
-              rounded-xl
-              bg-gradient-to-r
-              from-pink-500
-              via-fuchsia-500
-              to-violet-500
-              px-4
-              py-3
-              text-sm
-              font-bold
-              text-white
-              shadow-lg
-              shadow-pink-500/20
-              transition-transform
-              duration-200
-              active:scale-[0.98]
-            "
+              my-[10px]
+              min-w-0
+              truncate
+              text-center
+              text-[clamp(10px,1.8vw,11px)]
+              leading-tight
+              text-wrap
+              
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-green-300"  }
+
+            `}
           >
+            🎁 {promotionProgram}
+            {status === "active" ? (
+              <span className=" mt-[6px]">
+                &nbsp; {timeLeft}s
+              </span>
+            ) : (
+              <span className=" mt-[6px]">
+              &nbsp; Bắt đầu sau {timeLeft}
+              </span>
+            )}
+          </div>
+
+          </>
+
+        )}
+
+        <div
+          className="
+          mt-auto
+          flex
+          gap-[clamp(3px,1.2vw,6px)]
+          pt-[clamp(7px,2.5vw,10px)]
+          "
+        >
+          {tiktokShopLink ? (
+            <a
+              href={tiktokShopLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                relative
+                flex
+                h-[clamp(24px,8vw,32px)]
+                min-w-0
+                flex-1
+                items-center
+                justify-center
+                overflow-hidden
+                rounded-[clamp(6px,1.5vw,8px)]
+                bg-[linear-gradient(135deg,#3b82f6,#8b5cf6)]
+                px-1
+                text-[clamp(7px,2vw,10px)]
+                font-semibold
+                text-white
+                ring-1
+                ring-white/15
+                transition
+                active:scale-95
+                md:h-9
+                md:text-[11px]
+              "
+            >
+              <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)] animate-[shine_4s_linear_infinite]" />
+
+              <span className="relative z-10 truncate">
+                🛒 TikTok
+              </span>
+            </a>
+          ) : (
             <span
               className="
-                pointer-events-none
-                absolute
-                left-0
-                top-0
-                h-full
-                w-full
-                -translate-x-full
-                skew-x-12
-                bg-gradient-to-r
-                from-transparent
-                via-white/25
-                to-transparent
-                animate-[shine_4s_linear_infinite]
+                flex
+                h-[clamp(24px,8vw,32px)]
+                min-w-0
+                flex-1
+                items-center
+                justify-center
+                rounded-[clamp(6px,1.5vw,8px)]
+                bg-[linear-gradient(135deg,#3b82f6,#8b5cf6)]
+                px-1
+                text-[clamp(7px,2vw,10px)]
+                font-semibold
+                text-gray-300
+                ring-1
+                ring-white/10
+                opacity-50
               "
-            />
-
-            <span className="relative z-10">
-              🛒
+            >
+              TikTok
             </span>
+          )}
 
-            <span className="relative z-10">
-              Kiểm tra giá & ưu đãi mới nhất
+          {affiliateLink ? (
+            <a
+              href={affiliateLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                relative
+                flex
+                h-[clamp(24px,8vw,32px)]
+                min-w-0
+                flex-1
+                items-center
+                justify-center
+                overflow-hidden
+                rounded-[clamp(6px,1.5vw,8px)]
+                bg-[linear-gradient(135deg,#f50fb0,#dd034c)]
+                px-1
+                text-[clamp(7px,2vw,10px)]
+                font-semibold
+                text-white
+                transition
+                active:scale-95
+                md:h-9
+                md:text-[11px]
+              "
+            >
+              <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.45),transparent)] animate-[shine_4s_linear_infinite]" />
+
+              <span className="relative z-10 truncate">
+                🛒 Shopee
+              </span>
+            </a>
+          ) : (
+            <span
+              className="
+                flex
+                h-[clamp(24px,8vw,32px)]
+                min-w-0
+                flex-1
+                items-center
+                justify-center
+                rounded-[clamp(6px,1.5vw,8px)]
+                bg-white/5
+                px-1
+                text-[clamp(7px,2vw,10px)]
+                font-semibold
+                text-gray-500
+                ring-1
+                ring-white/10
+              "
+            >
+              Shopee
             </span>
-          </a>
+          )}
+        </div>
 
           <div className="mt-1.5 text-center text-[9px] text-white/30">
             Giá và ưu đãi có thể thay đổi theo thời điểm

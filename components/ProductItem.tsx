@@ -169,11 +169,11 @@ async function handleSaveToDB() {
           </div>
 
           {/* INGREDIENTS */}
-          {displayProduct.ingredients && (
+          {/* {displayProduct.ingredients && (
             <div className="text-[10px] text-gray-400 mt-1 line-clamp-1">
               🌿 {displayProduct.ingredients}
             </div>
-          )}
+          )} */}
 
           {/* SKIN TYPE */}
           {skinTypeList.length > 0 && (

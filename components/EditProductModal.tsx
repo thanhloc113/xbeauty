@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Product, Tag , ProductFilter, ProductReview} from "@/types/product"
+import { Product, Tag , ProductFilter, ProductReview, ProductIngredient} from "@/types/product"
 import ProductReviewSlider from "./ProductReviewSlider"
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
   onSave: (product: Product) => void
   tagOptions?: Tag[] // list tags mặc định từ database
   FilterItem?: ProductFilter[] // list tags mặc định từ database
+  ingredientOptions?: ProductIngredient[]
 }
 type FilterDef = {
   id: number
@@ -178,6 +179,7 @@ export default function EditProductModal({
   onClose,
   onSave,
   tagOptions = defaultTag,
+  ingredientOptions = [],
 
 }: Props) {
 
@@ -185,18 +187,61 @@ const [localProductState, setLocalProductState] = useState<Product>({
   ...product,
   short_description: product.short_description || "",
   benefits: product.benefits || "",
-  ingredients: product.ingredients || "",
+  ingredients: product.ingredients || [],
   usage: product.usage || "",
   tags: product.tags || []
 })
 
+const [ingredientSearch, setIngredientSearch] = useState("")
+const [ingredientResults, setIngredientResults] = useState<ProductIngredient[]>([])
+const [ingredientLoading, setIngredientLoading] = useState(false)
+const [showCreateIngredient, setShowCreateIngredient] = useState(false)
+const [newIngredientInci, setNewIngredientInci] = useState("")
+const [creatingIngredient, setCreatingIngredient] = useState(false)
 
+useEffect(() => {
+  setLocalProductState(product)
+}, [product])
 
-  useEffect(() => {
-    setLocalProductState(product)
-  }, [product])
+async function searchIngredients(search: string) {
+  const keyword = search.trim()
 
+  if (keyword.length < 2) {
+    setIngredientResults([])
+    return
+  }
 
+  try {
+    setIngredientLoading(true)
+
+    const res = await fetch(
+      `/api/ingredients?search=${encodeURIComponent(keyword)}`
+    )
+
+    if (!res.ok) {
+      throw new Error("Failed to search ingredients")
+    }
+
+    const data = await res.json()
+
+    setIngredientResults(data.ingredients ?? [])
+
+  } catch (error) {
+    console.error(error)
+    setIngredientResults([])
+
+  } finally {
+    setIngredientLoading(false)
+  }
+}
+
+useEffect(() => {
+  const timeout = setTimeout(() => {
+    searchIngredients(ingredientSearch)
+  }, 300)
+
+  return () => clearTimeout(timeout)
+}, [ingredientSearch])
 
 function handleReviewChange(newReviews: ProductReview[]) {
   setLocalProductState(prev => ({
@@ -242,47 +287,79 @@ function addFilterGroup(slug: string) {
   ])
 }
 
-function updateFilterValue(groupSlug: string, valueSlug: string) {
-  const def = defaultFilter.find(f => f.slug === groupSlug)
+function updateFilterValue(
+  groupSlug: string,
+  valueSlug: string,
+  score: number = 0
+) {
+  const def = defaultFilter.find(
+    f => f.slug === groupSlug
+  )
+
   if (!def) return
 
-  const val = def.filterValues.find(v => v.slug === valueSlug)
-  if (!val) return
+  const valDef = def.filterValues.find(
+    v => v.slug === valueSlug
+  )
 
-  console.log(localProductState.productfilter)
+  if (!valDef) return
 
   const newFilter = localProductState.productfilter.map(group => {
     if (group.slug !== groupSlug) return group
 
-    // 👉 CHỈ áp dụng logic đặc biệt cho "loai-da"
-    if (groupSlug === "loai-da") {
-      const isAllOption = valueSlug === "moi-loai-da"
+    const existingValue = group.filterValues.find(
+      v => v.slug === valueSlug
+    )
 
-      // Nếu chọn "mọi loại da"
-      if (isAllOption) {
-        return {
-          ...group,
-          filterValues: [val] // chỉ giữ nó
-        }
-      }
-
-      // Nếu chọn option khác → remove "moi-loai-da" nếu có
-      const newValues = group.filterValues.filter(v => v.slug !== "moi-loai-da")
-
-      if (newValues.some(v => v.slug === valueSlug)) return group
-
+    // Nếu đã có → chỉ update score
+    if (existingValue) {
       return {
         ...group,
-        filterValues: [...newValues, val]
+        filterValues: group.filterValues.map(v =>
+          v.slug === valueSlug
+            ? {
+                ...v,
+                score,
+              }
+            : v
+        ),
       }
     }
 
-    // 👉 Các group khác (skin-care, makeup...) giữ logic cũ
-    if (group.filterValues.some(v => v.slug === valueSlug)) return group
+    const valueWithScore = {
+      ...valDef,
+      score,
+    }
 
+    // Logic riêng cho loại da
+    if (groupSlug === "loai-da") {
+      const isAllOption = valueSlug === "moi-loai-da"
+
+      if (isAllOption) {
+        return {
+          ...group,
+          filterValues: [valueWithScore],
+        }
+      }
+
+      return {
+        ...group,
+        filterValues: [
+          ...group.filterValues.filter(
+            v => v.slug !== "moi-loai-da"
+          ),
+          valueWithScore,
+        ],
+      }
+    }
+
+    // Group khác
     return {
       ...group,
-      filterValues: [...group.filterValues, val]
+      filterValues: [
+        ...group.filterValues,
+        valueWithScore,
+      ],
     }
   })
 
@@ -300,6 +377,106 @@ function removeFilterValue(groupSlug: string, valueSlug: string) {
   })
 
   handleChange("productfilter", newFilter)
+}
+
+
+function addIngredient(ingredient: ProductIngredient) {
+  const currentIngredients =
+    localProductState.ingredients ?? []
+
+  const exists = currentIngredients.some(
+    item => Number(item.id) === Number(ingredient.id)
+  )
+
+  if (exists) return
+
+  const newIngredients = [
+    ...currentIngredients,
+    {
+      ...ingredient,
+      position: currentIngredients.length + 1,
+      concentration: null,
+      notes: null,
+    },
+  ]
+
+  handleChange("ingredients", newIngredients)
+
+  // Reset search
+  setIngredientSearch("")
+  setIngredientResults([])
+}
+
+async function createIngredient() {
+  const name = ingredientSearch.trim()
+
+  if (!name) return
+
+  try {
+    setCreatingIngredient(true)
+
+    const res = await fetch("/api/ingredients", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        "device-id": localStorage.getItem("device-id") || ""
+      },
+
+      body: JSON.stringify({
+        name,
+        inci_name: newIngredientInci.trim() || null,
+      }),
+    })
+
+    const data = await res.json()
+
+    console.log(res)
+
+    if (!res.ok) {
+      throw new Error(
+        data.error || "Failed to create ingredient"
+      )
+    }
+
+    // Tạo xong hoặc đã tồn tại
+    addIngredient(data.ingredient)
+
+    setNewIngredientInci("")
+    setShowCreateIngredient(false)
+
+  } catch (error) {
+    console.error(error)
+
+  } finally {
+    setCreatingIngredient(false)
+  }
+}
+
+function removeIngredient(index: number) {
+  const newIngredients = localProductState.ingredients
+    .filter((_, i) => i !== index)
+    .map((ingredient, i) => ({
+      ...ingredient,
+      position: i + 1,
+    }))
+
+  handleChange("ingredients", newIngredients)
+}
+
+function updateIngredient(
+  index: number,
+  field: "concentration" | "notes",
+  value: string
+) {
+  const newIngredients = [...localProductState.ingredients]
+
+  newIngredients[index] = {
+    ...newIngredients[index],
+    [field]: value || null,
+  }
+
+  handleChange("ingredients", newIngredients)
 }
 
 function handleSubmit() {
@@ -327,11 +504,21 @@ function handleSubmit() {
             />
           </div>
 
+          {/* BRAND */}
+          <div>
+            <label className="block font-semibold mb-1">Brand</label>
+            <input
+              value={localProductState.brand ?? ""}
+              onChange={(e) => handleChange("brand", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
+
           {/* IMAGE */}
           <div>
             <label className="block font-semibold mb-1">Image URL</label>
             <input
-              value={localProductState.image}
+              value={localProductState.image ?? ""}
               onChange={(e) => handleChange("image", e.target.value)}
               className="border w-full p-2 rounded"
             />
@@ -389,14 +576,304 @@ function handleSubmit() {
             />
           </div>
 
+
           <div>
-            <label className="block font-semibold mb-1">Ingredients</label>
+            <label className="block font-semibold mb-1">Tổng quan tác dụng của thành phần</label>
             <textarea
-              value={localProductState.ingredients || ""}
-              onChange={(e) => handleChange("ingredients", e.target.value)}
+              value={localProductState.ingredients_summary || ""}
+              onChange={(e) => handleChange("ingredients_summary", e.target.value)}
               className="border w-full p-2 rounded"
             />
           </div>
+      {/* INGREDIENTS */}
+
+<div className="mt-4">
+  <label className="mb-2 block font-semibold">
+    Ingredients
+  </label>
+
+  {/* =========================
+      CURRENT INGREDIENTS
+  ========================== */}
+
+  {(localProductState.ingredients?.length ?? 0) > 0 && (
+    <div className="mb-4 space-y-3">
+      {localProductState.ingredients?.map(
+        (ingredient, index) => (
+          <div
+            key={ingredient.id}
+            className="rounded-lg border bg-white p-3"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="font-medium">
+                  {index + 1}. {ingredient.name}
+                </div>
+
+                {ingredient.inci_name && (
+                  <div className="mt-1 text-sm text-gray-500">
+                    INCI: {ingredient.inci_name}
+                  </div>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => removeIngredient(index)}
+                className="shrink-0 text-sm text-red-500 hover:underline"
+              >
+                Xóa
+              </button>
+            </div>
+
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-sm">
+                  Nồng độ
+                </label>
+
+                <input
+                  type="text"
+                  value={ingredient.concentration ?? ""}
+                  onChange={(e) =>
+                    updateIngredient(
+                      index,
+                      "concentration",
+                      e.target.value
+                    )
+                  }
+                  placeholder="Ví dụ: 5%"
+                  className="w-full rounded border p-2"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block text-sm">
+                  Ghi chú
+                </label>
+
+                <input
+                  type="text"
+                  value={ingredient.notes ?? ""}
+                  onChange={(e) =>
+                    updateIngredient(
+                      index,
+                      "notes",
+                      e.target.value
+                    )
+                  }
+                  placeholder="Ghi chú về thành phần"
+                  className="w-full rounded border p-2"
+                />
+              </div>
+            </div>
+          </div>
+        )
+      )}
+    </div>
+  )}
+
+  {/* EMPTY STATE */}
+
+  {(localProductState.ingredients?.length ?? 0) === 0 && (
+    <div className="mb-4 rounded-lg border border-dashed p-4 text-center text-sm text-gray-500">
+      Chưa có thành phần nào.
+    </div>
+  )}
+
+  {/* =========================
+      SEARCH INGREDIENT
+  ========================== */}
+
+  <div className="relative">
+    <input
+      type="text"
+      value={ingredientSearch}
+      onChange={(e) => {
+        setIngredientSearch(e.target.value)
+        setShowCreateIngredient(false)
+      }}
+      placeholder="Tìm thành phần để thêm..."
+      className="w-full rounded border p-2"
+    />
+
+    {ingredientSearch.trim().length >= 2 &&
+      !showCreateIngredient && (
+        <div
+          className="
+            absolute
+            z-20
+            mt-1
+            max-h-60
+            w-full
+            overflow-y-auto
+            rounded
+            border
+            bg-white
+            shadow-lg
+          "
+        >
+          {ingredientLoading && (
+            <div className="p-3 text-sm text-gray-500">
+              Đang tìm...
+            </div>
+          )}
+
+          {!ingredientLoading &&
+            ingredientResults
+              .filter(
+                (result) =>
+                  !(
+                    localProductState.ingredients ?? []
+                  ).some(
+                    (ingredient) =>
+                      Number(ingredient.id) ===
+                      Number(result.id)
+                  )
+              )
+              .map((ingredient) => (
+                <button
+                  key={ingredient.id}
+                  type="button"
+                  onClick={() => {
+                    addIngredient(ingredient)
+
+                    setIngredientSearch("")
+                  }}
+                  className="
+                    block
+                    w-full
+                    border-b
+                    p-3
+                    text-left
+                    last:border-b-0
+                    hover:bg-gray-50
+                  "
+                >
+                  <div className="font-medium">
+                    {ingredient.name}
+                  </div>
+
+                  {ingredient.inci_name && (
+                    <div className="mt-1 text-sm text-gray-500">
+                      INCI: {ingredient.inci_name}
+                    </div>
+                  )}
+                </button>
+              ))}
+
+          {/* CREATE NEW */}
+
+          {!ingredientLoading &&
+            ingredientResults.filter(
+              (result) =>
+                !(
+                  localProductState.ingredients ?? []
+                ).some(
+                  (ingredient) =>
+                    Number(ingredient.id) ===
+                    Number(result.id)
+                )
+            ).length === 0 && (
+              <button
+                type="button"
+                onClick={() =>
+                  setShowCreateIngredient(true)
+                }
+                className="
+                  block
+                  w-full
+                  p-3
+                  text-left
+                  text-sm
+                  hover:bg-gray-50
+                "
+              >
+                + Thêm &quot;
+                {ingredientSearch.trim()} &quot;
+                 làm thành phần mới
+              </button>
+            )}
+        </div>
+      )}
+  </div>
+
+  {/* =========================
+      CREATE NEW INGREDIENT
+  ========================== */}
+
+  {showCreateIngredient && (
+    <div className="mt-3 space-y-3 rounded-lg border bg-gray-50 p-4">
+      <div className="font-semibold">
+        Thêm thành phần mới
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm">
+          Tên thành phần
+        </label>
+
+        <input
+          value={ingredientSearch}
+          disabled
+          className="
+            w-full
+            rounded
+            border
+            bg-gray-100
+            p-2
+          "
+        />
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm">
+          INCI Name
+        </label>
+
+        <input
+          value={newIngredientInci}
+          onChange={(e) =>
+            setNewIngredientInci(e.target.value)
+          }
+          placeholder="Ví dụ: Niacinamide"
+          className="w-full rounded border p-2"
+        />
+      </div>
+
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={() => {
+            setShowCreateIngredient(false)
+            setNewIngredientInci("")
+          }}
+          className="rounded border px-3 py-2"
+        >
+          Hủy
+        </button>
+
+        <button
+          type="button"
+          onClick={createIngredient}
+          disabled={creatingIngredient}
+          className="
+            rounded
+            bg-black
+            px-3
+            py-2
+            text-white
+            disabled:opacity-50
+          "
+        >
+          {creatingIngredient
+            ? "Đang tạo..."
+            : "Tạo và thêm"}
+        </button>
+      </div>
+    </div>
+  )}
+</div>
 
           <div>
             <label className="block font-semibold mb-1">Usage</label>
@@ -542,23 +1019,32 @@ function handleSubmit() {
             const selected = group.filterValues.find(val => val.slug === v.slug)
 
             return (
-   
-                <button
-                  key={v.id}
-                onClick={() =>
-                  selected
-                    ? removeFilterValue(group.slug, v.slug)
-                    : updateFilterValue(group.slug, v.slug)
-                }
-                className={`px-3 py-1 rounded border ${
-                  selected
-                    ? "bg-blue-500 text-white"
-                    : "bg-white"
-                }`}
-              >
-                {v.value}
-              </button>
-
+                <div  key={v.id}>
+                  <button
+                      onClick={() =>
+                        selected
+                          ? removeFilterValue(group.slug, v.slug)
+                          : updateFilterValue(group.slug, v.slug)
+                      }
+                      className={`px-3 py-1 rounded border ${
+                        selected
+                          ? "bg-blue-500 text-white"
+                          : "bg-white"
+                      }`}
+                    >
+                      {v.value}
+                    </button>
+                    {selected && 
+                        <input 
+                            value={selected.score || ""} 
+                            type="number" 
+                            size={5}
+                            maxLength={4}
+                            className="border"
+                            onChange={(e)=>updateFilterValue(group.slug, v.slug, Number(e.target.value))}
+                            ></input>}
+              </div>
+                
 
             )
           })}

@@ -36,7 +36,6 @@ export async function GET(req: Request) {
         p.image,
         p.original_price,
         p.benefits,
-        p.ingredients,
         p.usage,
         p.best_price,
         p.sold,
@@ -53,13 +52,44 @@ export async function GET(req: Request) {
         p.seller_type,
         p.seller_name,
         p.limitations,
-
+        p.ingredients_summary,
+        p.brand,
         -- FIX TIMEZONE
         (p.flash_sale_start AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_start,
         (p.flash_sale_end AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_end,
 
         c.name as category_name,
         c.slug as category_slug,
+
+        /* INGREDIENTS */
+        COALESCE(
+          (
+            SELECT json_agg(
+              jsonb_build_object(
+                'id', i.id,
+                'slug', i.slug,
+                'name', i.name,
+                'inci_name', i.inci_name,
+                'description', i.description,
+                'functions', i.functions,
+                'benefits', i.benefits,
+                'cautions', i.cautions,
+                'safety_score', i.safety_score,
+
+                -- thông tin riêng của ingredient trong sản phẩm này
+                'position', pim.position,
+                'concentration', pim.concentration,
+                'notes', pim.notes
+              )
+              ORDER BY pim.position ASC
+            )
+            FROM product_ingredients_map pim
+            JOIN ingredients i
+              ON i.id = pim.ingredient_id
+            WHERE pim.product_id = p.id
+          ),
+          '[]'::json
+        ) AS ingredients,
 
         /* REVIEWS */
         COALESCE(

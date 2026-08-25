@@ -1,3 +1,92 @@
+export interface ProductIngredient {
+  id: number
+  slug: string
+  name: string
+  inci_name: string | null
+  description: string | null
+
+  functions: string[]
+  benefits: string[]
+  cautions: string[]
+
+  safety_score: number | null
+
+  position: number
+  concentration: string | null
+  notes: string | null
+}
+
+
+export type ScoreItem = {
+  label: string
+  score: number
+  description?: string
+}
+
+
+export type TimelineItem = {
+  label: string
+  description: string
+}
+export type ProductReviewData = {
+  overallScore?: number
+
+  effectiveness?: {
+    summary?: string
+    scores?: ScoreItem[]
+    strengths?: string[]
+    limitations?: string[]
+  }
+  ingredients?: {
+    summary?: string
+
+    highlights?: ProductIngredient[]
+
+    safety?: {
+      score: number
+      summary: string
+      cautions?: string[]
+    }
+  }
+
+  suitability?: {
+    summary?: string
+
+    skinTypes?: ScoreItem[]
+
+    concerns?: ScoreItem[]
+
+    bestFor?: string[]
+
+    avoidOrConsider?: string[]
+  }
+
+  experience?: {
+    texture?: string
+    absorption?: string
+    finish?: string
+
+    timeline?: TimelineItem[]
+
+    feedback?: {
+      positive?: string[]
+      negative?: string[]
+    }
+  }
+
+  reliability?: {
+    brandFoundedYear?: number
+    marketCount?: number
+    soldOnTiktokAndShopee?: number
+
+    brand?: string
+    manufacturer?: string
+    distributor?: string
+
+    strengths?: string[]
+    cautions?: string[]
+  }
+}
 
 export type Category = {
   id: number
@@ -51,7 +140,8 @@ export type Product = {
   tiktok_shop_link: string
   short_description: string
   benefits: string
-  ingredients: string
+  ingredients_summary: string
+  ingredients: ProductIngredient[]
   usage: string
   best_price: number
   original_price: number
@@ -72,4 +162,6 @@ export type Product = {
   seller_type: string
   seller_name: string
   limitations:string
+  brand:string
+
 }
