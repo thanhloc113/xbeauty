@@ -163,5 +163,7 @@ export type Product = {
   seller_name: string
   limitations:string
   brand:string
+  founded_year: number
+  market_count:number
 
 }

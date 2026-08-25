@@ -312,7 +312,7 @@ return (
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-violet-300"  }
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-fuchsia-300"  }
 
             `}
           >
@@ -322,7 +322,7 @@ return (
             </span>
             
             {status === "active" ? (
-              <span className=" block mt-[6px] text-green-300">
+              <span className=" block mt-[6px] text-lime-400">
               Đang diễn ra {timeLeft}s
               </span>
             ) : (
@@ -391,7 +391,7 @@ return (
               overflow-hidden
               whitespace-nowrap
               text-[clamp(6px,1.7vw,11px)]
-              text-slate-200
+              text-slate-200/80
               md:text-[11px]
             "
           >
