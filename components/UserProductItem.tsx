@@ -4,7 +4,7 @@ import { Product } from "@/types/product"
 import { useEffect, useState } from "react"
 import ProductReviewSlider from "./ProductReviewSlider"
 import { formatPriceDisplay, formatNumber } from "@/utils/formatPrice"
-import { FaShop } from "react-icons/fa6";
+import { FaGift, FaShop } from "react-icons/fa6";
 
 
 
@@ -312,13 +312,17 @@ return (
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-green-300"  }
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-violet-300"  }
 
             `}
           >
-            🎁 {product.promotion_program}
+
+            <span className="flex items-center gap-1">
+                <FaGift /> {product.promotion_program}
+            </span>
+            
             {status === "active" ? (
-              <span className=" block mt-[6px]">
+              <span className=" block mt-[6px] text-green-300">
               Đang diễn ra {timeLeft}s
               </span>
             ) : (
@@ -355,8 +359,8 @@ return (
               md:text-[11px]
             "
           >
-            <span className="truncate font-semibold text-white">
-              Thương Hiệu {product.seller_type}
+            <span className="truncate font-semibold text-fuchsia-300 ">
+              Thương hiệu {product.seller_type}
             </span>
           </div>
 
@@ -366,7 +370,7 @@ return (
               truncate
               text-[clamp(7px,2vw,11px)]
               font-semibold
-              text-orange-300
+              text-slate-200
               md:text-[11px]
             "
           >
@@ -387,11 +391,11 @@ return (
               overflow-hidden
               whitespace-nowrap
               text-[clamp(6px,1.7vw,11px)]
-              text-gray-400
+              text-slate-200
               md:text-[11px]
             "
           >
-            <span className="shrink-0 text-yellow-300">
+            <span className="shrink-0 ">
               ★ {product.rating}
             </span>
 
@@ -410,7 +414,7 @@ return (
         </div>
         )}
         {product.cta && (
-            <div className="my-2 text-[10px] text-yellow-300">
+            <div className="my-2 text-[10px] text-amber-300">
               👉 {product.cta}
             </div>
           )}
@@ -622,16 +626,16 @@ return (
 
                     highlights: product.ingredients,
 
-                    safety: {
-                      score: 8.2,
+                    // safety: {
+                    //   score: 8.2,
 
-                      summary:
-                        "Độ an toàn và mức độ phù hợp phụ thuộc vào toàn bộ công thức cũng như khả năng dung nạp của từng người.",
+                    //   summary:
+                    //     "Độ an toàn và mức độ phù hợp phụ thuộc vào toàn bộ công thức cũng như khả năng dung nạp của từng người.",
 
-                      cautions: [
-                        "Da rất nhạy cảm nên kiểm tra kỹ bảng thành phần trước khi sử dụng.",
-                      ],
-                    },
+                    //   cautions: [
+                    //     "Da rất nhạy cảm nên kiểm tra kỹ bảng thành phần trước khi sử dụng.",
+                    //   ],
+                    // },
                   },
 
                   suitability: {
@@ -705,9 +709,9 @@ return (
                   },
 
                   reliability: {
-                    brandFoundedYear: 2010,
-                    marketCount: 50,
-                    soldOnTiktokAndShopee: 10000000,
+                    brandFoundedYear: product.founded_year,
+                    marketCount: product.market_count,
+                    soldOnTiktokAndShopee: product.sold,
 
                     brand: product.brand,
 

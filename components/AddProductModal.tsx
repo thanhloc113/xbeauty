@@ -145,7 +145,9 @@ function createEmptyProduct(): Product {
     net_weight:"",
     ingredients_summary:"",
     limitations:"",
-    brand:""
+    brand:"",
+    founded_year:2000,
+    market_count:1
 
 
   }

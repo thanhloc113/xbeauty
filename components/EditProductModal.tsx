@@ -1228,7 +1228,29 @@ function handleSubmit() {
                   placeholder="Sold"
                   className="border p-2 rounded"
                 />
-                </div>
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">Năm Thành Lập</label>
+                <input
+                  type="number"
+                  value={localProductState.founded_year}
+                  onChange={(e) => handleChange("founded_year", Number(e.target.value))}
+                  placeholder="founded_year"
+                  className="border p-2 rounded"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">Số quốc gia phân phối</label>
+                <input
+                  type="number"
+                  value={localProductState.market_count}
+                  onChange={(e) => handleChange("market_count", Number(e.target.value))}
+                  placeholder="market_count"
+                  className="border p-2 rounded"
+                />
+              </div>
             </div>
           </div>
 

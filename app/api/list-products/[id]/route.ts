@@ -27,7 +27,9 @@ const updateProduct = async (id: number, body: Product) => {
     seller_type,
     seller_name,
     ingredients_summary,
-    brand
+    brand,
+    market_count,
+    founded_year
   } = body
 
   const slug = name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "")
@@ -60,6 +62,8 @@ const updateProduct = async (id: number, body: Product) => {
       seller_name = ${seller_name},
       ingredients_summary = ${ingredients_summary},
       brand = ${brand}
+      market_count = ${market_count}
+      founded_year = ${founded_year}
     WHERE id = ${id}
     RETURNING id
   `

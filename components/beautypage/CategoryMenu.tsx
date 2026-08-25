@@ -116,49 +116,41 @@ export default function CategoryMenu({
   // CENTER ACTIVE ITEM
   // =====================================================
 
-  const centerActiveItem = () => {
-    const container = containerRef.current
+ const centerActiveItem = () => {
+  const container = containerRef.current
 
-    if (!container || activeId === null) return
+  if (!container || activeId === null) return
 
-    const activeItem =
-      itemRefs.current[activeId]
+  const activeItem = itemRefs.current[activeId]
 
-    if (!activeItem) return
+  if (!activeItem) return
 
-    const containerRect =
-      container.getBoundingClientRect()
+  const containerCenter = container.clientWidth / 2
 
-    const itemRect =
-      activeItem.getBoundingClientRect()
+  const itemCenter =
+    activeItem.offsetLeft +
+    activeItem.offsetWidth / 2
 
-    const containerCenter =
-      containerRect.left +
-      containerRect.width / 2
+  const nextTranslateX =
+    containerCenter - itemCenter
 
-    const itemCenter =
-      itemRect.left +
-      itemRect.width / 2
-
-    const difference =
-      containerCenter - itemCenter
-
-    setTranslateX((current) =>
-      current + difference
-    )
-  }
+  setTranslateX(nextTranslateX)
+}
 
   // =====================================================
   // SELECT
   // =====================================================
 
-  const handleSelect = (category: Category) => {
-    if (category.id === activeId) return
+const handleSelect = (category: Category) => {
+  // Đang chuyển category / load API thì khóa
+  if (switching) return
 
-    setActiveId(category.id)
+  if (category.id === activeId) return
 
-    onChange?.(category)
-  }
+  setActiveId(category.id)
+
+  onChange?.(category)
+}
 
   // =====================================================
   // CENTER AFTER RENDER
@@ -367,6 +359,7 @@ export default function CategoryMenu({
               onClick={() =>
                 handleSelect(category)
               }
+              disabled={switching}
               className={`
                 relative
                 shrink-0

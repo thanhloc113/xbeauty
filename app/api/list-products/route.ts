@@ -54,6 +54,8 @@ export async function GET(req: Request) {
         p.limitations,
         p.ingredients_summary,
         p.brand,
+        p.market_count,
+        p.founded_year,
         -- FIX TIMEZONE
         (p.flash_sale_start AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_start,
         (p.flash_sale_end AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_end,
