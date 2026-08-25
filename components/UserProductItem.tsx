@@ -715,14 +715,14 @@ return (
 
                     distributor: product.seller_name,
 
-                    strengths: [
-                      "Thông tin sản phẩm có thể kiểm tra.",
-                      "Có tiêu chí riêng để đánh giá nguồn bán.",
-                    ],
+                    // strengths: [
+                    //   "Thông tin sản phẩm có thể kiểm tra.",
+                    //   "Có tiêu chí riêng để đánh giá nguồn bán.",
+                    // ],
 
-                    cautions: [
-                      "Độ tin cậy của nơi bán cần được đánh giá riêng theo từng nhà phân phối.",
-                    ],
+                    // cautions: [
+                    //   "Độ tin cậy của nơi bán cần được đánh giá riêng theo từng nhà phân phối.",
+                    // ],
                   },
                 }}
 />
