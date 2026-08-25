@@ -122,7 +122,7 @@ function createEmptyProduct(): Product {
     affiliate_link: "",
     short_description: "",
     benefits: "",
-    ingredients: "",
+    ingredients: [],
     usage: "",
     best_price: 0,
     original_price: 0,
@@ -142,7 +142,10 @@ function createEmptyProduct(): Product {
     seller_type:"",
     seller_name:"",
     promotion_program:"",
-    net_weight:""
+    net_weight:"",
+    ingredients_summary:"",
+    limitations:"",
+    brand:""
 
 
   }
@@ -210,7 +213,7 @@ function addFilterGroup(slug: string) {
       id: def.id, // ✅ thêm dòng này
       slug: def.slug,
       name: def.name,
-      value: []
+      filterValues: []
     }
   ])
 }
@@ -226,11 +229,11 @@ function updateFilterValue(groupSlug: string, valueSlug: string) {
     if (group.slug !== groupSlug) return group
 
     // chống duplicate
-    if (group.value.some(v => v.slug === valueSlug)) return group
+    if (group.filterValues.some(v => v.slug === valueSlug)) return group
 
     return {
       ...group,
-      value: [...group.value, { id: val.id, slug: val.slug, value: val.value }]
+      value: [...group.filterValues, { id: val.id, slug: val.slug, value: val.value }]
     }
   })
 
@@ -243,7 +246,7 @@ function removeFilterValue(groupSlug: string, valueSlug: string) {
 
     return {
       ...group,
-      value: group.value.filter(v => v.slug !== valueSlug)
+      value: group.filterValues.filter(v => v.slug !== valueSlug)
     }
   })
 
@@ -304,13 +307,13 @@ function removeFilterValue(groupSlug: string, valueSlug: string) {
           className="border w-full p-2 rounded mb-3"
         />
 
-        <label className="block font-semibold mb-1">Ingredients</label>
+        {/* <label className="block font-semibold mb-1">Ingredients</label>
         <textarea
           placeholder="Ingredients"
           value={product.ingredients}
           onChange={(e) => updateField("ingredients", e.target.value)}
           className="border w-full p-2 rounded mb-3"
-        />
+        /> */}
 
         <label className="block font-semibold mb-1">Usage</label>
         <textarea
@@ -566,7 +569,7 @@ function removeFilterValue(groupSlug: string, valueSlug: string) {
         {/* VALUE */}
         <div className="flex flex-wrap gap-2">
           {def.value.map(v => {
-            const selected = group.value.find(val => val.slug === v.slug)
+            const selected = group.filterValues.find(val => val.slug === v.slug)
 
             return (
               <button

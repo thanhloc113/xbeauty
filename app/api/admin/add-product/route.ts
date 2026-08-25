@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     // 3️⃣ Insert filters liên quan
     if (body.productfilter?.length) {
       for (const group of body.productfilter) {
-        for (const value of group.value) {
+        for (const value of group.filterValues) {
           await sql`
             INSERT INTO product_filter_map (product_id, product_filter_value_id)
             VALUES (${product_id}, ${value.id})
