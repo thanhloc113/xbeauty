@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import ProductReviewSlider from "./ProductReviewSlider"
 import { formatPriceDisplay, formatNumber } from "@/utils/formatPrice"
 import { FaGift, FaShop } from "react-icons/fa6";
+import FlashSaleCountdown from "./FlashSaleCountdown"
 
 
 
@@ -36,20 +37,21 @@ function countdown(time: string) {
     .padStart(2, "0")}`
 }
 
-export default function UserProductItem({ 
+export default function UserProductItem({
   product
-}: { 
-  product: Product }) {
+}: {
+  product: Product
+}) {
 
   const [status, setStatus] = useState<
     "none" | "coming" | "active" | "ended"
   >("none")
-  const [timeLeft, setTimeLeft] = useState("")
+
   const [openReview, setOpenReview] = useState(false)
 
   function getFilterValues(product: Product, slug: string) {
     const group = product.productfilter?.find((g) => g.slug === slug)
-    return group?.filterValues.map((v) => v.value) || []
+    return group?.filterValues.map((v) => ({ value: v.value, score: v.score })) || []
   }
 
   const skinTypeList = getFilterValues(product, "loai-da")
@@ -57,52 +59,52 @@ export default function UserProductItem({
   const makeupList = getFilterValues(product, "makeup")
   const effectList = [...skinCareList, ...makeupList]
 
- 
+  console.log(skinTypeList);
+
+
 
   useEffect(() => {
-  if (!openReview) return
+    if (!openReview) return
 
-  const originalOverflow = document.body.style.overflow
+    const originalOverflow = document.body.style.overflow
 
-  document.body.style.overflow = "hidden"
+    document.body.style.overflow = "hidden"
 
-  return () => {
-    document.body.style.overflow = originalOverflow
-  }
-}, [openReview])
+    return () => {
+      document.body.style.overflow = originalOverflow
+    }
+  }, [openReview])
 
   useEffect(() => {
-    function updateFlashSale() {
+    function updateFlashSaleStatus() {
       const newStatus = getFlashSaleStatus(
         product.flash_sale_start,
         product.flash_sale_end
       )
 
-      setStatus(newStatus)
-
-      if (newStatus === "active" && product.flash_sale_end) {
-        setTimeLeft(countdown(product.flash_sale_end))
-      }
-
-      if (newStatus === "coming" && product.flash_sale_start) {
-        setTimeLeft(countdown(product.flash_sale_start))
-      }
-
-      if (newStatus === "ended") {
-        setTimeLeft("00:00:00")
-      }
+      setStatus((prev) =>
+        prev === newStatus ? prev : newStatus
+      )
     }
 
-    updateFlashSale()
-    const timer = setInterval(updateFlashSale, 1000)
-    return () => clearInterval(timer)
-  }, [product.flash_sale_start, product.flash_sale_end])
+    updateFlashSaleStatus()
 
-return (
-  <>
-    {/* QUICK SCAN */}
-    <article
-      className="
+    const timer = setInterval(
+      updateFlashSaleStatus,
+      1000
+    )
+
+    return () => clearInterval(timer)
+  }, [
+    product.flash_sale_start,
+    product.flash_sale_end,
+  ])
+
+  return (
+    <>
+      {/* QUICK SCAN */}
+      <article
+        className="
           group
           flex
           h-full
@@ -119,19 +121,19 @@ return (
           transition
           hover:-translate-y-1
       "
-    >
-      {/* 01. IMAGE */}
-      <div className="relative aspect-square overflow-hidden bg-white">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="h-full w-full object-cover"
-        />
+      >
+        {/* 01. IMAGE */}
+        <div className="relative aspect-square overflow-hidden bg-white">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="h-full w-full object-cover"
+          />
 
-        {/* SKIN TYPE */}
-        {product.tags.length > 0 && (
-                  <span
-          className="
+          {/* SKIN TYPE */}
+          {product.tags.length > 0 && (
+            <span
+              className="
             absolute
             left-[4%]
             top-[4%]
@@ -152,25 +154,25 @@ return (
             shadow-[0_0_10px_rgba(251,113,133,0.35)]
             backdrop-blur-md
           "
-        >
-          <span className={`truncate text-rose-200`}>
-            {product.tags[0].name}
-          </span>
-        </span>
-        )}
+            >
+              <span className={`truncate text-rose-200`}>
+                {product.tags[0].name}
+              </span>
+            </span>
+          )}
 
-      </div>
+        </div>
 
-      <div
-        className="
+        <div
+          className="
           flex
           min-w-0
           flex-1
           flex-col
           p-[clamp(6px,2vw,10px)]
         "
-      >
-        {/* 02. PRODUCT NAME */}
+        >
+          {/* 02. PRODUCT NAME */}
 
           <div className="mb-[clamp(3px,1vw,6px)]">
             <h2
@@ -188,10 +190,10 @@ return (
             </h2>
           </div>
 
-        {/* 08. DÒNG SẢN PHẨM */}
-        {skinTypeList.length > 0 && (
-          <div
-            className="
+          {/* 08. DÒNG SẢN PHẨM */}
+          {skinTypeList.length > 0 && (
+            <div
+              className="
               mt-[2px]
               line-clamp-2
               bg-gradient-to-r
@@ -208,24 +210,23 @@ return (
               leading-[1.25]
               text-transparent
               drop-shadow-[0_0_4px_rgba(255,220,100,0.9)]
-              md:text-[10px]
-            "
-          >
-            {skinTypeList.join(" • ")}
-          </div>
-        )}
-        {/* 05. PHÂN TÍCH */}
-        {product.reviews.length > 0 && (
-          <button
-            type="button"
-            onClick={() => setOpenReview(true)}
-            className="
+              "
+            >
+              {/* {skinTypeList.map(i=> i.value).join(" • ") } */} Nhiều loại da
+            </div>
+          )}
+          {/* 05. PHÂN TÍCH */}
+          {product.reviews.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setOpenReview(true)}
+              className="
               mt-[clamp(4px,1.5vw,8px)]
               inline-flex
               max-w-full
               items-center
               gap-[clamp(2px,0.8vw,4px)]
-              text-[clamp(7px,2vw,10px)]
+              text-[clamp(7px,2vw,11px)]
               font-semibold
               leading-tight
               text-cyan-300
@@ -234,31 +235,30 @@ return (
               underline-offset-2
               transition
               hover:text-cyan-200
-              md:text-[11px]
             "
-          >
-            <span className="truncate">
-              Xem phân tích sản phẩm
-            </span>
+            >
+              <span className="truncate">
+                Xem phân tích sản phẩm
+              </span>
 
-            <span className="shrink-0">
-              →
-            </span>
-          </button>
-        )}
+              <span className="shrink-0">
+                →
+              </span>
+            </button>
+          )}
 
-        {/* 06. GIÁ / KHỐI LƯỢNG */}
-        <div
-          className="
+          {/* 06. GIÁ / KHỐI LƯỢNG */}
+          <div
+            className="
             mt-[clamp(4px,1.5vw,8px)]
             flex
             min-w-0
             items-baseline
             gap-[clamp(2px,0.8vw,6px)]
           "
-        >
-          <span
-            className="
+          >
+            <span
+              className="
               min-w-0
               truncate
               whitespace-nowrap
@@ -266,25 +266,24 @@ return (
               font-bold
               leading-tight
               text-red-500
-              md:text-base
             "
-          >
+            >
 
 
-            {formatPriceDisplay(
-              product.best_price,
-              status
-            )?.toLocaleString()}
-          </span>
+              {formatPriceDisplay(
+                product.best_price,
+                status
+              )?.toLocaleString()}
+            </span>
 
-          {product.net_weight && (
-            <>
-              <span className="shrink-0 text-[clamp(8px,2vw,12px)] text-white">
-                /
-              </span>
+            {product.net_weight && (
+              <>
+                <span className="shrink-0 text-[clamp(8px,2vw,12px)] text-white">
+                  /
+                </span>
 
-              <span
-                className="
+                <span
+                  className="
                   min-w-0
                   truncate
                   whitespace-nowrap
@@ -293,96 +292,90 @@ return (
                   text-red-300
                   md:text-[11px]
                 "
-              >
-                {product.net_weight}
-              </span>
-            </>
-          )}
-        </div>
-         {/* 07. FLASH SALE */}
-        {(status === "active" || status === "coming") && (
-          <>
-            <div
-            className={`
+                >
+                  {product.net_weight}
+                </span>
+              </>
+            )}
+          </div>
+          {/* 07. FLASH SALE */}
+          {(status === "active" || status === "coming") && (
+            <>
+              <div
+                className={`
 
               my-[10px]
               min-w-0
               truncate
-              text-[clamp(10px,1.8vw,11px)]
+              text-[clamp(10px,1.8vw,10px)]
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-fuchsia-300"  }
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-fuchsia-300"}
 
             `}
-          >
+              >
 
-            <span className="flex items-center gap-1">
-                <FaGift /> {product.promotion_program}
-            </span>
-            
-            {status === "active" ? (
-              <span className=" block mt-[6px] text-lime-400">
-              Đang diễn ra {timeLeft}s
-              </span>
-            ) : (
-              <span className=" block mt-[6px]">
-              Bắt đầu sau {timeLeft}
-              </span>
-            )}
-          </div>
+                <span className="flex items-center gap-1">
+                  <FaGift /> {product.promotion_program}
+                </span>
 
-          </>
+                <FlashSaleCountdown
+                  status={status}
+                  timeStart={product.flash_sale_start}
+                  timeEnd={product.flash_sale_end}
+                />
+              </div>
 
-        )}
+            </>
+
+          )}
 
 
-        {/* 09. NHÀ BÁN HÀNG UY TÍN */}
-        
-        { product.seller_name && (
-        <div
-          className="
+          {/* 09. NHÀ BÁN HÀNG UY TÍN */}
+
+          {product.seller_name && (
+            <div
+              className="
             mt-[clamp(6px,2vw,10px)]
             border-t
             border-white/10
             pt-[clamp(5px,1.8vw,8px)]
           "
-        >
-          <div
-            className="
+            >
+              <div
+                className="
               flex
               min-w-0
               items-center
               gap-[clamp(2px,0.8vw,6px)]
-              text-[clamp(6px,1.8vw,11px)]
+              text-[clamp(6px,1.8vw,10px)]
               leading-tight
-              md:text-[11px]
             "
-          >
-            <span className="truncate font-semibold text-fuchsia-300 ">
-              Thương hiệu {product.seller_type}
-            </span>
-          </div>
+              >
+                <span className="truncate font-semibold text-fuchsia-300 ">
+                  Thương hiệu {product.country}
+                </span>
+              </div>
 
-          <div
-            className="
+              <div
+                className="
               mt-[clamp(2px,0.8vw,4px)]
               truncate
-              text-[clamp(7px,2vw,11px)]
+              text-[clamp(7px,2vw,10px)]
               font-semibold
               text-slate-200
-              md:text-[11px]
             "
-          >
-            <span className="flex items-center gap-1">
-              <FaShop />
-              {product.seller_name}
-            </span>
-          
-          </div>
+              >
+                <span className="flex items-center gap-1">
+                  <FaShop />
+                  {product.seller_name}
+                </span>
 
-          <div
-            className="
+              </div>
+
+              <div
+                className="
               mt-[clamp(2px,0.8vw,4px)]
               flex
               min-w-0
@@ -390,50 +383,49 @@ return (
               gap-[clamp(2px,0.7vw,4px)]
               overflow-hidden
               whitespace-nowrap
-              text-[clamp(6px,1.7vw,11px)]
+              text-[clamp(6px,1.7vw,10px)]
               text-slate-200/80
-              md:text-[11px]
             "
-          >
-            <span className="shrink-0 ">
-              ★ {product.rating}
-            </span>
+              >
+                <span className="shrink-0 ">
+                  ★ {product.rating}
+                </span>
 
-            <span className="shrink-0">·</span>
+                <span className="shrink-0">·</span>
 
-            <span className="min-w-0 truncate">
-              {formatNumber(product.review_count)}+ đánh giá
-            </span>
+                <span className="min-w-0 truncate">
+                  {formatNumber(product.review_count)}+ đánh giá
+                </span>
 
-            <span className="shrink-0">·</span>
+                <span className="shrink-0">·</span>
 
-            <span className="min-w-0 truncate">
-              {formatNumber(product.sold)}+ đã bán
-            </span>
-          </div>
-        </div>
-        )}
-        {product.cta && (
+                <span className="min-w-0 truncate">
+                  {formatNumber(product.sold)}+ đã bán
+                </span>
+              </div>
+            </div>
+          )}
+          {product.cta && (
             <div className="my-2 text-[10px] text-amber-300">
               👉 {product.cta}
             </div>
           )}
 
-        {/* 10. MARKETPLACES */}
-        <div
-          className="
+          {/* 10. MARKETPLACES */}
+          <div
+            className="
           mt-auto
           flex
           gap-[clamp(3px,1.2vw,6px)]
           pt-[clamp(7px,2.5vw,10px)]
           "
-        >
-          {product.tiktok_shop_link ? (
-            <a
-              href={product.tiktok_shop_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
+          >
+            {product.tiktok_shop_link ? (
+              <a
+                href={product.tiktok_shop_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
                 relative
                 flex
                 h-[clamp(24px,8vw,32px)]
@@ -445,7 +437,7 @@ return (
                 rounded-[clamp(6px,1.5vw,8px)]
                 bg-[linear-gradient(135deg,#3b82f6,#8b5cf6)]
                 px-1
-                text-[clamp(7px,2vw,10px)]
+                text-[clamp(7px,2vw,11px)]
                 font-semibold
                 text-white
                 ring-1
@@ -453,18 +445,17 @@ return (
                 transition
                 active:scale-95
                 md:h-9
-                md:text-[11px]
               "
-            >
-              <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)] animate-[shine_4s_linear_infinite]" />
+              >
+                <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)] animate-[shine_4s_linear_infinite]" />
 
-              <span className="relative z-10 truncate">
-               🛒 TikTok
-              </span>
-            </a>
-          ) : (
-            <span
-              className="
+                <span className="relative z-10 truncate">
+                  🛒 TikTok
+                </span>
+              </a>
+            ) : (
+              <span
+                className="
                 flex
                 h-[clamp(24px,8vw,32px)]
                 min-w-0
@@ -481,17 +472,17 @@ return (
                 ring-white/10
                 opacity-50
               "
-            >
-              TikTok
-            </span>
-          )}
+              >
+                TikTok
+              </span>
+            )}
 
-          {product.affiliate_link ? (
-            <a
-              href={product.affiliate_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
+            {product.affiliate_link ? (
+              <a
+                href={product.affiliate_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
                 relative
                 flex
                 h-[clamp(24px,8vw,32px)]
@@ -503,24 +494,23 @@ return (
                 rounded-[clamp(6px,1.5vw,8px)]
                 bg-[linear-gradient(135deg,#f50fb0,#dd034c)]
                 px-1
-                text-[clamp(7px,2vw,10px)]
+                text-[clamp(7px,2vw,11px)]
                 font-semibold
                 text-white
                 transition
                 active:scale-95
                 md:h-9
-                md:text-[11px]
               "
-            >
-              <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.45),transparent)] animate-[shine_4s_linear_infinite]" />
+              >
+                <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.45),transparent)] animate-[shine_4s_linear_infinite]" />
 
-              <span className="relative z-10 truncate">
-                🛒 Shopee
-              </span>
-            </a>
-          ) : (
-            <span
-              className="
+                <span className="relative z-10 truncate">
+                  🛒 Shopee
+                </span>
+              </a>
+            ) : (
+              <span
+                className="
                 flex
                 h-[clamp(24px,8vw,32px)]
                 min-w-0
@@ -530,24 +520,24 @@ return (
                 rounded-[clamp(6px,1.5vw,8px)]
                 bg-white/5
                 px-1
-                text-[clamp(7px,2vw,10px)]
+                text-[clamp(7px,2vw,11px)]
                 font-semibold
                 text-gray-500
                 ring-1
                 ring-white/10
               "
-            >
-              Shopee
-            </span>
-          )}
+              >
+                Shopee
+              </span>
+            )}
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
 
-    {/* DETAIL REVIEW */}
-{openReview && (
-  <div
-    className="
+      {/* DETAIL REVIEW */}
+      {openReview && (
+        <div
+          className="
       fixed
       inset-0
       z-[999]
@@ -555,9 +545,9 @@ return (
       bg-black/70
       backdrop-blur-sm
     "
-  >
-    <div
-      className="
+        >
+          <div
+            className="
         relative
         mx-auto
         min-h-full
@@ -569,172 +559,170 @@ return (
         md:p-4
 
       "
-    >
-          <button
-            onClick={() => setOpenReview(false)}
-            className="absolute right-3 top-3 z-[1000] flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 text-sm text-white shadow-xl transition active:scale-95 md:h-11 md:w-11 md:text-lg"
-            aria-label="Đóng"
           >
-            ✕
-          </button>
+            <button
+              onClick={() => setOpenReview(false)}
+              className="absolute right-3 top-3 z-[1000] flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 text-sm text-white shadow-xl transition active:scale-95 md:h-11 md:w-11 md:text-lg"
+              aria-label="Đóng"
+            >
+              ✕
+            </button>
 
-          <div className="h-full w-full">
-            {product.reviews.length === 0 ? (
-              <p className="text-center text-sm text-gray-400">
-                Reviews đang được cập nhật...
-              </p>
-            ) : (
-              // <ProductReviewSlider
-              //   short_description={product.short_description || ""}
-              //   productName={product.name}
-              //   affiliateLink={product.affiliate_link}
-              //   reviews={product.reviews}
-              //   benefit={product.benefits}
-              //   usage={product.usage}
-              //   ingredient={product.ingredients}
-              //   cta={product.cta}
-              // />
-              <ProductReviewSlider
-                reviews={product.reviews}
-                short_description={product.short_description}
-                productName={product.name}
-                hook= {product.hook}
-                status = {status}
-                timeStart = {product.flash_sale_start}
-                timeEnd = {product.flash_sale_end}
-                tiktokShopLink={product.tiktok_shop_link}
-                affiliateLink={product.affiliate_link}
-                promotionProgram= {product.promotion_program}
-                cta={product.cta}
-                reviewData={{
-                  effectiveness: {
-                    summary: product.benefits,
+            <div className="h-full w-full">
+              {product.reviews.length === 0 ? (
+                <p className="text-center text-sm text-gray-400">
+                  Reviews đang được cập nhật...
+                </p>
+              ) : (
+                // <ProductReviewSlider
+                //   short_description={product.short_description || ""}
+                //   productName={product.name}
+                //   affiliateLink={product.affiliate_link}
+                //   reviews={product.reviews}
+                //   benefit={product.benefits}
+                //   usage={product.usage}
+                //   ingredient={product.ingredients}
+                //   cta={product.cta}
+                // />
+                <ProductReviewSlider
+                  reviews={product.reviews}
+                  short_description={product.short_description}
+                  productName={product.name}
+                  hook={product.hook}
+                  status={status}
+                  timeStart={product.flash_sale_start}
+                  timeEnd={product.flash_sale_end}
+                  tiktokShopLink={product.tiktok_shop_link}
+                  affiliateLink={product.affiliate_link}
+                  promotionProgram={product.promotion_program}
+                  cta={product.cta}
+                  reviewData={{
+                    effectiveness: {
+                      summary: product.benefits,
 
-                    scores: product.productfilter
-                            ?.find((filter) => filter.slug === "skin-care")
-                            ?.filterValues.map((item) => ({
-                              label: item.value,
-                              score: item.score,
-                            })) ?? [],
+                      scores: effectList.map((item) => ({
+                        label: item.value,
+                        score: item.score,
+                      })) ?? [],
 
-                    strengths: product.benefits.split(".") ?? [],
+                      strengths: product.benefits.split(".") ?? [],
 
-                  },
-
-                  ingredients: {
-                    summary: product.ingredients_summary,
-
-                    highlights: product.ingredients,
-
-                    // safety: {
-                    //   score: 8.2,
-
-                    //   summary:
-                    //     "Độ an toàn và mức độ phù hợp phụ thuộc vào toàn bộ công thức cũng như khả năng dung nạp của từng người.",
-
-                    //   cautions: [
-                    //     "Da rất nhạy cảm nên kiểm tra kỹ bảng thành phần trước khi sử dụng.",
-                    //   ],
-                    // },
-                  },
-
-                  suitability: {
-                    // summary:
-                    //   "Phù hợp nhất với người ưu tiên dưỡng ẩm và cải thiện tình trạng da thiếu nước.",
-
-                    skinTypes: product.productfilter
-                            ?.find((filter) => filter.slug === "loai-da")
-                            ?.filterValues.map((item) => ({
-                              label: item.value,
-                              score: item.score,
-                            })) ?? [],
-
-                    concerns: [
-                      {
-                        label: "Thiếu nước",
-                        score: 9.3,
-                      },
-                      {
-                        label: "Khô căng",
-                        score: 9,
-                      },
-                      {
-                        label: "Cần làm dịu",
-                        score: 8.2,
-                      },
-                      {
-                        label: "Mụn",
-                        score: 4,
-                      },
-                    ],
-
-                    bestFor: product.usage?.split(".") ?? [],
-
-                    avoidOrConsider: product.limitations?.split(".") ?? [],
-                  },
-
-                  experience: {
-                    texture: "Lỏng nhẹ",
-                    absorption: "Khá nhanh",
-                    finish: "Ẩm mượt",
-
-                    timeline: [
-                      {
-                        label: "Ngay sau khi dùng",
-                        description:
-                          "Da có thể cảm nhận mềm và ẩm hơn.",
-                      },
-                      {
-                        label: "Sau 1–2 tuần",
-                        description:
-                          "Có thể bắt đầu đánh giá mức độ cải thiện cảm giác khô căng nếu sản phẩm phù hợp.",
-                      },
-                      {
-                        label: "Sau 4–8 tuần",
-                        description:
-                          "Đánh giá hiệu quả duy trì và mức độ phù hợp trong toàn bộ routine.",
-                      },
-                    ],
-
-                    feedback: {
-                      positive: [
-                        "Khả năng cấp ẩm tốt.",
-                        "Dễ kết hợp với các bước skincare khác.",
-                      ],
-
-                      negative: [
-                        "Không phù hợp nếu kỳ vọng treatment chuyên sâu.",
-                      ],
                     },
-                  },
 
-                  reliability: {
-                    brandFoundedYear: product.founded_year,
-                    marketCount: product.market_count,
-                    soldOnTiktokAndShopee: product.sold,
+                    ingredients: {
+                      summary: product.ingredients_summary,
 
-                    brand: product.brand,
+                      highlights: product.ingredients,
 
-                    manufacturer: product.seller_type,
+                      safety: {
+                        // score: 8.2,
 
-                    distributor: product.seller_name,
+                        summary: product.ingredients_summary,
 
-                    // strengths: [
-                    //   "Thông tin sản phẩm có thể kiểm tra.",
-                    //   "Có tiêu chí riêng để đánh giá nguồn bán.",
-                    // ],
+                        // cautions: [
+                        //   "Da rất nhạy cảm nên kiểm tra kỹ bảng thành phần trước khi sử dụng.",
+                        // ],
+                      },
+                    },
 
-                    // cautions: [
-                    //   "Độ tin cậy của nơi bán cần được đánh giá riêng theo từng nhà phân phối.",
-                    // ],
-                  },
-                }}
-/>
-            )}
+                    suitability: {
+                      // summary:
+                      //   "Phù hợp nhất với người ưu tiên dưỡng ẩm và cải thiện tình trạng da thiếu nước.",
+
+                      skinTypes: product.productfilter
+                        ?.find((filter) => filter.slug === "loai-da")
+                        ?.filterValues.map((item) => ({
+                          label: item.value,
+                          score: item.score,
+                        })) ?? [],
+
+                      concerns: [
+                        {
+                          label: "Thiếu nước",
+                          score: 9.3,
+                        },
+                        {
+                          label: "Khô căng",
+                          score: 9,
+                        },
+                        {
+                          label: "Cần làm dịu",
+                          score: 8.2,
+                        },
+                        {
+                          label: "Mụn",
+                          score: 4,
+                        },
+                      ],
+
+                      bestFor: product.usage?.split(".") ?? [],
+
+                      avoidOrConsider: product.limitations?.split(".") ?? [],
+                    },
+
+                    experience: {
+                      texture: "Lỏng nhẹ",
+                      absorption: "Khá nhanh",
+                      finish: "Ẩm mượt",
+
+                      timeline: [
+                        {
+                          label: "Ngay sau khi dùng",
+                          description:
+                            "Da có thể cảm nhận mềm và ẩm hơn.",
+                        },
+                        {
+                          label: "Sau 1–2 tuần",
+                          description:
+                            "Có thể bắt đầu đánh giá mức độ cải thiện cảm giác khô căng nếu sản phẩm phù hợp.",
+                        },
+                        {
+                          label: "Sau 4–8 tuần",
+                          description:
+                            "Đánh giá hiệu quả duy trì và mức độ phù hợp trong toàn bộ routine.",
+                        },
+                      ],
+
+                      feedback: {
+                        positive: [
+                          "Khả năng cấp ẩm tốt.",
+                          "Dễ kết hợp với các bước skincare khác.",
+                        ],
+
+                        negative: [
+                          "Không phù hợp nếu kỳ vọng treatment chuyên sâu.",
+                        ],
+                      },
+                    },
+
+                    reliability: {
+                      brandFoundedYear: product.founded_year,
+                      marketCount: product.market_count,
+                      standand: product.standand,
+
+                      brand: product.brand,
+                      distributorType: product.seller_type,
+                      origin: product.country,
+
+                      distributor: product.seller_name,
+
+                      strengths: {
+                        trust: product.trust,
+                        sold: product.sold,
+                        rating: product.rating
+                      }
+
+                      // cautions: [
+                      //   "Độ tin cậy của nơi bán cần được đánh giá riêng theo từng nhà phân phối.",
+                      // ],
+                    },
+                  }}
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    )}
-  </>
-)
+      )}
+    </>
+  )
 }

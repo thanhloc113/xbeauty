@@ -568,7 +568,7 @@ function handleSubmit() {
           </div>
 
           <div>
-            <label className="block font-semibold mb-1">Benefits</label>
+            <label className="block font-semibold mb-1">Summary Benefits</label>
             <textarea
               value={localProductState.benefits || ""}
               onChange={(e) => handleChange("benefits", e.target.value)}
@@ -578,7 +578,7 @@ function handleSubmit() {
 
 
           <div>
-            <label className="block font-semibold mb-1">Tổng quan tác dụng của thành phần</label>
+            <label className="block font-semibold mb-1">Đặc tính nổi bật</label>
             <textarea
               value={localProductState.ingredients_summary || ""}
               onChange={(e) => handleChange("ingredients_summary", e.target.value)}
@@ -1179,9 +1179,17 @@ function handleSubmit() {
 
           {/* STATS */}
           <div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="block font-semibold mb-1">Loại của hàng</label>
+                <input
+                  value={localProductState.seller_type ?? ""}
+                  onChange={(e) => handleChange("seller_type", e.target.value)}
+                  className="border w-full p-2 rounded"
+                />
+                </div>
                 <div>
-                <label className="block font-semibold mb-1">Nhà cung cấp</label>
+                <label className="block font-semibold mb-1">Cửa hàng phân phối</label>
                 <input
                   value={localProductState.seller_name ?? ""}
                   onChange={(e) => handleChange("seller_name", e.target.value)}
@@ -1189,10 +1197,10 @@ function handleSubmit() {
                 />
                 </div>
                 <div>
-                <label className="block font-semibold mb-1">Thương hiệu đến từ</label>
+                <label className="block font-semibold mb-1">Country</label>
                 <input
-                  value={localProductState.seller_type ?? ""}
-                  onChange={(e) => handleChange("seller_type", e.target.value)}
+                  value={localProductState.country ?? ""}
+                  onChange={(e) => handleChange("country", e.target.value)}
                   className="border w-full p-2 rounded"
                 />
                 </div>
@@ -1234,26 +1242,42 @@ function handleSubmit() {
                 <label className="block font-semibold mb-1">Năm Thành Lập</label>
                 <input
                   type="number"
-                  value={localProductState.founded_year}
+                  value={localProductState.founded_year ?? ""}
                   onChange={(e) => handleChange("founded_year", Number(e.target.value))}
                   placeholder="founded_year"
                   className="border p-2 rounded"
                 />
               </div>
-
+<div>
+                <label className="block font-semibold mb-1">Tiêu chuẩn sản xuất</label>
+                <input
+                  value={localProductState.standand ?? ""}
+                  onChange={(e) => handleChange("standand", e.target.value)}
+                  placeholder="standand"
+                  className="border p-2 rounded"
+                />
+              </div>
               <div>
                 <label className="block font-semibold mb-1">Số quốc gia phân phối</label>
                 <input
-                  type="number"
-                  value={localProductState.market_count}
-                  onChange={(e) => handleChange("market_count", Number(e.target.value))}
+
+                  value={localProductState.market_count ?? 0}
+                  onChange={(e) => handleChange("market_count", e.target.value)}
                   placeholder="market_count"
                   className="border p-2 rounded"
                 />
               </div>
+
             </div>
           </div>
-
+          <div>
+            <label className="block font-semibold mb-1">Kêt luân độ tin cậy</label>
+            <input
+              value={localProductState.trust ?? ""}
+              onChange={(e) => handleChange("trust", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
           {/* Promotion program name */}
           <div>
             <label className="block font-semibold mb-1">Chương trình ưu đãi</label>

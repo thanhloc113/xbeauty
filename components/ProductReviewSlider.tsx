@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { ProductIngredient, ProductReview, ProductReviewData, ProductReview as ProductReviewType, ScoreItem } from "@/types/product"
 import { formatNumber } from "@/utils/formatPrice"
+import FlashSaleCountdown from "./FlashSaleCountdown"
 
 type ReviewInput = ProductReviewType
 
@@ -94,7 +95,7 @@ function ReviewContent({
       </div>
     )
   }
-
+  
   /* ========================
      HIỆU QUẢ
   ======================== */
@@ -102,11 +103,11 @@ function ReviewContent({
   if (active === "effectiveness") {
     return (
       <div className="space-y-4">
-        {data.effectiveness?.summary && (
+        {/* {data.effectiveness?.summary && (
           <p className="text-xs leading-relaxed text-white/70">
             {data.effectiveness.summary}
           </p>
-        )}
+        )} */}
 
         {data.effectiveness?.scores &&
           data.effectiveness.scores.length > 0 && (
@@ -141,7 +142,7 @@ function ReviewContent({
             </div>
           )}
 
-        {data.effectiveness?.limitations &&
+        {/* {data.effectiveness?.limitations &&
           data.effectiveness.limitations.length > 0 && (
             <div className="rounded-xl border border-amber-400/10 bg-amber-400/5 p-3">
               <div className="mb-2 flex items-center gap-2 text-xs font-bold text-amber-300">
@@ -160,7 +161,7 @@ function ReviewContent({
                 ))}
               </div>
             </div>
-          )}
+          )} */}
       </div>
     )
   }
@@ -172,12 +173,51 @@ function ReviewContent({
   if (active === "ingredients") {
     return (
       <div className="space-y-4">
-        {data.ingredients?.summary && (
+        {/* {data.ingredients?.summary && (
           <p className="text-xs leading-relaxed text-white/70">
             {data.ingredients?.summary}
           </p>
-        )}
+        )} */}
+                {data.ingredients?.safety && (
+          <div className="rounded-xl border border-emerald-400/10 bg-emerald-400/5 p-3">
+            <div className="flex items-center justify-between gap-3">
+              <div className="text-xs font-bold text-emerald-300">
+                🛡 Đặc tính nổi bật
+              </div>
 
+              {/* <div className="text-base font-bold text-pink-300">
+                {data.ingredients.safety.score.toFixed(1)}
+                <span className="text-[10px] text-white/40">
+                  /10
+                </span>
+              </div> */}
+            </div>
+
+            <p className="mt-2 text-xs leading-relaxed text-white/60">
+              {data.ingredients.safety.summary}
+            </p>
+
+            {/* {data.ingredients.safety.cautions &&
+              data.ingredients.safety.cautions.length > 0 && (
+                <div className="mt-3 border-t border-white/5 pt-3">
+                  <div className="mb-2 text-[11px] font-semibold text-amber-300">
+                    ⚠ Cần lưu ý
+                  </div>
+
+                  <div className="space-y-1">
+                    {data.ingredients.safety.cautions.map((item) => (
+                      <div
+                        key={item}
+                        className="text-[11px] leading-relaxed text-white/55"
+                      >
+                        • {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )} */}
+          </div>
+        )}
         {data.ingredients?.highlights &&
           data.ingredients.highlights.length > 0 && (
             <div className="space-y-3">
@@ -203,47 +243,6 @@ function ReviewContent({
               ))}
             </div>
           )}
-
-        {/* {data.ingredients?.safety && (
-          <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
-            <div className="flex items-center justify-between gap-3">
-              <div className="text-xs font-bold text-white">
-                🛡 Đánh giá độ an toàn
-              </div>
-
-              <div className="text-base font-bold text-pink-300">
-                {data.ingredients.safety.score.toFixed(1)}
-                <span className="text-[10px] text-white/40">
-                  /10
-                </span>
-              </div>
-            </div>
-
-            <p className="mt-2 text-xs leading-relaxed text-white/60">
-              {data.ingredients.safety.summary}
-            </p>
-
-            {data.ingredients.safety.cautions &&
-              data.ingredients.safety.cautions.length > 0 && (
-                <div className="mt-3 border-t border-white/5 pt-3">
-                  <div className="mb-2 text-[11px] font-semibold text-amber-300">
-                    ⚠ Cần lưu ý
-                  </div>
-
-                  <div className="space-y-1">
-                    {data.ingredients.safety.cautions.map((item) => (
-                      <div
-                        key={item}
-                        className="text-[11px] leading-relaxed text-white/55"
-                      >
-                        • {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-          </div>
-        )} */}
       </div>
     )
   }
@@ -301,7 +300,7 @@ function ReviewContent({
           data.suitability.bestFor.length > 0 && (
             <div className="rounded-xl border border-emerald-400/10 bg-emerald-400/5 p-3">
               <div className="mb-2 text-xs font-bold text-emerald-300">
-                ✓ Nên chọn nếu bạn
+                ✓ Dùng tốt cho
               </div>
 
               <div className="space-y-1.5">
@@ -498,35 +497,31 @@ function ReviewContent({
   const founded = data.reliability?.brandFoundedYear
   let yearActive = 0;
   if(founded ){
-    yearActive = currentYear - founded
+    yearActive = currentYear - founded 
   }
-
+  
 
   const reliabilityScores = [
     {
-      label: "Thành Lập",
-      score: yearActive,
+      key:"experience",
+      label: "Kinh nghiệm thị trường",
+      score: yearActive +1,
       unit: "year"
     },
     {
-      label: "Có mặt tại",
-      score: data.reliability?.marketCount,
-      unit:"quốc gia"
+      key:"standand",
+      label: "Đạt tiêu chuẩn",
+      score: data.reliability?.standand,
+      unit:"sản xuất & kiểm nghiệm"
     },
     {
-      label: "Tổng lượt bán",
-      score: data.reliability?.soldOnTiktokAndShopee,
-      unit:"tiktok & shopee"
+      key:"popular",
+      label: "Độ phổ biến",
+      score: data.reliability?.marketCount,
+      unit:"phân phối"
     },
-  ].filter(
-    (
-      item
-    ): item is {
-      label: string
-      score: number
-      unit:string
-    } => typeof item.score === "number"
-  )
+  ]
+ 
 
   return (
     <div className="space-y-4">
@@ -534,7 +529,7 @@ function ReviewContent({
         <div className="grid grid-cols-3 gap-2">
           {reliabilityScores.map((item) => (
             <div
-              key={item.label}
+              key={item.key}
               className="
                 rounded-xl
                 border
@@ -547,13 +542,20 @@ function ReviewContent({
               <div className="text-[10px] text-white/70">
                 {item.label}
               </div>
+              {["standand"].includes(item.key) ? (
+                <div className="text-[11px] text-pink-300 my-2">
+                  {item.score}
+                </div>
+              ) : (
+                <div className="mt-1 text-lg font-bold text-pink-300">
+                  {item.score}
+                </div>)
+              
+              }
 
-              <div className="mt-1 text-lg font-bold text-pink-300">
-                {formatNumber(item.score)}+
-              </div>
 
               <div className="text-[9px] text-white/70">
-                / {item.unit}
+                {item.unit}
               </div>
             </div>
           ))}
@@ -572,14 +574,14 @@ function ReviewContent({
         </div>
       )}
 
-      {data.reliability?.manufacturer && (
+      {data.reliability?.origin && (
         <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
           <div className="text-xs font-bold text-blue-400">
             🏭 Xuất sứ
           </div>
 
           <p className="mt-1.5 text-xs leading-relaxed text-white">
-            {data.reliability.manufacturer}
+            {data.reliability.origin}
           </p>
         </div>
       )}
@@ -587,7 +589,7 @@ function ReviewContent({
       {data.reliability?.distributor && (
         <div className="rounded-xl border border-white/5 bg-white/[0.035] p-3">
           <div className="text-xs font-bold text-orange-400">
-            🛒 Phân phối chính thức
+            🛒{data.reliability.distributorType}
           </div>
 
           <p className="mt-1.5 text-xs leading-relaxed text-white">
@@ -596,14 +598,18 @@ function ReviewContent({
         </div>
       )}
 
-      {data.reliability?.strengths &&
-        data.reliability.strengths.length > 0 && (
-          <div className="rounded-xl border border-emerald-400/10 bg-emerald-400/5 p-3">
-            <div className="mb-2 text-xs font-bold text-emerald-300">
-              ✓ Yếu tố tạo niềm tin
+
+
+      {data.reliability?.strengths?.trust &&
+        (
+<div className="rounded-xl border border-emerald-400/10 bg-emerald-400/5 p-3">
+  <div className="flex items-center justify-center text-center text-xs font-bold text-white/70">
+              <span >Với hơn {formatNumber(data.reliability.strengths.sold || 100000)}+ lượt bán trên Tiktok và Shopee, 
+                đạt {data.reliability.strengths.rating}★ cho sản phẩm. {data.reliability.brand} {data.reliability.strengths.trust}.
+              </span>
             </div>
 
-            <div className="space-y-1.5">
+            {/* <div className="space-y-1.5">
               {data.reliability.strengths.map((item) => (
                 <div
                   key={item}
@@ -612,11 +618,11 @@ function ReviewContent({
                   • {item}
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         )}
 
-      {data.reliability?.cautions &&
+      {/* {data.reliability?.cautions &&
         data.reliability.cautions.length > 0 && (
           <div className="rounded-xl border border-amber-400/10 bg-amber-400/5 p-3">
             <div className="mb-2 text-xs font-bold text-amber-300">
@@ -634,7 +640,7 @@ function ReviewContent({
               ))}
             </div>
           </div>
-        )}
+        )} */}
     </div>
   )
 }
@@ -673,6 +679,7 @@ export default function ProductReviewSlider({
   onClose?: () => void
 
 }) {
+
   const [current, setCurrent] = useState(0)
   const [timeLeft, setTimeLeft] = useState("")
 
@@ -692,27 +699,6 @@ function countdown(time: string) {
     .padStart(2, "0")}`
 }
 
-
-  useEffect(() => {
-    function updateFlashSale() {
-  
-      if (status === "active" && timeEnd) {
-        setTimeLeft(countdown(timeEnd))
-      }
-
-      if (status === "coming" && timeStart) {
-        setTimeLeft(countdown(timeStart))
-      }
-
-      if (status === "ended") {
-        setTimeLeft("00:00:00")
-      }
-    }
-
-    updateFlashSale()
-    const timer = setInterval(updateFlashSale, 1000)
-    return () => clearInterval(timer)
-  }, [status, timeStart, timeEnd])
 
 
   const [activeReview, setActiveReview] =
@@ -986,21 +972,21 @@ function countdown(time: string) {
       icon: "⚡",
       label: "Hiệu quả",
       description:
-        "Sản phẩm giải quyết được vấn đề gì?",
+        "Độ hiệu quả được có thể khác nhau cho từng loại da và cơ địa",
     },
     {
       key: "ingredients",
       icon: "🧪",
       label: "Thành phần",
       description:
-        "Công thức có giá trị và cần lưu ý gì?",
+        "Thành phần quan trọng",
     },
     {
       key: "suitability",
       icon: "🎯",
       label: "Phù hợp",
       description:
-        "Sản phẩm phù hợp với ai?",
+        "Mức độ ưu tiên dựa trên công dụng chính của sản phẩm",
     },
     // {
     //   key: "experience",
@@ -1014,7 +1000,7 @@ function countdown(time: string) {
       icon: "🛡",
       label: "Tin cậy",
       description:
-        "Đánh giá thương hiệu và nguồn sản phẩm.",
+        "Các thông số được tổng hợp từ nguồn thông tin chính thức có thể xác minh",
     },
   ]
 
@@ -1532,20 +1518,17 @@ function countdown(time: string) {
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-green-300"  }
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-lime-400"  }
 
             `}
           >
-            🎁 {promotionProgram}
-            {status === "active" ? (
-              <span className=" mt-[6px]">
-                &nbsp; {timeLeft}s
-              </span>
-            ) : (
-              <span className=" mt-[6px]">
-              &nbsp; Bắt đầu sau {timeLeft}
-              </span>
-            )}
+            🎁 {promotionProgram} &nbsp;
+            <FlashSaleCountdown
+              layout={"horizontal"}
+              status={status}
+              timeStart={timeStart}
+              timeEnd={timeEnd}
+            />
           </div>
 
           </>

@@ -43,8 +43,8 @@ export type ProductReviewData = {
     highlights?: ProductIngredient[]
 
     safety?: {
-      score: number
-      summary: string
+      score?: number
+      summary?: string
       cautions?: string[]
     }
   }
@@ -76,14 +76,19 @@ export type ProductReviewData = {
 
   reliability?: {
     brandFoundedYear?: number
-    marketCount?: number
-    soldOnTiktokAndShopee?: number
+    marketCount?: string
+    standand?: string
 
     brand?: string
-    manufacturer?: string
+    origin?: string
+    distributorType?: string
     distributor?: string
 
-    strengths?: string[]
+    strengths?: {
+      sold?: number
+      rating?: number
+      trust?: string
+    }
     cautions?: string[]
   }
 }
@@ -164,6 +169,8 @@ export type Product = {
   limitations:string
   brand:string
   founded_year: number
-  market_count:number
-
+  market_count: string
+  country: string
+  standand: string
+  trust:string
 }

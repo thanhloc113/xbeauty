@@ -56,6 +56,9 @@ export async function GET(req: Request) {
         p.brand,
         p.market_count,
         p.founded_year,
+        p.country,
+        p.standand,
+        p.trust,
         -- FIX TIMEZONE
         (p.flash_sale_start AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_start,
         (p.flash_sale_end AT TIME ZONE 'Asia/Ho_Chi_Minh') as flash_sale_end,
@@ -177,7 +180,10 @@ export async function GET(req: Request) {
     LIMIT ${limit}
     OFFSET ${offset};
     `
-
+  console.log(
+  products[0]?.market_count,
+  typeof products[0]?.market_count
+)
   return Response.json({
     products,
     total,
