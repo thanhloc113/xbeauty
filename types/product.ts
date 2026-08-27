@@ -162,7 +162,7 @@ export type Product = {
   reviews: ProductReview[]
   tags: Tag[]
   productfilter: ProductFilter
-  promotion_program: string
+  promotion_program?: string
   net_weight: string
   seller_type: string
   seller_name: string
@@ -170,7 +170,7 @@ export type Product = {
   brand:string
   founded_year: number
   market_count: string
-  country: string
-  standand: string
-  trust:string
+  country?: string
+  standand?: string
+  trust?:string
 }

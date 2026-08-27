@@ -147,7 +147,10 @@ function createEmptyProduct(): Product {
     limitations:"",
     brand:"",
     founded_year:2000,
-    market_count:1
+    market_count:"",
+    country: "",
+    standand: "",
+    trust:""
 
 
   }
