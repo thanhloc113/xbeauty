@@ -262,7 +262,7 @@ export default function UserProductItem({
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-orange-400"}
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-orange-300"}
 
             `}
               >
@@ -339,7 +339,7 @@ export default function UserProductItem({
               text-slate-200/80
             "
               >
-                <span className="shrink-0 ">
+                <span className="shrink-0 text-yellow-300">
                   ★ {product.rating}
                 </span>
 

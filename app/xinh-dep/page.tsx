@@ -24,6 +24,10 @@ const skincareNeeds = [
     name: "Kiểm soát mụn",
     slug: "kiem-soat-mun",
   },
+    {
+    name: "Bảo vệ & Chống nắng",
+    slug: "bao-ve-chong-nang",
+  },
   {
     name: "Làm sáng & Giảm thâm",
     slug: "lam-sang-giam-tham",
@@ -32,10 +36,7 @@ const skincareNeeds = [
     name: "Dưỡng ẩm & Phục hồi",
     slug: "duong-am-phuc-hoi",
   },
-  {
-    name: "Bảo vệ & Chống nắng",
-    slug: "bao-ve-chong-nang",
-  },
+
   {
     name: "Chống lão hóa",
     slug: "chong-lao-hoa",

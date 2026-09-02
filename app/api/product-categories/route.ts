@@ -27,14 +27,14 @@ export async function GET(req: Request) {
       c.name,
       c.intro,
       c.slug,
-      c.display_order
+      tc.display_order
     FROM product_categories c
     INNER JOIN topic_categories tc
       ON tc.category_id = c.id
     INNER JOIN topics t
       ON t.id = tc.topic_id
     WHERE t.slug = ${topicSlug}
-    ORDER BY c.display_order ASC
+    ORDER BY tc.display_order ASC
   `
   return Response.json(result)
 }

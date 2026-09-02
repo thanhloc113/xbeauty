@@ -1506,7 +1506,7 @@ export default function ProductReviewSlider({
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-orange-400"  }
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-orange-300"  }
 
             `}
           >
