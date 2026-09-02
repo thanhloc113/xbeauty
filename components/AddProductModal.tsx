@@ -167,6 +167,10 @@ export default function AddProductModal({ onClose }: Props) {
 
 async function handleSubmit() {
   try {
+    if( product.category_id < 1 || !product.category_id ){
+        alert("Thêm category")
+      return
+    }
     const res = await fetch("/api/admin/add-product", {
       method: "POST",
       headers: {

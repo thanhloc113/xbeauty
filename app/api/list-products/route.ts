@@ -180,10 +180,6 @@ export async function GET(req: Request) {
     LIMIT ${limit}
     OFFSET ${offset};
     `
-  console.log(
-  products[0]?.market_count,
-  typeof products[0]?.market_count
-)
   return Response.json({
     products,
     total,

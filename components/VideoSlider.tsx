@@ -15,7 +15,7 @@ type Props = {
   linkId?: string;
 };
 
-export default function VideoSlide({ videos, linkId = "footer" }: Props) {
+export default function VideoSlide({ videos, linkId = "#buttonMasterPage" }: Props) {
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -83,20 +83,20 @@ export default function VideoSlide({ videos, linkId = "footer" }: Props) {
       </div>
 {/* hint text */}
 <p className="text-sm font-bold text-white mt-2 flex items-center gap-2 select-none">
-  ← ... →
+  ← Let do it →
 </p>
       {/* button */}
-      <div className="flex justify-center mt-10">
-        <button
-          onClick={() => scrollToId(linkId)}
+      {/* <div className="flex justify-center mt-10">
+        <a
+          href={linkId}
           className="w-[220px] flex items-center justify-center
           relative overflow-hidden py-2 rounded-xl font-semibold text-white
           bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500
           shadow-lg shadow-cyan-500/40 hover:scale-105 transition"
         >
           Let do it
-        </button>
-      </div>
+        </a>
+      </div> */}
 
     </div>
   );

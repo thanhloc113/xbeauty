@@ -171,8 +171,6 @@ const handleExplore = () => {
 
   if (!selectedItem) return;
 
-  console.log("Selected topic:", selectedItem.slug);
-
   loadListProduct(selectedItem.slug);
 };
 
@@ -204,7 +202,7 @@ const handleExplore = () => {
           "text-teal-400",
 
         textStrong:
-          "text-teal-600",
+          "text-teal-300",
 
         textLight:
           "text-teal-300",
@@ -262,7 +260,7 @@ const handleExplore = () => {
           "text-fuchsia-400",
 
         textStrong:
-          "text-fuchsia-600",
+          "text-fuchsia-300",
 
         textLight:
           "text-fuchsia-300",
@@ -303,7 +301,7 @@ const handleExplore = () => {
   // =====================================================
 
   return (
-<section
+    <section
   className="
     relative
     transition-all
@@ -313,52 +311,53 @@ const handleExplore = () => {
 
       {/* bụi tiên piu piu piu */}
      
-{exploring && (
-  <div
-    key="fairy-dust"
-    className="magic-particles"
-    aria-hidden="true"
-  >
-    {magicParticles.map((particle) => (
-      <span
-        key={particle.id}
-        className={`magic-particle ${
-          particle.special
-            ? "magic-special"
-            : ""
-        }`}
-        style={
-          {
-            "--origin-x":
-              `calc(50% + ${particle.originX})`,
+      {exploring && (
+        <div
+          key="fairy-dust"
+          className="magic-particles"
+          aria-hidden="true"
+        >
+          {magicParticles.map((particle) => (
+            <span
+              key={particle.id}
+              className={`magic-particle ${
+                particle.special
+                  ? "magic-special"
+                  : ""
+              }`}
+              style={
+                {
+                  "--origin-x":
+                    `calc(50% + ${particle.originX})`,
 
-            "--origin-y":
-              `calc(50% + ${particle.originY})`,
+                  "--origin-y":
+                    `calc(50% + ${particle.originY})`,
 
-            "--move-x": particle.moveX,
-            "--move-y": particle.moveY,
+                  "--move-x": particle.moveX,
+                  "--move-y": particle.moveY,
 
-            "--delay": particle.delay,
-            "--size": particle.size,
-            "--duration": particle.duration,
+                  "--delay": particle.delay,
+                  "--size": particle.size,
+                  "--duration": particle.duration,
 
-            "--particle-color":
-              particle.color,
+                  "--particle-color":
+                    particle.color,
 
-            "--particle-glow":
-              particle.glow,
-          } as CSSProperties
-        }
-      />
-    ))}
-  </div>
-)}
+                  "--particle-glow":
+                    particle.glow,
+                } as CSSProperties
+              }
+            />
+          ))}
+        </div>
+      )}
       {/* =================================================
           CATEGORY SWITCH
       ================================================= */}
-
       <div className="flex justify-center">
+
         <button
+          id="buttonMasterPage"
           type="button"
           onClick={onSwitch}
           disabled={switching || exploring}

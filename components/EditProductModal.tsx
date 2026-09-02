@@ -431,7 +431,6 @@ async function createIngredient() {
 
     const data = await res.json()
 
-    console.log(res)
 
     if (!res.ok) {
       throw new Error(
@@ -567,18 +566,11 @@ function handleSubmit() {
             />
           </div>
 
-          <div>
-            <label className="block font-semibold mb-1">Summary Benefits</label>
-            <textarea
-              value={localProductState.benefits || ""}
-              onChange={(e) => handleChange("benefits", e.target.value)}
-              className="border w-full p-2 rounded"
-            />
-          </div>
+
 
 
           <div>
-            <label className="block font-semibold mb-1">Đặc tính nổi bật</label>
+            <label className="block font-semibold mb-1">Đặc tính thành phần nổi bật</label>
             <textarea
               value={localProductState.ingredients_summary || ""}
               onChange={(e) => handleChange("ingredients_summary", e.target.value)}
@@ -875,23 +867,9 @@ function handleSubmit() {
   )}
 </div>
 
-          <div>
-            <label className="block font-semibold mb-1">Usage</label>
-            <textarea
-              value={localProductState.usage || ""}
-              onChange={(e) => handleChange("usage", e.target.value)}
-              className="border w-full p-2 rounded"
-            />
-          </div>
 
-          <div>
-            <label className="block font-semibold mb-1">Cta</label>
-            <textarea
-              value={localProductState.cta || ""}
-              onChange={(e) => handleChange("cta", e.target.value)}
-              className="border w-full p-2 rounded"
-            />
-          </div>
+
+
  {/* TAGS */}
 <div>
   <label className="block font-semibold mb-2">Tags</label>
@@ -1058,6 +1036,22 @@ function handleSubmit() {
 
 </div>
 
+          <div>
+            <label className="block font-semibold mb-1">Thích hợp cho da</label>
+            <textarea
+              value={localProductState.usage || ""}
+              onChange={(e) => handleChange("usage", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
+                    <div>
+            <label className="block font-semibold mb-1">điểm mạnh của công dụng</label>
+            <textarea
+              value={localProductState.benefits || ""}
+              onChange={(e) => handleChange("benefits", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
 {/* REVIEWS */}
 <div>
   <label className="block font-semibold mb-2">Reviews</label>
@@ -1176,7 +1170,15 @@ function handleSubmit() {
               </div>
             </div>
           </div>
-
+          {/* cta */}
+          <div>
+            <label className="block font-semibold mb-1">Cta</label>
+            <textarea
+              value={localProductState.cta || ""}
+              onChange={(e) => handleChange("cta", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
           {/* STATS */}
           <div>
               <div className="grid grid-cols-3 gap-3">
@@ -1189,7 +1191,7 @@ function handleSubmit() {
                 />
                 </div>
                 <div>
-                <label className="block font-semibold mb-1">Cửa hàng phân phối</label>
+                <label className="block font-semibold mb-1">Tên cửa hàng</label>
                 <input
                   value={localProductState.seller_name ?? ""}
                   onChange={(e) => handleChange("seller_name", e.target.value)}

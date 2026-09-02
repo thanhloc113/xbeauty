@@ -89,10 +89,6 @@ export async function POST(req: Request) {
     const sessionToken = cookieStore.get("admin_session")?.value
     const deviceId = headerList.get("device-id")
 
-    console.log("headerList",headerList.get)
-
-    console.log("sessionToken",sessionToken,"device",deviceId)
-
     if (!sessionToken || !deviceId) {
       return Response.json(
         { error: "Unauthorized" },

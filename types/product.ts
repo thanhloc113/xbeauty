@@ -16,6 +16,11 @@ export interface ProductIngredient {
   notes: string | null
 }
 
+export type Video = {
+  url: string
+  title: string
+  poster: string
+}
 
 export type ScoreItem = {
   label: string
@@ -170,7 +175,7 @@ export type Product = {
   brand:string
   founded_year: number
   market_count: string
-  country?: string
-  standand?: string
-  trust?:string
+  country: string
+  standand: string
+  trust:string
 }

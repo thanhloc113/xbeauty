@@ -21,7 +21,7 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
         
-      <Link href="/" className="flex items-center gap-2 font-bold text-xl text-[#ff6adf]">
+      <Link href="/" className="flex items-center gap-2 font-bold text-[clamp(16px,2vh,24px)] text-[#ff6adf]">
       <Image
         src="/image/logo.png"
         alt="logo"

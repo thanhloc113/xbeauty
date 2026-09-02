@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { ProductIngredient, ProductReview, ProductReviewData, ProductReview as ProductReviewType, ScoreItem } from "@/types/product"
 import { formatNumber } from "@/utils/formatPrice"
 import FlashSaleCountdown from "./FlashSaleCountdown"
+import { FlashSaleStatus } from "@/hooks/useFlashSaleStatus"
 
 type ReviewInput = ProductReviewType
 
@@ -505,7 +506,7 @@ function ReviewContent({
     {
       key:"experience",
       label: "Kinh nghiệm thị trường",
-      score: yearActive +1,
+      score: yearActive,
       unit: "year"
     },
     {
@@ -517,8 +518,8 @@ function ReviewContent({
     {
       key:"popular",
       label: "Độ phổ biến",
-      score: data.reliability?.marketCount,
-      unit:"phân phối"
+      score: formatNumber(data.reliability?.strengths?.sold || 100000),
+      unit:"lượt bán / Tiktok & Shopee"
     },
   ]
  
@@ -539,16 +540,16 @@ function ReviewContent({
                 text-center
               "
             >
-              <div className="text-[10px] text-white/70">
+              <div className="text-[clamp(8px,1.8vw,10px)] text-white/70">
                 {item.label}
               </div>
               {["standand"].includes(item.key) ? (
-                <div className="text-[11px] text-pink-300 my-2">
+                <div className="text-[clamp(10px,2vw,18px)] font-bold text-pink-300 my-2">
                   {item.score}
                 </div>
               ) : (
-                <div className="mt-1 text-lg font-bold text-pink-300">
-                  {item.score}
+                <div className="text-[clamp(10px,2vw,18px)] font-bold text-pink-300 my-2">
+                  {item.score}+
                 </div>)
               
               }
@@ -603,9 +604,8 @@ function ReviewContent({
       {data.reliability?.strengths?.trust &&
         (
 <div className="rounded-xl border border-emerald-400/10 bg-emerald-400/5 p-3">
-  <div className="flex items-center justify-center text-center text-xs font-bold text-white/70">
-              <span >Với hơn {formatNumber(data.reliability.strengths.sold || 100000)}+ lượt bán trên Tiktok và Shopee, 
-                đạt {data.reliability.strengths.rating}★ cho sản phẩm. {data.reliability.brand} {data.reliability.strengths.trust}.
+  <div className="flex items-center justify-center text-center text-xs font-bold text-white/80">
+              <span >{data.reliability.strengths.trust}.
               </span>
             </div>
 
@@ -659,9 +659,10 @@ export default function ProductReviewSlider({
   hook,
   cta,
   status,
-  timeStart,
-  timeEnd,
+  timeS,
+  timeE,
   promotionProgram,
+  rating,
   onClose,
 }: {
   reviews: ReviewInput[]
@@ -672,37 +673,23 @@ export default function ProductReviewSlider({
   reviewData?: ProductReviewData
   hook?:string
   cta?: string
-  status?:string
-  timeStart?: string,
-  timeEnd?: string,
+  status?: FlashSaleStatus
+  timeS?: string
+  timeE?: string
+  rating?: number
   promotionProgram?: string,
   onClose?: () => void
 
 }) {
 
   const [current, setCurrent] = useState(0)
-  const [timeLeft, setTimeLeft] = useState("")
 
-function countdown(time: string) {
-  const end = new Date(time).getTime()
-  const now = Date.now()
-  const diff = end - now
 
-  if (diff <= 0) return "00:00:00"
-
-  const hours = Math.floor(diff / (1000 * 60 * 60))
-  const minutes = Math.floor((diff / (1000 * 60)) % 60)
-  const seconds = Math.floor((diff / 1000) % 60)
-
-  return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
-    .toString()
-    .padStart(2, "0")}`
-}
 
 
 
   const [activeReview, setActiveReview] =
-    useState<ReviewSection>("effectiveness")
+    useState<ReviewSection>("suitability")
 
   const [progress, setProgress] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -968,11 +955,18 @@ function countdown(time: string) {
     description: string
   }[] = [
     {
+      key: "suitability",
+      icon: "🎯",
+      label: "Phù hợp",
+      description:
+        "Mức độ ưu tiên được đánh giá dựa trên công thức thành phần công bố. Mang tính khách quan",
+    },
+    {
       key: "effectiveness",
       icon: "⚡",
       label: "Hiệu quả",
       description:
-        "Độ hiệu quả được có thể khác nhau cho từng loại da và cơ địa",
+        "Độ hiệu quả được đánh giá dựa trên bảng thành phần của sản phẩm, có thể khác nhau cho từng loại da và cơ địa mỗi người. Mang tính khách quan",
     },
     {
       key: "ingredients",
@@ -981,13 +975,7 @@ function countdown(time: string) {
       description:
         "Thành phần quan trọng",
     },
-    {
-      key: "suitability",
-      icon: "🎯",
-      label: "Phù hợp",
-      description:
-        "Mức độ ưu tiên dựa trên công dụng chính của sản phẩm",
-    },
+
     // {
     //   key: "experience",
     //   icon: "💬",
@@ -1000,7 +988,7 @@ function countdown(time: string) {
       icon: "🛡",
       label: "Tin cậy",
       description:
-        "Các thông số được tổng hợp từ nguồn thông tin chính thức có thể xác minh",
+        "Các thông số được tổng hợp từ nguồn thông tin chính thức của thương hiệu và nhà bán hàng",
     },
   ]
 
@@ -1469,7 +1457,7 @@ function countdown(time: string) {
                 {activeTab.label}
               </div>
 
-              <div className="mt-0.5 text-[10px] leading-relaxed text-white/40">
+              <div className="mt-0.5 text-[10px] leading-relaxed text-white/60">
                 {activeTab.description}
               </div>
             </div>
@@ -1518,16 +1506,17 @@ function countdown(time: string) {
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-lime-400"  }
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-orange-400"  }
 
             `}
           >
             🎁 {promotionProgram} &nbsp;
             <FlashSaleCountdown
               layout={"horizontal"}
-              status={status}
-              timeStart={timeStart}
-              timeEnd={timeEnd}
+              status={status ?? "none"}
+              timeStart={timeS}
+              timeEnd={timeE}
+
             />
           </div>
 
@@ -1574,7 +1563,9 @@ function countdown(time: string) {
               <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)] animate-[shine_4s_linear_infinite]" />
 
               <span className="relative z-10 truncate">
-                🛒 TikTok
+                  <span className="shrink-0 text-yellow-300">
+                    ★ {rating}
+                  </span> Tiktok
               </span>
             </a>
           ) : (
@@ -1630,7 +1621,9 @@ function countdown(time: string) {
               <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.45),transparent)] animate-[shine_4s_linear_infinite]" />
 
               <span className="relative z-10 truncate">
-                🛒 Shopee
+                <span className="shrink-0 text-yellow-300">
+                    ★ {rating}
+                </span> Shopee
               </span>
             </a>
           ) : (

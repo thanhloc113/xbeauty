@@ -1,43 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
-
-type FlashSaleStatus = "none" | "coming" | "active" | "ended"
+import type { FlashSaleStatus } from "@/hooks/useFlashSaleStatus"
+import { useFlashSaleCountdown } from "@/hooks/useFlashSaleCountdown"
 
 interface FlashSaleCountdownProps {
   status: FlashSaleStatus
   timeStart?: string | null
   timeEnd?: string | null
   layout?: "horizontal" | "vertical"
-}
-
-function countdown(time: string) {
-  const end = new Date(time).getTime()
-  const diff = end - Date.now()
-
-  if (diff <= 0) {
-    return {
-      value: "00:00:00",
-      delay: 0,
-    }
-  }
-
-  const totalSeconds = Math.ceil(diff / 1000)
-
-  const hours = Math.floor(totalSeconds / 3600)
-  const minutes = Math.floor((totalSeconds % 3600) / 60)
-  const seconds = totalSeconds % 60
-
-  return {
-    value: `${hours}:${minutes
-      .toString()
-      .padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`,
-
-    // Đúng thời điểm số giây tiếp theo cần đổi
-    delay: diff - (totalSeconds - 1) * 1000,
-  }
 }
 
 export default function FlashSaleCountdown({
@@ -53,52 +23,36 @@ export default function FlashSaleCountdown({
         ? timeStart
         : null
 
-const [timeLeft, setTimeLeft] = useState(() =>
-  targetTime ? countdown(targetTime).value : "00:00:00"
-)
+  const timeLeft = useFlashSaleCountdown(targetTime)
 
-useEffect(() => {
-  if (!targetTime) return
-
-  let timer: ReturnType<typeof setTimeout>
-
-  const update = () => {
-    const result = countdown(targetTime)
-
-    setTimeLeft(result.value)
-
-    if (result.delay <= 0) return
-
-    timer = setTimeout(update, result.delay)
+  if (!targetTime) {
+    return null
   }
 
-  update()
-
-  return () => clearTimeout(timer)
-
-}, [targetTime])
-
-  if (!targetTime) return null
+  const isActive = status === "active"
 
   return (
-  <span
-    className={
-      status === "active"
-        ? `
-          ${layout === "horizontal" ? "inline-flex" : "block"}
-          ${layout === "vertical" ? "mt-[6px]" : ""}
-          text-lime-400
-        `
-        : `
-          ${layout === "horizontal" ? "inline-flex" : "block"}
-          ${layout === "vertical" ? "mt-[6px]" : ""}
-          text-gray-400 opacity-80
-        `
-    }
-  >
-    {status === "active"
-      ? `Đang diễn ra ${timeLeft}s` 
-      : `Bắt đầu sau ${timeLeft}`}
-  </span>
+    <span
+      className={`
+        ${layout === "horizontal"
+          ? "inline-flex"
+          : "block"
+        }
+
+        ${layout === "vertical"
+          ? "mt-[6px]"
+          : ""
+        }
+
+        ${isActive
+          ? "text-orange-400"
+          : "text-gray-400 opacity-80"
+        }
+      `}
+    >
+      {isActive
+        ? `Đang diễn ra ${timeLeft}s`
+        : `Bắt đầu sau ${timeLeft}s`}
+    </span>
   )
 }

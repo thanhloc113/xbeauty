@@ -6,36 +6,8 @@ import ProductReviewSlider from "./ProductReviewSlider"
 import { formatPriceDisplay, formatNumber } from "@/utils/formatPrice"
 import { FaGift, FaShop } from "react-icons/fa6";
 import FlashSaleCountdown from "./FlashSaleCountdown"
+import {useFlashSaleStatus} from "@/hooks/useFlashSaleStatus"
 
-
-
-function getFlashSaleStatus(start: string | null, end: string | null) {
-  const now = Date.now()
-  if (!start || !end) return "none"
-
-  const startTime = new Date(start).getTime()
-  const endTime = new Date(end).getTime()
-
-  if (now < startTime) return "coming"
-  if (now >= startTime && now <= endTime) return "active"
-  return "ended"
-}
-
-function countdown(time: string) {
-  const end = new Date(time).getTime()
-  const now = Date.now()
-  const diff = end - now
-
-  if (diff <= 0) return "00:00:00"
-
-  const hours = Math.floor(diff / (1000 * 60 * 60))
-  const minutes = Math.floor((diff / (1000 * 60)) % 60)
-  const seconds = Math.floor((diff / 1000) % 60)
-
-  return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
-    .toString()
-    .padStart(2, "0")}`
-}
 
 export default function UserProductItem({
   product
@@ -43,9 +15,10 @@ export default function UserProductItem({
   product: Product
 }) {
 
-  const [status, setStatus] = useState<
-    "none" | "coming" | "active" | "ended"
-  >("none")
+  const status = useFlashSaleStatus(
+    product.flash_sale_start,
+    product.flash_sale_end
+  )
 
   const [openReview, setOpenReview] = useState(false)
 
@@ -59,9 +32,10 @@ export default function UserProductItem({
   const makeupList = getFilterValues(product, "makeup")
   const effectList = [...skinCareList, ...makeupList]
 
-  console.log(skinTypeList);
-
-
+    console.log(
+      "UserProductItem render",
+      product.id
+    )
 
   useEffect(() => {
     if (!openReview) return
@@ -75,30 +49,7 @@ export default function UserProductItem({
     }
   }, [openReview])
 
-  useEffect(() => {
-    function updateFlashSaleStatus() {
-      const newStatus = getFlashSaleStatus(
-        product.flash_sale_start,
-        product.flash_sale_end
-      )
 
-      setStatus((prev) =>
-        prev === newStatus ? prev : newStatus
-      )
-    }
-
-    updateFlashSaleStatus()
-
-    const timer = setInterval(
-      updateFlashSaleStatus,
-      1000
-    )
-
-    return () => clearInterval(timer)
-  }, [
-    product.flash_sale_start,
-    product.flash_sale_end,
-  ])
 
   return (
     <>
@@ -144,8 +95,8 @@ export default function UserProductItem({
             rounded-full
             border
             border-rose-400/80
-            bg-black/65
-            px-[clamp(5px,2vw,12px)]
+            bg-[#d0011b]
+            px-[clamp(2px,2vw,12px)]
             py-[clamp(2px,0.8vw,6px)]
             text-[clamp(6px,2vw,10px)]
             font-bold
@@ -155,7 +106,7 @@ export default function UserProductItem({
             backdrop-blur-md
           "
             >
-              <span className={`truncate text-rose-200`}>
+              <span className={`truncate text-white`}>
                 {product.tags[0].name}
               </span>
             </span>
@@ -212,7 +163,7 @@ export default function UserProductItem({
               drop-shadow-[0_0_4px_rgba(255,220,100,0.9)]
               "
             >
-              {/* {skinTypeList.map(i=> i.value).join(" • ") } */} Nhiều loại da
+              {/* {skinTypeList.map(i=> i.value).join(" • ") } */} {product.hook}
             </div>
           )}
           {/* 05. PHÂN TÍCH */}
@@ -307,11 +258,11 @@ export default function UserProductItem({
               my-[10px]
               min-w-0
               truncate
-              text-[clamp(10px,1.8vw,10px)]
+              text-[clamp(8px,1.8vw,10px)]
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-fuchsia-300"}
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-orange-400"}
 
             `}
               >
@@ -324,6 +275,7 @@ export default function UserProductItem({
                   status={status}
                   timeStart={product.flash_sale_start}
                   timeEnd={product.flash_sale_end}
+          
                 />
               </div>
 
@@ -349,11 +301,11 @@ export default function UserProductItem({
               min-w-0
               items-center
               gap-[clamp(2px,0.8vw,6px)]
-              text-[clamp(6px,1.8vw,10px)]
+              text-[clamp(8px,1.8vw,10px)]
               leading-tight
             "
               >
-                <span className="truncate font-semibold text-fuchsia-300 ">
+                <span className="truncate font-semibold text-white ">
                   Thương hiệu {product.country}
                 </span>
               </div>
@@ -364,7 +316,7 @@ export default function UserProductItem({
               truncate
               text-[clamp(7px,2vw,10px)]
               font-semibold
-              text-slate-200
+              text-lime-400
             "
               >
                 <span className="flex items-center gap-1">
@@ -405,11 +357,11 @@ export default function UserProductItem({
               </div>
             </div>
           )}
-          {product.cta && (
+          {/* {product.cta && (
             <div className="my-2 text-[10px] text-amber-300">
               👉 {product.cta}
             </div>
-          )}
+          )} */}
 
           {/* 10. MARKETPLACES */}
           <div
@@ -449,9 +401,10 @@ export default function UserProductItem({
               >
                 <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)] animate-[shine_4s_linear_infinite]" />
 
-                <span className="relative z-10 truncate">
-                  🛒 TikTok
-                </span>
+                  {/* <span className="shrink-0 text-yellow-300">
+                    ★ {product.rating}
+                  </span>  */}
+                  Tiktok
               </a>
             ) : (
               <span
@@ -494,7 +447,7 @@ export default function UserProductItem({
                 rounded-[clamp(6px,1.5vw,8px)]
                 bg-[linear-gradient(135deg,#f50fb0,#dd034c)]
                 px-1
-                text-[clamp(7px,2vw,11px)]
+                text-[clamp(8px,2vw,11px)]
                 font-semibold
                 text-white
                 transition
@@ -505,7 +458,10 @@ export default function UserProductItem({
                 <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.45),transparent)] animate-[shine_4s_linear_infinite]" />
 
                 <span className="relative z-10 truncate">
-                  🛒 Shopee
+                  {/* <span className="shrink-0 text-yellow-300">
+                    ★ {product.rating}
+                  </span>  */}
+                  Shopee
                 </span>
               </a>
             ) : (
@@ -590,11 +546,12 @@ export default function UserProductItem({
                   productName={product.name}
                   hook={product.hook}
                   status={status}
-                  timeStart={product.flash_sale_start}
-                  timeEnd={product.flash_sale_end}
+                  timeS={product.flash_sale_start}
+                  timeE={product.flash_sale_end}
                   tiktokShopLink={product.tiktok_shop_link}
                   affiliateLink={product.affiliate_link}
                   promotionProgram={product.promotion_program}
+                  rating={product.rating}
                   cta={product.cta}
                   reviewData={{
                     effectiveness: {
