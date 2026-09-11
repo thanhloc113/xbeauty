@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Product, Tag , ProductFilter, ProductReview, ProductIngredient} from "@/types/product"
+import { Product, Tag, ProductFilter, ProductReview, ProductIngredient } from "@/types/product"
 import ProductReviewSlider from "./ProductReviewSlider"
 
 type Props = {
@@ -83,6 +83,21 @@ const defaultFilter = [
       { id: 52, slug: "bao-ve-da-khoi-tia-uv", value: "Bảo vệ da khỏi tia UV", score: 0 },
       { id: 53, slug: "chong-anh-sang-xanh", value: "Chống ánh sáng xanh", score: 0 },
       { id: 80, slug: "nang-tone", value: "Nâng Tone", score: 0 },
+      { id: 82, value: "Tẩy trang", slug: "tay-trang", score: 0 },
+      { id: 83, value: "Loại bỏ bụi bẩn và tạp chất", slug: "loai-bo-bui-ban-va-tap-chat", score: 0 },
+      { id: 84, value: "Loại bỏ lớp trang điểm", slug: "loai-bo-lop-trang-diem", score: 0 },
+      { id: 85, value: "Làm sạch kem chống nắng", slug: "lam-sach-kem-chong-nang", score: 0 },
+      { id: 86, value: "Loại bỏ dầu thừa", slug: "loai-bo-dau-thua", score: 0 },
+      { id: 87, value: "Làm sạch da", slug: "lam-sach-da", score: 0 },
+      { id: 88, value: "Tẩy trang vùng mắt", slug: "tay-trang-vung-mat", score: 0 },
+      { id: 89, value: "Tẩy trang môi", slug: "tay-trang-moi", score: 0 },
+      { id: 90, value: "Loại bỏ lớp trang điểm lâu trôi", slug: "loai-bo-lop-trang-diem-lau-troi", score: 0 },
+      { id: 92, scrore: 0, value: 'Độ mềm mại', slug:'do-mem-mai'},
+      { id: 93, scrore: 0, value: 'Hạn chế xơ bông', slug:'han-che-xo-bong'},
+      { id: 94, scrore: 0, value: 'Độ dai', slug:'do-dai'},
+      { id: 95, scrore: 0, value: 'Khả năng thấm hút', slug:'kha-nang-tham-hut'},
+      { id: 96, scrore: 0, value: 'Khả năng giữ dung dịch', slug:'kha-nang-giu-dung-dich'},
+      { id: 97, scrore: 0, value: 'Độ êm khi sử dụng', slug:'do-em-khi-su-dung'}
     ],
   },
 
@@ -117,6 +132,7 @@ const defaultFilter = [
       { id: 77, slug: "co-chong-nang-spf", value: "Có chống nắng (SPF)", score: 0 },
       { id: 78, slug: "kiem-dau", value: "Kiềm dầu", score: 0 },
       { id: 79, slug: "lam-diu-da", value: "Làm dịu da", score: 0 },
+
     ],
   },
 ]
@@ -157,7 +173,12 @@ const defaultTag = [{
   "id": 9,
   "name": "Mới ra mắt",
   "slug": "moi-ra-mat"
-}]
+}, {
+  "id": 10,
+  "name": "Dược sĩ Tiến",
+  "slug": "duoc-si-tien"
+}
+]
 
 
 
@@ -183,81 +204,81 @@ export default function EditProductModal({
 
 }: Props) {
 
-const [localProductState, setLocalProductState] = useState<Product>({
-  ...product,
-  short_description: product.short_description || "",
-  benefits: product.benefits || "",
-  ingredients: product.ingredients || [],
-  usage: product.usage || "",
-  tags: product.tags || []
-})
+  const [localProductState, setLocalProductState] = useState<Product>({
+    ...product,
+    short_description: product.short_description || "",
+    benefits: product.benefits || "",
+    ingredients: product.ingredients || [],
+    usage: product.usage || "",
+    tags: product.tags || []
+  })
 
-const [ingredientSearch, setIngredientSearch] = useState("")
-const [ingredientResults, setIngredientResults] = useState<ProductIngredient[]>([])
-const [ingredientLoading, setIngredientLoading] = useState(false)
-const [showCreateIngredient, setShowCreateIngredient] = useState(false)
-const [newIngredientInci, setNewIngredientInci] = useState("")
-const [creatingIngredient, setCreatingIngredient] = useState(false)
+  const [ingredientSearch, setIngredientSearch] = useState("")
+  const [ingredientResults, setIngredientResults] = useState<ProductIngredient[]>([])
+  const [ingredientLoading, setIngredientLoading] = useState(false)
+  const [showCreateIngredient, setShowCreateIngredient] = useState(false)
+  const [newIngredientInci, setNewIngredientInci] = useState("")
+  const [creatingIngredient, setCreatingIngredient] = useState(false)
 
-useEffect(() => {
-  setLocalProductState(product)
-}, [product])
+  useEffect(() => {
+    setLocalProductState(product)
+  }, [product])
 
-async function searchIngredients(search: string) {
-  const keyword = search.trim()
+  async function searchIngredients(search: string) {
+    const keyword = search.trim()
 
-  if (keyword.length < 2) {
-    setIngredientResults([])
-    return
-  }
-
-  try {
-    setIngredientLoading(true)
-
-    const res = await fetch(
-      `/api/ingredients?search=${encodeURIComponent(keyword)}`
-    )
-
-    if (!res.ok) {
-      throw new Error("Failed to search ingredients")
+    if (keyword.length < 2) {
+      setIngredientResults([])
+      return
     }
 
-    const data = await res.json()
+    try {
+      setIngredientLoading(true)
 
-    setIngredientResults(data.ingredients ?? [])
+      const res = await fetch(
+        `/api/ingredients?search=${encodeURIComponent(keyword)}`
+      )
 
-  } catch (error) {
-    console.error(error)
-    setIngredientResults([])
+      if (!res.ok) {
+        throw new Error("Failed to search ingredients")
+      }
 
-  } finally {
-    setIngredientLoading(false)
+      const data = await res.json()
+
+      setIngredientResults(data.ingredients ?? [])
+
+    } catch (error) {
+      console.error(error)
+      setIngredientResults([])
+
+    } finally {
+      setIngredientLoading(false)
+    }
   }
-}
 
-useEffect(() => {
-  const timeout = setTimeout(() => {
-    searchIngredients(ingredientSearch)
-  }, 300)
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      searchIngredients(ingredientSearch)
+    }, 300)
 
-  return () => clearTimeout(timeout)
-}, [ingredientSearch])
+    return () => clearTimeout(timeout)
+  }, [ingredientSearch])
 
-function handleReviewChange(newReviews: ProductReview[]) {
-  setLocalProductState(prev => ({
-    ...prev,
-    reviews: newReviews
-  }))
-}
-const [showPreview, setShowPreview] = useState(false)
+  function handleReviewChange(newReviews: ProductReview[]) {
+    setLocalProductState(prev => ({
+      ...prev,
+      reviews: newReviews
+    }))
+  }
+  const [showPreview, setShowPreview] = useState(false)
 
-useEffect(() => {
-  handleReviewChange(product.reviews || [])
-}, [product])
+  useEffect(() => {
+    handleReviewChange(product.reviews || [])
+  }, [product])
 
-if (!localProductState) return null
+  if (!localProductState) return null
 
-function handleChange<K extends keyof Product>(
+  function handleChange<K extends keyof Product>(
     field: K,
     value: Product[K]
   ) {
@@ -267,223 +288,223 @@ function handleChange<K extends keyof Product>(
     }))
   }
 
-function addFilterGroup(slug: string) {
-  if (!slug) return
+  function addFilterGroup(slug: string) {
+    if (!slug) return
 
-  const exist = localProductState.productfilter.find(g => g.slug === slug)
-  if (exist) return
+    const exist = localProductState.productfilter.find(g => g.slug === slug)
+    if (exist) return
 
-  const def = defaultFilter.find(f => f.slug === slug)
-  if (!def) return
+    const def = defaultFilter.find(f => f.slug === slug)
+    if (!def) return
 
-  handleChange("productfilter", [
-    ...localProductState.productfilter,
-    {
-      id: def.id,
-      slug: def.slug,
-      name: def.name,
-      filterValues: []
-    }
-  ])
-}
+    handleChange("productfilter", [
+      ...localProductState.productfilter,
+      {
+        id: def.id,
+        slug: def.slug,
+        name: def.name,
+        filterValues: []
+      }
+    ])
+  }
 
-function updateFilterValue(
-  groupSlug: string,
-  valueSlug: string,
-  score: number = 0
-) {
-  const def = defaultFilter.find(
-    f => f.slug === groupSlug
-  )
+  function updateFilterValue(
+    groupSlug: string,
+    valueSlug: string,
+    score: number = 0
+  ) {
+    const def = defaultFilter.find(
+      f => f.slug === groupSlug
+    )
 
-  if (!def) return
+    if (!def) return
 
-  const valDef = def.filterValues.find(
-    v => v.slug === valueSlug
-  )
-
-  if (!valDef) return
-
-  const newFilter = localProductState.productfilter.map(group => {
-    if (group.slug !== groupSlug) return group
-
-    const existingValue = group.filterValues.find(
+    const valDef = def.filterValues.find(
       v => v.slug === valueSlug
     )
 
-    // Nếu đã có → chỉ update score
-    if (existingValue) {
-      return {
-        ...group,
-        filterValues: group.filterValues.map(v =>
-          v.slug === valueSlug
-            ? {
+    if (!valDef) return
+
+    const newFilter = localProductState.productfilter.map(group => {
+      if (group.slug !== groupSlug) return group
+
+      const existingValue = group.filterValues.find(
+        v => v.slug === valueSlug
+      )
+
+      // Nếu đã có → chỉ update score
+      if (existingValue) {
+        return {
+          ...group,
+          filterValues: group.filterValues.map(v =>
+            v.slug === valueSlug
+              ? {
                 ...v,
                 score,
               }
-            : v
-        ),
-      }
-    }
-
-    const valueWithScore = {
-      ...valDef,
-      score,
-    }
-
-    // Logic riêng cho loại da
-    if (groupSlug === "loai-da") {
-      const isAllOption = valueSlug === "moi-loai-da"
-
-      if (isAllOption) {
-        return {
-          ...group,
-          filterValues: [valueWithScore],
+              : v
+          ),
         }
       }
 
+      const valueWithScore = {
+        ...valDef,
+        score,
+      }
+
+      // Logic riêng cho loại da
+      if (groupSlug === "loai-da") {
+        const isAllOption = valueSlug === "moi-loai-da"
+
+        if (isAllOption) {
+          return {
+            ...group,
+            filterValues: [valueWithScore],
+          }
+        }
+
+        return {
+          ...group,
+          filterValues: [
+            ...group.filterValues.filter(
+              v => v.slug !== "moi-loai-da"
+            ),
+            valueWithScore,
+          ],
+        }
+      }
+
+      // Group khác
       return {
         ...group,
         filterValues: [
-          ...group.filterValues.filter(
-            v => v.slug !== "moi-loai-da"
-          ),
+          ...group.filterValues,
           valueWithScore,
         ],
       }
-    }
-
-    // Group khác
-    return {
-      ...group,
-      filterValues: [
-        ...group.filterValues,
-        valueWithScore,
-      ],
-    }
-  })
-
-  handleChange("productfilter", newFilter)
-}
-
-function removeFilterValue(groupSlug: string, valueSlug: string) {
-  const newFilter = localProductState.productfilter.map(group => {
-    if (group.slug !== groupSlug) return group
-
-    return {
-      ...group,
-      filterValues: group.filterValues.filter(v => v.slug !== valueSlug)
-    }
-  })
-
-  handleChange("productfilter", newFilter)
-}
-
-
-function addIngredient(ingredient: ProductIngredient) {
-  const currentIngredients =
-    localProductState.ingredients ?? []
-
-  const exists = currentIngredients.some(
-    item => Number(item.id) === Number(ingredient.id)
-  )
-
-  if (exists) return
-
-  const newIngredients = [
-    ...currentIngredients,
-    {
-      ...ingredient,
-      position: currentIngredients.length + 1,
-      concentration: null,
-      notes: null,
-    },
-  ]
-
-  handleChange("ingredients", newIngredients)
-
-  // Reset search
-  setIngredientSearch("")
-  setIngredientResults([])
-}
-
-async function createIngredient() {
-  const name = ingredientSearch.trim()
-
-  if (!name) return
-
-  try {
-    setCreatingIngredient(true)
-
-    const res = await fetch("/api/ingredients", {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json",
-        "device-id": localStorage.getItem("device-id") || ""
-      },
-
-      body: JSON.stringify({
-        name,
-        inci_name: newIngredientInci.trim() || null,
-      }),
     })
 
-    const data = await res.json()
+    handleChange("productfilter", newFilter)
+  }
+
+  function removeFilterValue(groupSlug: string, valueSlug: string) {
+    const newFilter = localProductState.productfilter.map(group => {
+      if (group.slug !== groupSlug) return group
+
+      return {
+        ...group,
+        filterValues: group.filterValues.filter(v => v.slug !== valueSlug)
+      }
+    })
+
+    handleChange("productfilter", newFilter)
+  }
 
 
-    if (!res.ok) {
-      throw new Error(
-        data.error || "Failed to create ingredient"
-      )
+  function addIngredient(ingredient: ProductIngredient) {
+    const currentIngredients =
+      localProductState.ingredients ?? []
+
+    const exists = currentIngredients.some(
+      item => Number(item.id) === Number(ingredient.id)
+    )
+
+    if (exists) return
+
+    const newIngredients = [
+      ...currentIngredients,
+      {
+        ...ingredient,
+        position: currentIngredients.length + 1,
+        concentration: null,
+        notes: null,
+      },
+    ]
+
+    handleChange("ingredients", newIngredients)
+
+    // Reset search
+    setIngredientSearch("")
+    setIngredientResults([])
+  }
+
+  async function createIngredient() {
+    const name = ingredientSearch.trim()
+
+    if (!name) return
+
+    try {
+      setCreatingIngredient(true)
+
+      const res = await fetch("/api/ingredients", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          "device-id": localStorage.getItem("device-id") || ""
+        },
+
+        body: JSON.stringify({
+          name,
+          inci_name: newIngredientInci.trim() || null,
+        }),
+      })
+
+      const data = await res.json()
+
+
+      if (!res.ok) {
+        throw new Error(
+          data.error || "Failed to create ingredient"
+        )
+      }
+
+      // Tạo xong hoặc đã tồn tại
+      addIngredient(data.ingredient)
+
+      setNewIngredientInci("")
+      setShowCreateIngredient(false)
+
+    } catch (error) {
+      console.error(error)
+
+    } finally {
+      setCreatingIngredient(false)
+    }
+  }
+
+  function removeIngredient(index: number) {
+    const newIngredients = localProductState.ingredients
+      .filter((_, i) => i !== index)
+      .map((ingredient, i) => ({
+        ...ingredient,
+        position: i + 1,
+      }))
+
+    handleChange("ingredients", newIngredients)
+  }
+
+  function updateIngredient(
+    index: number,
+    field: "concentration" | "notes",
+    value: string
+  ) {
+    const newIngredients = [...localProductState.ingredients]
+
+    newIngredients[index] = {
+      ...newIngredients[index],
+      [field]: value || null,
     }
 
-    // Tạo xong hoặc đã tồn tại
-    addIngredient(data.ingredient)
-
-    setNewIngredientInci("")
-    setShowCreateIngredient(false)
-
-  } catch (error) {
-    console.error(error)
-
-  } finally {
-    setCreatingIngredient(false)
-  }
-}
-
-function removeIngredient(index: number) {
-  const newIngredients = localProductState.ingredients
-    .filter((_, i) => i !== index)
-    .map((ingredient, i) => ({
-      ...ingredient,
-      position: i + 1,
-    }))
-
-  handleChange("ingredients", newIngredients)
-}
-
-function updateIngredient(
-  index: number,
-  field: "concentration" | "notes",
-  value: string
-) {
-  const newIngredients = [...localProductState.ingredients]
-
-  newIngredients[index] = {
-    ...newIngredients[index],
-    [field]: value || null,
+    handleChange("ingredients", newIngredients)
   }
 
-  handleChange("ingredients", newIngredients)
-}
-
-function handleSubmit() {
-  const updatedProduct: Product = {
-    ...localProductState
+  function handleSubmit() {
+    const updatedProduct: Product = {
+      ...localProductState
+    }
+    onSave(updatedProduct)
   }
-  onSave(updatedProduct)
-}
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
@@ -548,14 +569,7 @@ function handleSubmit() {
               className="border w-full p-2 rounded"
             />
           </div>
-          <div>
-            <label className="block font-semibold mb-1">Hook</label>
-            <textarea
-              value={localProductState.hook || ""}
-              onChange={(e) => handleChange("hook", e.target.value)}
-              className="border w-full p-2 rounded"
-            />
-          </div>
+
           {/* DESCRIPTION */}
           <div>
             <label className="block font-semibold mb-1">Short Description</label>
@@ -567,7 +581,14 @@ function handleSubmit() {
           </div>
 
 
-
+          <div>
+            <label className="block font-semibold mb-1">Hook</label>
+            <textarea
+              value={localProductState.hook || ""}
+              onChange={(e) => handleChange("hook", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
 
           <div>
             <label className="block font-semibold mb-1">Đặc tính thành phần nổi bật</label>
@@ -577,122 +598,122 @@ function handleSubmit() {
               className="border w-full p-2 rounded"
             />
           </div>
-      {/* INGREDIENTS */}
+          {/* INGREDIENTS */}
 
-<div className="mt-4">
-  <label className="mb-2 block font-semibold">
-    Ingredients
-  </label>
+          <div className="mt-4">
+            <label className="mb-2 block font-semibold">
+              Ingredients
+            </label>
 
-  {/* =========================
+            {/* =========================
       CURRENT INGREDIENTS
   ========================== */}
 
-  {(localProductState.ingredients?.length ?? 0) > 0 && (
-    <div className="mb-4 space-y-3">
-      {localProductState.ingredients?.map(
-        (ingredient, index) => (
-          <div
-            key={ingredient.id}
-            className="rounded-lg border bg-white p-3"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <div className="font-medium">
-                  {index + 1}. {ingredient.name}
-                </div>
+            {(localProductState.ingredients?.length ?? 0) > 0 && (
+              <div className="mb-4 space-y-3">
+                {localProductState.ingredients?.map(
+                  (ingredient, index) => (
+                    <div
+                      key={ingredient.id}
+                      className="rounded-lg border bg-white p-3"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="font-medium">
+                            {index + 1}. {ingredient.name}
+                          </div>
 
-                {ingredient.inci_name && (
-                  <div className="mt-1 text-sm text-gray-500">
-                    INCI: {ingredient.inci_name}
-                  </div>
+                          {ingredient.inci_name && (
+                            <div className="mt-1 text-sm text-gray-500">
+                              INCI: {ingredient.inci_name}
+                            </div>
+                          )}
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => removeIngredient(index)}
+                          className="shrink-0 text-sm text-red-500 hover:underline"
+                        >
+                          Xóa
+                        </button>
+                      </div>
+
+                      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                        <div>
+                          <label className="mb-1 block text-sm">
+                            Nồng độ
+                          </label>
+
+                          <input
+                            type="text"
+                            value={ingredient.concentration ?? ""}
+                            onChange={(e) =>
+                              updateIngredient(
+                                index,
+                                "concentration",
+                                e.target.value
+                              )
+                            }
+                            placeholder="Ví dụ: 5%"
+                            className="w-full rounded border p-2"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="mb-1 block text-sm">
+                            Ghi chú
+                          </label>
+
+                          <input
+                            type="text"
+                            value={ingredient.notes ?? ""}
+                            onChange={(e) =>
+                              updateIngredient(
+                                index,
+                                "notes",
+                                e.target.value
+                              )
+                            }
+                            placeholder="Ghi chú về thành phần"
+                            className="w-full rounded border p-2"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )
                 )}
               </div>
+            )}
 
-              <button
-                type="button"
-                onClick={() => removeIngredient(index)}
-                className="shrink-0 text-sm text-red-500 hover:underline"
-              >
-                Xóa
-              </button>
-            </div>
+            {/* EMPTY STATE */}
 
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <div>
-                <label className="mb-1 block text-sm">
-                  Nồng độ
-                </label>
-
-                <input
-                  type="text"
-                  value={ingredient.concentration ?? ""}
-                  onChange={(e) =>
-                    updateIngredient(
-                      index,
-                      "concentration",
-                      e.target.value
-                    )
-                  }
-                  placeholder="Ví dụ: 5%"
-                  className="w-full rounded border p-2"
-                />
+            {(localProductState.ingredients?.length ?? 0) === 0 && (
+              <div className="mb-4 rounded-lg border border-dashed p-4 text-center text-sm text-gray-500">
+                Chưa có thành phần nào.
               </div>
+            )}
 
-              <div>
-                <label className="mb-1 block text-sm">
-                  Ghi chú
-                </label>
-
-                <input
-                  type="text"
-                  value={ingredient.notes ?? ""}
-                  onChange={(e) =>
-                    updateIngredient(
-                      index,
-                      "notes",
-                      e.target.value
-                    )
-                  }
-                  placeholder="Ghi chú về thành phần"
-                  className="w-full rounded border p-2"
-                />
-              </div>
-            </div>
-          </div>
-        )
-      )}
-    </div>
-  )}
-
-  {/* EMPTY STATE */}
-
-  {(localProductState.ingredients?.length ?? 0) === 0 && (
-    <div className="mb-4 rounded-lg border border-dashed p-4 text-center text-sm text-gray-500">
-      Chưa có thành phần nào.
-    </div>
-  )}
-
-  {/* =========================
+            {/* =========================
       SEARCH INGREDIENT
   ========================== */}
 
-  <div className="relative">
-    <input
-      type="text"
-      value={ingredientSearch}
-      onChange={(e) => {
-        setIngredientSearch(e.target.value)
-        setShowCreateIngredient(false)
-      }}
-      placeholder="Tìm thành phần để thêm..."
-      className="w-full rounded border p-2"
-    />
+            <div className="relative">
+              <input
+                type="text"
+                value={ingredientSearch}
+                onChange={(e) => {
+                  setIngredientSearch(e.target.value)
+                  setShowCreateIngredient(false)
+                }}
+                placeholder="Tìm thành phần để thêm..."
+                className="w-full rounded border p-2"
+              />
 
-    {ingredientSearch.trim().length >= 2 &&
-      !showCreateIngredient && (
-        <div
-          className="
+              {ingredientSearch.trim().length >= 2 &&
+                !showCreateIngredient && (
+                  <div
+                    className="
             absolute
             z-20
             mt-1
@@ -704,35 +725,35 @@ function handleSubmit() {
             bg-white
             shadow-lg
           "
-        >
-          {ingredientLoading && (
-            <div className="p-3 text-sm text-gray-500">
-              Đang tìm...
-            </div>
-          )}
+                  >
+                    {ingredientLoading && (
+                      <div className="p-3 text-sm text-gray-500">
+                        Đang tìm...
+                      </div>
+                    )}
 
-          {!ingredientLoading &&
-            ingredientResults
-              .filter(
-                (result) =>
-                  !(
-                    localProductState.ingredients ?? []
-                  ).some(
-                    (ingredient) =>
-                      Number(ingredient.id) ===
-                      Number(result.id)
-                  )
-              )
-              .map((ingredient) => (
-                <button
-                  key={ingredient.id}
-                  type="button"
-                  onClick={() => {
-                    addIngredient(ingredient)
+                    {!ingredientLoading &&
+                      ingredientResults
+                        .filter(
+                          (result) =>
+                            !(
+                              localProductState.ingredients ?? []
+                            ).some(
+                              (ingredient) =>
+                                Number(ingredient.id) ===
+                                Number(result.id)
+                            )
+                        )
+                        .map((ingredient) => (
+                          <button
+                            key={ingredient.id}
+                            type="button"
+                            onClick={() => {
+                              addIngredient(ingredient)
 
-                    setIngredientSearch("")
-                  }}
-                  className="
+                              setIngredientSearch("")
+                            }}
+                            className="
                     block
                     w-full
                     border-b
@@ -741,38 +762,38 @@ function handleSubmit() {
                     last:border-b-0
                     hover:bg-gray-50
                   "
-                >
-                  <div className="font-medium">
-                    {ingredient.name}
-                  </div>
+                          >
+                            <div className="font-medium">
+                              {ingredient.name}
+                            </div>
 
-                  {ingredient.inci_name && (
-                    <div className="mt-1 text-sm text-gray-500">
-                      INCI: {ingredient.inci_name}
-                    </div>
-                  )}
-                </button>
-              ))}
+                            {ingredient.inci_name && (
+                              <div className="mt-1 text-sm text-gray-500">
+                                INCI: {ingredient.inci_name}
+                              </div>
+                            )}
+                          </button>
+                        ))}
 
-          {/* CREATE NEW */}
+                    {/* CREATE NEW */}
 
-          {!ingredientLoading &&
-            ingredientResults.filter(
-              (result) =>
-                !(
-                  localProductState.ingredients ?? []
-                ).some(
-                  (ingredient) =>
-                    Number(ingredient.id) ===
-                    Number(result.id)
-                )
-            ).length === 0 && (
-              <button
-                type="button"
-                onClick={() =>
-                  setShowCreateIngredient(true)
-                }
-                className="
+                    {!ingredientLoading &&
+                      ingredientResults.filter(
+                        (result) =>
+                          !(
+                            localProductState.ingredients ?? []
+                          ).some(
+                            (ingredient) =>
+                              Number(ingredient.id) ===
+                              Number(result.id)
+                          )
+                      ).length === 0 && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowCreateIngredient(true)
+                          }
+                          className="
                   block
                   w-full
                   p-3
@@ -780,76 +801,76 @@ function handleSubmit() {
                   text-sm
                   hover:bg-gray-50
                 "
-              >
-                + Thêm &quot;
-                {ingredientSearch.trim()} &quot;
-                 làm thành phần mới
-              </button>
-            )}
-        </div>
-      )}
-  </div>
+                        >
+                          + Thêm &quot;
+                          {ingredientSearch.trim()} &quot;
+                          làm thành phần mới
+                        </button>
+                      )}
+                  </div>
+                )}
+            </div>
 
-  {/* =========================
+            {/* =========================
       CREATE NEW INGREDIENT
   ========================== */}
 
-  {showCreateIngredient && (
-    <div className="mt-3 space-y-3 rounded-lg border bg-gray-50 p-4">
-      <div className="font-semibold">
-        Thêm thành phần mới
-      </div>
+            {showCreateIngredient && (
+              <div className="mt-3 space-y-3 rounded-lg border bg-gray-50 p-4">
+                <div className="font-semibold">
+                  Thêm thành phần mới
+                </div>
 
-      <div>
-        <label className="mb-1 block text-sm">
-          Tên thành phần
-        </label>
+                <div>
+                  <label className="mb-1 block text-sm">
+                    Tên thành phần
+                  </label>
 
-        <input
-          value={ingredientSearch}
-          disabled
-          className="
+                  <input
+                    value={ingredientSearch}
+                    disabled
+                    className="
             w-full
             rounded
             border
             bg-gray-100
             p-2
           "
-        />
-      </div>
+                  />
+                </div>
 
-      <div>
-        <label className="mb-1 block text-sm">
-          INCI Name
-        </label>
+                <div>
+                  <label className="mb-1 block text-sm">
+                    INCI Name
+                  </label>
 
-        <input
-          value={newIngredientInci}
-          onChange={(e) =>
-            setNewIngredientInci(e.target.value)
-          }
-          placeholder="Ví dụ: Niacinamide"
-          className="w-full rounded border p-2"
-        />
-      </div>
+                  <input
+                    value={newIngredientInci}
+                    onChange={(e) =>
+                      setNewIngredientInci(e.target.value)
+                    }
+                    placeholder="Ví dụ: Niacinamide"
+                    className="w-full rounded border p-2"
+                  />
+                </div>
 
-      <div className="flex gap-2">
-        <button
-          type="button"
-          onClick={() => {
-            setShowCreateIngredient(false)
-            setNewIngredientInci("")
-          }}
-          className="rounded border px-3 py-2"
-        >
-          Hủy
-        </button>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowCreateIngredient(false)
+                      setNewIngredientInci("")
+                    }}
+                    className="rounded border px-3 py-2"
+                  >
+                    Hủy
+                  </button>
 
-        <button
-          type="button"
-          onClick={createIngredient}
-          disabled={creatingIngredient}
-          className="
+                  <button
+                    type="button"
+                    onClick={createIngredient}
+                    disabled={creatingIngredient}
+                    className="
             rounded
             bg-black
             px-3
@@ -857,184 +878,183 @@ function handleSubmit() {
             text-white
             disabled:opacity-50
           "
-        >
-          {creatingIngredient
-            ? "Đang tạo..."
-            : "Tạo và thêm"}
-        </button>
-      </div>
-    </div>
-  )}
-</div>
-
-
-
-
- {/* TAGS */}
-<div>
-  <label className="block font-semibold mb-2">Tags</label>
-
-  <div className="space-y-2">
-
-    {localProductState.tags.map((tag, index) => (
-      <div key={index} className="flex gap-2">
-
-        {/* DROPDOWN */}
-        <select
-          value={tag?.id || ""}
-          onChange={(e) => {
-            const selectedId = Number(e.target.value)
-
-            const selectedTag = tagOptions.find(t => t.id === selectedId)
-
-            const newTags = [...localProductState.tags]
-            newTags[index] = selectedTag!
-
-            handleChange("tags", newTags)
-          }}
-          className="border w-full p-2 rounded"
-        >
-          <option value="">-- Select tag --</option>
-
-          {tagOptions.map(option => (
-            <option key={option.id} value={option.id}>
-              {option.name}
-            </option>
-          ))}
-        </select>
-
-        {/* DELETE BUTTON */}
-        <button
-          type="button"
-          onClick={() => {
-            const newTags = localProductState.tags.filter((_, i) => i !== index)
-            handleChange("tags", newTags)
-          }}
-          className="px-3 bg-red-500 text-white rounded"
-        >
-          X
-        </button>
-      </div>
-    ))}
-
-  </div>
-
-  {/* ADD BUTTON */}
-  <button
-    type="button"
-    onClick={() => {
-      handleChange("tags", [
-        ...localProductState.tags,
-        tagOptions[0] || { id: 0, name: "", slug: "" }
-      ])
-    }}
-    className="mt-3 px-4 py-2 bg-blue-500 text-white rounded"
-  >
-    + Add Tag
-  </button>
-</div>
-
-{/* FILTERS */}
-<div>
-
-
-
-  <div>
-  <label className="block font-semibold mb-2">Filters</label>
-
-  {/* ADD GROUP */}
-  <select
-    onChange={(e) => {
-      const slug = e.target.value
-      if (!slug) return
-
-      addFilterGroup(slug)
-      e.target.value = ""
-    }}
-    className="border p-2 rounded mb-3 w-full"
-  >
-    <option value="">-- Thêm filter --</option>
-
-    {defaultFilter
-      .filter(
-        f => !localProductState.productfilter.some(g => g.slug === f.slug)
-      )
-      .map(f => (
-        <option key={f.id} value={f.slug}>
-          {f.name}
-        </option>
-      ))}
-  </select>
-
-  {/* GROUP LIST */}
-  {localProductState.productfilter.map(group => {
-    const def = defaultFilter.find(f => f.slug === group.slug)
-    if (!def) return null
-
-    return (
-      <div key={group.slug} className="mb-3 border p-3 rounded">
-
-        {/* HEADER */}
-        <div className="flex justify-between items-center mb-2">
-          <p className="font-semibold">{group.name}</p>
-
-          <button
-            onClick={() =>
-              handleChange(
-                "productfilter",
-                localProductState.productfilter.filter(g => g.slug !== group.slug)
-              )
-            }
-            className="text-red-500 text-sm"
-          >
-            X
-          </button>
-        </div>
-
-        {/* VALUE */}
-        <div className="flex flex-wrap gap-2">
-          {def.filterValues.map(v => {
-            const selected = group.filterValues.find(val => val.slug === v.slug)
-
-            return (
-                <div  key={v.id}>
-                  <button
-                      onClick={() =>
-                        selected
-                          ? removeFilterValue(group.slug, v.slug)
-                          : updateFilterValue(group.slug, v.slug)
-                      }
-                      className={`px-3 py-1 rounded border ${
-                        selected
-                          ? "bg-blue-500 text-white"
-                          : "bg-white"
-                      }`}
-                    >
-                      {v.value}
-                    </button>
-                    {selected && 
-                        <input 
-                            value={selected.score || ""} 
-                            type="number" 
-                            size={5}
-                            maxLength={4}
-                            className="border"
-                            onChange={(e)=>updateFilterValue(group.slug, v.slug, Number(e.target.value))}
-                            ></input>}
+                  >
+                    {creatingIngredient
+                      ? "Đang tạo..."
+                      : "Tạo và thêm"}
+                  </button>
+                </div>
               </div>
-                
-
-            )
-          })}
-        </div>
-      </div>
-    )
-  })}
+            )}
+          </div>
 
 
-  </div>
 
-</div>
+
+          {/* TAGS */}
+          <div>
+            <label className="block font-semibold mb-2">Tags</label>
+
+            <div className="space-y-2">
+
+              {localProductState.tags.map((tag, index) => (
+                <div key={index} className="flex gap-2">
+
+                  {/* DROPDOWN */}
+                  <select
+                    value={tag?.id || ""}
+                    onChange={(e) => {
+                      const selectedId = Number(e.target.value)
+
+                      const selectedTag = tagOptions.find(t => t.id === selectedId)
+
+                      const newTags = [...localProductState.tags]
+                      newTags[index] = selectedTag!
+
+                      handleChange("tags", newTags)
+                    }}
+                    className="border w-full p-2 rounded"
+                  >
+                    <option value="">-- Select tag --</option>
+
+                    {tagOptions.map(option => (
+                      <option key={option.id} value={option.id}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  {/* DELETE BUTTON */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newTags = localProductState.tags.filter((_, i) => i !== index)
+                      handleChange("tags", newTags)
+                    }}
+                    className="px-3 bg-red-500 text-white rounded"
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+
+            </div>
+
+            {/* ADD BUTTON */}
+            <button
+              type="button"
+              onClick={() => {
+                handleChange("tags", [
+                  ...localProductState.tags,
+                  tagOptions[0] || { id: 0, name: "", slug: "" }
+                ])
+              }}
+              className="mt-3 px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              + Add Tag
+            </button>
+          </div>
+
+          {/* FILTERS */}
+          <div>
+
+
+
+            <div>
+              <label className="block font-semibold mb-2">Filters</label>
+
+              {/* ADD GROUP */}
+              <select
+                onChange={(e) => {
+                  const slug = e.target.value
+                  if (!slug) return
+
+                  addFilterGroup(slug)
+                  e.target.value = ""
+                }}
+                className="border p-2 rounded mb-3 w-full"
+              >
+                <option value="">-- Thêm filter --</option>
+
+                {defaultFilter
+                  .filter(
+                    f => !localProductState.productfilter.some(g => g.slug === f.slug)
+                  )
+                  .map(f => (
+                    <option key={f.id} value={f.slug}>
+                      {f.name}
+                    </option>
+                  ))}
+              </select>
+
+              {/* GROUP LIST */}
+              {localProductState.productfilter.map(group => {
+                const def = defaultFilter.find(f => f.slug === group.slug)
+                if (!def) return null
+
+                return (
+                  <div key={group.slug} className="mb-3 border p-3 rounded">
+
+                    {/* HEADER */}
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="font-semibold">{group.name}</p>
+
+                      <button
+                        onClick={() =>
+                          handleChange(
+                            "productfilter",
+                            localProductState.productfilter.filter(g => g.slug !== group.slug)
+                          )
+                        }
+                        className="text-red-500 text-sm"
+                      >
+                        X
+                      </button>
+                    </div>
+
+                    {/* VALUE */}
+                    <div className="flex flex-wrap gap-2">
+                      {def.filterValues.map(v => {
+                        const selected = group.filterValues.find(val => val.slug === v.slug)
+
+                        return (
+                          <div key={v.id}>
+                            <button
+                              onClick={() =>
+                                selected
+                                  ? removeFilterValue(group.slug, v.slug)
+                                  : updateFilterValue(group.slug, v.slug)
+                              }
+                              className={`px-3 py-1 rounded border ${selected
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-white"
+                                }`}
+                            >
+                              {v.value}
+                            </button>
+                            {selected &&
+                              <input
+                                value={selected.score || ""}
+                                type="number"
+                                size={5}
+                                maxLength={4}
+                                className="border"
+                                onChange={(e) => updateFilterValue(group.slug, v.slug, Number(e.target.value))}
+                              ></input>}
+                          </div>
+
+
+                        )
+                      })}
+                    </div>
+                  </div>
+                )
+              })}
+
+
+            </div>
+
+          </div>
 
           <div>
             <label className="block font-semibold mb-1">Thích hợp cho da</label>
@@ -1044,7 +1064,7 @@ function handleSubmit() {
               className="border w-full p-2 rounded"
             />
           </div>
-                    <div>
+          <div>
             <label className="block font-semibold mb-1">điểm mạnh của công dụng</label>
             <textarea
               value={localProductState.benefits || ""}
@@ -1052,91 +1072,91 @@ function handleSubmit() {
               className="border w-full p-2 rounded"
             />
           </div>
-{/* REVIEWS */}
-<div>
-  <label className="block font-semibold mb-2">Reviews</label>
+          {/* REVIEWS */}
+          <div>
+            <label className="block font-semibold mb-2">Reviews</label>
 
-  <div className="space-y-3">
+            <div className="space-y-3">
 
-    {localProductState.reviews.map((r, index) => (
-      <div key={index} className="flex gap-2 items-center">
+              {localProductState.reviews.map((r, index) => (
+                <div key={index} className="flex gap-2 items-center">
 
-        {/* TYPE */}
-        <select
-          value={r.media_type}
-          onChange={(e) => {
-            const newReviews = [...localProductState.reviews]
-            newReviews[index].media_type = e.target.value as "image" | "video"
-            handleReviewChange(newReviews)
-          }}
-          className="border p-2 rounded"
-        >
-          <option value="image">image</option>
-          <option value="video">video</option>
-        </select>
+                  {/* TYPE */}
+                  <select
+                    value={r.media_type}
+                    onChange={(e) => {
+                      const newReviews = [...localProductState.reviews]
+                      newReviews[index].media_type = e.target.value as "image" | "video"
+                      handleReviewChange(newReviews)
+                    }}
+                    className="border p-2 rounded"
+                  >
+                    <option value="image">image</option>
+                    <option value="video">video</option>
+                  </select>
 
-        {/* URL */}
-        <input
-          value={r.media_url || ""}
-          onChange={(e) => {
-            const newReviews = [...localProductState.reviews]
-            newReviews[index].media_url = e.target.value
-            handleReviewChange(newReviews)
-          }}
-          placeholder="media url"
-          className="border w-full p-2 rounded"
-        />
+                  {/* URL */}
+                  <input
+                    value={r.media_url || ""}
+                    onChange={(e) => {
+                      const newReviews = [...localProductState.reviews]
+                      newReviews[index].media_url = e.target.value
+                      handleReviewChange(newReviews)
+                    }}
+                    placeholder="media url"
+                    className="border w-full p-2 rounded"
+                  />
 
-        {/* DELETE */}
-        <button
-          type="button"
-          onClick={() => {
-            const newReviews = localProductState.reviews
-              .filter((_, i) => i !== index)
-              .map((r, i) => ({
-                ...r,
-                display_order: i
-              }))
-            handleReviewChange(newReviews)
-          }}
-          className="px-3 bg-red-500 text-white rounded"
-        >
-          X
-        </button>
+                  {/* DELETE */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newReviews = localProductState.reviews
+                        .filter((_, i) => i !== index)
+                        .map((r, i) => ({
+                          ...r,
+                          display_order: i
+                        }))
+                      handleReviewChange(newReviews)
+                    }}
+                    className="px-3 bg-red-500 text-white rounded"
+                  >
+                    X
+                  </button>
 
-      </div>
-    ))}
+                </div>
+              ))}
 
-  </div>
+            </div>
 
-  {/* ADD */}
-  <button
-    type="button"
-    onClick={() => {
-      handleReviewChange([
-        ...localProductState.reviews,
-        {
-          id: Date.now(),
-          media_url: "",
-          media_type: "image",
-          display_order: localProductState.reviews.length
-        }
-      ])
-    }}
-    className="mt-3 px-4 py-2 bg-blue-500 text-white rounded"
-  >
-    + Add Review
-  </button>
-  <button
-  type="button"
-  onClick={() => setShowPreview(true)}
-  className="mt-3 ml-2 px-4 py-2 bg-green-600 text-white rounded"
->
-  Xem review
-</button>
-</div>
+            {/* ADD */}
+            <button
+              type="button"
+              onClick={() => {
+                handleReviewChange([
+                  ...localProductState.reviews,
+                  {
+                    id: Date.now(),
+                    media_url: "",
+                    media_type: "image",
+                    display_order: localProductState.reviews.length
+                  }
+                ])
+              }}
+              className="mt-3 px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              + Add Review
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowPreview(true)}
+              className="mt-3 ml-2 px-4 py-2 bg-green-600 text-white rounded"
+            >
+              Xem review
+            </button>
+          </div>
 
-      
+
           {/* PRICE */}
           <div>
             <div className="grid grid-cols-2 gap-3">
@@ -1151,14 +1171,14 @@ function handleSubmit() {
                 />
               </div> */}
               <div>
-                  <label className="block font-semibold mb-1">best_price</label>
-                  <input
+                <label className="block font-semibold mb-1">best_price</label>
+                <input
                   type="number"
                   value={localProductState.best_price}
                   onChange={(e) => handleChange("best_price", Number(e.target.value))}
                   placeholder="Best price"
                   className="border p-2 rounded"
-                  />
+                />
               </div>
               <div>
                 <label className="block font-semibold mb-1">Khối lượng</label>
@@ -1181,7 +1201,7 @@ function handleSubmit() {
           </div>
           {/* STATS */}
           <div>
-              <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <div>
                 <label className="block font-semibold mb-1">Loại của hàng</label>
                 <input
@@ -1189,24 +1209,24 @@ function handleSubmit() {
                   onChange={(e) => handleChange("seller_type", e.target.value)}
                   className="border w-full p-2 rounded"
                 />
-                </div>
-                <div>
+              </div>
+              <div>
                 <label className="block font-semibold mb-1">Tên cửa hàng</label>
                 <input
                   value={localProductState.seller_name ?? ""}
                   onChange={(e) => handleChange("seller_name", e.target.value)}
                   className="border w-full p-2 rounded"
                 />
-                </div>
-                <div>
+              </div>
+              <div>
                 <label className="block font-semibold mb-1">Country</label>
                 <input
                   value={localProductState.country ?? ""}
                   onChange={(e) => handleChange("country", e.target.value)}
                   className="border w-full p-2 rounded"
                 />
-                </div>
               </div>
+            </div>
             <div className="grid grid-cols-3 gap-3">
 
               <div>
@@ -1250,7 +1270,7 @@ function handleSubmit() {
                   className="border p-2 rounded"
                 />
               </div>
-<div>
+              <div>
                 <label className="block font-semibold mb-1">Tiêu chuẩn sản xuất</label>
                 <input
                   value={localProductState.standand ?? ""}
@@ -1310,38 +1330,38 @@ function handleSubmit() {
           </div>
 
         </div>
-{showPreview && (
-  <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-[999]">
-    <div className="bg-[#0f172a] w-[95vw] md:w-[70vw] h-[80vh] rounded-xl p-3 md:p-4 relative flex flex-col overflow-hidden">
+        {showPreview && (
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-[999]">
+            <div className="bg-[#0f172a] w-[95vw] md:w-[70vw] h-[80vh] rounded-xl p-3 md:p-4 relative flex flex-col overflow-hidden">
 
-      {/* CLOSE */}
-      <button
-        onClick={() => setShowPreview(false)}
-        className="absolute top-3 right-3 z-[1000] w-10 h-10 flex items-center justify-center rounded-full bg-red-500 text-white"
-      >
-        ✕
-      </button>
+              {/* CLOSE */}
+              <button
+                onClick={() => setShowPreview(false)}
+                className="absolute top-3 right-3 z-[1000] w-10 h-10 flex items-center justify-center rounded-full bg-red-500 text-white"
+              >
+                ✕
+              </button>
 
-      {/* CONTENT */}
-      <div className="w-full h-full">
-        {localProductState.reviews.length === 0 ? (
-          <p className="text-sm text-center text-gray-400">
-            Chưa có review
-          </p>
-        ) : (
-          <ProductReviewSlider
-            short_description={localProductState.short_description || ""}
-            productName={localProductState.name}
-            affiliateLink={localProductState.affiliate_link}
-            reviews={localProductState.reviews}
+              {/* CONTENT */}
+              <div className="w-full h-full">
+                {localProductState.reviews.length === 0 ? (
+                  <p className="text-sm text-center text-gray-400">
+                    Chưa có review
+                  </p>
+                ) : (
+                  <ProductReviewSlider
+                    short_description={localProductState.short_description || ""}
+                    productName={localProductState.name}
+                    affiliateLink={localProductState.affiliate_link}
+                    reviews={localProductState.reviews}
 
-          />
+                  />
+                )}
+              </div>
+
+            </div>
+          </div>
         )}
-      </div>
-
-    </div>
-  </div>
-)}
         <div className="flex justify-end gap-3 mt-6">
           <button onClick={onClose} className="px-4 py-2 border rounded">
             Cancel
@@ -1356,8 +1376,8 @@ function handleSubmit() {
         </div>
 
       </div>
-      
+
     </div>
-    
+
   )
 }

@@ -959,21 +959,21 @@ export default function ProductReviewSlider({
       icon: "🎯",
       label: "Phù hợp",
       description:
-        "Mức độ ưu tiên được đánh giá dựa trên công thức thành phần công bố. Mang tính khách quan",
+        "Mức độ ưu tiên được đánh giá dựa trên bảng thành phần công bố, có thể khác nhau tùy vào tình trạng da cụ thể và cơ địa mỗi người",
     },
     {
       key: "effectiveness",
       icon: "⚡",
       label: "Hiệu quả",
       description:
-        "Độ hiệu quả được đánh giá dựa trên bảng thành phần của sản phẩm, có thể khác nhau cho từng loại da và cơ địa mỗi người. Mang tính khách quan",
+        "Độ hiệu quả được đánh giá dựa trên bảng thành phần của sản phẩm, có thể khác nhau cho từng loại da và cơ địa mỗi người.",
     },
     {
       key: "ingredients",
       icon: "🧪",
       label: "Thành phần",
       description:
-        "Thành phần quan trọng",
+        "Một số thành phần quan trọng",
     },
 
     // {
@@ -988,7 +988,7 @@ export default function ProductReviewSlider({
       icon: "🛡",
       label: "Tin cậy",
       description:
-        "Các thông số được tổng hợp từ nguồn thông tin chính thức của thương hiệu và nhà bán hàng",
+        "Được tổng hợp từ website của thương hiệu, trang nhà bán hàng và một vài nguồn khác ",
     },
   ]
 
@@ -1506,7 +1506,7 @@ export default function ProductReviewSlider({
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-orange-300"  }
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-lime-400"  }
 
             `}
           >

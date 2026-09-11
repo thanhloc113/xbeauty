@@ -24,72 +24,167 @@ export type Industry = {
 
 
 /* ================= DEFAULT ================= */
-const defaultCategories = [
-  {
-    "id": 2,
-    "name": "Kem Chống Nắng"
-  },
-  {
-    "id": 3,
-    "name": "Sửa Rửa Mặt"
-  },
-  {
-    "id": 13,
-    "name": "Nước Tẩy Trang"
-  },
-  {
-    "id": 7,
-    "name": "Serum"
-  },
-  {
-    "id": 16,
-    "name": "Kem Dưỡng Ẩm"
-  },
-  {
-    "id": 14,
-    "name": "Toner"
-  },
-  {
-    "id": 15,
-    "name": "Body Care"
-  },
-  {
-    "id": 10,
-    "name": "Son Của Em"
-  },
-  {
-    "id": 9,
-    "name": "Kem Lót"
-  },
-  {
-    "id": 5,
-    "name": "Kem Nền (Foundation) & Cushion"
-  },
-  {
-    "id": 1,
-    "name": "Che Khuyết Điểm"
-  },
-  {
-    "id": 11,
-    "name": "Phấn Mắt"
-  },
-  {
-    "id": 8,
-    "name": "Phấn Tạo Khối"
-  },
-  {
-    "id": 6,
-    "name": "Phần Phủ"
-  },
-  {
-    "id": 4,
-    "name": "Mascara"
-  },
-  {
-    "id": 12,
-    "name": "Xịt Khóa Nền"
-  }
-]
+const defaultCategories = [{
+  "id": 36,
+  "name": "BB Cream"
+}, {
+  "id": 15,
+  "name": "Body Care"
+}, {
+  "id": 41,
+  "name": "Bronzer"
+}, {
+  "id": 37,
+  "name": "CC Cream"
+}, {
+  "id": 1,
+  "name": "Che Khuyết Điểm"
+}, {
+  "id": 17,
+  "name": "Chăm sóc tóc"
+}, {
+  "id": 22,
+  "name": "Chấm mụn"
+}, {
+  "id": 40,
+  "name": "Contour"
+}, {
+  "id": 34,
+  "name": "Dưỡng thể"
+}, {
+  "id": 30,
+  "name": "Dầu dưỡng"
+}, {
+  "id": 25,
+  "name": "Essence"
+}, {
+  "id": 18,
+  "name": "Eyeliner"
+}, {
+  "id": 42,
+  "name": "Highlight"
+}, {
+  "id": 2,
+  "name": "Kem Chống Nắng"
+}, {
+  "id": 16,
+  "name": "Kem Dưỡng Da"
+}, {
+  "id": 9,
+  "name": "Kem Lót"
+}, {
+  "id": 5,
+  "name": "Kem Nền (Foundation) & Cushion"
+}, {
+  "id": 21,
+  "name": "Kem trị mụn"
+}, {
+  "id": 24,
+  "name": "Kem trị thâm"
+}, {
+  "id": 28,
+  "name": "Khẩu trang"
+}, {
+  "id": 51,
+  "name": "Lip oil"
+}, {
+  "id": 26,
+  "name": "Lotion dưỡng"
+}, {
+  "id": 4,
+  "name": "Mascara"
+}, {
+  "id": 44,
+  "name": "Mi giả"
+}, {
+  "id": 23,
+  "name": "Miếng dán mụn"
+}, {
+  "id": 20,
+  "name": "Mặt nạ"
+}, {
+  "id": 53,
+  "name": "Mặt nạ môi"
+}, {
+  "id": 35,
+  "name": "Nước Hoa"
+}, {
+  "id": 11,
+  "name": "Phấn Mắt"
+}, {
+  "id": 6,
+  "name": "Phấn Phủ"
+}, {
+  "id": 8,
+  "name": "Phấn Tạo Khối"
+}, {
+  "id": 43,
+  "name": "Phấn mắt nhũ"
+}, {
+  "id": 38,
+  "name": "Phấn nén"
+}, {
+  "id": 39,
+  "name": "Phấn nước"
+}, {
+  "id": 27,
+  "name": "Phần má"
+}, {
+  "id": 7,
+  "name": "Serum"
+}, {
+  "id": 48,
+  "name": "Son bóng"
+}, {
+  "id": 10,
+  "name": "Son của em"
+}, {
+  "id": 49,
+  "name": "Son dưỡng"
+}, {
+  "id": 50,
+  "name": "Son dưỡng có màu"
+}, {
+  "id": 46,
+  "name": "Son kem"
+}, {
+  "id": 47,
+  "name": "Son thỏi"
+}, {
+  "id": 45,
+  "name": "Son tint"
+}, {
+  "id": 13,
+  "name": "Sản Phẩm Tẩy Trang"
+}, {
+  "id": 3,
+  "name": "Sữa Rửa Mặt"
+}, {
+  "id": 31,
+  "name": "Sữa tắm"
+}, {
+  "id": 14,
+  "name": "Toner"
+}, {
+  "id": 19,
+  "name": "Tẩy da chết"
+}, {
+  "id": 33,
+  "name": "Tẩy da chết body"
+}, {
+  "id": 52,
+  "name": "Tẩy tế bào chết môi"
+}, {
+  "id": 32,
+  "name": "Xà phòng"
+}, {
+  "id": 12,
+  "name": "Xịt Khóa Nền"
+}, {
+  "id": 29,
+  "name": "Xịt khoáng"
+}]
+
 
 const defaultIndustries = [
   { id: 1, name: "Cosmetics", slug: "cosmetics" },

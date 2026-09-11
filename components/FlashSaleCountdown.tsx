@@ -44,10 +44,6 @@ export default function FlashSaleCountdown({
           : ""
         }
 
-        ${isActive
-          ? "text-orange-300"
-          : "text-gray-400 opacity-80"
-        }
       `}
     >
       {isActive

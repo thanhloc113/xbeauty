@@ -262,7 +262,7 @@ export default function UserProductItem({
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-orange-300"}
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-yellow-300"}
 
             `}
               >
