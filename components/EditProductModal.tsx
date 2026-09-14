@@ -58,6 +58,7 @@ const defaultFilter = [
       { id: 27, slug: "giam-bong-troc-kho-cang", value: "Giảm bong tróc khô căng", score: 0 },
       { id: 28, slug: "tri-mun-viem", value: "Trị mụn viêm", score: 0 },
       { id: 29, slug: "tri-mun-an", value: "Trị mụn ẩn", score: 0 },
+      { id: 98, slug: "giam-vi-khuan-lien-quan-đen-mun", value: "Giảm vi khuẩn liên quan đến mụn", score: 0 },
       { id: 30, slug: "giam-mun-dau-den", value: "Giảm mụn đầu đen", score: 0 },
       { id: 31, slug: "ngua-mun", value: "Ngừa mụn", score: 0 },
       { id: 32, slug: "lam-diu-mun-sung-do", value: "Làm dịu mụn sưng đỏ", score: 0 },
