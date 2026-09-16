@@ -140,8 +140,8 @@ const defaultFilter = [
 
 const defaultTag = [{
   "id": 1,
-  "name": "Lành Tính",
-  "slug": "lanh-tinh"
+  "name": "Giới thiệu bởi chuyên gia",
+  "slug": "gioi-thieu-boi-chuyen-gia"
 }, {
   "id": 2,
   "name": "Sản phâm được đánh giá cao",
@@ -164,8 +164,8 @@ const defaultTag = [{
   "slug": "thuong-hieu-duoc-yeu-thich"
 }, {
   "id": 7,
-  "name": "Hot Trend",
-  "slug": "hot-trend"
+  "name": "Hàng Việt chất lượng",
+  "slug": "hang-viet-chat-luong"
 }, {
   "id": 8,
   "name": "Sản phẩm signature",
@@ -525,15 +525,6 @@ export default function EditProductModal({
             />
           </div>
 
-          {/* BRAND */}
-          <div>
-            <label className="block font-semibold mb-1">Brand</label>
-            <input
-              value={localProductState.brand ?? ""}
-              onChange={(e) => handleChange("brand", e.target.value)}
-              className="border w-full p-2 rounded"
-            />
-          </div>
 
           {/* IMAGE */}
           <div>
@@ -570,7 +561,175 @@ export default function EditProductModal({
               className="border w-full p-2 rounded"
             />
           </div>
+          {/* PRICE */}
+          <div>
+            <div className="grid grid-cols-2 gap-3">
+              {/* <div>
+                <label className="block font-semibold mb-1">original_price</label>
+                <input
+                  type="number"
+                  value={localProductState.original_price}
+                  onChange={(e) => handleChange("original_price", Number(e.target.value))}
+                  placeholder="Original price"
+                  className="border p-2 rounded"
+                />
+              </div> */}
+              <div>
+                <label className="block font-semibold mb-1">best_price</label>
+                <input
+                  type="number"
+                  value={localProductState.best_price}
+                  onChange={(e) => handleChange("best_price", Number(e.target.value))}
+                  placeholder="Best price"
+                  className="border p-2 rounded"
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Khối lượng</label>
+                <input
+                  value={localProductState.net_weight ?? ""}
+                  onChange={(e) => handleChange("net_weight", e.target.value)}
+                  className="border w-full p-2 rounded"
+                />
+              </div>
+            </div>
+          </div>
+          
+          {/* REVIEWS */}
+          <div>
+            <label className="block font-semibold mb-2">Reviews</label>
 
+            <div className="space-y-3">
+
+              {localProductState.reviews.map((r, index) => (
+                <div key={index} className="flex gap-2 items-center">
+
+                  {/* TYPE */}
+                  <select
+                    value={r.media_type}
+                    onChange={(e) => {
+                      const newReviews = [...localProductState.reviews]
+                      newReviews[index].media_type = e.target.value as "image" | "video"
+                      handleReviewChange(newReviews)
+                    }}
+                    className="border p-2 rounded"
+                  >
+                    <option value="image">image</option>
+                    <option value="video">video</option>
+                  </select>
+
+                  {/* URL */}
+                  <input
+                    value={r.media_url || ""}
+                    onChange={(e) => {
+                      const newReviews = [...localProductState.reviews]
+                      newReviews[index].media_url = e.target.value
+                      handleReviewChange(newReviews)
+                    }}
+                    placeholder="media url"
+                    className="border w-full p-2 rounded"
+                  />
+
+                  {/* DELETE */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newReviews = localProductState.reviews
+                        .filter((_, i) => i !== index)
+                        .map((r, i) => ({
+                          ...r,
+                          display_order: i
+                        }))
+                      handleReviewChange(newReviews)
+                    }}
+                    className="px-3 bg-red-500 text-white rounded"
+                  >
+                    X
+                  </button>
+
+                </div>
+              ))}
+
+            </div>
+
+            {/* ADD */}
+            <button
+              type="button"
+              onClick={() => {
+                handleReviewChange([
+                  ...localProductState.reviews,
+                  {
+                    id: Date.now(),
+                    media_url: "",
+                    media_type: "image",
+                    display_order: localProductState.reviews.length
+                  }
+                ])
+              }}
+              className="mt-3 px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              + Add Review
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowPreview(true)}
+              className="mt-3 ml-2 px-4 py-2 bg-green-600 text-white rounded"
+            >
+              Xem review
+            </button>
+          </div>
+
+                    <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="block font-semibold mb-1">Loại của hàng</label>
+                <input
+                  value={localProductState.seller_type ?? ""}
+                  onChange={(e) => handleChange("seller_type", e.target.value)}
+                  className="border w-full p-2 rounded"
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Tên cửa hàng</label>
+                <input
+                  value={localProductState.seller_name ?? ""}
+                  onChange={(e) => handleChange("seller_name", e.target.value)}
+                  className="border w-full p-2 rounded"
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">rating</label>
+                <input
+                  type="number"
+                  value={localProductState.rating}
+                  onChange={(e) => handleChange("rating", Number(e.target.value))}
+                  placeholder="Rating"
+                  className="border p-2 rounded"
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">review_count</label>
+                <input
+                  type="number"
+                  value={localProductState.review_count}
+                  onChange={(e) => handleChange("review_count", Number(e.target.value))}
+                  placeholder="Review count"
+                  className="border p-2 rounded"
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">sold</label>
+                <input
+                  type="number"
+                  value={localProductState.sold}
+                  onChange={(e) => handleChange("sold", Number(e.target.value))}
+                  placeholder="Sold"
+                  className="border p-2 rounded"
+                />
+              </div>
+
+
+
+            </div>    
           {/* DESCRIPTION */}
           <div>
             <label className="block font-semibold mb-1">Short Description</label>
@@ -1073,195 +1232,25 @@ export default function EditProductModal({
               className="border w-full p-2 rounded"
             />
           </div>
-          {/* REVIEWS */}
+
+
+
+
+
           <div>
-            <label className="block font-semibold mb-2">Reviews</label>
-
-            <div className="space-y-3">
-
-              {localProductState.reviews.map((r, index) => (
-                <div key={index} className="flex gap-2 items-center">
-
-                  {/* TYPE */}
-                  <select
-                    value={r.media_type}
-                    onChange={(e) => {
-                      const newReviews = [...localProductState.reviews]
-                      newReviews[index].media_type = e.target.value as "image" | "video"
-                      handleReviewChange(newReviews)
-                    }}
-                    className="border p-2 rounded"
-                  >
-                    <option value="image">image</option>
-                    <option value="video">video</option>
-                  </select>
-
-                  {/* URL */}
-                  <input
-                    value={r.media_url || ""}
-                    onChange={(e) => {
-                      const newReviews = [...localProductState.reviews]
-                      newReviews[index].media_url = e.target.value
-                      handleReviewChange(newReviews)
-                    }}
-                    placeholder="media url"
-                    className="border w-full p-2 rounded"
-                  />
-
-                  {/* DELETE */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const newReviews = localProductState.reviews
-                        .filter((_, i) => i !== index)
-                        .map((r, i) => ({
-                          ...r,
-                          display_order: i
-                        }))
-                      handleReviewChange(newReviews)
-                    }}
-                    className="px-3 bg-red-500 text-white rounded"
-                  >
-                    X
-                  </button>
-
-                </div>
-              ))}
-
-            </div>
-
-            {/* ADD */}
-            <button
-              type="button"
-              onClick={() => {
-                handleReviewChange([
-                  ...localProductState.reviews,
-                  {
-                    id: Date.now(),
-                    media_url: "",
-                    media_type: "image",
-                    display_order: localProductState.reviews.length
-                  }
-                ])
-              }}
-              className="mt-3 px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              + Add Review
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowPreview(true)}
-              className="mt-3 ml-2 px-4 py-2 bg-green-600 text-white rounded"
-            >
-              Xem review
-            </button>
-          </div>
-
-
-          {/* PRICE */}
-          <div>
-            <div className="grid grid-cols-2 gap-3">
-              {/* <div>
-                <label className="block font-semibold mb-1">original_price</label>
-                <input
-                  type="number"
-                  value={localProductState.original_price}
-                  onChange={(e) => handleChange("original_price", Number(e.target.value))}
-                  placeholder="Original price"
-                  className="border p-2 rounded"
-                />
-              </div> */}
-              <div>
-                <label className="block font-semibold mb-1">best_price</label>
-                <input
-                  type="number"
-                  value={localProductState.best_price}
-                  onChange={(e) => handleChange("best_price", Number(e.target.value))}
-                  placeholder="Best price"
-                  className="border p-2 rounded"
-                />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Khối lượng</label>
-                <input
-                  value={localProductState.net_weight ?? ""}
-                  onChange={(e) => handleChange("net_weight", e.target.value)}
-                  className="border w-full p-2 rounded"
-                />
-              </div>
-            </div>
-          </div>
-          {/* cta */}
-          <div>
-            <label className="block font-semibold mb-1">Cta</label>
-            <textarea
-              value={localProductState.cta || ""}
-              onChange={(e) => handleChange("cta", e.target.value)}
+            <label className="block font-semibold mb-1">Brand</label>
+            <input
+              value={localProductState.brand ?? ""}
+              onChange={(e) => handleChange("brand", e.target.value)}
               className="border w-full p-2 rounded"
             />
           </div>
+
+
           {/* STATS */}
           <div>
             <div className="grid grid-cols-3 gap-3">
-              <div>
-                <label className="block font-semibold mb-1">Loại của hàng</label>
-                <input
-                  value={localProductState.seller_type ?? ""}
-                  onChange={(e) => handleChange("seller_type", e.target.value)}
-                  className="border w-full p-2 rounded"
-                />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Tên cửa hàng</label>
-                <input
-                  value={localProductState.seller_name ?? ""}
-                  onChange={(e) => handleChange("seller_name", e.target.value)}
-                  className="border w-full p-2 rounded"
-                />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Country</label>
-                <input
-                  value={localProductState.country ?? ""}
-                  onChange={(e) => handleChange("country", e.target.value)}
-                  className="border w-full p-2 rounded"
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-3 gap-3">
-
-              <div>
-                <label className="block font-semibold mb-1">rating</label>
-                <input
-                  type="number"
-                  value={localProductState.rating}
-                  onChange={(e) => handleChange("rating", Number(e.target.value))}
-                  placeholder="Rating"
-                  className="border p-2 rounded"
-                />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">review_count</label>
-                <input
-                  type="number"
-                  value={localProductState.review_count}
-                  onChange={(e) => handleChange("review_count", Number(e.target.value))}
-                  placeholder="Review count"
-                  className="border p-2 rounded"
-                />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">sold</label>
-                <input
-                  type="number"
-                  value={localProductState.sold}
-                  onChange={(e) => handleChange("sold", Number(e.target.value))}
-                  placeholder="Sold"
-                  className="border p-2 rounded"
-                />
-              </div>
-
-              <div>
+                          <div>
                 <label className="block font-semibold mb-1">Năm Thành Lập</label>
                 <input
                   type="number"
@@ -1291,13 +1280,34 @@ export default function EditProductModal({
                 />
               </div>
 
+              <div>
+                <label className="block font-semibold mb-1">Country</label>
+                <input
+                  value={localProductState.country ?? ""}
+                  onChange={(e) => handleChange("country", e.target.value)}
+                  className="border w-full p-2 rounded"
+                />
+              </div>
             </div>
+            
+
           </div>
+
           <div>
             <label className="block font-semibold mb-1">Kêt luân độ tin cậy</label>
             <input
               value={localProductState.trust ?? ""}
               onChange={(e) => handleChange("trust", e.target.value)}
+              className="border w-full p-2 rounded"
+            />
+          </div>
+
+        {/* cta */}
+          <div>
+            <label className="block font-semibold mb-1">Cta</label>
+            <textarea
+              value={localProductState.cta || ""}
+              onChange={(e) => handleChange("cta", e.target.value)}
               className="border w-full p-2 rounded"
             />
           </div>
