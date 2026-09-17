@@ -1489,8 +1489,8 @@ export default function ProductReviewSlider({
           "
         >
           {cta && (
-            <div className="mb-2 text-center text-[11px] text-yellow-300">
-              👉 {cta}
+            <div className="mb-2 text-center text-[11px] text-lime-300">
+              {cta}
             </div>
           )}
           {(status === "active" || status === "coming") && (
@@ -1506,7 +1506,7 @@ export default function ProductReviewSlider({
               leading-tight
               text-wrap
               
-              ${status === "coming" ? "text-gray-400 opacity-80" : "text-lime-400"  }
+              ${status === "coming" ? "text-gray-400 opacity-80" : "text-yellow-400"  }
 
             `}
           >
