@@ -194,7 +194,7 @@ function ReviewContent({
               </div> */}
             </div>
 
-            <p className="mt-2 text-xs leading-relaxed text-white/60">
+            <p className="mt-2 text-xs leading-relaxed text-white/60 whitespace-pre-line">
               {data.ingredients.safety.summary}
             </p>
 
