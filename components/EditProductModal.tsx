@@ -107,7 +107,7 @@ const defaultFilter = [
     slug: "makeup",
     name: "Makeup",
     filterValues: [
-      { id: 54, slug: "che-phu-cao", value: "Che phủ cao", score: 0 },
+      { id: 54, slug: "do-che-phu", value: "Độ che phủ ", score: 0 },
       { id: 55, slug: "che-phu-nhe-tu-nhien", value: "Che phủ nhẹ tự nhiên", score: 0 },
       { id: 56, slug: "nang-tone-da", value: "Nâng tone da", score: 0 },
       { id: 57, slug: "lam-deu-mau-da", value: "Làm đều màu da", score: 0 },
@@ -133,6 +133,8 @@ const defaultFilter = [
       { id: 77, slug: "co-chong-nang-spf", value: "Có chống nắng (SPF)", score: 0 },
       { id: 78, slug: "kiem-dau", value: "Kiềm dầu", score: 0 },
       { id: 79, slug: "lam-diu-da", value: "Làm dịu da", score: 0 },
+      { id: 99,  slug: 'che-phu-khuyet-diem', value:'Che phủ khuyết điểm',  score: 3},
+      { id: 100, slug: 'ho-tro-duong-cham-soc-da', value: 'Hỗ trợ dưỡng & chăm sóc da',  score: 3}
 
     ],
   },
