@@ -133,8 +133,10 @@ const defaultFilter = [
       { id: 77, slug: "co-chong-nang-spf", value: "Có chống nắng (SPF)", score: 0 },
       { id: 78, slug: "kiem-dau", value: "Kiềm dầu", score: 0 },
       { id: 79, slug: "lam-diu-da", value: "Làm dịu da", score: 0 },
-      { id: 99,  slug: 'che-phu-khuyet-diem', value:'Che phủ khuyết điểm',  score: 3},
-      { id: 100, slug: 'ho-tro-duong-cham-soc-da', value: 'Hỗ trợ dưỡng & chăm sóc da',  score: 3}
+      { id: 99,  slug: 'che-phu-khuyet-diem', value:'Che phủ khuyết điểm',  score: 0},
+      { id: 100, slug: 'ho-tro-duong-cham-soc-da', value: 'Hỗ trợ dưỡng & chăm sóc da',  score: 0},
+      { id: 101, value:'Làm mịn bề mặt da', slug:'lam-min-be-mat-da',score: 0},
+      { id: 102, value:'Làm mờ vẻ ngoài lỗ chân lông', slug:'lam-mo-lo-chan-long',score: 0}
 
     ],
   },
