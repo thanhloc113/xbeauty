@@ -142,7 +142,7 @@ export default function UserProductItem({
           </div>
 
           {/* 08. DÒNG SẢN PHẨM */}
-          {skinTypeList.length > 0 && (
+          {product.hook && (
             <div
               className="
               mt-[2px]
