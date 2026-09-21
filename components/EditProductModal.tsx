@@ -136,8 +136,9 @@ const defaultFilter = [
       { id: 99,  slug: 'che-phu-khuyet-diem', value:'Che phủ khuyết điểm',  score: 0},
       { id: 100, slug: 'ho-tro-duong-cham-soc-da', value: 'Hỗ trợ dưỡng & chăm sóc da',  score: 0},
       { id: 101, value:'Làm mịn bề mặt da', slug:'lam-min-be-mat-da',score: 0},
-      { id: 102, value:'Làm mờ vẻ ngoài lỗ chân lông', slug:'lam-mo-lo-chan-long',score: 0}
-
+      { id: 102, value:'Làm mờ vẻ ngoài lỗ chân lông', slug:'lam-mo-lo-chan-long',score: 0},
+      { id: 103,  value:'Tạo lớp nền mịn', slug:'tao-lop-nen-min',score: 0},
+      { id: 104,  value: 'Tạo hiệu ứng căng sáng', slug:'tao-hieu-ung-cang-sang',score: 0}
     ],
   },
 ]
