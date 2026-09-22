@@ -138,7 +138,10 @@ const defaultFilter = [
       { id: 101, value:'Làm mịn bề mặt da', slug:'lam-min-be-mat-da',score: 0},
       { id: 102, value:'Làm mờ vẻ ngoài lỗ chân lông', slug:'lam-mo-lo-chan-long',score: 0},
       { id: 103,  value:'Tạo lớp nền mịn', slug:'tao-lop-nen-min',score: 0},
-      { id: 104,  value: 'Tạo hiệu ứng căng sáng', slug:'tao-hieu-ung-cang-sang',score: 0}
+      { id: 104,  value: 'Tạo hiệu ứng căng sáng', slug:'tao-hieu-ung-cang-sang',score: 0},
+      { id: 105, value:'Hỗ trợ lớp nền bám và ổn định', slug:'ho-tro-bam-nen',score: 0},
+      { id: 106, value:'Làm mềm da', slug:'lam-mem-da',score: 0},
+      { id: 107, value:'Hỗ trợ hàng rào bảo vệ da', slug:'ho-tro-hang-rao-da',score: 0}
     ],
   },
 ]
