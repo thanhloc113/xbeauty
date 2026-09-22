@@ -31,11 +31,6 @@ export default function UserProductItem({
   const makeupList = getFilterValues(product, "makeup")
   const effectList = [...skinCareList, ...makeupList]
 
-    console.log(
-      "UserProductItem render",
-      product.id
-    )
-
   useEffect(() => {
     if (!openReview) return
 

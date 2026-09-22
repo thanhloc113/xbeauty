@@ -46,6 +46,7 @@ export default function Hero({
         <Tag
           style={textStyle}
           className={`
+          whitespace-pre-line
           text-2xl md:text-4xl lg:text-5xl
           font-bold
           ${isGradient ? "hero-gradient-animation" : ""}
