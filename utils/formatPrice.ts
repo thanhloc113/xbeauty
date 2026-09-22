@@ -37,17 +37,17 @@ export function formatPriceDisplay(
   }
 
   // ✅ FLASH SALE → chỉ giữ 1 số đầu
-  if (status === "active") {
+  // if (status === "active") {
     const masked = str[0] + "?".repeat(str.length - 1)
     return "✨"+ formatMasked(masked) + "đ"
-  }
+  // }
 
   // ✅ NORMAL → giữ 2 số đầu, còn lại ?
-  if (str.length <= 2) {
-    return `~${str}đ`
-  }
+  // if (str.length <= 2) {
+  //   return `~${str}đ`
+  // }
 
-  const masked = str.slice(0, 2) + "?".repeat(str.length - 2)
+  // const masked = str.slice(0, 2) + "?".repeat(str.length - 2)
 
-  return `~${formatMasked(masked)}đ`
+  // return `~${formatMasked(masked)}đ`
 }

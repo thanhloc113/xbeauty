@@ -27,7 +27,6 @@ export default function UserProductItem({
     return group?.filterValues.map((v) => ({ value: v.value, score: v.score })) || []
   }
 
-  const skinTypeList = getFilterValues(product, "loai-da")
   const skinCareList = getFilterValues(product, "skin-care")
   const makeupList = getFilterValues(product, "makeup")
   const effectList = [...skinCareList, ...makeupList]
@@ -223,7 +222,6 @@ export default function UserProductItem({
 
               {formatPriceDisplay(
                 product.best_price,
-                status
               )?.toLocaleString()}
             </span>
 
