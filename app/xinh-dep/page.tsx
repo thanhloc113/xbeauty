@@ -11,7 +11,7 @@ import SlideShow from "@/components/SlideShow";
 import CategoryMenu from "@/components/beautypage/CategoryMenu";
 import VideoSlide from "@/components/VideoSlider";
 import {Videos} from "@/data/products" 
-import Intro from "@/components/Intro";
+
 import Hero from "@/components/Hero";
 
 
@@ -182,7 +182,7 @@ const handleSwitchType = () => {
           colors = {["#ff37e4", "#15adf3", "#40ff3a", "#ebff3a", "#ff3a85"]}
         />
 
-     <VideoSlide videos={Videos} isMute ={isMute} />
+     <VideoSlide videos={Videos} />
 
 
     <section className="relative w-full px-4 py-8">
@@ -224,7 +224,7 @@ const handleSwitchType = () => {
               intro={currentCategory.intro}
               category={currentCategory.slug}
               type={selected}
-              setIsMute={setIsMute}
+
             />
   
               )}
