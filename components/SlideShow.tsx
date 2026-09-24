@@ -9,13 +9,16 @@ export default function SlideShow({
   title,
   intro = "",
   category,
-  type
+  type,
+
+
 }: {
   title: string
   intro?: string
   category: string
   type: "skincare" | "makeup"
-}) {
+  
+  }) {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
 

@@ -7,6 +7,7 @@ type Props = {
   poster?: string;
   isPlaying?: boolean;
   onPlay?: () => void;
+  onPause?: () => void;
 };
 
 export default function VideoItem({
@@ -15,6 +16,7 @@ export default function VideoItem({
   poster,
   isPlaying,
   onPlay,
+  onPause,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   // const loopCountRef = useRef(0);
@@ -61,6 +63,24 @@ export default function VideoItem({
 //     video.removeEventListener("timeupdate", handleTimeUpdate);
 //   };
 // }, []);
+
+  useEffect(() => {
+    const handlePauseAllVideos = () => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      video.pause();
+      video.currentTime = 0;
+
+      onPause?.();
+    };
+
+    window.addEventListener("pause-all-videos", handlePauseAllVideos);
+
+    return () => {
+      window.removeEventListener("pause-all-videos", handlePauseAllVideos);
+    };
+  }, [onPause]);
 
   const togglePlay = () => {
     if (onPlay) {

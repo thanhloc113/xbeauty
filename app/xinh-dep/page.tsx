@@ -168,6 +168,10 @@ const handleSwitchType = () => {
       }
     }
 
+    // set mute when click preview
+
+    const [isMute, setIsMute] = useState(false);
+
   return (
   <main className="min-h-screen">
     <Navbar />
@@ -178,7 +182,8 @@ const handleSwitchType = () => {
           colors = {["#ff37e4", "#15adf3", "#40ff3a", "#ebff3a", "#ff3a85"]}
         />
 
-     <VideoSlide videos={Videos} />
+     <VideoSlide videos={Videos} isMute ={isMute} />
+
 
     <section className="relative w-full px-4 py-8">
       {/* =========================
@@ -219,6 +224,7 @@ const handleSwitchType = () => {
               intro={currentCategory.intro}
               category={currentCategory.slug}
               type={selected}
+              setIsMute={setIsMute}
             />
   
               )}

@@ -10,9 +10,11 @@ import {useFlashSaleStatus} from "@/hooks/useFlashSaleStatus"
 
 
 export default function UserProductItem({
-  product
+  product,
+
 }: {
   product: Product
+
 }) {
 
   const status = useFlashSaleStatus(
@@ -40,9 +42,9 @@ export default function UserProductItem({
 
     return () => {
       document.body.style.overflow = originalOverflow
+
     }
   }, [openReview])
-
 
 
   return (
@@ -164,7 +166,11 @@ export default function UserProductItem({
           {product.reviews.length > 0 && (
             <button
               type="button"
-              onClick={() => setOpenReview(true)}
+              onClick={() => {
+                window.dispatchEvent(new Event("pause-all-videos"))
+                setOpenReview(true)
+  
+              }}
               className="
               mt-[clamp(4px,1.5vw,8px)]
               inline-flex

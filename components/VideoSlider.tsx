@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react";
 import VideoItem from "./VideoItem";
-import { scrollToId } from "@/utils/scrollToId";
 
 type Video = {
   url: string;
@@ -13,9 +12,10 @@ type Video = {
 type Props = {
   videos: Video[];
   linkId?: string;
+
 };
 
-export default function VideoSlide({ videos, linkId = "#buttonMasterPage" }: Props) {
+export default function VideoSlide({ videos, linkId = "#buttonMasterPage", }: Props) {
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -74,17 +74,19 @@ export default function VideoSlide({ videos, linkId = "#buttonMasterPage" }: Pro
               poster={video.poster}
               title={video.title}
               isPlaying={playingIndex === index}
+
               onPlay={() =>
                 setPlayingIndex((prev) => (prev === index ? null : index))
               }
+              onPause={() => setPlayingIndex(null)}
             />
           ))}
         </div>
       </div>
-{/* hint text */}
-<p className="text-sm font-bold text-white mt-2 flex items-center gap-2 select-none">
-  ← Let do it →
-</p>
+    {/* hint text */}
+    <p className="text-sm font-bold text-white mt-2 flex items-center gap-2 select-none">
+      ← Let do it →
+    </p>
       {/* button */}
       {/* <div className="flex justify-center mt-10">
         <a
