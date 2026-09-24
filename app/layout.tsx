@@ -16,14 +16,14 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Dear My Darling",
   description:
-    "Chăm sóc da thông minh hơn - hiệu quả hơn ",
+    "Mang yêu thương đến cho em  ",
     
   metadataBase: new URL("https://dearmydarling.com"),
 
   openGraph: {
     title: "DearMyDarling",
     description:
-      "Dear My Darling – Khám phá kiến thức chăm sóc da, mỹ phẩm và làm đẹp khoa học. Đánh giá sản phẩm, hướng dẫn skincare, bí quyết chăm sóc tóc, cơ thể và lựa chọn mỹ phẩm phù hợp cho mọi làn da.",
+      "Khám phá kiến thức sắc đẹp và chăm sóc da một cách tối ưu hơn hơn ",
     url: "https://dearmydarling.com",
     siteName: "DearMyDarling",
     locale: "vi_VN",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Dear My Darling",
     description:
-      "Chăm sóc da thông minh hơn - hiệu quả hơn",
+      "Khám phá kiến thức sắc đẹp và chăm sóc da một cách tối ưu hơn hơn",
     images: ["image/logo.png"],
   },
 
