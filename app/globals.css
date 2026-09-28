@@ -55,9 +55,10 @@ body {
   background-size: 200% 200%;
   animation: heroGradientMove 6s ease infinite;
 
-  -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
 }
 
 .metal-button {

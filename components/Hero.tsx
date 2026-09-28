@@ -11,16 +11,17 @@ export default function Hero({
   title,
   subtitle,
   background = "https://i.pinimg.com/736x/f8/e6/e0/f8e6e06b240c69476f6bcefbfa2cd280.jpg",
-  colors = ["#ff37e4", "#15adf3", "#40ff3a", "#ebff3a", "#ff3a85"],
+  colors = ["#ff3838", "#ff38de", "#fff562", "#2dff96", "#1cf0ff"],
 }: HeroProps) {
-
   const Tag = as
-
   const isGradient = colors.length > 1
 
   const textStyle = isGradient
     ? {
         backgroundImage: `linear-gradient(90deg, ${colors.join(",")})`,
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text",
       }
     : {
         color: colors[0],
@@ -31,7 +32,7 @@ export default function Hero({
       className="
         relative w-full
         h-[25vh] md:h-[320px] lg:h-[420px]
-        flex items-center justify-center 
+        flex items-center justify-center
       "
       style={{
         backgroundImage: `url(${background})`,
@@ -39,17 +40,16 @@ export default function Hero({
         backgroundPosition: "center",
       }}
     >
-      <div className="absolute inset-0 bg-black/70"></div>
+      <div className="absolute inset-0 bg-black/70" />
 
       <div className="relative text-center px-6 max-w-4xl">
-
         <Tag
           style={textStyle}
           className={`
-          whitespace-pre-line
-          text-2xl md:text-4xl lg:text-5xl
-          font-bold
-          ${isGradient ? "hero-gradient-animation" : ""}
+            whitespace-pre-line
+            text-2xl md:text-4xl lg:text-5xl
+            font-bold
+            ${isGradient ? "hero-gradient-animation" : ""}
           `}
         >
           {title}
@@ -60,7 +60,6 @@ export default function Hero({
             {subtitle}
           </p>
         )}
-
       </div>
     </section>
   )
