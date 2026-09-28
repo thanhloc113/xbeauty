@@ -1,43 +1,22 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Gallery from "@/components/Gallery";
-import Item from "@/components/Item";
-import Section from "@/components/Section";
 import Footer from "@/components/Footer";
+import VideoSlide from "@/components/VideoSlider";
+import { SeaVideo } from "@/data/products";
 
-export default function Page() {
+export default function DiBien() {
   return (
     <main>
 
       <Navbar />
       <Hero
         as="h1"
-        title="Em bé cần anh giúp gì nè ?"
+        title="Đi đi em, đừng do dự trời tối mất !"
       />
 
+         <VideoSlide videos={SeaVideo} />
 
-    <Section>
-      <Gallery >
-        <Item
-          title="💖 Em muốn xinh đẹp 💖"
-          media="video/video4.mp4"
-          ratio="vertical"
-          type="video"
-          link="/xinh-dep"
-          buttonText="Anh ơii"
-        />
-        <Item
-          title="💓Em muốn đi biển 💓"
-          media="video/video5.mp4"
-          ratio="vertical"
-          type="video"
-          link="/di-bien"
-          buttonText="Anh ưii"
-          zoomVideo={1.1}
-        />
-    </Gallery>
 
-      </Section>
       
 
       <Footer />

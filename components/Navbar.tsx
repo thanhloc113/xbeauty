@@ -44,7 +44,7 @@ export default function Navbar() {
         <nav className="hidden md:flex gap-8">
           <Link href="/" className={linkStyle}>Home</Link>
           <Link href="/xinh-dep" className={linkStyle}>Xinh Đẹp</Link>
-          <Link href="/di-bien" className={linkStyle}>Đi Biển</Link>
+          {/* <Link href="/di-bien" className={linkStyle}>Đi Biển</Link> */}
           {/* <Link href="/nhan-qua" className={linkStyle}>Nhận Quà</Link> */}
         </nav>
       </div>

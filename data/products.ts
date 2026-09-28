@@ -44,6 +44,48 @@ export const Videos: Video[] = [
   ];
 
 
+export const SeaVideo: Video[] = [
+      {
+     url:"https://archive.org/download/sea_beautyful4/snaptik.vn_7472031888312569134.mp4",
+     title:"Biển",
+     poster:""
+    },
+      {
+     url:"https://archive.org/download/snaptik.vn_7389884324075687185/snaptik.vn_7389884324075687185.mp4",
+     title:"Nè",
+     poster:""
+    },
+    {
+     url:"https://archive.org/download/snaptik.vn_7575882601039236372/snaptik.vn_7575882601039236372.mp4",
+     title:"Em",
+     poster:""
+    },
+    {
+     url:"https://archive.org/download/snaptik.vn_7671896936160529671/snaptik.vn_7671896936160529671.mp4",
+     title:"Bé",
+     poster:""
+    },
+
+    {
+     url:"https://archive.org/download/beautyfulsea6/snaptik.vn_7611172647044484370.mp4",
+     title:"Thấy",
+     poster:""
+    },
+        {
+     url:"https://archive.org/download/beautyfulsea6_202609/snaptik.vn_7669375350798896392.mp4",
+     title:"Đẹp",
+     poster:""
+    },
+    {
+     url:"https://archive.org/download/snaptik.vn_7509850869735738632_202609/snaptik.vn_7509850869735738632.mp4",
+     title:"Chưa♥️",
+     poster:""
+    },
+
+
+  ];  
+
+
 export const suaRuaMat: RawProduct[] = [
   {
     title: "Sữa Rửa Mặt Tạo Bọt Mềm Mịn Làm Sạch Sâu Rau Má Cho Da Mụn Da Dầu Nhạy Cảm",
