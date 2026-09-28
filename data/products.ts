@@ -53,12 +53,12 @@ export const SeaVideo: Video[] = [
       {
      url:"https://archive.org/download/snaptik.vn_7389884324075687185/snaptik.vn_7389884324075687185.mp4",
      title:"Nè",
-     poster:""
+     poster:"https://i.pinimg.com/736x/4c/75/2f/4c752f59ea438e6d9c7a09716d30b4f2.jpg"
     },
     {
-     url:"https://archive.org/download/snaptik.vn_7575882601039236372/snaptik.vn_7575882601039236372.mp4",
+     url:"https://archive.org/download/hoang-hon-bien/snaptik.vn_7611051681303858452.mp4",
      title:"Em",
-     poster:""
+     poster:"https://i.pinimg.com/736x/69/2e/e9/692ee98514d475b74151f189eb54fa2d.jpg"
     },
     {
      url:"https://archive.org/download/snaptik.vn_7671896936160529671/snaptik.vn_7671896936160529671.mp4",
@@ -69,17 +69,17 @@ export const SeaVideo: Video[] = [
     {
      url:"https://archive.org/download/beautyfulsea6/snaptik.vn_7611172647044484370.mp4",
      title:"Thấy",
-     poster:""
+     poster:"https://i.pinimg.com/736x/9f/67/a0/9f67a0a62d2a5e3d23aa88e423350ffd.jpg"
     },
         {
-     url:"https://archive.org/download/beautyfulsea6_202609/snaptik.vn_7669375350798896392.mp4",
+     url:"https://archive.org/download/snaptik.vn_7509850869735738632_202609/snaptik.vn_7509850869735738632.mp4",
      title:"Đẹp",
      poster:""
     },
     {
-     url:"https://archive.org/download/snaptik.vn_7509850869735738632_202609/snaptik.vn_7509850869735738632.mp4",
+     url:"https://archive.org/download/beautyfulsea6_202609/snaptik.vn_7669375350798896392.mp4",
      title:"Chưa♥️",
-     poster:""
+     poster:"https://i.pinimg.com/736x/95/32/1e/95321e96c92937edfccc0eb782b0ed30.jpg"
     },
 
 
