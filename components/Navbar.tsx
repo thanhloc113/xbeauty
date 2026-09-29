@@ -43,9 +43,9 @@ export default function Navbar() {
         {/* desktop menu */}
         <nav className="hidden md:flex gap-8">
           <Link href="/" className={linkStyle}>Home</Link>
-          <Link href="/xinh-dep" className={linkStyle}>Xinh Đẹp</Link>
-          <Link href="/di-bien" className={linkStyle}>Đi Biển</Link>
-          <Link href="/troi-mua" className={linkStyle}>Trời Mưa</Link>
+          <Link href="/xinh-dep" className={linkStyle}>Thích Xinh Đẹp</Link>
+          <Link href="/di-bien" className={linkStyle}>Thích Đi Biển</Link>
+          <Link href="/troi-mua" className={linkStyle}>Thích Trời Mưa</Link>
         </nav>
       </div>
 
