@@ -53,9 +53,9 @@ export default function Navbar() {
       {open && (
         <nav className="md:hidden flex flex-col gap-4 p-4">
           <Link href="/" className={linkStyle}>Home</Link>
-          <Link href="/xinh-dep" className={linkStyle}>Xinh Đẹp</Link>
-          <Link href="/di-bien" className={linkStyle}>Đi Biển</Link>
-          {/* <Link href="/nhan-qua" className={linkStyle}>Nhận Quà</Link> */}
+          <Link href="/xinh-dep" className={linkStyle}>Thích Xinh Đẹp</Link>
+          <Link href="/di-bien" className={linkStyle}>Thích Đi Biển</Link>
+          <Link href="/troi-mua" className={linkStyle}>Thích Trời Mưa</Link>
         </nav>
       )}
     </section>
