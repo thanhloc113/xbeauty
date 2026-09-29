@@ -12,14 +12,14 @@ export default function Page() {
       <Navbar />
       <Hero
         as="h1"
-        title={'Chào em bé\nHôm nay em bé muốn gì nè ?'}
+        title={'Chào em bé\nHôm nay em bé thích gì nè ?'}
       />
 
 
     <Section>
       <Gallery >
         <Item
-          title="💖 Em muốn xinh đẹp 💖"
+          title="💖 Em thích xinh đẹp 💖"
           media="video/video4.mp4"
           ratio="vertical"
           type="video"
@@ -27,7 +27,7 @@ export default function Page() {
           buttonText="Anh ơii"
         />
         <Item
-          title="💓Em muốn đi biển 💓"
+          title="💓Em thích đi biển 💓"
           media="video/video5.mp4"
           ratio="vertical"
           type="video"
@@ -35,14 +35,14 @@ export default function Page() {
           buttonText="Anh ưii"
           zoomVideo={1.1}
         />
-        {/* <Item
-          title="💖 Em muốn nhận quà 💖"
-          media="video/video7.mp4"
+        <Item
+          title="💖 Em thích trời mưa 💖"
+          media="video/video9.mp4"
           ratio="vertical"
           type="video"
-          link="/nhan-qua"
-          buttonText="Anh iuu"
-        /> */}
+          link="/troi-mua"
+          buttonText="Anh uii"
+        />
     </Gallery>
 
       </Section>
