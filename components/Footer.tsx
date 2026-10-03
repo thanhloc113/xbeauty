@@ -26,9 +26,9 @@ export default function Footer() {
               Đẹp hơn mỗi ngày cùng Đại Ca Xinh
             </p> */}
 
-            <p className="mt-2 text-sm leading-6 text-fuchsia-300">
-              Cùng em khám phá những sản phẩm làm đẹp phù hợp,
-              để mỗi ngày đều là một ngày yêu thương bản thân hơn.
+            <p className="mt-2 text-sm leading-6 text-fuchsia-300 whitespace-pre-line">
+              Mắt em đẹp lắm nên là đừng khóc <br />
+              Môi em xinh lắm nên hãy mỉm cười 
             </p>
           </div>
 
