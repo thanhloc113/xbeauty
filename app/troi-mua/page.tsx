@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
+import WeatherCard from "@/components/WeatherCard";
 
 export default function TroiMua() {
   return (
@@ -9,8 +10,15 @@ export default function TroiMua() {
 
       <Hero
         as="h1"
-        title="Trà, Ca Cao Nóng, Hay Cà Phê ?"
+        title="Một Chiếc Tiramisu Dâu Và Một Ly Trà Táo Đỏ !!!"
       />
+
+      <div className="mx-auto flex w-full max-w-5xl justify-center mt-5 mb-20">
+        <WeatherCard />
+      </div>
+         
+
+
 
 <div className="mx-auto w-full max-w-5xl">
   <div className="mb-4">
@@ -35,6 +43,8 @@ export default function TroiMua() {
     />
   </div>
 </div>
+
+
 
       <Footer />
     </main>

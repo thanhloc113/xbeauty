@@ -84,7 +84,7 @@ export default function VideoSlide({ videos, linkId = "#buttonMasterPage", }: Pr
         </div>
       </div>
     {/* hint text */}
-    <p className="text-sm font-bold text-white mt-2 flex items-center gap-2 select-none">
+    <p className="text-sm font-bold text-white mt-2 mb-5 flex items-center gap-2 select-none">
       ← Let do it →
     </p>
       {/* button */}

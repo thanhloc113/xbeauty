@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import VideoSlide from "@/components/VideoSlider";
 import { SeaVideo } from "@/data/products";
+import OceanCard from "@/components/OceanCard";
 
 export default function DiBien() {
   return (
@@ -15,6 +16,9 @@ export default function DiBien() {
       />
 
          <VideoSlide videos={SeaVideo} />
+
+
+         <OceanCard/>
 
 
       
