@@ -27,7 +27,7 @@ export default function TroiMua() {
     </h2>
 
     <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-      Một chút relax sau ngày dài mệt mỏi trước khi ngủ ngon !
+      Liệu rằng một ngày nào đó, chúng ta thể tìm thấy nhau ?
     </p>
   </div>
 
@@ -35,7 +35,7 @@ export default function TroiMua() {
     <video
       src="https://archive.org/download/ytsave-you-tube-media-ggdm-n-0-g-oog-your-name-ten-cau-la-gi-viet-sub-your-name-/YTSave_YouTube_Media_GGdmN0G_OOg_Your-Name-T%C3%AAn-C%E1%BA%ADu-L%C3%A0-G%C3%AC-Vi%E1%BB%87t-Sub-YourName-kiminonawa-vietsub_001_720p.mp4"
       preload="metadata"
-      poster="image/poster1.jpg"
+      poster="https://images5.alphacoders.com/737/thumb-1920-737385.jpg"
       controls
       controlsList="nodownload"
       disablePictureInPicture

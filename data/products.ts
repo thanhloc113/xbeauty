@@ -78,7 +78,7 @@ export const SeaVideo: Video[] = [
     },
     {
      url:"https://archive.org/download/bien-dep-2/snaptik.vn_7674267397137779969.mp4",
-     title:"Chưa♥️",
+     title:"Hông♥️",
      poster:""
     },
 
