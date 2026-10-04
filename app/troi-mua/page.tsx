@@ -13,9 +13,7 @@ export default function TroiMua() {
         title="Một Chiếc Tiramisu Dâu Và Một Ly Trà Táo Đỏ !!!"
       />
 
-      <div className="mx-auto flex w-full max-w-5xl justify-center mt-5 mb-20">
-        <WeatherCard />
-      </div>
+
          
 
 
@@ -44,7 +42,9 @@ export default function TroiMua() {
   </div>
 </div>
 
-
+      <div className="mx-auto flex w-full max-w-5xl justify-center mt-5 mb-20">
+        <WeatherCard />
+      </div>
 
       <Footer />
     </main>

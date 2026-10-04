@@ -36,7 +36,14 @@ type WeatherApiResponse = {
    CITIES
 ========================================================= */
 
-const CITIES: City[] = [{
+const CITIES: City[] = [
+  {
+    id: "da-lat",
+    name: "Đà Lạt",
+    latitude: 11.9404,
+    longitude: 108.4583,
+  },
+  {
     id:"ho-chi-minh",
     name: "Hồ Chí Minh",
     latitude: 10.8231,

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import VideoSlide from "@/components/VideoSlider";
 import { SeaVideo } from "@/data/products";
 import OceanCard from "@/components/OceanCard";
+import WeatherCard from "@/components/WeatherCard";
 
 export default function DiBien() {
   return (
@@ -15,13 +16,11 @@ export default function DiBien() {
         title="Đi đi em, đừng do dự trời tối mất !"
       />
 
-         <VideoSlide videos={SeaVideo} />
+      <VideoSlide videos={SeaVideo} />
 
 
-         <OceanCard/>
-
-
-      
+      <OceanCard/>
+   
 
       <Footer />
 

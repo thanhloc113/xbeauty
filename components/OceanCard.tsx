@@ -4,6 +4,18 @@ import { useEffect, useState } from "react";
 
 const CITIES = [
   {
+    id: "phan-thiet",
+    name: "Phan Thiết",
+    latitude: 10.9289,
+    longitude: 108.1021,
+  },
+    {
+    id: "phu-yen",
+    name: "Tuy Hòa",
+    latitude: 13.0881,
+    longitude: 109.3110,
+  },
+  {
     id: "phu-quoc",
     name: "Phú Quốc",
     latitude: 10.2899,
@@ -27,12 +39,7 @@ const CITIES = [
     latitude: 10.9333,
     longitude: 108.2833,
   },
-  {
-    id: "phan-thiet",
-    name: "Phan Thiết",
-    latitude: 10.9289,
-    longitude: 108.1021,
-  },
+
   {
     id: "ho-tram",
     name: "Hồ Tràm",
@@ -68,12 +75,6 @@ const CITIES = [
     name: "Ninh Chữ",
     latitude: 11.5650,
     longitude: 108.9780,
-  },
-  {
-    id: "phu-yen",
-    name: "Tuy Hòa",
-    latitude: 13.0881,
-    longitude: 109.3110,
   },
   {
     id: "quy-nhon",
