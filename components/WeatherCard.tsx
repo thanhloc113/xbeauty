@@ -37,6 +37,12 @@ type WeatherApiResponse = {
 ========================================================= */
 
 const CITIES: City[] = [
+ {
+    id: "dak-lak",
+    name: "Đắk Lắk",
+    latitude: 12.6667,
+    longitude: 108.0382,
+  },
   {
     id: "da-lat",
     name: "Đà Lạt",
@@ -133,12 +139,7 @@ const CITIES: City[] = [
     latitude: 12.2388,
     longitude: 109.1967,
   },
-  {
-    id: "dak-lak",
-    name: "Đắk Lắk",
-    latitude: 12.6667,
-    longitude: 108.0382,
-  },
+
   {
     id: "lam-dong",
     name: "Lâm Đồng",
