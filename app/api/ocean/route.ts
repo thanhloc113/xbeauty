@@ -58,6 +58,8 @@ export async function GET(request: NextRequest) {
         "temperature_2m",
         "relative_humidity_2m",
         "cloud_cover",
+        "apparent_temperature",
+        "weather_code",
         "wind_speed_10m",
         "wind_direction_10m",
       ].join(",")
@@ -192,7 +194,8 @@ export async function GET(request: NextRequest) {
       temperature: Number(
         current.temperature_2m ?? 0
       ),
-
+      weather_code: Number(current.weather_code),
+      apparent_temperature:current.apparent_temperature,
       humidity: Number(
         current.relative_humidity_2m ?? 0
       ),
@@ -240,9 +243,12 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       weather: {
+        weatherCode:
+          weather.weather_code,
         temperature:
           weather.temperature,
-
+        apparentTemporary:
+          weather.apparent_temperature,
         humidity:
           weather.humidity,
 

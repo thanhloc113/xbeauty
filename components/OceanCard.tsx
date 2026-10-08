@@ -189,7 +189,117 @@ const CITIES = [
   },
 ];
 
+type WeatherInfo = {
+  icon: string;
+  title: string;
+};
 
+const WEATHER_CODES: Record<number, WeatherInfo> = {
+  0: {
+    icon: "☀️",
+    title: "Trời quang",
+  },
+
+  1: {
+    icon: "🌤️",
+    title: "Trời ít mây",
+  },
+
+  2: {
+    icon: "⛅",
+    title: "Mây rải rác",
+  },
+
+  3: {
+    icon: "☁️",
+    title: "Nhiều mây",
+  },
+
+  45: {
+    icon: "🌫️",
+    title: "Sương mù",
+  },
+
+  48: {
+    icon: "🌫️",
+    title: "Sương mù",
+  },
+
+  51: {
+    icon: "🌦️",
+    title: "Mưa phùn nhẹ",
+  },
+
+  53: {
+    icon: "🌦️",
+    title: "Mưa phùn",
+  },
+
+  55: {
+    icon: "🌧️",
+    title: "Mưa phùn dày",
+  },
+
+  61: {
+    icon: "🌦️",
+    title: "Mưa nhẹ",
+  },
+
+  63: {
+    icon: "🌧️",
+    title: "Mưa vừa",
+  },
+
+  65: {
+    icon: "🌧️",
+    title: "Mưa lớn",
+  },
+
+  71: {
+    icon: "🌨️",
+    title: "Tuyết nhẹ",
+  },
+
+  73: {
+    icon: "🌨️",
+    title: "Tuyết vừa",
+  },
+
+  75: {
+    icon: "❄️",
+    title: "Tuyết lớn",
+  },
+
+  80: {
+    icon: "🌦️",
+    title: "Mưa rào nhẹ",
+  },
+
+  81: {
+    icon: "🌧️",
+    title: "Mưa rào",
+  },
+
+  82: {
+    icon: "⛈️",
+    title: "Mưa rào lớn",
+  },
+
+  95: {
+    icon: "⛈️",
+    title: "Dông",
+  },
+
+  96: {
+    icon: "⛈️",
+    title: "Dông kèm mưa đá",
+  },
+
+  99: {
+    icon: "⛈️",
+    title: "Dông mạnh",
+  },
+};
 
 type Tide = {
   dt: number;
@@ -198,13 +308,26 @@ type Tide = {
   height: number;
 };
 
+
+
 type WeatherData = {
   temperature: number;
+  weatherCode: number;
   humidity: number;
   cloudCover: number;
   windSpeed: number;
   windDirection: number;
+  apparentTemporary:number;
 };
+
+function getWeatherInfo(code: number): WeatherInfo {
+  return (
+    WEATHER_CODES[code] ?? {
+      icon: "🌤️",
+      title: "Không xác định",
+    }
+  );
+}
 
 type OceanData = {
   weather: WeatherData;
@@ -227,6 +350,8 @@ type OceanData = {
   timezone: string;
   updatedAt: string;
 };
+
+
 
 function getWindDirection(degree: number) {
   const directions = [
@@ -285,6 +410,10 @@ export default function OceanCard() {
     null
   );
 
+  const [weather, setWeather] =
+      useState<WeatherData | null>(null);
+
+
   const city = CITIES.find(
     (item) => item.id === cityId
   ) ?? CITIES[0];
@@ -310,7 +439,7 @@ export default function OceanCard() {
         );
 
         const result = await response.json();
-        console.log("resuilt",result)  
+
         if (!response.ok) {
           throw new Error(
             result.error ||
@@ -320,6 +449,7 @@ export default function OceanCard() {
 
         if (!cancelled) {
           setData(result);
+          setWeather(result.weather)
         }
       } catch (err) {
         if (!cancelled) {
@@ -342,6 +472,12 @@ export default function OceanCard() {
       cancelled = true;
     };
   }, [city.latitude, city.longitude]);
+
+    const weatherInfo: WeatherInfo | null = weather
+    ? getWeatherInfo(weather.weatherCode)
+    : null;
+
+  console.log("OceanCard: Weather=",weather)
 
   return (
     <section className="w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-violet-950 via-fuchsia-950/70 to-pink-950 p-5 text-white shadow-2xl">
@@ -408,24 +544,45 @@ export default function OceanCard() {
           />
 
          </div>
-                     {/* Weather conditions */}
-
-            <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+           {/* Weather conditions */}
               {/* Temperature */}
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-xl">
-                <p className="text-xs text-white/50">
-                  🌡️ Nhiệt độ
-                </p>
+            <div className="my-5 flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.07] p-4 text-center backdrop-blur-xl">
 
-                <p className="mt-2 text-2xl font-bold">
-                  {data.weather.temperature.toFixed(1)}°
-                </p>
-
-                <p className="mt-1 text-xs text-white/40">
-                  Không khí
-                </p>
+              {/* Weather icon */}
+              <div className="text-7xl drop-shadow-lg">
+                {weatherInfo?.icon}
               </div>
+
+              {/* Temperature */}
+              <div className="mt-5 flex items-baseline justify-center">
+                <span className="text-7xl font-semibold tracking-[-0.06em]">
+                  {weather?.temperature}
+                </span>
+
+                <span className="ml-2 text-2xl font-light text-white/40">
+                  °C
+                </span>
+              </div>
+
+              {/* Description */}
+              <p className="mt-2 text-base font-medium text-white/70">
+                {weatherInfo?.title}
+              </p>
+
+              {/* Feels like */}
+              <p className="mt-1 text-sm text-white/40">
+                Cảm giác như{" "}
+                <span className="text-white/60">
+                  {weather?.apparentTemporary}°C
+                </span>
+              </p>
+
+            </div>
+
+
+            <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+
 
               {/* Humidity */}
 
