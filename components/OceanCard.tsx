@@ -477,7 +477,7 @@ export default function OceanCard() {
     ? getWeatherInfo(weather.weatherCode)
     : null;
 
-  console.log("OceanCard: Weather=",weather)
+  console.log("OceanCard: Data=",data)
 
   return (
     <section className="w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-violet-950 via-fuchsia-950/70 to-pink-950 p-5 text-white shadow-2xl">
@@ -675,7 +675,7 @@ export default function OceanCard() {
 
             {/* Tide */}
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.07] p-5 backdrop-blur-xl">
+            {/* <div className="rounded-2xl border border-white/10 bg-white/[0.07] p-5 backdrop-blur-xl">
               <p className="text-sm text-white/60">
                 Thủy triều tiếp theo
               </p>
@@ -716,12 +716,12 @@ export default function OceanCard() {
                   Chưa có dữ liệu triều tiếp theo.
                 </p>
               )}
-            </div>
+            </div> */}
           </div>
 
           {/* Tide timeline */}
 
-          {data.tide.extremes.length > 0 && (
+          {/* {data.tide.extremes.length > 0 && (
             <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.05] p-5">
               <div className="mb-4 flex items-center justify-between">
                 <div>
@@ -772,13 +772,13 @@ export default function OceanCard() {
                 )}
               </div>
             </div>
-          )}
+          )} */}
         </>
       )}
 
-      <p className="mt-4 text-center text-[11px] text-white/30">
+      {/* <p className="mt-4 text-center text-[11px] text-white/30">
         Dữ liệu UV: Open-Meteo · Thủy triều: WorldTides
-      </p>
+      </p> */}
     </section>
   );
 }

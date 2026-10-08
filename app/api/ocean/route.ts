@@ -113,6 +113,8 @@ export async function GET(request: NextRequest) {
       "1"
     );
 
+
+
     // --------------------------------------------------
     // 3. GỌI 2 API SONG SONG
     // --------------------------------------------------
@@ -134,23 +136,29 @@ export async function GET(request: NextRequest) {
       }),
     ]);
 
+    // Weather là dữ liệu bắt buộc
     if (!weatherResponse.ok) {
       throw new Error(
         "Không lấy được dữ liệu thời tiết"
       );
     }
 
-    if (!tideResponse.ok) {
-      throw new Error(
-        "Không lấy được dữ liệu thủy triều"
-      );
-    }
-
     const weatherData =
       await weatherResponse.json();
 
-    const tideData =
-      await tideResponse.json();
+    // Tide là dữ liệu phụ
+    let tideData = null;
+
+    if (tideResponse.ok) {
+      tideData = await tideResponse.json();
+    }
+
+    // if (!tideResponse.ok) {
+    //   throw new Error(
+    //     "Không lấy được dữ liệu thủy triều"
+    //   );
+    // }
+
 
     // --------------------------------------------------
     // 4. UV HIỆN TẠI
@@ -217,25 +225,25 @@ export async function GET(request: NextRequest) {
     // 6. THỦY TRIỀU
     // --------------------------------------------------
 
-    const extremes: TideExtreme[] =
-      tideData.extremes ?? [];
+    // const extremes: TideExtreme[] =
+    //   tideData.extremes ?? [];
 
-    const nowUnix = Math.floor(
-      Date.now() / 1000
-    );
+    // const nowUnix = Math.floor(
+    //   Date.now() / 1000
+    // );
 
-    const nextTide =
-      extremes.find(
-        (tide) => tide.dt > nowUnix
-      ) ?? null;
+    // const nextTide =
+    //   extremes.find(
+    //     (tide) => tide.dt > nowUnix
+    //   ) ?? null;
 
-    const previousTide =
-      [...extremes]
-        .reverse()
-        .find(
-          (tide) =>
-            tide.dt <= nowUnix
-        ) ?? null;
+    // const previousTide =
+    //   [...extremes]
+    //     .reverse()
+    //     .find(
+    //       (tide) =>
+    //         tide.dt <= nowUnix
+    //     ) ?? null;
 
     // --------------------------------------------------
     // 7. RESPONSE
@@ -272,15 +280,15 @@ export async function GET(request: NextRequest) {
           times[closestIndex] ?? null,
       },
 
-      tide: {
-        previous:
-          previousTide,
+      // tide: {
+      //   previous:
+      //     previousTide,
 
-        next:
-          nextTide,
+      //   next:
+      //     nextTide,
 
-        extremes,
-      },
+      //   extremes,
+      // },
 
       timezone:
         weatherData.timezone ??
