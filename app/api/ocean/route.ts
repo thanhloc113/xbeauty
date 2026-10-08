@@ -21,30 +21,62 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const worldTidesKey = process.env.WORLDTIDES_API_KEY;
+    const worldTidesKey =
+      process.env.WORLDTIDES_API_KEY;
 
     if (!worldTidesKey) {
       return NextResponse.json(
         {
-          error: "Thiếu WORLDTIDES_API_KEY trong .env.local",
+          error:
+            "Thiếu WORLDTIDES_API_KEY trong .env.local",
         },
         { status: 500 }
       );
     }
 
     // --------------------------------------------------
-    // 1. UV INDEX - Open-Meteo
+    // 1. WEATHER + UV - Open-Meteo
     // --------------------------------------------------
 
-    const uvUrl = new URL(
+    const weatherUrl = new URL(
       "https://api.open-meteo.com/v1/forecast"
     );
 
-    uvUrl.searchParams.set("latitude", String(lat));
-    uvUrl.searchParams.set("longitude", String(lon));
-    uvUrl.searchParams.set("hourly", "uv_index");
-    uvUrl.searchParams.set("forecast_days", "1");
-    uvUrl.searchParams.set("timezone", "auto");
+    weatherUrl.searchParams.set(
+      "latitude",
+      String(lat)
+    );
+
+    weatherUrl.searchParams.set(
+      "longitude",
+      String(lon)
+    );
+
+    weatherUrl.searchParams.set(
+      "current",
+      [
+        "temperature_2m",
+        "relative_humidity_2m",
+        "cloud_cover",
+        "wind_speed_10m",
+        "wind_direction_10m",
+      ].join(",")
+    );
+
+    weatherUrl.searchParams.set(
+      "hourly",
+      "uv_index"
+    );
+
+    weatherUrl.searchParams.set(
+      "forecast_days",
+      "1"
+    );
+
+    weatherUrl.searchParams.set(
+      "timezone",
+      "auto"
+    );
 
     // --------------------------------------------------
     // 2. THỦY TRIỀU - WorldTides
@@ -54,14 +86,40 @@ export async function GET(request: NextRequest) {
       "https://www.worldtides.info/api/v3"
     );
 
-    tideUrl.searchParams.set("extremes", "");
-    tideUrl.searchParams.set("lat", String(lat));
-    tideUrl.searchParams.set("lon", String(lon));
-    tideUrl.searchParams.set("key", worldTidesKey);
-    tideUrl.searchParams.set("days", "1");
+    tideUrl.searchParams.set(
+      "extremes",
+      ""
+    );
 
-    const [uvResponse, tideResponse] = await Promise.all([
-      fetch(uvUrl.toString(), {
+    tideUrl.searchParams.set(
+      "lat",
+      String(lat)
+    );
+
+    tideUrl.searchParams.set(
+      "lon",
+      String(lon)
+    );
+
+    tideUrl.searchParams.set(
+      "key",
+      worldTidesKey
+    );
+
+    tideUrl.searchParams.set(
+      "days",
+      "1"
+    );
+
+    // --------------------------------------------------
+    // 3. GỌI 2 API SONG SONG
+    // --------------------------------------------------
+
+    const [
+      weatherResponse,
+      tideResponse,
+    ] = await Promise.all([
+      fetch(weatherUrl.toString(), {
         next: {
           revalidate: 1800,
         },
@@ -74,23 +132,33 @@ export async function GET(request: NextRequest) {
       }),
     ]);
 
-    if (!uvResponse.ok) {
-      throw new Error("Không lấy được dữ liệu UV");
+    if (!weatherResponse.ok) {
+      throw new Error(
+        "Không lấy được dữ liệu thời tiết"
+      );
     }
 
     if (!tideResponse.ok) {
-      throw new Error("Không lấy được dữ liệu thủy triều");
+      throw new Error(
+        "Không lấy được dữ liệu thủy triều"
+      );
     }
 
-    const uvData = await uvResponse.json();
-    const tideData = await tideResponse.json();
+    const weatherData =
+      await weatherResponse.json();
+
+    const tideData =
+      await tideResponse.json();
 
     // --------------------------------------------------
-    // UV hiện tại
+    // 4. UV HIỆN TẠI
     // --------------------------------------------------
 
-    const times: string[] = uvData.hourly?.time ?? [];
-    const uvValues: number[] = uvData.hourly?.uv_index ?? [];
+    const times: string[] =
+      weatherData.hourly?.time ?? [];
+
+    const uvValues: number[] =
+      weatherData.hourly?.uv_index ?? [];
 
     const now = new Date();
 
@@ -99,7 +167,8 @@ export async function GET(request: NextRequest) {
 
     times.forEach((time, index) => {
       const difference = Math.abs(
-        new Date(time).getTime() - now.getTime()
+        new Date(time).getTime() -
+          now.getTime()
       );
 
       if (difference < closestDifference) {
@@ -113,40 +182,112 @@ export async function GET(request: NextRequest) {
     );
 
     // --------------------------------------------------
-    // Thủy triều
+    // 5. THỜI TIẾT HIỆN TẠI
     // --------------------------------------------------
 
-    const extremes: TideExtreme[] = tideData.extremes ?? [];
+    const current =
+      weatherData.current ?? {};
 
-    const nowUnix = Math.floor(Date.now() / 1000);
+    const weather = {
+      temperature: Number(
+        current.temperature_2m ?? 0
+      ),
+
+      humidity: Number(
+        current.relative_humidity_2m ?? 0
+      ),
+
+      cloudCover: Number(
+        current.cloud_cover ?? 0
+      ),
+
+      windSpeed: Number(
+        current.wind_speed_10m ?? 0
+      ),
+
+      windDirection: Number(
+        current.wind_direction_10m ?? 0
+      ),
+    };
+
+    // --------------------------------------------------
+    // 6. THỦY TRIỀU
+    // --------------------------------------------------
+
+    const extremes: TideExtreme[] =
+      tideData.extremes ?? [];
+
+    const nowUnix = Math.floor(
+      Date.now() / 1000
+    );
 
     const nextTide =
-      extremes.find((tide) => tide.dt > nowUnix) ?? null;
+      extremes.find(
+        (tide) => tide.dt > nowUnix
+      ) ?? null;
 
     const previousTide =
       [...extremes]
         .reverse()
-        .find((tide) => tide.dt <= nowUnix) ?? null;
+        .find(
+          (tide) =>
+            tide.dt <= nowUnix
+        ) ?? null;
+
+    // --------------------------------------------------
+    // 7. RESPONSE
+    // --------------------------------------------------
 
     return NextResponse.json({
+      weather: {
+        temperature:
+          weather.temperature,
+
+        humidity:
+          weather.humidity,
+
+        cloudCover:
+          weather.cloudCover,
+
+        windSpeed:
+          weather.windSpeed,
+
+        windDirection:
+          weather.windDirection,
+      },
+
       uv: {
         value: currentUV,
-        level: getUVLevel(currentUV),
-        time: times[closestIndex] ?? null,
+
+        level:
+          getUVLevel(currentUV),
+
+        time:
+          times[closestIndex] ?? null,
       },
 
       tide: {
-        previous: previousTide,
-        next: nextTide,
+        previous:
+          previousTide,
+
+        next:
+          nextTide,
+
         extremes,
       },
 
-      timezone: uvData.timezone ?? "auto",
+      timezone:
+        weatherData.timezone ??
+        "auto",
 
-      updatedAt: new Date().toISOString(),
+      updatedAt:
+        new Date().toISOString(),
     });
   } catch (error) {
-    console.error("Ocean API error:", error);
+    console.error(
+      "Ocean API error:",
+      error
+    );
 
     return NextResponse.json(
       {
@@ -155,7 +296,9 @@ export async function GET(request: NextRequest) {
             ? error.message
             : "Không thể lấy dữ liệu biển",
       },
-      { status: 500 }
+      {
+        status: 500,
+      }
     );
   }
 }
@@ -164,33 +307,38 @@ function getUVLevel(uv: number) {
   if (uv < 3) {
     return {
       label: "Thấp",
-      description: "Ít nguy cơ từ tia UV",
+      description:
+        "Ít nguy cơ từ tia UV",
     };
   }
 
   if (uv < 6) {
     return {
       label: "Vừa",
-      description: "Nên bảo vệ da khi ở ngoài trời",
+      description:
+        "Nên bảo vệ da khi ở ngoài trời",
     };
   }
 
   if (uv < 8) {
     return {
       label: "Cao",
-      description: "Nên hạn chế nắng trực tiếp",
+      description:
+        "Nên hạn chế nắng trực tiếp",
     };
   }
 
   if (uv < 11) {
     return {
       label: "Rất cao",
-      description: "Cần bảo vệ da nghiêm túc",
+      description:
+        "Cần bảo vệ da nghiêm túc",
     };
   }
 
   return {
     label: "Cực cao",
-    description: "Nên tránh nắng trực tiếp",
+    description:
+      "Nên tránh nắng trực tiếp",
   };
 }

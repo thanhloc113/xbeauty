@@ -1,6 +1,8 @@
 "use client";
 
+import { ListSeaUrl } from "@/data/products";
 import { useEffect, useState } from "react";
+import SeaImageSlider from "./SeaImageSlide";
 
 const CITIES = [
  {
@@ -187,6 +189,8 @@ const CITIES = [
   },
 ];
 
+
+
 type Tide = {
   dt: number;
   date: string;
@@ -194,7 +198,17 @@ type Tide = {
   height: number;
 };
 
+type WeatherData = {
+  temperature: number;
+  humidity: number;
+  cloudCover: number;
+  windSpeed: number;
+  windDirection: number;
+};
+
 type OceanData = {
+  weather: WeatherData;
+
   uv: {
     value: number;
     level: {
@@ -211,9 +225,25 @@ type OceanData = {
   };
 
   timezone: string;
-
   updatedAt: string;
 };
+
+function getWindDirection(degree: number) {
+  const directions = [
+    "Bắc",
+    "Đông Bắc",
+    "Đông",
+    "Đông Nam",
+    "Nam",
+    "Tây Nam",
+    "Tây",
+    "Tây Bắc",
+  ];
+
+  const index = Math.round(degree / 45) % 8;
+
+  return directions[index];
+}
 
 function formatTime(timestamp: number) {
   return new Intl.DateTimeFormat("vi-VN", {
@@ -259,6 +289,11 @@ export default function OceanCard() {
     (item) => item.id === cityId
   ) ?? CITIES[0];
 
+  const seaImages =
+  ListSeaUrl.find(
+    (item) => item.id === city.id
+  )?.listUrlImage ?? [];
+
   useEffect(() => {
     let cancelled = false;
 
@@ -275,7 +310,7 @@ export default function OceanCard() {
         );
 
         const result = await response.json();
-
+        console.log("resuilt",result)  
         if (!response.ok) {
           throw new Error(
             result.error ||
@@ -309,7 +344,7 @@ export default function OceanCard() {
   }, [city.latitude, city.longitude]);
 
   return (
-    <section className="w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-950 via-cyan-950/60 to-blue-950 p-5 text-white shadow-2xl">
+    <section className="w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-violet-950 via-fuchsia-950/70 to-pink-950 p-5 text-white shadow-2xl">
       {/* Header */}
 
       <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -363,7 +398,94 @@ export default function OceanCard() {
 
       {data && !loading && !error && (
         <>
+        
+         <div className="mx-auto flex w-full max-w-5xl justify-center mt-5 mb-20">
+
+          <SeaImageSlider
+            cityId={city.id}
+            cityName={city.name}
+            images={seaImages}
+          />
+
+         </div>
+                     {/* Weather conditions */}
+
+            <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {/* Temperature */}
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-xl">
+                <p className="text-xs text-white/50">
+                  🌡️ Nhiệt độ
+                </p>
+
+                <p className="mt-2 text-2xl font-bold">
+                  {data.weather.temperature.toFixed(1)}°
+                </p>
+
+                <p className="mt-1 text-xs text-white/40">
+                  Không khí
+                </p>
+              </div>
+
+              {/* Humidity */}
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-xl">
+                <p className="text-xs text-white/50">
+                  💧 Độ ẩm
+                </p>
+
+                <p className="mt-2 text-2xl font-bold">
+                  {Math.round(data.weather.humidity)}%
+                </p>
+
+                <p className="mt-1 text-xs text-white/40">
+                  Độ ẩm không khí
+                </p>
+              </div>
+
+              {/* Cloud */}
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-xl">
+                <p className="text-xs text-white/50">
+                  ☁️ Mây
+                </p>
+
+                <p className="mt-2 text-2xl font-bold">
+                  {Math.round(data.weather.cloudCover)}%
+                </p>
+
+                <p className="mt-1 text-xs text-white/40">
+                  Độ che phủ
+                </p>
+              </div>
+
+              {/* Wind */}
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-xl">
+                <p className="text-xs text-white/50">
+                  💨 Gió
+                </p>
+
+                <p className="mt-2 text-2xl font-bold">
+                  {data.weather.windSpeed.toFixed(1)}
+                  <span className="ml-1 text-sm font-normal text-white/50">
+                    km/h
+                  </span>
+                </p>
+
+                <p className="mt-1 text-xs text-white/40">
+                  {getWindDirection(
+                    data.weather.windDirection
+                  )}
+                </p>
+              </div>
+            </div>
           <div className="grid gap-4 md:grid-cols-2">
+
+
+
+
+
             {/* UV */}
 
             <div className="rounded-2xl border border-white/10 bg-white/[0.07] p-5 backdrop-blur-xl">

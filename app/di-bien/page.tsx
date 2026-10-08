@@ -18,9 +18,9 @@ export default function DiBien() {
 
       <VideoSlide videos={SeaVideo} />
 
-      <div className="mx-auto flex w-full max-w-5xl justify-center mt-5 mb-20">
+      {/* <div className="mx-auto flex w-full max-w-5xl justify-center mt-5 mb-20">
         <WeatherCard />
-      </div>
+      </div> */}
 
       <div className="mx-auto flex w-full max-w-5xl justify-center mt-5 mb-20">
         <OceanCard/>
