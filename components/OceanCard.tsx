@@ -2,155 +2,84 @@
 
 import { ListSeaUrl } from "@/data/products";
 import { useEffect, useState } from "react";
-import SeaImageSlider from "./SeaImageSlide";
+import SeaImageSlider from "./SeaVideoSlide";
+import VideoItem from "./VideoItem";
+import SeaVideoSlider from "./SeaVideoSlide";
 
 const CITIES = [
- {
-    id: "mui-dien",
-    name: "Mũi Điện – Đại Lãnh",
-    latitude: 12.8464,
-    longitude: 109.4651,
-  },
+  // ==================== QUẢNG NINH ====================
   {
-    id: "vinh-hy",
-    name: "Vĩnh Hy",
-    latitude: 11.7139,
-    longitude: 109.1917,
-  },
-  {
-    id: "phan-thiet",
-    name: "Phan Thiết",
-    latitude: 10.9289,
-    longitude: 108.1021,
-  },
-
-  {
-    id: "phu-quoc",
-    name: "Phú Quốc",
-    latitude: 10.2899,
-    longitude: 103.984,
-  },
-  {
-    id: "con-dao",
-    name: "Côn Đảo",
-    latitude: 8.6833,
-    longitude: 106.6000,
-  },
-  {
-    id: "ha-tien",
-    name: "Hà Tiên",
-    latitude: 10.3833,
-    longitude: 104.4833,
-  },
-  {
-    id: "mui-ne",
-    name: "Mũi Né",
-    latitude: 10.9333,
-    longitude: 108.2833,
-  },
-
-  {
-    id: "ho-tram",
-    name: "Hồ Tràm",
-    latitude: 10.4690,
-    longitude: 107.4408,
-  },
-  {
-    id: "vung-tau",
-    name: "Vũng Tàu",
-    latitude: 10.3460,
-    longitude: 107.0843,
-  },
-  {
-    id: "binh-lap",
-    name: "Bình Lập",
-    latitude: 11.7750,
-    longitude: 109.1900,
-  },
-  {
-    id: "cam-ranh",
-    name: "Cam Ranh",
-    latitude: 11.9214,
-    longitude: 109.1591,
-  },
-  {
-    id: "nha-trang",
-    name: "Nha Trang",
-    latitude: 12.2388,
-    longitude: 109.1967,
-  },
-  {
-    id: "ninh-chu",
-    name: "Ninh Chữ",
-    latitude: 11.5650,
-    longitude: 108.9780,
-  },
-  {
-    id: "quy-nhon",
-    name: "Quy Nhơn",
-    latitude: 13.7765,
-    longitude: 109.2237,
-  },
-  {
-    id: "ky-co",
-    name: "Kỳ Co",
-    latitude: 13.8860,
-    longitude: 109.3070,
-  },
-  {
-    id: "ly-son",
-    name: "Lý Sơn",
-    latitude: 15.3820,
-    longitude: 109.1180,
-  },
-  {
-    id: "sa-huynh",
-    name: "Sa Huỳnh",
-    latitude: 14.7650,
-    longitude: 109.0400,
-  },
-  {
-    id: "hoi-an",
-    name: "Hội An",
-    latitude: 15.8801,
-    longitude: 108.3380,
-  },
-  {
-    id: "da-nang",
-    name: "Đà Nẵng",
-    latitude: 16.0544,
-    longitude: 108.2022,
-  },
-  {
-    id: "lang-co",
-    name: "Lăng Cô",
-    latitude: 16.3000,
+    id: "tra-co",
+    name: "Trà Cổ",
+    latitude: 21.5000,
     longitude: 108.0000,
   },
   {
-    id: "thuan-an",
-    name: "Thuận An",
-    latitude: 16.5480,
-    longitude: 107.6500,
+    id: "bai-chay",
+    name: "Bãi Cháy",
+    latitude: 20.9560,
+    longitude: 107.0450,
   },
   {
-    id: "cua-tung",
-    name: "Cửa Tùng",
-    latitude: 17.0000,
-    longitude: 107.1000,
+    id: "tuan-chau",
+    name: "Tuần Châu",
+    latitude: 20.9200,
+    longitude: 106.9900,
   },
   {
-    id: "nhat-le",
-    name: "Nhật Lệ",
-    latitude: 17.4833,
+    id: "co-to",
+    name: "Cô Tô",
+    latitude: 20.9833,
+    longitude: 107.7667,
+  },
+  {
+    id: "quan-lan",
+    name: "Quan Lạn",
+    latitude: 21.0800,
+    longitude: 107.5600,
+  },
+  {
+    id: "minh-chau",
+    name: "Minh Châu",
+    latitude: 21.1000,
+    longitude: 107.5700,
+  },
+
+  // ==================== HẢI PHÒNG ====================
+  {
+    id: "cat-ba",
+    name: "Cát Bà",
+    latitude: 20.7278,
+    longitude: 107.0482,
+  },
+  {
+    id: "do-son",
+    name: "Đồ Sơn",
+    latitude: 20.7100,
+    longitude: 106.7900,
+  },
+
+  // ==================== THÁI BÌNH - NAM ĐỊNH CŨ ====================
+  {
+    id: "con-den",
+    name: "Cồn Đen",
+    latitude: 20.4800,
     longitude: 106.6000,
   },
   {
-    id: "cua-lo",
-    name: "Cửa Lò",
-    latitude: 18.8000,
-    longitude: 105.7167,
+    id: "thinh-long",
+    name: "Thịnh Long",
+    latitude: 20.0300,
+    longitude: 106.2500,
   },
+  {
+    id: "quat-lam",
+    name: "Quất Lâm",
+    latitude: 20.1000,
+    longitude: 106.3500,
+  },
+
+  // ==================== THANH HÓA ====================
   {
     id: "sam-son",
     name: "Sầm Sơn",
@@ -164,28 +93,410 @@ const CITIES = [
     longitude: 105.9000,
   },
   {
-    id: "cat-ba",
-    name: "Cát Bà",
-    latitude: 20.7278,
-    longitude: 107.0482,
+    id: "hai-hoa",
+    name: "Hải Hòa",
+    latitude: 19.3900,
+    longitude: 105.9200,
   },
   {
-    id: "do-son",
-    name: "Đồ Sơn",
-    latitude: 20.7100,
-    longitude: 106.7900,
+    id: "bai-dong",
+    name: "Bãi Đông",
+    latitude: 19.3700,
+    longitude: 105.9100,
+  },
+
+  // ==================== NGHỆ AN - HÀ TĨNH ====================
+  {
+    id: "cua-lo",
+    name: "Cửa Lò",
+    latitude: 18.8000,
+    longitude: 105.7167,
   },
   {
-    id: "ha-long",
-    name: "Hạ Long",
-    latitude: 20.9500,
-    longitude: 107.0800,
+    id: "bai-lu",
+    name: "Bãi Lữ",
+    latitude: 18.8200,
+    longitude: 105.6800,
   },
   {
-    id: "co-to",
-    name: "Cô Tô",
-    latitude: 20.9833,
-    longitude: 107.7667,
+    id: "thien-cam",
+    name: "Thiên Cầm",
+    latitude: 18.2700,
+    longitude: 106.0500,
+  },
+  {
+    id: "xuan-thanh",
+    name: "Xuân Thành",
+    latitude: 18.6100,
+    longitude: 106.0000,
+  },
+
+  // ==================== QUẢNG TRỊ - QUẢNG BÌNH CŨ ====================
+  {
+    id: "cua-tung",
+    name: "Cửa Tùng",
+    latitude: 17.0000,
+    longitude: 107.1000,
+  },
+  {
+    id: "cua-viet",
+    name: "Cửa Việt",
+    latitude: 16.9000,
+    longitude: 107.2000,
+  },
+  {
+    id: "nhat-le",
+    name: "Nhật Lệ",
+    latitude: 17.4833,
+    longitude: 106.6000,
+  },
+  {
+    id: "bao-ninh",
+    name: "Bảo Ninh",
+    latitude: 17.4600,
+    longitude: 106.6300,
+  },
+  {
+    id: "da-nhay",
+    name: "Đá Nhảy",
+    latitude: 17.6100,
+    longitude: 106.5100,
+  },
+
+  // ==================== HUẾ ====================
+  {
+    id: "lang-co",
+    name: "Lăng Cô",
+    latitude: 16.3000,
+    longitude: 108.0000,
+  },
+  {
+    id: "thuan-an",
+    name: "Thuận An",
+    latitude: 16.5480,
+    longitude: 107.6500,
+  },
+  {
+    id: "vinh-thanh",
+    name: "Vinh Thanh",
+    latitude: 16.3900,
+    longitude: 107.7600,
+  },
+
+  // ==================== ĐÀ NẴNG - HỘI AN ====================
+  {
+    id: "da-nang",
+    name: "Đà Nẵng",
+    latitude: 16.0544,
+    longitude: 108.2022,
+  },
+  {
+    id: "my-khe-da-nang",
+    name: "Biển Mỹ Khê",
+    latitude: 16.0590,
+    longitude: 108.2460,
+  },
+  {
+    id: "non-nuoc",
+    name: "Non Nước",
+    latitude: 15.9900,
+    longitude: 108.2700,
+  },
+  {
+    id: "nam-o",
+    name: "Nam Ô",
+    latitude: 16.1200,
+    longitude: 108.1300,
+  },
+  {
+    id: "hoi-an",
+    name: "Hội An",
+    latitude: 15.8801,
+    longitude: 108.3380,
+  },
+  {
+    id: "an-bang",
+    name: "An Bàng",
+    latitude: 15.9150,
+    longitude: 108.3400,
+  },
+  {
+    id: "cua-dai",
+    name: "Cửa Đại",
+    latitude: 15.8750,
+    longitude: 108.3700,
+  },
+
+  // ==================== QUẢNG NGÃI ====================
+  {
+    id: "ly-son",
+    name: "Lý Sơn",
+    latitude: 15.3820,
+    longitude: 109.1180,
+  },
+  {
+    id: "sa-huynh",
+    name: "Sa Huỳnh",
+    latitude: 14.7650,
+    longitude: 109.0400,
+  },
+  {
+    id: "my-khe-quang-ngai",
+    name: "Biển Mỹ Khê Quảng Ngãi",
+    latitude: 15.1600,
+    longitude: 108.9200,
+  },
+
+  // ==================== GIA LAI - QUY NHƠN ====================
+  {
+    id: "quy-nhon",
+    name: "Quy Nhơn",
+    latitude: 13.7765,
+    longitude: 109.2237,
+  },
+  {
+    id: "ky-co",
+    name: "Kỳ Co",
+    latitude: 13.8860,
+    longitude: 109.3070,
+  },
+  {
+    id: "eo-gio",
+    name: "Eo Gió",
+    latitude: 13.9030,
+    longitude: 109.2900,
+  },
+  {
+    id: "bai-xep-quy-nhon",
+    name: "Bãi Xép Quy Nhơn",
+    latitude: 13.7000,
+    longitude: 109.2200,
+  },
+  {
+    id: "hoai-nhon",
+    name: "Biển Hoài Nhơn",
+    latitude: 14.4500,
+    longitude: 109.0200,
+  },
+
+  // ==================== ĐẮK LẮK - PHÚ YÊN CŨ ====================
+  {
+    id: "tuy-hoa",
+    name: "Tuy Hòa",
+    latitude: 13.0955,
+    longitude: 109.3200,
+  },
+  {
+    id: "bai-xep-phu-yen",
+    name: "Bãi Xép Phú Yên",
+    latitude: 13.1100,
+    longitude: 109.3200,
+  },
+  {
+    id: "ganh-da-dia",
+    name: "Gành Đá Đĩa",
+    latitude: 13.3660,
+    longitude: 109.2790,
+  },
+  {
+    id: "vung-ro",
+    name: "Vũng Rô",
+    latitude: 12.8800,
+    longitude: 109.4200,
+  },
+  {
+    id: "mui-dien",
+    name: "Mũi Điện – Đại Lãnh",
+    latitude: 12.8464,
+    longitude: 109.4651,
+  },
+
+  // ==================== KHÁNH HÒA ====================
+  {
+    id: "nha-trang",
+    name: "Nha Trang",
+    latitude: 12.2388,
+    longitude: 109.1967,
+  },
+  {
+    id: "cam-ranh",
+    name: "Cam Ranh",
+    latitude: 11.9214,
+    longitude: 109.1591,
+  },
+  {
+    id: "doc-let",
+    name: "Dốc Lết",
+    latitude: 12.6300,
+    longitude: 109.2100,
+  },
+  {
+    id: "binh-ba",
+    name: "Đảo Bình Ba",
+    latitude: 11.8100,
+    longitude: 109.2300,
+  },
+  {
+    id: "binh-hung",
+    name: "Đảo Bình Hưng",
+    latitude: 11.7800,
+    longitude: 109.1900,
+  },
+  {
+    id: "binh-lap",
+    name: "Bình Lập",
+    latitude: 11.7750,
+    longitude: 109.1900,
+  },
+
+  // ==================== NINH THUẬN CŨ ====================
+  {
+    id: "vinh-hy",
+    name: "Vĩnh Hy",
+    latitude: 11.7139,
+    longitude: 109.1917,
+  },
+  {
+    id: "ninh-chu",
+    name: "Ninh Chữ",
+    latitude: 11.5650,
+    longitude: 108.9780,
+  },
+  {
+    id: "binh-tien",
+    name: "Bình Tiên",
+    latitude: 11.7600,
+    longitude: 109.1800,
+  },
+
+  // ==================== LÂM ĐỒNG - BÌNH THUẬN CŨ ====================
+  {
+    id: "phan-thiet",
+    name: "Phan Thiết",
+    latitude: 10.9289,
+    longitude: 108.1021,
+  },
+  {
+    id: "mui-ne",
+    name: "Mũi Né",
+    latitude: 10.9333,
+    longitude: 108.2833,
+  },
+  {
+    id: "ke-ga",
+    name: "Kê Gà",
+    latitude: 10.7000,
+    longitude: 108.3700,
+  },
+  {
+    id: "la-gi",
+    name: "La Gi",
+    latitude: 10.6600,
+    longitude: 107.7700,
+  },
+  {
+    id: "co-thach",
+    name: "Cổ Thạch",
+    latitude: 11.2200,
+    longitude: 108.5600,
+  },
+
+  // ==================== TP. HỒ CHÍ MINH - BÀ RỊA VŨNG TÀU CŨ ====================
+  {
+    id: "vung-tau",
+    name: "Vũng Tàu",
+    latitude: 10.3460,
+    longitude: 107.0843,
+  },
+  {
+    id: "ho-tram",
+    name: "Hồ Tràm",
+    latitude: 10.4690,
+    longitude: 107.4408,
+  },
+  {
+    id: "long-hai",
+    name: "Long Hải",
+    latitude: 10.3900,
+    longitude: 107.2100,
+  },
+  {
+    id: "binh-chau",
+    name: "Biển Bình Châu",
+    latitude: 10.5700,
+    longitude: 107.5500,
+  },
+  {
+    id: "can-gio",
+    name: "Cần Giờ",
+    latitude: 10.4100,
+    longitude: 106.9600,
+  },
+
+  // ==================== KIÊN GIANG CŨ ====================
+  {
+    id: "phu-quoc",
+    name: "Phú Quốc",
+    latitude: 10.2899,
+    longitude: 103.9840,
+  },
+  {
+    id: "ha-tien",
+    name: "Hà Tiên",
+    latitude: 10.3833,
+    longitude: 104.4833,
+  },
+  {
+    id: "nam-du",
+    name: "Quần đảo Nam Du",
+    latitude: 9.6850,
+    longitude: 104.3700,
+  },
+  {
+    id: "hon-son",
+    name: "Hòn Sơn",
+    latitude: 9.8000,
+    longitude: 104.3500,
+  },
+
+  // ==================== CÀ MAU - BẠC LIÊU CŨ ====================
+  {
+    id: "mui-ca-mau",
+    name: "Mũi Cà Mau",
+    latitude: 8.6500,
+    longitude: 104.7200,
+  },
+  {
+    id: "khai-long",
+    name: "Bãi biển Khai Long",
+    latitude: 8.6500,
+    longitude: 104.7800,
+  },
+  {
+    id: "bac-lieu",
+    name: "Biển Bạc Liêu",
+    latitude: 9.2800,
+    longitude: 105.7300,
+  },
+  {
+    id: "ba-dong",
+    name: "Biển Ba Động",
+    latitude: 9.5800,
+    longitude: 106.5600,
+  },
+  {
+    id: "ho-be",
+    name: "Biển Hồ Bể",
+    latitude: 9.4500,
+    longitude: 106.2000,
+  },
+
+  // ==================== CÁC ĐIỂM ĐÃ CÓ BỔ SUNG ====================
+  {
+    id: "con-dao",
+    name: "Côn Đảo",
+    latitude: 8.6833,
+    longitude: 106.6000,
   },
 ];
 
@@ -418,10 +729,10 @@ export default function OceanCard() {
     (item) => item.id === cityId
   ) ?? CITIES[0];
 
-  const seaImages =
+  const seaUrl =
   ListSeaUrl.find(
     (item) => item.id === city.id
-  )?.listUrlImage ?? [];
+  )?.url ?? [];
 
   useEffect(() => {
     let cancelled = false;
@@ -477,7 +788,6 @@ export default function OceanCard() {
     ? getWeatherInfo(weather.weatherCode)
     : null;
 
-  console.log("OceanCard: Data=",data)
 
   return (
     <section className="w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-violet-950 via-fuchsia-950/70 to-pink-950 p-5 text-white shadow-2xl">
@@ -535,13 +845,14 @@ export default function OceanCard() {
       {data && !loading && !error && (
         <>
         
-         <div className="mx-auto flex w-full max-w-5xl justify-center mt-5 mb-20">
+         <div className="mx-auto flex w-full max-w-5xl justify-center my-5">
 
-          <SeaImageSlider
+         <SeaVideoSlider
             cityId={city.id}
             cityName={city.name}
-            images={seaImages}
-          />
+            url={seaUrl}
+          /> 
+
 
          </div>
            {/* Weather conditions */}
@@ -557,7 +868,7 @@ export default function OceanCard() {
               {/* Temperature */}
               <div className="mt-5 flex items-baseline justify-center">
                 <span className="text-7xl font-semibold tracking-[-0.06em]">
-                  {weather?.temperature}
+                  {Math.round(weather?.temperature?? 0)}
                 </span>
 
                 <span className="ml-2 text-2xl font-light text-white/40">
@@ -574,7 +885,7 @@ export default function OceanCard() {
               <p className="mt-1 text-sm text-white/40">
                 Cảm giác như{" "}
                 <span className="text-white/60">
-                  {weather?.apparentTemporary}°C
+                  {Math.round(weather?.apparentTemporary ?? 0)}°C
                 </span>
               </p>
 

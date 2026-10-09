@@ -86,143 +86,281 @@ export const SeaVideo: Video[] = [
   ];  
 
 
-export const ListSeaUrl =[
-  {
-    id:"vinh-hy",
-   listUrlImage:[
-    
-    
-    
-  
-   
-    
-    
-    
-    
-    
-    'https://down-vn.img.susercontent.com/file/sg-11134201-8259i-mfweso0dtybwdb.webp'
+export const ListSeaUrl = [
+  // ==================== QUẢNG NINH ====================
+  { id: "tra-co", url: [
+    'https://ik.imagekit.io/7a7njhuhn/b%E1%BA%A3i%20bi%E1%BB%83n%20tr%C3%A0%20c%E1%BB%95.mp4',
 
-    
-   ] 
-  },
+  ] },
+  { id: "bai-chay", url: [
+    'https://ik.imagekit.io/7a7njhuhn/snaptik.vn_7637015409866067208.mp4'
+  ] },
+  { id: "tuan-chau", url: [
+    'https://ik.imagekit.io/7a7njhuhn/bi%E1%BB%83n%20tu%E1%BA%A7n%20chu%C3%A2n.mp4'
+  ] },
   {
-    id: "mui-dien",
-    listUrlImage: ['https://i.pinimg.com/1200x/7e/11/17/7e11171d4e177df03f05b823c09aa198.jpg',],
+    id: "co-to",
+    url: [
+      "https://ik.imagekit.io/7a7njhuhn/C%C3%B4%20T%C3%B4.mp4",
+    ],
   },
-  {
-    id: "phan-thiet",
-    listUrlImage: ['https://i.pinimg.com/1200x/f5/e3/96/f5e3962933487c828cdaa8ede915ed6f.jpg',],
-  },
-  {
-    id: "phu-quoc",
-    listUrlImage: ['https://i.pinimg.com/736x/29/ee/c7/29eec75a46e3291c82129970b5233a44.jpg',],
-  },
-  {
-    id: "con-dao",
-    listUrlImage: [  'https://i.pinimg.com/1200x/ab/8e/aa/ab8eaae17198ee63fdfbab3997f4a341.jpg',],
-  },
-  {
-    id: "ha-tien",
-    listUrlImage: [ 'https://i.pinimg.com/1200x/1a/8f/47/1a8f47af1d1e4a45604ea9ad1eb9f26f.jpg',],
-  },
-  {
-    id: "mui-ne",
-    listUrlImage: ['https://i.pinimg.com/1200x/01/bc/a9/01bca987365db61d864312400894af51.jpg',],
-  },
-  {
-    id: "ho-tram",
-    listUrlImage: ['https://i.pinimg.com/736x/98/c0/41/98c04111c7310b107a901b98a4f04fe9.jpg',],
-  },
-  {
-    id: "vung-tau",
-    listUrlImage: ['https://i.pinimg.com/736x/79/33/2c/79332c07fb6f6ce3aaa51aeed93d569e.jpg,',],
-  },
-  {
-    id: "binh-lap",
-    listUrlImage: ['https://i.pinimg.com/736x/29/12/0a/29120ab1931485a81ef794aea33f836c.jpg',],
-  },
-  {
-    id: "cam-ranh",
-    listUrlImage: ['https://i.pinimg.com/1200x/68/97/4f/68974f77b0ff149f429b2d18a03392a9.jpg',],
-  },
-  {
-    id: "nha-trang",
-    listUrlImage: ["https://i.pinimg.com/736x/94/02/f1/9402f1b66f1262f192e491ff80eb4ed1.jpg"],
-  },
-  {
-    id: "ninh-chu",
-    listUrlImage: ["https://i.pinimg.com/736x/d7/7f/c8/d77fc8d4e9f417a19a684b0278d1837e.jpg"],
-  },
-  {
-    id: "quy-nhon",
-    listUrlImage: ["https://i.pinimg.com/736x/bf/bb/73/bfbb731ffdad7cafbae25e85c0f4382e.jpg"],
-  },
-  {
-    id: "ky-co",
-    listUrlImage: ["https://i.pinimg.com/736x/fa/da/f3/fadaf39be526369318c78b71432a6ce3.jpg"],
-  },
-  {
-    id: "ly-son",
-    listUrlImage: ["https://i.pinimg.com/1200x/0e/d5/29/0ed52925a73ba5d45e09f7c324b55b69.jpg"],
-  },
-  {
-    id: "sa-huynh",
-    listUrlImage: ["https://i.pinimg.com/1200x/ec/f9/b0/ecf9b0be7676ede075936ff347d77644.jpg"],
-  },
-  {
-    id: "hoi-an",
-    listUrlImage: ["https://i.pinimg.com/736x/8d/af/f4/8daff4a8d96e65f295d7f31bdda9d98f.jpg"],
-  },
-  {
-    id: "da-nang",
-    listUrlImage: ["https://i.pinimg.com/1200x/e9/fe/31/e9fe31637f3d4317ef442c0c21de29ff.jpg"],
-  },
-  {
-    id: "lang-co",
-    listUrlImage: ["https://i.pinimg.com/736x/26/41/c8/2641c83e0e17c6415bd74ff60b005546.jpg"],
-  },
-  {
-    id: "thuan-an",
-    listUrlImage: ["https://i.pinimg.com/736x/0c/e0/75/0ce075bfe51983ea22d8b3d4058f6bd2.jpg"],
-  },
-  {
-    id: "cua-tung",
-    listUrlImage: ["https://i.pinimg.com/1200x/da/f9/e5/daf9e5a348e87b214033629ca6cd3c22.jpg"],
-  },
-  {
-    id: "nhat-le",
-    listUrlImage: ["https://i.pinimg.com/736x/b1/01/ca/b101ca42fd29cf4add4f1bc3cab6c6fc.jpg"],
-  },
-  {
-    id: "cua-lo",
-    listUrlImage: ["https://i.pinimg.com/1200x/c7/3b/0b/c73b0b80ccebe39ef3c6d640d7f855c4.jpg"],
-  },
-  {
-    id: "sam-son",
-    listUrlImage: ["https://i.pinimg.com/1200x/f1/f0/fe/f1f0fe8688182437d09118b0283ba9ca.jpg"],
-  },
-  {
-    id: "hai-tien",
-    listUrlImage: ["https://i.pinimg.com/736x/4b/05/ec/4b05eccc0019faf10cb4eb6fcd43a91b.jpg"],
-  },
+  { id: "quan-lan", url: [
+    'https://ik.imagekit.io/7a7njhuhn/Quan%20L%E1%BA%A1n.mp4'
+  ] },
+  { id: "minh-chau", url: [
+    'https://ik.imagekit.io/7a7njhuhn/b%E1%BA%A3i%20bi%E1%BB%83n%20minh%20ch%C3%A2u.mp4'
+  ] },
+
+  // ==================== HẢI PHÒNG ====================
   {
     id: "cat-ba",
-    listUrlImage: ["https://i.pinimg.com/1200x/db/fd/5f/dbfd5f0d2d72501e49bffe28e006e7b8.jpg"],
+    url: [
+      "https://ik.imagekit.io/7a7njhuhn/c%C3%A1t%20b%C3%A0.mp4",
+    ],
   },
   {
     id: "do-son",
-    listUrlImage: ["https://i.pinimg.com/736x/56/1f/c9/561fc9813c92bd83654bc64484c21a1f.jpg"],
-  },
-  {
-    id: "ha-long",
-    listUrlImage: ["https://i.pinimg.com/736x/20/60/89/206089834d5edc0a16d6b0f8a56af60a.jpg"],
-  },
-  {
-    id: "co-to",
-    listUrlImage: ["https://i.pinimg.com/736x/a4/4e/04/a44e047fcd8f2df348aa04639d808828.jpg"],
+    url: [
+      "https://ik.imagekit.io/7a7njhuhn/%C4%91%E1%BB%93%20s%C6%A1n.mp4",
+    ],
   },
 
-]
+  // ==================== THÁI BÌNH - NAM ĐỊNH CŨ ====================
+  { id: "con-den", url: [
+    'https://ik.imagekit.io/7a7njhuhn/C%E1%BB%93n%20%C4%91en.mp4'
+  ] },
+  { id: "thinh-long", url: [
+    'https://ik.imagekit.io/7a7njhuhn/th%E1%BB%8Bnh%20long.mp4'
+  ] },
+  { id: "quat-lam", url: [
+    'https://ik.imagekit.io/7a7njhuhn/qu%E1%BA%A5t%20l%C3%A2m.mp4'
+  ] },
+
+  // ==================== THANH HÓA ====================
+  {
+    id: "sam-son",
+    url: [
+      "https://i.pinimg.com/1200x/f1/f0/fe/f1f0fe8688182437d09118b0283ba9ca.jpg",
+    ],
+  },
+  {
+    id: "hai-tien",
+    url: [
+      "https://i.pinimg.com/736x/4b/05/ec/4b05eccc0019faf10cb4eb6fcd43a91b.jpg",
+    ],
+  },
+  { id: "hai-hoa", url: [] },
+  { id: "bai-dong", url: [] },
+
+  // ==================== NGHỆ AN - HÀ TĨNH ====================
+  {
+    id: "cua-lo",
+    url: [
+      "https://i.pinimg.com/1200x/c7/3b/0b/c73b0b80ccebe39ef3c6d640d7f855c4.jpg",
+    ],
+  },
+  { id: "bai-lu", url: [] },
+  { id: "thien-cam", url: [] },
+  { id: "xuan-thanh", url: [] },
+
+  // ==================== QUẢNG TRỊ - QUẢNG BÌNH CŨ ====================
+  {
+    id: "cua-tung",
+    url: [
+      "https://i.pinimg.com/1200x/da/f9/e5/daf9e5a348e87b214033629ca6cd3c22.jpg",
+    ],
+  },
+  { id: "cua-viet", url: [] },
+  {
+    id: "nhat-le",
+    url: [
+      "https://i.pinimg.com/736x/b1/01/ca/b101ca42fd29cf4add4f1bc3cab6c6fc.jpg",
+    ],
+  },
+  { id: "bao-ninh", url: [] },
+  { id: "da-nhay", url: [] },
+
+  // ==================== HUẾ ====================
+  {
+    id: "lang-co",
+    url: [
+      "https://i.pinimg.com/736x/26/41/c8/2641c83e0e17c6415bd74ff60b005546.jpg",
+    ],
+  },
+  {
+    id: "thuan-an",
+    url: [
+      "https://i.pinimg.com/736x/0c/e0/75/0ce075bfe51983ea22d8b3d4058f6bd2.jpg",
+    ],
+  },
+  { id: "vinh-thanh", url: [] },
+
+  // ==================== ĐÀ NẴNG - HỘI AN ====================
+  {
+    id: "da-nang",
+    url: [
+      "https://i.pinimg.com/1200x/e9/fe/31/e9fe31637f3d4317ef442c0c21de29ff.jpg",
+    ],
+  },
+  { id: "my-khe-da-nang", url: [] },
+  { id: "non-nuoc", url: [] },
+  { id: "nam-o", url: [] },
+  {
+    id: "hoi-an",
+    url: [
+      "https://i.pinimg.com/736x/8d/af/f4/8daff4a8d96e65f295d7f31bdda9d98f.jpg",
+    ],
+  },
+  { id: "an-bang", url: [] },
+  { id: "cua-dai", url: [] },
+
+  // ==================== QUẢNG NGÃI ====================
+  {
+    id: "ly-son",
+    url: [
+      "https://i.pinimg.com/1200x/0e/d5/29/0ed52925a73ba5d45e09f7c324b55b69.jpg",
+    ],
+  },
+  {
+    id: "sa-huynh",
+    url: [
+      "https://i.pinimg.com/1200x/ec/f9/b0/ecf9b0be7676ede075936ff347d77644.jpg",
+    ],
+  },
+  { id: "my-khe-quang-ngai", url: [] },
+
+  // ==================== GIA LAI - QUY NHƠN ====================
+  {
+    id: "quy-nhon",
+    url: [
+      "https://i.pinimg.com/736x/bf/bb/73/bfbb731ffdad7cafbae25e85c0f4382e.jpg",
+    ],
+  },
+  {
+    id: "ky-co",
+    url: [
+      "https://i.pinimg.com/736x/fa/da/f3/fadaf39be526369318c78b71432a6ce3.jpg",
+    ],
+  },
+  { id: "eo-gio", url: [] },
+  { id: "bai-xep-quy-nhon", url: [] },
+  { id: "hoai-nhon", url: [] },
+
+  // ==================== ĐẮK LẮK - PHÚ YÊN CŨ ====================
+  { id: "tuy-hoa", url: [] },
+  { id: "bai-xep-phu-yen", url: [] },
+  { id: "ganh-da-dia", url: [] },
+  { id: "vung-ro", url: [] },
+  {
+    id: "mui-dien",
+    url: [
+      "https://i.pinimg.com/1200x/7e/11/17/7e11171d4e177df03f05b823c09aa198.jpg",
+    ],
+  },
+
+  // ==================== KHÁNH HÒA ====================
+  {
+    id: "nha-trang",
+    url: [
+      "https://i.pinimg.com/736x/94/02/f1/9402f1b66f1262f192e491ff80eb4ed1.jpg",
+    ],
+  },
+  {
+    id: "cam-ranh",
+    url: [
+      "https://i.pinimg.com/1200x/68/97/4f/68974f77b0ff149f429b2d18a03392a9.jpg",
+    ],
+  },
+  { id: "doc-let", url: [] },
+  { id: "binh-ba", url: [] },
+  { id: "binh-hung", url: [] },
+  {
+    id: "binh-lap",
+    url: [
+      "https://i.pinimg.com/736x/29/12/0a/29120ab1931485a81ef794aea33f836c.jpg",
+    ],
+  },
+
+  // ==================== NINH THUẬN CŨ ====================
+  {
+    id: "vinh-hy",
+    url: [
+      "https://down-vn.img.susercontent.com/file/sg-11134201-8259i-mfweso0dtybwdb.webp",
+    ],
+  },
+  {
+    id: "ninh-chu",
+    url: [
+      "https://i.pinimg.com/736x/d7/7f/c8/d77fc8d4e9f417a19a684b0278d1837e.jpg",
+    ],
+  },
+  { id: "binh-tien", url: [] },
+
+  // ==================== LÂM ĐỒNG - BÌNH THUẬN CŨ ====================
+  {
+    id: "phan-thiet",
+    url: [
+      "https://i.pinimg.com/1200x/f5/e3/96/f5e3962933487c828cdaa8ede915ed6f.jpg",
+    ],
+  },
+  {
+    id: "mui-ne",
+    url: [
+      "https://i.pinimg.com/1200x/01/bc/a9/01bca987365db61d864312400894af51.jpg",
+    ],
+  },
+  { id: "ke-ga", url: [] },
+  { id: "la-gi", url: [] },
+  { id: "co-thach", url: [] },
+
+  // ==================== TP. HỒ CHÍ MINH ====================
+  {
+    id: "vung-tau",
+    url: [
+      "https://i.pinimg.com/736x/79/33/2c/79332c07fb6f6ce3aaa51aeed93d569e.jpg",
+    ],
+  },
+  {
+    id: "ho-tram",
+    url: [
+      "https://i.pinimg.com/736x/98/c0/41/98c04111c7310b107a901b98a4f04fe9.jpg",
+    ],
+  },
+  { id: "long-hai", url: [] },
+  { id: "binh-chau", url: [] },
+  { id: "can-gio", url: [] },
+
+  // ==================== KIÊN GIANG CŨ ====================
+  {
+    id: "phu-quoc",
+    url: [
+      "https://i.pinimg.com/736x/29/ee/c7/29eec75a46e3291c82129970b5233a44.jpg",
+    ],
+  },
+  {
+    id: "ha-tien",
+    url: [
+      "https://i.pinimg.com/1200x/1a/8f/47/1a8f47af1d1e4a45604ea9ad1eb9f26f.jpg",
+    ],
+  },
+  { id: "nam-du", url: [] },
+  { id: "hon-son", url: [] },
+
+  // ==================== CÀ MAU - BẠC LIÊU CŨ ====================
+  { id: "mui-ca-mau", url: [] },
+  { id: "khai-long", url: [] },
+  { id: "bac-lieu", url: [] },
+  { id: "ba-dong", url: [] },
+  { id: "ho-be", url: [] },
+
+  // ==================== CÔN ĐẢO ====================
+  {
+    id: "con-dao",
+    url: [
+      "https://i.pinimg.com/1200x/ab/8e/aa/ab8eaae17198ee63fdfbab3997f4a341.jpg",
+    ],
+  },
+];
 
 export const suaRuaMat: RawProduct[] = [
   {
