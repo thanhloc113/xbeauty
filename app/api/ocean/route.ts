@@ -161,7 +161,7 @@ export async function GET(request: NextRequest) {
 
 
     // --------------------------------------------------
-    // 4. UV HIỆN TẠI
+    // 4. UV HIỆN TẠI — SO SÁNH THEO GIỜ ĐỊA PHƯƠNG
     // --------------------------------------------------
 
     const times: string[] =
@@ -170,26 +170,55 @@ export async function GET(request: NextRequest) {
     const uvValues: number[] =
       weatherData.hourly?.uv_index ?? [];
 
-    const now = new Date();
+    // Thời gian hiện tại theo múi giờ của tọa độ,
+    // được trả về trực tiếp từ Open-Meteo.
+    const currentTime: string | undefined =
+      weatherData.current?.time;
 
-    let closestIndex = 0;
+    // Chỉ dùng UTC giả lập để so sánh các mốc giờ địa phương
+    // với nhau, không phụ thuộc múi giờ của máy chủ.
+    const toComparableTime = (time: string): number => {
+      const normalized = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(time)
+        ? `${time}:00Z`
+        : time;
+
+      return Date.parse(normalized);
+    };
+
+    let closestIndex = -1;
     let closestDifference = Infinity;
 
-    times.forEach((time, index) => {
-      const difference = Math.abs(
-        new Date(time).getTime() -
-          now.getTime()
-      );
+    if (currentTime && times.length > 0) {
+      const currentComparableTime =
+        toComparableTime(currentTime);
 
-      if (difference < closestDifference) {
-        closestDifference = difference;
-        closestIndex = index;
-      }
-    });
+      times.forEach((time, index) => {
+        const hourlyComparableTime =
+          toComparableTime(time);
 
-    const currentUV = Number(
-      uvValues[closestIndex] ?? 0
-    );
+        const difference = Math.abs(
+          hourlyComparableTime - currentComparableTime
+        );
+
+        if (
+          Number.isFinite(difference) &&
+          difference < closestDifference
+        ) {
+          closestDifference = difference;
+          closestIndex = index;
+        }
+      });
+    }
+
+    const currentUV =
+      closestIndex >= 0
+        ? Number(uvValues[closestIndex] ?? 0)
+        : 0;
+
+    const uvTime =
+      closestIndex >= 0
+        ? times[closestIndex]
+        : null;
 
     // --------------------------------------------------
     // 5. THỜI TIẾT HIỆN TẠI
@@ -275,9 +304,7 @@ export async function GET(request: NextRequest) {
 
         level:
           getUVLevel(currentUV),
-
-        time:
-          times[closestIndex] ?? null,
+          time: uvTime,
       },
 
       // tide: {
