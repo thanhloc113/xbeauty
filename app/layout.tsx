@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://dearmydarling.com"),
 
   openGraph: {
-    title: "DearMyDarling",
+    title: "Dear My Darling",
     description:
-      "Khám phá kiến thức sắc đẹp và chăm sóc da một cách tối ưu hơn hơn ",
+      "Chào em bé! Hôm nay em bé thích gì nè ?  ",
     url: "https://dearmydarling.com",
     siteName: "DearMyDarling",
     locale: "vi_VN",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Dear My Darling",
     description:
-      "Khám phá kiến thức sắc đẹp và chăm sóc da một cách tối ưu hơn hơn",
+      "Chào em bé! Hôm nay em bé thích gì nè ?",
     images: ["image/logo.png"],
   },
 
