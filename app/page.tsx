@@ -24,30 +24,30 @@ export default function Page() {
           ratio="vertical"
           type="video"
           link="/xinh-dep"
-          buttonText="Anh ơii"
+          buttonText="Tìm routine"
         />
+
         <Item
           title="💓Em thích đi biển 💓"
           media="video/video5.mp4"
           ratio="vertical"
           type="video"
           link="/di-bien"
-          buttonText="Anh ưii"
+          buttonText="Let's go"
           zoomVideo={1.1}
         />
+
         <Item
           title="💖 Em thích trời mưa 💖"
-          media="video/video9.mp4"
+          media="video/cauvong2.mp4"
           ratio="vertical"
           type="video"
           link="/troi-mua"
-          buttonText="Anh uii"
+          buttonText="Khám phá"
         />
     </Gallery>
 
       </Section>
-      
-
       <Footer />
 
     </main>
