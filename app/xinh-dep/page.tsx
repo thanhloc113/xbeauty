@@ -3,7 +3,6 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 import BeautyFilter from "@/components/beautypage/BeautyFilter";
 import {useState } from "react";
 import { Category } from "@/types/product";

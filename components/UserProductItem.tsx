@@ -460,7 +460,7 @@ export default function UserProductItem({
                   {/* <span className="shrink-0 text-yellow-300">
                     ★ {product.rating}
                   </span>  */}
-                  Shopee
+                  Deal Hời Shopee
                 </span>
               </a>
             ) : (

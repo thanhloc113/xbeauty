@@ -1565,7 +1565,7 @@ export default function ProductReviewSlider({
               <span className="relative z-10 truncate">
                   <span className="shrink-0 text-yellow-300">
                     ★ {rating}
-                  </span> Tiktok
+                  </span> Deal Hời Tiktok
               </span>
             </a>
           ) : (
@@ -1623,7 +1623,7 @@ export default function ProductReviewSlider({
               <span className="relative z-10 truncate">
                 <span className="shrink-0 text-yellow-300">
                     ★ {rating}
-                </span> Shopee
+                </span> Deal Hời Shopee
               </span>
             </a>
           ) : (
