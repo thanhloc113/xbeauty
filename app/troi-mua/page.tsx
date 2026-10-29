@@ -10,12 +10,8 @@ export default function TroiMua() {
 
       <Hero
         as="h1"
-        title="Một Chiếc Tiramisu Dâu Và Một Ly Trà Táo Đỏ !!!"
+        title="Ngày hôm nay của em thế nào ?"
       />
-
-
-         
-
 
 
 <div className="mx-auto w-full max-w-5xl">
