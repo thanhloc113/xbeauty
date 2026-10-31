@@ -24,7 +24,7 @@ export default function Page() {
           ratio="vertical"
           type="video"
           link="/xinh-dep"
-          buttonText="Khám phá"
+          buttonText="Bắt đầu"
         />
 
         <Item
@@ -33,7 +33,7 @@ export default function Page() {
           ratio="vertical"
           type="video"
           link="/di-bien"
-          buttonText="Khám phá"
+          buttonText="Let's go"
           zoomVideo={1.1}
         />
 

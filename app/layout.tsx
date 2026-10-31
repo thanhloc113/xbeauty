@@ -16,14 +16,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Dear My Darling",
   description:
-    "Mang yêu thương đến cho em  ",
+    "Mang yêu thương đến cho em",
     
   metadataBase: new URL("https://dearmydarling.com"),
+
+  alternates: {
+    canonical: "/",
+  },
 
   openGraph: {
     title: "Dear My Darling",
     description:
-      "Chào em bé! Hôm nay em bé thích gì nè ?  ",
+          "Mang yêu thương đến cho em. Khám phá kiến thức & Thư giãn sau ngày dài mệt mỏi. Đồng hành cùng em trên hành trình xinh đẹp mỗi ngày.",
     url: "https://dearmydarling.com",
     siteName: "DearMyDarling",
     locale: "vi_VN",
@@ -41,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Dear My Darling",
     description:
-      "Chào em bé! Hôm nay em bé thích gì nè ?",
+      "Mang yêu thương đến cho em",
     images: ["image/logo.png"],
   },
 

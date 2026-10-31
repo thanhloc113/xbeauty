@@ -4,7 +4,9 @@ import Footer from "@/components/Footer";
 import VideoSlide from "@/components/VideoSlider";
 import { SeaVideo } from "@/data/products";
 import OceanCard from "@/components/OceanCard";
-import WeatherCard from "@/components/WeatherCard";
+
+
+
 
 export default function DiBien() {
   return (

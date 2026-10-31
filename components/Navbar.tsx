@@ -14,7 +14,7 @@ export default function Navbar() {
     "relative text-pink-200 hover:text-[#ff6adf] transition duration-300 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-[#ff6adf] after:transition-all after:duration-300 hover:after:w-full";
 
   return (
-    <section
+    <section data-nosnippet
       className={`w-full transition-all duration-300  
         sticky top-0 left-0 z-50 backdrop-blur-md bg-black/30 border-b border-white/10 shadow-lg
         `}
@@ -43,9 +43,9 @@ export default function Navbar() {
         {/* desktop menu */}
         <nav className="hidden md:flex gap-8">
           <Link href="/" className={linkStyle}>Home</Link>
-          <Link href="/xinh-dep" className={linkStyle}>Thích Xinh Đẹp</Link>
-          <Link href="/di-bien" className={linkStyle}>Thích Đi Biển</Link>
-          <Link href="/troi-mua" className={linkStyle}>Thích Trời Mưa</Link>
+          <Link href="/xinh-dep" className={linkStyle}>Beauty</Link>
+          <Link href="/di-bien" className={linkStyle}>Vitamin Sea</Link>
+          <Link href="/troi-mua" className={linkStyle}>Relaxing</Link>
         </nav>
       </div>
 
@@ -53,9 +53,9 @@ export default function Navbar() {
       {open && (
         <nav className="md:hidden flex flex-col gap-4 p-4">
           <Link href="/" className={linkStyle}>Home</Link>
-          <Link href="/xinh-dep" className={linkStyle}>Thích Xinh Đẹp</Link>
-          <Link href="/di-bien" className={linkStyle}>Thích Đi Biển</Link>
-          <Link href="/troi-mua" className={linkStyle}>Thích Trời Mưa</Link>
+          <Link href="/xinh-dep" className={linkStyle}>Beauty</Link>
+          <Link href="/di-bien" className={linkStyle}>Vitamin Sea</Link>
+          <Link href="/troi-mua" className={linkStyle}>Relaxing</Link>
         </nav>
       )}
     </section>

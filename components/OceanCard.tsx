@@ -709,7 +709,19 @@ function getTideIcon(type?: "High" | "Low") {
 }
 
 export default function OceanCard() {
-  const [cityId, setCityId] = useState("vungtau");
+  const [cityId, setCityId] = useState("");
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    const randomCity = CITIES[
+      Math.floor(Math.random() * CITIES.length)
+    ].id;
+
+    setCityId(randomCity);
+    setInitialized(true);
+  }, []);
+
+
 
   const [data, setData] = useState<OceanData | null>(
     null
@@ -734,7 +746,11 @@ export default function OceanCard() {
     (item) => item.id === city.id
   )?.url ?? [];
 
+  
+
   useEffect(() => {
+    if (!initialized) return;
+
     let cancelled = false;
 
     async function loadOceanData() {
@@ -782,7 +798,7 @@ export default function OceanCard() {
     return () => {
       cancelled = true;
     };
-  }, [city.latitude, city.longitude]);
+  }, [initialized, city.latitude, city.longitude]);
 
     const weatherInfo: WeatherInfo | null = weather
     ? getWeatherInfo(weather.weatherCode)
