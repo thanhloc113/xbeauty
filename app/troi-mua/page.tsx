@@ -36,7 +36,7 @@ const handleSelectVideo = (video : Film) => {
 };
 
   return (
-    <main className="min-h-screen bg-white dark:bg-gray-950">
+    <main>
       <Navbar />
 
       <Hero
@@ -55,9 +55,11 @@ const handleSelectVideo = (video : Film) => {
               {selectedVideo.title}
             </h2>
 
-            <p className="mt-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400 md:text-base">
-              Hãy chuẩn bị Snack, Coca, thưởng thức trọn vẹn bộ phim và đừng quên ủng hộ các sản phẩm tại website nhé!
+            <p className="mt-2 text-sm leading-relaxed text-gray-700 dark:text-white md:text-base">
+              {selectedVideo.description}
             </p>
+
+            <span className="mt-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400"><i>Hãy chuẩn bị chỗ thật êm, đồ ăn và thức uống yêu thích. Thưởng thức trọn vẹn bộ phim và đừng quên ủng hộ các sản phẩm trên website nhé !</i></span>
           </div>
 
           <div className="aspect-video overflow-hidden rounded-2xl bg-black shadow-xl">
@@ -87,7 +89,7 @@ const handleSelectVideo = (video : Film) => {
             </h2>
 
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Chọn một bộ phim mà em muốn xem nhé và đừng quên ủng hộ các sản phẩm của website nhé.
+              Chọn một bộ phim mà em muốn xem nhé.
             </p>
           </div>
 
@@ -110,12 +112,20 @@ const handleSelectVideo = (video : Film) => {
 
                   {/* Poster */}
 
-                  <div className="relative w-full aspect-video overflow-hidden bg-gray-100 dark:bg-gray-900">
-                    <img
-                      src={video.poster}
-                      alt={video.title}
-                      className="absolute inset-0 !h-full !w-full max-w-none object-cover"
-                    />
+                <div
+                  className="relative w-full overflow-hidden bg-gray-100 dark:bg-gray-900"
+                  style={{ aspectRatio: "16 / 9" }}
+                >
+                  <img
+                    src={video.poster}
+                    alt={video.title}
+                    className="absolute inset-0 block w-full h-full object-cover"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
 
                     {/* Play icon */}
                     <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity group-hover:opacity-100">

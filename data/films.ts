@@ -23,7 +23,7 @@ export const ListFilm: Film[] = [
   {
     id: 2,
     title: "Gặp Đường Mới Biết Thiệp - Full Mùa 1",
-    description: "Bị lão đại quấn lấy",
+    description: "Phá vỡ giới hạn số mệnh, định ra lời ước hẹn vĩnh cửu. Hơn 3000 lần chống chọi số phận, chỉ muốn ở bên em",
     videoUrl: "https://archive.org/download/gap-thiep-moi-biet-duong-ss-1/g%E1%BA%B7p%20thi%E1%BB%87p%20m%E1%BB%9Bi%20bi%E1%BA%BFt%20%C4%91%C6%B0%E1%BB%9Dng%20ss1.mp4",
     poster: "https://ik.imagekit.io/7a7njhuhn/asasa.jpg",
   },
@@ -31,14 +31,14 @@ export const ListFilm: Film[] = [
   {
     id: 3,
     title: "Gặp Đường Mới Biết Thiệp - Full Mùa 2",
-    description: "Nhiệm vụ tháng 6: Giả làm bạn gái đại ma vương",
+    description: "Phá vỡ giới hạn số mệnh, định ra lời ước hẹn vĩnh cửu. Hơn 3000 lần chống chọi số phận, chỉ muốn ở bên em",
     videoUrl: "https://archive.org/download/gap-duong-moi-biet-thiep-full-ss-2/G%E1%BA%B7p%20%C4%90%C6%B0%E1%BB%9Dng%20M%E1%BB%9Bi%20Bi%E1%BA%BFt%20Thi%E1%BB%87p%20Full%20SS2.mp4",
     poster: "https://ik.imagekit.io/7a7njhuhn/2e1eqw.jpg",
   },
     {
     id: 4,
     title: "Gặp Đường Mới Biết Thiệp - Full Mùa 3",
-    description: "Lần này không chạy nữa nhé",
+    description: "Phá vỡ giới hạn số mệnh, định ra lời ước hẹn vĩnh cửu. Hơn 3000 lần chống chọi số phận, chỉ muốn ở bên em",
     videoUrl: "https://archive.org/download/gap-duong-moi-biet-thiet-ss-3/G%E1%BA%B7p%20%C4%91%C6%B0%E1%BB%9Dng%20m%E1%BB%9Bi%20bi%E1%BA%BFt%20thi%E1%BB%87t%20SS3.mp4",
     poster: "https://ik.imagekit.io/7a7njhuhn/234234.jpg",
   },

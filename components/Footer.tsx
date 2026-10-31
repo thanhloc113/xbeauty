@@ -34,9 +34,9 @@ export default function Footer() {
 
           {/* Contact */}
           <div className="md:min-w-[320px]">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-white/80">
-              Thông tin liên hệ
-            </h3>
+            <div className="text-sm font-semibold uppercase tracking-[0.15em] text-white/80">
+              hợp tác & quảng bá
+            </div>
 
             {/* Social */}
             <div className="mt-5 flex items-center gap-3">
@@ -120,7 +120,9 @@ export default function Footer() {
 
             {/* Email */}
             <a
-              href="mailto:daicaxinh.dear@gmail.com"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=daicaxinh.dear@gmaii.com&su=Li%C3%AAn%20h%E1%BB%87&body=Bạn đang cần quảng bá về doanh nghiệp, thương hiệu cá nhân, sản phẩm hay chính bạn ?"
+              target="_blank"
+              rel="noopener noreferrer"
               className="
                 group my-2 flex items-center gap-3
                 text-sm text-white/70
