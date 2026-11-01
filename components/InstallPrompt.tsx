@@ -46,7 +46,7 @@ export default function InstallPrompt() {
     const timer = window.setTimeout(() => {
       setIsIOS(ios);
       setShow(true);
-    }, 5000);
+    }, 30000);
 
     const handleInstallPrompt = (event: Event) => {
       event.preventDefault();
