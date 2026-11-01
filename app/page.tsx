@@ -4,17 +4,22 @@ import Gallery from "@/components/Gallery";
 import Item from "@/components/Item";
 import Section from "@/components/Section";
 import Footer from "@/components/Footer";
+import DreamyExperience from "@/components/DreamyExperience";
 
 export default function Page() {
   return (
     <main>
 
       <Navbar />
-      <Hero
+      {/* <Hero
         as="h1"
         title={'Chào em bé\nHôm nay em bé thích gì nè ?'}
+      /> */}
+      <DreamyExperience
+        videoSrc="./video/background.mp4"
+        posterSrc="/images/dreamy-poster.jpg"   
+  
       />
-
 
     <Section>
       <Gallery >
