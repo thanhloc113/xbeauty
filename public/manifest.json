@@ -1,7 +1,7 @@
 {
   "id": "/",
   "name": "Dear My Darling",
-  "short_name": "My Darling",
+  "short_name": "Dear My Darling",
   "description": "Mang yêu thương đến cho em.",
   "start_url": "/",
   "scope": "/",
@@ -10,12 +10,12 @@
   "theme_color": "#f5c6df",
   "icons": [
     {
-      "src": "/image/logoIcon.png",
+      "src": "/image/logo.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icons/logoIcon.png",
+      "src": "/icons/logo.png",
       "sizes": "512x512",
       "type": "image/png"
     }
