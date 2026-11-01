@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -14,6 +14,8 @@ type BeforeInstallPromptEvent = Event & {
 type InstallStatus = "idle" | "installing" | "success";
 
 export default function InstallPrompt() {
+  const installCompleted = useRef(false);
+  const installTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [show, setShow] = useState(false);
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
@@ -53,13 +55,22 @@ useEffect(() => {
   };
 
 const handleAppInstalled = () => {
-  setStatus("success");
+  if (installCompleted.current) return;
+
+  installCompleted.current = true;
+
   setDeferredPrompt(null);
+  setStatus("success");
   setShow(true);
 
-  window.setTimeout(() => {
+  if (installTimeout.current) {
+    clearTimeout(installTimeout.current);
+  }
+
+  installTimeout.current = setTimeout(() => {
     setShow(false);
     setStatus("idle");
+    installCompleted.current = false;
   }, 2500);
 };
 
@@ -127,6 +138,7 @@ const install = async () => {
   }
 
   try {
+    installCompleted.current = false;
     setStatus("installing");
 
     await deferredPrompt.prompt();
@@ -139,14 +151,13 @@ const install = async () => {
       return;
     }
 
-    // Chưa báo thành công ở đây.
-    // Chờ sự kiện appinstalled xác nhận.
-
+    // Không chuyển success ở đây.
+    // Chờ appinstalled xác nhận.
   } catch (error) {
     console.error("Install error:", error);
 
     setStatus("idle");
-    setShowGuide(true);
+    setDeferredPrompt(null);
   }
 };
 
