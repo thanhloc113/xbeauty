@@ -118,8 +118,8 @@ const DEFAULT_MUSIC = {
     artist: "Daily Moments",
   },
   evening: {
-    src: "https://ik.imagekit.io/7a7njhuhn/B%C3%A8o-D%E1%BA%A1t-M%C3%A2y-Tr%C3%B4i-Phi%C3%AAn-B%E1%BA%A3n-%C4%90i%E1%BB%87n-%E1%BA%A2nh-Vietnamese-Folk-Epic_008_128k.m4a",
-    title: "Bèo dạt mây trôi - Epic music",
+    src: "https://ik.imagekit.io/7a7njhuhn/Dragostea-Din-Tei-Bimonte-Best-EDM-Music-Gaming-Hot-Music-TikTok-MSBB_006_128k.m4a",
+    title: "Dragostea Din Tei - Bimonte",
     artist: "Daily Moments",
   },
     lateNight: {
@@ -544,7 +544,7 @@ const toggleMusic = async () => {
                     : musicPeriod === "noon"
                       ? "Thư giãn nạp năng lượng"
                       : musicPeriod === "evening" 
-                        ? "Khoảnh khắc nhẹ nhàng dành riêng cho em" 
+                        ? "Quẩy lên em ơi !!!" 
                          : "Mọi chuyện rồi sẽ ổn thôi" }
                 </span>
 
