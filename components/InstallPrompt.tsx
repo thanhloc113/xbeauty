@@ -15,51 +15,60 @@ type InstallStatus = "idle" | "installing" | "success";
 
 export default function InstallPrompt() {
   const [show, setShow] = useState(false);
-  const [isIOS, setIsIOS] = useState(false);
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
 
   const [showGuide, setShowGuide] = useState(false);
   const [status, setStatus] = useState<InstallStatus>("idle");
 
+  const [isIOS] = useState(() =>
+  typeof navigator !== "undefined" &&
+  /iPhone|iPad|iPod/i.test(navigator.userAgent)
+);
+
+const [isAndroid] = useState(() =>
+  typeof navigator !== "undefined" &&
+  /Android/i.test(navigator.userAgent)
+);
 
 useEffect(() => {
-  const standalone =
-    window.matchMedia("(display-mode: standalone)").matches ||
+  const mediaQuery = window.matchMedia(
+    "(display-mode: standalone)"
+  );
+
+  const isStandalone = () =>
+    mediaQuery.matches ||
     (window.navigator as Navigator & {
       standalone?: boolean;
     }).standalone === true;
 
-  if (standalone) return;
+  // Đã cài và đang mở bằng ứng dụng
+  if (isStandalone()) return;
 
-  const ios = /iPhone|iPad|iPod/i.test(
-    window.navigator.userAgent
-  );
-
-  if (localStorage.getItem("dmd-installed") === "true") {
-    return;
-  }
-
-  const dismissedUntil = Number(
-    localStorage.getItem("dmd-install-dismissed") || 0
-  );
-
-  if (Date.now() < dismissedUntil) return;
-
-  // Nhận sự kiện cài đặt ngay khi component mount
   const handleInstallPrompt = (event: Event) => {
     event.preventDefault();
+
     setDeferredPrompt(event as BeforeInstallPromptEvent);
+
   };
 
   const handleAppInstalled = () => {
     setStatus("success");
     setDeferredPrompt(null);
-    localStorage.setItem("dmd-installed", "true");
+
+    setShow(true);
 
     window.setTimeout(() => {
       setShow(false);
     }, 2500);
+  };
+
+  // Nếu trình duyệt phát hiện đang chạy standalone
+  const handleDisplayModeChange = () => {
+    if (isStandalone()) {
+      setShow(false);
+      setShowGuide(false);
+    }
   };
 
   window.addEventListener(
@@ -72,10 +81,16 @@ useEffect(() => {
     handleAppInstalled
   );
 
-  // Hiển thị popup sau 90 giây
+  mediaQuery.addEventListener(
+    "change",
+    handleDisplayModeChange
+  );
+
+  // Chưa cài: hiển thị sau 30 giây
   const timer = window.setTimeout(() => {
-    setIsIOS(ios);
-    setShow(true);
+    if (!isStandalone()) {
+      setShow(true);
+    }
   }, 30000);
 
   return () => {
@@ -90,18 +105,18 @@ useEffect(() => {
       "appinstalled",
       handleAppInstalled
     );
+
+    mediaQuery.removeEventListener(
+      "change",
+      handleDisplayModeChange
+    );
   };
 }, []);
-
 
   // Đóng popup
   const dismiss = () => {
     setShow(false);
-
-    localStorage.setItem(
-      "dmd-install-dismissed",
-      String(Date.now() + 7 * 24 * 60 * 60 * 1000)
-    );
+    setShowGuide(false);
   };
 
   // Bắt đầu cài đặt
@@ -114,7 +129,13 @@ useEffect(() => {
 
         const result = await deferredPrompt.userChoice;
 
-        if (result.outcome === "dismissed") {
+        if (result.outcome === "accepted") {
+          setStatus("success");
+
+          window.setTimeout(() => {
+            setShow(false);
+          }, 2500);
+        } else {
           setStatus("idle");
         }
 
@@ -122,6 +143,7 @@ useEffect(() => {
       } catch (error) {
         console.error("Install error:", error);
         setStatus("idle");
+        setShowGuide(true);
       }
 
       return;
@@ -157,7 +179,7 @@ useEffect(() => {
             Dear My Darling
           </p>
 
-          {/* INSTALL SUCCESS */}
+          {/* SUCCESS */}
           {status === "success" ? (
             <>
               <div className="mb-4 text-4xl">💖</div>
@@ -196,14 +218,6 @@ useEffect(() => {
               <p className="text-sm leading-relaxed text-gray-500">
                 Hãy hoàn tất xác nhận trong
                 hộp thoại cài đặt của trình duyệt nhé.
-              </p>
-
-              <div className="mt-6 h-1.5 overflow-hidden rounded-full bg-pink-50">
-                <div className="h-full w-1/2 animate-pulse rounded-full bg-gradient-to-r from-pink-300 to-purple-300" />
-              </div>
-
-              <p className="mt-3 text-[10px] text-gray-400">
-                Đang chờ trình duyệt...
               </p>
             </>
           ) : (
@@ -253,17 +267,15 @@ useEffect(() => {
               <p className="text-sm leading-relaxed text-gray-500">
                 1. Nhấn nút <b className="text-[#60435f]">Chia sẻ</b> ở thanh công cụ Safari.
                 <br /><br />
-                2. Chọn <b className="text-[#60435f]">Add to Home Screen</b>.
+                2. Chọn <b className="text-[#60435f]">Thêm vào MH chính (Add to Home Screen)</b>.
                 <br /><br />
-                3. Nhấn <b className="text-[#60435f]">Add</b> để hoàn tất nhé!
+                3. Nhấn <b className="text-[#60435f]">Thêm (Add)</b> để hoàn tất nhé!
               </p>
             ) : (
               <p className="text-sm leading-relaxed text-gray-500">
-                Mở menu trình duyệt và tìm mục
-                <b className="text-[#60435f]"> Install Shortcut (Cài đặt lối tắt) </b>
-                hoặc
-                <b className="text-[#60435f]"> Add to Home Screen </b>
-                để thêm ứng dụng nhé!
+                {isAndroid
+                  ? "Nhấn menu ⋮ ở góc trình duyệt, chọn Cài đặt ứng dụng (Install app) hoặc Thêm vào màn hình chính (Add to Home Screen)."
+                  : "Mở menu trình duyệt và tìm mục Install app, Install page as app hoặc Create shortcut để thêm Dear My Darling vào thiết bị nhé!"}
               </p>
             )}
 
@@ -273,6 +285,7 @@ useEffect(() => {
             >
               Đã hiểu ♡
             </button>
+
           </div>
         </div>
       )}
