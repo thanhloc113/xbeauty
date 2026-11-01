@@ -15,23 +15,28 @@ type InstallStatus = "idle" | "installing" | "success";
 
 export default function InstallPrompt() {
   const installCompleted = useRef(false);
-  const installTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const popupTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const successTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [show, setShow] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
+
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
 
-  const [showGuide, setShowGuide] = useState(false);
   const [status, setStatus] = useState<InstallStatus>("idle");
 
-  const [isIOS] = useState(() =>
-    typeof navigator !== "undefined" &&
-    /iPhone|iPad|iPod/i.test(navigator.userAgent)
+  const [isIOS] = useState(
+    () =>
+      typeof navigator !== "undefined" &&
+      /iPhone|iPad|iPod/i.test(navigator.userAgent)
   );
 
-  const [isAndroid] = useState(() =>
-    typeof navigator !== "undefined" &&
-    /Android/i.test(navigator.userAgent)
+  const [isAndroid] = useState(
+    () =>
+      typeof navigator !== "undefined" &&
+      /Android/i.test(navigator.userAgent)
   );
 
   useEffect(() => {
@@ -39,16 +44,17 @@ export default function InstallPrompt() {
       "(display-mode: standalone)"
     );
 
+    // Kiểm tra PWA đã cài và đang chạy độc lập
     const isStandalone = () =>
       mediaQuery.matches ||
       (window.navigator as Navigator & {
         standalone?: boolean;
       }).standalone === true;
 
-    // Đã cài đặt và đang chạy bằng ứng dụng
+    // Nếu đã cài: bỏ qua popup hoàn toàn
     if (isStandalone()) return;
 
-    // Nhận quyền cài đặt từ trình duyệt
+    // Nhận quyền cài đặt từ Chrome / Chromium
     const handleInstallPrompt = (event: Event) => {
       event.preventDefault();
 
@@ -57,7 +63,7 @@ export default function InstallPrompt() {
       setDeferredPrompt(event as BeforeInstallPromptEvent);
     };
 
-    // Xác nhận cài đặt thành công
+    // Trình duyệt xác nhận cài đặt thành công
     const handleAppInstalled = () => {
       if (installCompleted.current) return;
 
@@ -68,23 +74,33 @@ export default function InstallPrompt() {
       setStatus("success");
       setShow(true);
 
-      if (installTimeout.current) {
-        clearTimeout(installTimeout.current);
+      if (popupTimeout.current) {
+        clearTimeout(popupTimeout.current);
+        popupTimeout.current = null;
       }
 
-      installTimeout.current = setTimeout(() => {
+      if (successTimeout.current) {
+        clearTimeout(successTimeout.current);
+      }
+
+      successTimeout.current = setTimeout(() => {
         setShow(false);
         setStatus("idle");
-        installCompleted.current = false;
+        successTimeout.current = null;
       }, 2500);
     };
 
-    // Khi chuyển sang chế độ ứng dụng
+    // Theo dõi khi trình duyệt chuyển sang standalone
     const handleDisplayModeChange = () => {
       if (isStandalone()) {
         setShow(false);
         setShowGuide(false);
         setDeferredPrompt(null);
+
+        if (popupTimeout.current) {
+          clearTimeout(popupTimeout.current);
+          popupTimeout.current = null;
+        }
       }
     };
 
@@ -103,19 +119,22 @@ export default function InstallPrompt() {
       handleDisplayModeChange
     );
 
-    // iOS không hỗ trợ beforeinstallprompt.
-    // Chỉ hiển thị hướng dẫn thủ công sau 30 giây.
-    const timer = window.setTimeout(() => {
-      if (isIOS && !isStandalone()) {
+    // Chưa cài: chờ 30 giây
+    popupTimeout.current = setTimeout(() => {
+      if (!isStandalone()) {
         setShow(true);
       }
+
+      popupTimeout.current = null;
     }, 30000);
 
     return () => {
-      window.clearTimeout(timer);
+      if (popupTimeout.current) {
+        clearTimeout(popupTimeout.current);
+      }
 
-      if (installTimeout.current) {
-        clearTimeout(installTimeout.current);
+      if (successTimeout.current) {
+        clearTimeout(successTimeout.current);
       }
 
       window.removeEventListener(
@@ -133,7 +152,28 @@ export default function InstallPrompt() {
         handleDisplayModeChange
       );
     };
-  }, [isIOS]);
+  }, []);
+
+  // Hiển thị thành công và tự động đóng
+  const completeInstall = () => {
+    if (installCompleted.current) return;
+
+    installCompleted.current = true;
+
+    setShowGuide(false);
+    setStatus("success");
+    setShow(true);
+
+    if (successTimeout.current) {
+      clearTimeout(successTimeout.current);
+    }
+
+    successTimeout.current = setTimeout(() => {
+      setShow(false);
+      setStatus("idle");
+      successTimeout.current = null;
+    }, 2500);
+  };
 
   // Đóng popup
   const dismiss = () => {
@@ -145,20 +185,18 @@ export default function InstallPrompt() {
 
   // Bắt đầu cài đặt
   const install = async () => {
+    // Safari iOS hoặc trình duyệt không hỗ trợ prompt
     if (!deferredPrompt) {
-      if (isIOS) {
-        setShowGuide(true);
-      }
+      setShowGuide(true);
       return;
     }
 
     try {
       installCompleted.current = false;
 
-      // Hiển thị tiến trình trước khi mở hộp thoại
       setStatus("installing");
 
-      // Cho React thời gian cập nhật giao diện
+      // Đợi giao diện cập nhật trước khi mở hộp thoại
       await new Promise<void>((resolve) => {
         window.setTimeout(resolve, 100);
       });
@@ -169,21 +207,25 @@ export default function InstallPrompt() {
 
       const result = await promptEvent.userChoice;
 
-      // Không còn quyền gọi lại prompt này
       setDeferredPrompt(null);
 
       if (result.outcome === "dismissed") {
-        setStatus("idle");
+        if (!installCompleted.current) {
+          setStatus("idle");
+        }
+
         return;
       }
 
-      // accepted chưa đồng nghĩa đã cài thành công.
-      // Tiếp tục chờ sự kiện appinstalled.
+      // accepted chỉ là đồng ý.
+      // Tiếp tục chờ appinstalled.
     } catch (error) {
       console.error("Install error:", error);
 
-      setStatus("idle");
-      setDeferredPrompt(null);
+      if (!installCompleted.current) {
+        setStatus("idle");
+        setDeferredPrompt(null);
+      }
     }
   };
 
@@ -238,7 +280,6 @@ export default function InstallPrompt() {
             </>
           ) : status === "installing" ? (
             <>
-              {/* INSTALLING */}
               <div className="mb-5 flex justify-center">
                 <div className="relative flex h-16 w-16 items-center justify-center">
                   <div className="absolute inset-0 animate-spin rounded-full border-2 border-pink-100 border-t-pink-400" />
@@ -304,13 +345,16 @@ export default function InstallPrompt() {
             {isIOS ? (
               <p className="text-sm leading-relaxed text-gray-500">
                 1. Nhấn nút{" "}
-                <b className="text-[#60435f]">Chia sẻ</b> ở thanh công cụ Safari.
+                <b className="text-[#60435f]">Chia sẻ</b>{" "}
+                ở thanh công cụ Safari.
                 <br /><br />
+
                 2. Chọn{" "}
                 <b className="text-[#60435f]">
                   Thêm vào MH chính (Add to Home Screen)
                 </b>.
                 <br /><br />
+
                 3. Nhấn{" "}
                 <b className="text-[#60435f]">Thêm (Add)</b>{" "}
                 để hoàn tất nhé!
@@ -323,12 +367,21 @@ export default function InstallPrompt() {
               </p>
             )}
 
-            <button
-              onClick={() => setShowGuide(false)}
-              className="mt-7 w-full rounded-full bg-gradient-to-r from-pink-300 to-purple-300 py-3 font-semibold text-white shadow-md shadow-pink-100 transition hover:opacity-90 active:scale-95"
-            >
-              Đã hiểu ♡
-            </button>
+            {isIOS ? (
+              <button
+                onClick={completeInstall}
+                className="mt-7 w-full rounded-full bg-gradient-to-r from-pink-300 to-purple-300 py-3 font-semibold text-white shadow-md shadow-pink-100 transition hover:opacity-90 active:scale-95"
+              >
+                Mình đã thêm ứng dụng ♡
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowGuide(false)}
+                className="mt-7 w-full rounded-full bg-gradient-to-r from-pink-300 to-purple-300 py-3 font-semibold text-white shadow-md shadow-pink-100 transition hover:opacity-90 active:scale-95"
+              >
+                Đã hiểu ♡
+              </button>
+            )}
           </div>
         </div>
       )}
