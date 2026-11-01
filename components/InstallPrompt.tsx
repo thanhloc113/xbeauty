@@ -52,16 +52,16 @@ useEffect(() => {
 
   };
 
-  const handleAppInstalled = () => {
-    setStatus("success");
-    setDeferredPrompt(null);
+const handleAppInstalled = () => {
+  setStatus("success");
+  setDeferredPrompt(null);
+  setShow(true);
 
-    setShow(true);
-
-    window.setTimeout(() => {
-      setShow(false);
-    }, 2500);
-  };
+  window.setTimeout(() => {
+    setShow(false);
+    setStatus("idle");
+  }, 2500);
+};
 
   // Nếu trình duyệt phát hiện đang chạy standalone
   const handleDisplayModeChange = () => {
@@ -120,37 +120,35 @@ useEffect(() => {
   };
 
   // Bắt đầu cài đặt
-  const install = async () => {
-    if (deferredPrompt) {
-      try {
-        setStatus("installing");
+const install = async () => {
+  if (!deferredPrompt) {
+    setShowGuide(true);
+    return;
+  }
 
-        await deferredPrompt.prompt();
+  try {
+    setStatus("installing");
 
-        const result = await deferredPrompt.userChoice;
+    await deferredPrompt.prompt();
 
-        if (result.outcome === "accepted") {
-          setStatus("success");
+    const result = await deferredPrompt.userChoice;
 
-          window.setTimeout(() => {
-            setShow(false);
-          }, 2500);
-        } else {
-          setStatus("idle");
-        }
-
-        setDeferredPrompt(null);
-      } catch (error) {
-        console.error("Install error:", error);
-        setStatus("idle");
-        setShowGuide(true);
-      }
-
+    if (result.outcome === "dismissed") {
+      setStatus("idle");
+      setDeferredPrompt(null);
       return;
     }
 
+    // Chưa báo thành công ở đây.
+    // Chờ sự kiện appinstalled xác nhận.
+
+  } catch (error) {
+    console.error("Install error:", error);
+
+    setStatus("idle");
     setShowGuide(true);
-  };
+  }
+};
 
   if (!show) return null;
 
