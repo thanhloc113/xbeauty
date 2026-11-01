@@ -16,6 +16,7 @@ type InstallStatus = "idle" | "installing" | "success";
 export default function InstallPrompt() {
   const installCompleted = useRef(false);
   const installTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [show, setShow] = useState(false);
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
@@ -24,142 +25,168 @@ export default function InstallPrompt() {
   const [status, setStatus] = useState<InstallStatus>("idle");
 
   const [isIOS] = useState(() =>
-  typeof navigator !== "undefined" &&
-  /iPhone|iPad|iPod/i.test(navigator.userAgent)
-);
-
-const [isAndroid] = useState(() =>
-  typeof navigator !== "undefined" &&
-  /Android/i.test(navigator.userAgent)
-);
-
-useEffect(() => {
-  const mediaQuery = window.matchMedia(
-    "(display-mode: standalone)"
+    typeof navigator !== "undefined" &&
+    /iPhone|iPad|iPod/i.test(navigator.userAgent)
   );
 
-  const isStandalone = () =>
-    mediaQuery.matches ||
-    (window.navigator as Navigator & {
-      standalone?: boolean;
-    }).standalone === true;
-
-  // Đã cài và đang mở bằng ứng dụng
-  if (isStandalone()) return;
-
-  const handleInstallPrompt = (event: Event) => {
-    event.preventDefault();
-
-    setDeferredPrompt(event as BeforeInstallPromptEvent);
-
-  };
-
-const handleAppInstalled = () => {
-  if (installCompleted.current) return;
-
-  installCompleted.current = true;
-
-  setDeferredPrompt(null);
-  setStatus("success");
-  setShow(true);
-
-  if (installTimeout.current) {
-    clearTimeout(installTimeout.current);
-  }
-
-  installTimeout.current = setTimeout(() => {
-    setShow(false);
-    setStatus("idle");
-    installCompleted.current = false;
-  }, 2500);
-};
-
-  // Nếu trình duyệt phát hiện đang chạy standalone
-  const handleDisplayModeChange = () => {
-    if (isStandalone()) {
-      setShow(false);
-      setShowGuide(false);
-    }
-  };
-
-  window.addEventListener(
-    "beforeinstallprompt",
-    handleInstallPrompt
+  const [isAndroid] = useState(() =>
+    typeof navigator !== "undefined" &&
+    /Android/i.test(navigator.userAgent)
   );
 
-  window.addEventListener(
-    "appinstalled",
-    handleAppInstalled
-  );
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(
+      "(display-mode: standalone)"
+    );
 
-  mediaQuery.addEventListener(
-    "change",
-    handleDisplayModeChange
-  );
+    const isStandalone = () =>
+      mediaQuery.matches ||
+      (window.navigator as Navigator & {
+        standalone?: boolean;
+      }).standalone === true;
 
-  // Chưa cài: hiển thị sau 30 giây
-  const timer = window.setTimeout(() => {
-    if (!isStandalone()) {
+    // Đã cài đặt và đang chạy bằng ứng dụng
+    if (isStandalone()) return;
+
+    // Nhận quyền cài đặt từ trình duyệt
+    const handleInstallPrompt = (event: Event) => {
+      event.preventDefault();
+
+      if (isStandalone()) return;
+
+      setDeferredPrompt(event as BeforeInstallPromptEvent);
       setShow(true);
-    }
-  }, 30000);
+    };
 
-  return () => {
-    window.clearTimeout(timer);
+    // Xác nhận cài đặt thành công
+    const handleAppInstalled = () => {
+      if (installCompleted.current) return;
 
-    window.removeEventListener(
+      installCompleted.current = true;
+
+      setDeferredPrompt(null);
+      setShowGuide(false);
+      setStatus("success");
+      setShow(true);
+
+      if (installTimeout.current) {
+        clearTimeout(installTimeout.current);
+      }
+
+      installTimeout.current = setTimeout(() => {
+        setShow(false);
+        setStatus("idle");
+        installCompleted.current = false;
+      }, 2500);
+    };
+
+    // Khi chuyển sang chế độ ứng dụng
+    const handleDisplayModeChange = () => {
+      if (isStandalone()) {
+        setShow(false);
+        setShowGuide(false);
+        setDeferredPrompt(null);
+      }
+    };
+
+    window.addEventListener(
       "beforeinstallprompt",
       handleInstallPrompt
     );
 
-    window.removeEventListener(
+    window.addEventListener(
       "appinstalled",
       handleAppInstalled
     );
 
-    mediaQuery.removeEventListener(
+    mediaQuery.addEventListener(
       "change",
       handleDisplayModeChange
     );
-  };
-}, []);
+
+    // iOS không hỗ trợ beforeinstallprompt.
+    // Chỉ hiển thị hướng dẫn thủ công sau 30 giây.
+    const timer = window.setTimeout(() => {
+      if (isIOS && !isStandalone()) {
+        setShow(true);
+      }
+    }, 30000);
+
+    return () => {
+      window.clearTimeout(timer);
+
+      if (installTimeout.current) {
+        clearTimeout(installTimeout.current);
+      }
+
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleInstallPrompt
+      );
+
+      window.removeEventListener(
+        "appinstalled",
+        handleAppInstalled
+      );
+
+      mediaQuery.removeEventListener(
+        "change",
+        handleDisplayModeChange
+      );
+    };
+  }, [isIOS]);
 
   // Đóng popup
   const dismiss = () => {
+    if (status === "installing") return;
+
     setShow(false);
     setShowGuide(false);
   };
 
   // Bắt đầu cài đặt
-const install = async () => {
-  if (!deferredPrompt) {
-    setShowGuide(true);
-    return;
-  }
-
-  try {
-    installCompleted.current = false;
-    setStatus("installing");
-
-    await deferredPrompt.prompt();
-
-    const result = await deferredPrompt.userChoice;
-
-    if (result.outcome === "dismissed") {
-      setStatus("idle");
-      setDeferredPrompt(null);
+  const install = async () => {
+    if (!deferredPrompt) {
+      if (isIOS) {
+        setShowGuide(true);
+      }
       return;
     }
 
-    // Không chuyển success ở đây.
-    // Chờ appinstalled xác nhận.
-  } catch (error) {
-    console.error("Install error:", error);
+    try {
+      installCompleted.current = false;
 
-    setStatus("idle");
-    setDeferredPrompt(null);
-  }
-};
+      // Hiển thị tiến trình trước khi mở hộp thoại
+      setStatus("installing");
+
+      // Cho React thời gian cập nhật giao diện
+      await new Promise<void>((resolve) => {
+        window.setTimeout(resolve, 100);
+      });
+
+      const promptEvent = deferredPrompt;
+
+      await promptEvent.prompt();
+
+      const result = await promptEvent.userChoice;
+
+      // Không còn quyền gọi lại prompt này
+      setDeferredPrompt(null);
+
+      if (result.outcome === "dismissed") {
+        setStatus("idle");
+        return;
+      }
+
+      // accepted chưa đồng nghĩa đã cài thành công.
+      // Tiếp tục chờ sự kiện appinstalled.
+    } catch (error) {
+      console.error("Install error:", error);
+
+      setStatus("idle");
+      setDeferredPrompt(null);
+    }
+  };
 
   if (!show) return null;
 
@@ -167,7 +194,6 @@ const install = async () => {
     <>
       {/* MAIN POPUP */}
       <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/25 px-5 backdrop-blur-sm">
-
         <div className="relative w-full max-w-sm overflow-hidden rounded-3xl border border-pink-100 bg-white p-6 text-center shadow-[0_20px_60px_rgba(100,70,100,0.12)]">
 
           {/* CLOSE */}
@@ -213,6 +239,7 @@ const install = async () => {
             </>
           ) : status === "installing" ? (
             <>
+              {/* INSTALLING */}
               <div className="mb-5 flex justify-center">
                 <div className="relative flex h-16 w-16 items-center justify-center">
                   <div className="absolute inset-0 animate-spin rounded-full border-2 border-pink-100 border-t-pink-400" />
@@ -221,13 +248,17 @@ const install = async () => {
               </div>
 
               <h2 className="mb-3 text-xl font-semibold text-[#60435f]">
-                Đang chờ xác nhận...
+                Đang cài đặt...
               </h2>
 
               <p className="text-sm leading-relaxed text-gray-500">
-                Hãy hoàn tất xác nhận trong
+                Vui lòng hoàn tất xác nhận trong
                 hộp thoại cài đặt của trình duyệt nhé.
               </p>
+
+              <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-pink-50">
+                <div className="h-full w-1/2 animate-pulse rounded-full bg-gradient-to-r from-pink-300 to-purple-300" />
+              </div>
             </>
           ) : (
             <>
@@ -263,7 +294,6 @@ const install = async () => {
       {/* INSTALL GUIDE */}
       {showGuide && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/25 px-5 backdrop-blur-sm">
-
           <div className="w-full max-w-sm rounded-3xl border border-pink-100 bg-white p-7 text-center shadow-[0_20px_60px_rgba(100,70,100,0.15)]">
 
             <div className="mb-5 text-4xl">📲</div>
@@ -274,11 +304,17 @@ const install = async () => {
 
             {isIOS ? (
               <p className="text-sm leading-relaxed text-gray-500">
-                1. Nhấn nút <b className="text-[#60435f]">Chia sẻ</b> ở thanh công cụ Safari.
+                1. Nhấn nút{" "}
+                <b className="text-[#60435f]">Chia sẻ</b> ở thanh công cụ Safari.
                 <br /><br />
-                2. Chọn <b className="text-[#60435f]">Thêm vào MH chính (Add to Home Screen)</b>.
+                2. Chọn{" "}
+                <b className="text-[#60435f]">
+                  Thêm vào MH chính (Add to Home Screen)
+                </b>.
                 <br /><br />
-                3. Nhấn <b className="text-[#60435f]">Thêm (Add)</b> để hoàn tất nhé!
+                3. Nhấn{" "}
+                <b className="text-[#60435f]">Thêm (Add)</b>{" "}
+                để hoàn tất nhé!
               </p>
             ) : (
               <p className="text-sm leading-relaxed text-gray-500">
@@ -294,7 +330,6 @@ const install = async () => {
             >
               Đã hiểu ♡
             </button>
-
           </div>
         </div>
       )}
