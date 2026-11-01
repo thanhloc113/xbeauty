@@ -22,72 +22,77 @@ export default function InstallPrompt() {
   const [showGuide, setShowGuide] = useState(false);
   const [status, setStatus] = useState<InstallStatus>("idle");
 
-  useEffect(() => {
-    const standalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as Navigator & {
-        standalone?: boolean;
-      }).standalone === true;
 
-    if (standalone) return;
+useEffect(() => {
+  const standalone =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (window.navigator as Navigator & {
+      standalone?: boolean;
+    }).standalone === true;
 
-    const ios = /iPhone|iPad|iPod/i.test(
-      window.navigator.userAgent
-    );
+  if (standalone) return;
 
-    if (localStorage.getItem("dmd-installed") === "true") return;
+  const ios = /iPhone|iPad|iPod/i.test(
+    window.navigator.userAgent
+  );
 
-    const dismissedUntil = Number(
-      localStorage.getItem("dmd-install-dismissed") || 0
-    );
+  if (localStorage.getItem("dmd-installed") === "true") {
+    return;
+  }
 
-    if (Date.now() < dismissedUntil) return;
+  const dismissedUntil = Number(
+    localStorage.getItem("dmd-install-dismissed") || 0
+  );
 
-    const timer = window.setTimeout(() => {
-      setIsIOS(ios);
-      setShow(true);
-    }, 30000);
+  if (Date.now() < dismissedUntil) return;
 
-    const handleInstallPrompt = (event: Event) => {
-      event.preventDefault();
-      setDeferredPrompt(event as BeforeInstallPromptEvent);
-    };
+  // Nhận sự kiện cài đặt ngay khi component mount
+  const handleInstallPrompt = (event: Event) => {
+    event.preventDefault();
+    setDeferredPrompt(event as BeforeInstallPromptEvent);
+  };
 
-    const handleAppInstalled = () => {
-      setStatus("success");
-      setDeferredPrompt(null);
+  const handleAppInstalled = () => {
+    setStatus("success");
+    setDeferredPrompt(null);
+    localStorage.setItem("dmd-installed", "true");
 
-      localStorage.setItem("dmd-installed", "true");
+    window.setTimeout(() => {
+      setShow(false);
+    }, 2500);
+  };
 
-      window.setTimeout(() => {
-        setShow(false);
-      }, 2500);
-    };
+  window.addEventListener(
+    "beforeinstallprompt",
+    handleInstallPrompt
+  );
 
-    window.addEventListener(
+  window.addEventListener(
+    "appinstalled",
+    handleAppInstalled
+  );
+
+  // Hiển thị popup sau 90 giây
+  const timer = window.setTimeout(() => {
+    setIsIOS(ios);
+    setShow(true);
+  }, 30000);
+
+  return () => {
+    window.clearTimeout(timer);
+
+    window.removeEventListener(
       "beforeinstallprompt",
       handleInstallPrompt
     );
 
-    window.addEventListener(
+    window.removeEventListener(
       "appinstalled",
       handleAppInstalled
     );
+  };
+}, []);
 
-    return () => {
-      window.clearTimeout(timer);
-
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleInstallPrompt
-      );
-
-      window.removeEventListener(
-        "appinstalled",
-        handleAppInstalled
-      );
-    };
-  }, []);
 
   // Đóng popup
   const dismiss = () => {
