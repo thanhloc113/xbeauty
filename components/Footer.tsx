@@ -120,7 +120,7 @@ export default function Footer() {
 
             {/* Email */}
             <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=daicaxinh.dear@gmaii.com&su=Li%C3%AAn%20h%E1%BB%87&body=Bạn đang cần quảng bá về doanh nghiệp, thương hiệu cá nhân, sản phẩm hay chính bạn ?"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=daicaxinh.dear@gmaii.com&body=Bạn đang cần quảng bá về doanh nghiệp, thương hiệu cá nhân, sản phẩm hay chính bạn ?"
               target="_blank"
               rel="noopener noreferrer"
               className="
