@@ -15,7 +15,7 @@ export default function DiBien() {
       <Navbar />
       <Hero
         as="h1"
-        title="Đi đi em, đừng do dự trời tối mất !"
+        title="Mọi nỗi buồn sẽ theo sóng biển cuốn vào đại dương xanh !"
         videoSrc="https://archive.org/download/snaptik.vn_7671896936160529671/snaptik.vn_7671896936160529671.mp4"
       />
 

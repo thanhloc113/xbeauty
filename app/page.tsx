@@ -33,7 +33,7 @@ export default function Page() {
         />
 
         <Item
-          title="💓Em thích đi biển 💓"
+          title="💓Em thích biển cả 💓"
           media="video/video5.mp4"
           ratio="vertical"
           type="video"
