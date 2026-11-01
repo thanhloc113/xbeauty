@@ -161,8 +161,8 @@ export default function InstallPrompt() {
               <p className="text-sm leading-relaxed text-gray-600">
                 Trình duyệt hiện tại chưa cung cấp tính năng
                 cài đặt tự động. Em hãy mở menu trình duyệt
-                và tìm mục <b>Install app</b> hoặc
-                <b> Add to Home screen</b>.
+                và tìm mục <b>Cài đặt lối tắt</b> hoặc
+                <b> Install App </b>.
               </p>
             )}
 
