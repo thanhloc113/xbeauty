@@ -42,6 +42,7 @@ const handleSelectVideo = (video : Film) => {
       <Hero
         as="h1"
         title="Ngày hôm nay của em thế nào ?"
+        videoSrc="https://ik.imagekit.io/7a7njhuhn/beauty-and-a-beat-kryd-remix-edit-wutheringwaves-wuwa_003_720p.mp4"
       />
 
       <div className="mx-auto w-full max-w-6xl px-4 py-8 md:py-12">

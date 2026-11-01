@@ -16,6 +16,7 @@ export default function DiBien() {
       <Hero
         as="h1"
         title="Đi đi em, đừng do dự trời tối mất !"
+        videoSrc="https://ik.imagekit.io/7a7njhuhn/snaptik.vn_7700444371262639381.mp4"
       />
 
       <VideoSlide videos={SeaVideo} />

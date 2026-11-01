@@ -35,7 +35,7 @@ export default function Footer() {
           {/* Contact */}
           <div className="md:min-w-[320px]">
             <div className="text-sm font-semibold uppercase tracking-[0.15em] text-white/80">
-              hợp tác & quảng bá
+              thông tin liên hệ
             </div>
 
             {/* Social */}

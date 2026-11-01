@@ -10,10 +10,10 @@ export default function Page() {
     <main>
 
       <Navbar />
-      <Hero
+      {/* <Hero
         as="h1"
         title="Em bé cần anh giúp gì nè ?"
-      />
+      /> */}
 
 
     <Section>

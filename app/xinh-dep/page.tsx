@@ -178,7 +178,8 @@ const handleSwitchType = () => {
           as="h2"
           title="Bắt đầu hành trình xinh đẹp của riêng em nào !"
           subtitle={``}
-          colors = {["#ff37e4", "#15adf3", "#40ff3a", "#ebff3a", "#ff3a85"]}
+          videoSrc="https://ik.imagekit.io/7a7njhuhn/_Red-Eye-s-%EF%B8%8F_001_1080p.mp4"
+          
         />
 
      <VideoSlide videos={Videos} />

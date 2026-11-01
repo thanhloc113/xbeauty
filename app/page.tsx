@@ -17,7 +17,7 @@ export default function Page() {
       /> */}
       <DreamyExperience
         videoSrc="./video/background.mp4"
-        posterSrc="/images/dreamy-poster.jpg"   
+        posterSrc=""   
   
       />
 
