@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Dear My Darling",
   description:
-    "Mang yêu thương đến cho em",
+    "Mang yêu thương đến cho em. Khám phá kiến thức & Thư giãn sau ngày dài mệt mỏi. Đồng hành cùng em trên hành trình xinh đẹp mỗi ngày.",
     
   metadataBase: new URL("https://dearmydarling.com"),
 
@@ -39,6 +39,12 @@ export const metadata: Metadata = {
         height: 977,
       },
     ],
+  },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "My Darling"
   },
 
   twitter: {

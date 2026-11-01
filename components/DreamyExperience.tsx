@@ -119,12 +119,12 @@ const DEFAULT_MUSIC = {
   },
   evening: {
     src: "https://ik.imagekit.io/7a7njhuhn/B%C3%A8o-D%E1%BA%A1t-M%C3%A2y-Tr%C3%B4i-Phi%C3%AAn-B%E1%BA%A3n-%C4%90i%E1%BB%87n-%E1%BA%A2nh-Vietnamese-Folk-Epic_008_128k.m4a",
-    title: "Béo dạt mấy trôi - Epic music",
+    title: "Bèo dạt mây trôi - Epic music",
     artist: "Daily Moments",
   },
     lateNight: {
     src: "https://ik.imagekit.io/7a7njhuhn/Hello-em-c%C3%B3-kh%E1%BB%8Fe-kh%C3%B4ng.m4a",
-    title: "Hello em có khỏe không - Dfoxie37 & Myhoa & Tuann",
+    title: "Hello em có khỏe không ? - Dfoxie37 & Myhoa & Tuann",
     artist: "Daily Moments",
   },
 };
@@ -193,7 +193,7 @@ function getMusicPeriod(date: Date) {
 
   if (hour >= 5 && hour < 11) return "morning";
   if (hour >= 11 && hour < 17) return "noon";
-   if (hour >= 17 && hour < 23) return "evening";
+   if (hour >= 17 && hour < 22) return "evening";
 
   return "lateNight";
 }
@@ -209,7 +209,7 @@ function formatTime(seconds: number) {
 
 export default function DreamyExperience({
   videoSrc = "/videos/background.mp4",
-  posterSrc,
+  posterSrc = "",
   specialDays = DEFAULT_SPECIAL_DAYS,
   musicTracks = DEFAULT_MUSIC,
 }: DreamyExperienceProps) {
@@ -365,7 +365,7 @@ const toggleMusic = async () => {
       <video
         className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
         src={videoSrc}
-        poster={posterSrc}
+        // poster={posterSrc}
         autoPlay
         muted
         loop
@@ -387,7 +387,7 @@ const toggleMusic = async () => {
         {/* DATE */}
         <div className="flex min-w-0 flex-col gap-1 text-left">
           <span className="truncate text-[8px] font-medium tracking-[2px] text-pink-200 sm:text-xs sm:tracking-[3px]">
-            Hôm Nay:{" "}
+            Hôm Nay:{" "}<br/>
             {now
               .toLocaleDateString("vi-VN", {
                 weekday: "long",
@@ -576,26 +576,26 @@ const toggleMusic = async () => {
               {formatTime(currentTime)}
             </span>
 
-<input
-  type="range"
-  min={0}
-  max={duration || 0}
-  step={0.1}
-  value={Math.min(currentTime, duration || 0)}
-  onChange={(event) => {
-    const audio = audioRef.current;
+            <input
+              type="range"
+              min={0}
+              max={duration || 0}
+              step={0.1}
+              value={Math.min(currentTime, duration || 0)}
+              onChange={(event) => {
+                const audio = audioRef.current;
 
-    if (!audio) return;
+                if (!audio) return;
 
-    const seekTime = Number(event.currentTarget.value);
+                const seekTime = Number(event.currentTarget.value);
 
-    audio.currentTime = seekTime;
-    setCurrentTime(seekTime);
-  }}
-  disabled={!duration}
-  aria-label="Tiến trình phát nhạc"
-  className="h-1 min-w-0 flex-1 cursor-pointer accent-pink-200"
-/>
+                audio.currentTime = seekTime;
+                setCurrentTime(seekTime);
+              }}
+              disabled={!duration}
+              aria-label="Tiến trình phát nhạc"
+              className="h-1 min-w-0 flex-1 cursor-pointer accent-pink-200"
+            />
 
             <span className="min-w-[32px] text-right text-[9px] tabular-nums text-white/70">
               {formatTime(duration)}

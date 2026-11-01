@@ -5,10 +5,13 @@ import Item from "@/components/Item";
 import Section from "@/components/Section";
 import Footer from "@/components/Footer";
 import DreamyExperience from "@/components/DreamyExperience";
+import InstallPrompt from "@/components/InstallPrompt";
 
 export default function Page() {
   return (
     <main>
+
+     <InstallPrompt />
 
       <Navbar />
       {/* <Hero
