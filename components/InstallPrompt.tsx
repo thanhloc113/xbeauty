@@ -55,7 +55,6 @@ export default function InstallPrompt() {
       if (isStandalone()) return;
 
       setDeferredPrompt(event as BeforeInstallPromptEvent);
-      setShow(true);
     };
 
     // Xác nhận cài đặt thành công
