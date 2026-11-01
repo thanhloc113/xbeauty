@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "My Darling"
+    title: "Dear My Darling"
   },
 
   twitter: {
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "image/logo.png",
+    icon: "image/logoIcon.png",
   },
 };
 
