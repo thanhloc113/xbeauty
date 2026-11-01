@@ -52,15 +52,15 @@ const handleSelectVideo = (video : Film) => {
         <section className="mb-12 scroll-mt-24" id="video-player">
 
           <div className="mb-5">
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white md:text-3xl">
+            <h2 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
               {selectedVideo.title}
             </h2>
 
-            <p className="mt-2 text-sm leading-relaxed text-gray-700 dark:text-white md:text-base">
+            <p className="mt-2 text-sm leading-relaxed text-gray-200 md:text-base">
               {selectedVideo.description}
             </p>
 
-            <span className="mt-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400"><i>Hãy chuẩn bị chỗ thật êm, đồ ăn và thức uống yêu thích. Thưởng thức trọn vẹn bộ phim và đừng quên ủng hộ các sản phẩm trên website nhé !</i></span>
+            <span className="mt-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400"><i>Hãy chuẩn bị một chỗ thật êm, đồ ăn và thức uống yêu thích. Thưởng thức trọn vẹn bộ phim và đừng quên ủng hộ các sản phẩm trên website nhé !</i></span>
           </div>
 
           <div className="aspect-video overflow-hidden rounded-2xl bg-black shadow-xl">
@@ -154,11 +154,11 @@ const handleSelectVideo = (video : Film) => {
                   {/* Video title */}
 
                   <div className="p-3">
-                    <h5 className="line-clamp-1 text-sm font-semibold text-gray-900 dark:text-white md:text-base">
+                    <h5 className="line-clamp-1 text-sm font-semibold text-white md:text-base">
                       {video.title}
                     </h5>
 
-                    <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
+                    <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-gray-500">
                       {video.description}
                     </p>
                   </div>
