@@ -85,7 +85,7 @@ const handleSelectVideo = (video : Film) => {
         <section>
 
           <div className="mb-5">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white md:text-2xl">
+            <h2 className="text-xl font-bold text-white md:text-2xl">
               Một chút thư giãn sau ngày dài làm việc mệt mỏi.
             </h2>
 
